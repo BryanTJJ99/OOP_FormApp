@@ -13,28 +13,29 @@ import com.oopproject.form.service.UserService;
 public class UserController {
 
     @Autowired
-    private UserService UserService;
+    private UserService userService;
 
     @GetMapping("/allUsers")
     @CrossOrigin
     public List<User> getAllUsers() {
-        return UserService.findAllUsers();
+        return userService.findAllUsers();
     }
 
     @GetMapping("/user/{username}")
     @CrossOrigin
     public User getUser(@PathVariable String username) {
-        return UserService.findByUsername(username);
+        return userService.findByUsername(username);
     }
 
     @PostMapping("/create-user")
     @CrossOrigin
     public User addUser(@RequestBody User user) {
-        return UserService.addUser(user);
+        return userService.addUser(user);
     }
 
-    @PatchMapping("/user/{username}/update")
-    public User updateUser(@PathVariable String username, @RequestBody User updatedUser) {
-        return UserService.updateUser(username, updatedUser);
-    }
+    // @PatchMapping("/user/{username}/update")
+    // public User updateUser(@PathVariable String username, @RequestBody User
+    // updatedUser) {
+    // return userService.updateUser(username, updatedUser);
+    // }
 }
