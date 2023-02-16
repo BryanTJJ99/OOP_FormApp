@@ -22,6 +22,9 @@ public class UserService {
     }
 
     public User addUser(User user) {
+        User createdbyUser = userRepository.findByUsername("test1");
+        // hardcoded to test. must change
+        user.setCreated_by(createdbyUser);
         return userRepository.save(user);
     }
 
