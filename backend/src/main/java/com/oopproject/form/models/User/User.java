@@ -25,7 +25,6 @@ public class User {
     private User created_by;
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
-    private String accessToken;
 
     public User(String id, String username, String email, String password, String role, Date created_at,
             User created_by) {
@@ -79,14 +78,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
     }
 
     @Override
