@@ -3,7 +3,7 @@ package com.oopproject.form.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oopproject.form.models.Question;
+import com.oopproject.form.models.Question.Question;
 import com.oopproject.form.repositories.QuestionRepository;
 
 @Service

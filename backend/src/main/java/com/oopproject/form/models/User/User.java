@@ -1,4 +1,4 @@
-package com.oopproject.form.models;
+package com.oopproject.form.models.User;
 
 import java.util.Date;
 
@@ -17,16 +17,24 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private String role;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date created_at = new Date();
     // store timestamp when user is created in the ISO format
     @DocumentReference
+    // @DocumentReference(lazy = true)
     private User created_by;
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
+    private String accessToken;
 
-    public User() {
+    public User(String id, String username, String email, String password, String role, Date created_at,
+            User created_by) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.created_at = created_at;
+        this.created_by = created_by;
     }
 
     public String getId() {
@@ -73,12 +81,12 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Override

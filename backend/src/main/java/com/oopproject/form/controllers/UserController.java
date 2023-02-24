@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.oopproject.form.models.User;
+import com.oopproject.form.models.User.User;
 import com.oopproject.form.service.UserService;
 
 @RestController
