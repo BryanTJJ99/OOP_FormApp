@@ -21,11 +21,11 @@ public class SingleSelectQuestion extends Question {
         this.options = options;
     }
 
-    public String getSingleSelectResponse() {
+    public String getResponse() {
         return response;
     }
 
-    public void setSingleSelectResponse(String response) {
+    public void setResponse(String response) {
         this.response = response;
     }
 

@@ -9,7 +9,7 @@ public interface UserService {
 
     public User findByUsername(String username);
 
-    public User addUser(User user);
-
     public User updateUser(String username, User updatedUser);
+
+    public User addUser(User user);
 }

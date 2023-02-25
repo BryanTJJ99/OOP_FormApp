@@ -9,9 +9,9 @@ public class Admin extends User {
 
     private boolean isAdmin;
 
-    public Admin(String id, String username, String email, String password, String role, Date created_at,
+    public Admin(String id, String username, String email, String password, Date created_at,
             User created_by, boolean isAdmin) {
-        super(id, username, email, password, role, created_at, created_by);
+        super(id, username, email, password, created_at, created_by);
         this.isAdmin = isAdmin;
     }
 

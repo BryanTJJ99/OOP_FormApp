@@ -21,11 +21,11 @@ public class MultiSelectQuestion extends Question {
         this.options = options;
     }
 
-    public List<String> getMultiSelectResponse() {
+    public List<String> getResponse() {
         return response;
     }
 
-    public void setMultiSelectResponse(List<String> response) {
+    public void setResponse(List<String> response) {
         this.response = response;
     }
 

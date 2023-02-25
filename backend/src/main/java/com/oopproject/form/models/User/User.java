@@ -26,7 +26,7 @@ public class User {
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    public User(String id, String username, String email, String password, String role, Date created_at,
+    public User(String id, String username, String email, String password, Date created_at,
             User created_by) {
         this.id = id;
         this.username = username;
@@ -82,7 +82,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [username=" + username + ", email=" + email + ", password=" + password + ", role=" + role + "]";
+        return "User [username=" + username + ", email=" + email + ", password=" + password + "]";
     }
 
 }
