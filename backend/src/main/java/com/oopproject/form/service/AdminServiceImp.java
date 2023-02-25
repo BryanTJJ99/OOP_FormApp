@@ -1,23 +1,47 @@
-// package com.oopproject.form.service;
+package com.oopproject.form.service;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
+import java.util.List;
 
-// import com.oopproject.form.models.User.User;
-// import com.oopproject.form.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// @Service
-// public class AdminServiceImp extends UserServiceImp implements AdminService {
+import com.oopproject.form.models.User.User;
+import com.oopproject.form.repositories.AdminRepository;
 
-// @Autowired
-// private UserRepository userRepository;
+@Service
+public class AdminServiceImp extends UserServiceImp implements AdminService {
 
-// @Override
-// public User addUser(User user) {
-// User createdbyUser = userRepository.findByUsername("test1");
-// // hardcoded to test. must change
-// user.setCreated_by(createdbyUser);
-// return userRepository.save(user);
+    @Autowired
+    private AdminRepository adminRepository;
 
-// }
-// }
+    @Override
+    public List<User> findAllUsers() {
+        return adminRepository.findAll();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return adminRepository.findByUsername(username);
+    }
+
+    @Override
+    public User updateUser(String username, User updatedUser) {
+        User userToUpdate = adminRepository.findByUsername(username);
+        if (userToUpdate != null) {
+            userToUpdate.setUsername(username);
+            userToUpdate.setEmail(updatedUser.getEmail());
+            userToUpdate.setPassword(updatedUser.getPassword());
+            userToUpdate.setRole(updatedUser.getRole());
+            return adminRepository.save(userToUpdate);
+        }
+        return null;
+    }
+
+    @Override
+    public User addUser(User user) {
+        User createdbyUser = adminRepository.findByUsername("testAdmin1");
+        // hardcoded to test. must change
+        user.setCreated_by(createdbyUser);
+        return adminRepository.save(user);
+    }
+}

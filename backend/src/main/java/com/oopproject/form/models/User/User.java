@@ -3,9 +3,12 @@ package com.oopproject.form.models.User;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "User")
 public class User {
@@ -17,21 +20,24 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String role;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date created_at = new Date();
+    private Date created_at;
     // store timestamp when user is created in the ISO format
-    @DocumentReference
-    // @DocumentReference(lazy = true)
+    @DocumentReference(lazy = true)
+    // @DBRef(lazy = true)
+    // @JsonIgnore
     private User created_by;
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    public User(String id, String username, String email, String password, Date created_at,
+    public User(String id, String username, String email, String role, String password, Date created_at,
             User created_by) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
         this.created_at = created_at;
         this.created_by = created_by;
     }
@@ -78,6 +84,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
