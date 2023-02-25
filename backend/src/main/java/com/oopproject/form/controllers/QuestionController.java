@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.oopproject.form.models.Question;
-import com.oopproject.form.service.QuestionService;
+import com.oopproject.form.services.QuestionService;
 
 @RestController
 @CrossOrigin
