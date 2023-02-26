@@ -5,7 +5,7 @@ package com.oopproject.form.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.oopproject.form.models.Question;
+import com.oopproject.form.models.Question.Question;
 import com.oopproject.form.service.QuestionService;
 
 @RestController
