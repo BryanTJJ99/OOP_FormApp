@@ -5,13 +5,8 @@ package com.oopproject.form.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
-import com.oopproject.form.models.Question;
-import com.oopproject.form.services.QuestionService;
-=======
 import com.oopproject.form.models.Question.Question;
 import com.oopproject.form.service.QuestionService;
->>>>>>> main
 
 @RestController
 @CrossOrigin

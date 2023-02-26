@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oopproject.form.models.ERole;
 import com.oopproject.form.models.Role;
-import com.oopproject.form.models.User;
+import com.oopproject.form.models.User.User;
 import com.oopproject.form.payload.request.LoginRequest;
 import com.oopproject.form.payload.request.SignupRequest;
 import com.oopproject.form.payload.response.JwtResponse;
@@ -59,17 +59,17 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												userDetails.getId(), 
-												userDetails.getUsername(), 
-												userDetails.getEmail(), 
-												roles));
+		return ResponseEntity.ok(new JwtResponse(jwt,
+				userDetails.getId(),
+				userDetails.getUsername(),
+				userDetails.getEmail(),
+				roles));
 	}
 
 	@PostMapping("/signup")
@@ -87,9 +87,9 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
-							signUpRequest.getEmail(),
-							encoder.encode(signUpRequest.getPassword()));
+		User user = new User(signUpRequest.getUsername(),
+				signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();
@@ -103,41 +103,41 @@ public class AuthController {
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
+					case "admin":
 						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-					if (adminRole == null) {
-						throw new RuntimeException("Error: Role is not found.");
-					}
-					roles.add(adminRole);
-
-					break;
-				case "vendor":
-					Role vendorRole = roleRepository.findByName(ERole.ROLE_VENDOR);
-					if (vendorRole == null) {
-						throw new RuntimeException("Error: Role is not found.");
-					}
-					roles.add(vendorRole);
+						if (adminRole == null) {
+							throw new RuntimeException("Error: Role is not found.");
+						}
+						roles.add(adminRole);
 
 						break;
-				case "approver":
-					Role approverRole = roleRepository.findByName(ERole.ROLE_APPROVER);
-					if (approverRole == null) {
-						throw new RuntimeException("Error: Role is not found.");
-					}
-					roles.add(approverRole);
+					case "vendor":
+						Role vendorRole = roleRepository.findByName(ERole.ROLE_VENDOR);
+						if (vendorRole == null) {
+							throw new RuntimeException("Error: Role is not found.");
+						}
+						roles.add(vendorRole);
 
-					break;
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER);
+						break;
+					case "approver":
+						Role approverRole = roleRepository.findByName(ERole.ROLE_APPROVER);
+						if (approverRole == null) {
+							throw new RuntimeException("Error: Role is not found.");
+						}
+						roles.add(approverRole);
+
+						break;
+					default:
+						Role userRole = roleRepository.findByName(ERole.ROLE_USER);
 						if (userRole == null) {
 							throw new RuntimeException("Error: Role is not found.");
 						}
-					roles.add(userRole);
+						roles.add(userRole);
 				}
 			});
 		}
 
-		user.setRoles(roles);
+		// user.setRoles(roles);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

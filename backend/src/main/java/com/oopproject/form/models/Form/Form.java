@@ -2,48 +2,51 @@ package com.oopproject.form.models.Form;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import com.oopproject.form.models.Section.Section;
+import com.oopproject.form.models.User.User;
 
 @Document(collection = "Form")
-public class Form {
-    @Id
-    private String formId;
-    private String formName;
+public class Form extends FormTemplate {
     @DocumentReference
-    private List<Section> sections;
+    private User vendor;
+    @DocumentReference
+    private User reviewedBy;
+    @DocumentReference
+    private User approvedBy;
 
-    public Form(String formId, String formName, List<Section> sections) {
-        this.formId = formId;
-        this.formName = formName;
-        this.sections = sections;
+    public Form(String formId, String formName, List<Section> sections, User vendor) {
+        super(formId, formName, sections);
+        this.vendor = vendor;
     }
 
-    public String getFormId() {
-        return formId;
+    public User getVendor() {
+        return vendor;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
+    public void setVendor(User vendor) {
+        this.vendor = vendor;
     }
 
-    public String getFormName() {
-        return formName;
+    public User getReviewedBy() {
+        return reviewedBy;
     }
 
-    public void setFormName(String formName) {
-        this.formName = formName;
+    public void setReviewedBy(User reviewedBy) {
+        this.reviewedBy = reviewedBy;
     }
 
-    public List<Section> getSections() {
-        return sections;
+    public User getApprovedBy() {
+        return approvedBy;
     }
 
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
+    public void setApprovedBy(User approvedBy) {
+        this.approvedBy = approvedBy;
     }
 
+    public void makePDF(Form form) {
+        //
+    }
 }
