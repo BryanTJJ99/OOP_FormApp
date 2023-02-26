@@ -1,4 +1,4 @@
-package com.oopproject.form.services;
+package com.oopproject.form.service;
 
 import java.util.Collection;
 import java.util.List;

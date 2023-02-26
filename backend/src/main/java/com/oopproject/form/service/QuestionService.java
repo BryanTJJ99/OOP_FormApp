@@ -1,4 +1,4 @@
-package com.oopproject.form.services;
+package com.oopproject.form.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

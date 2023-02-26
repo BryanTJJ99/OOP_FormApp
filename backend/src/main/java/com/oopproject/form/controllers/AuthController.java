@@ -28,7 +28,7 @@ import com.oopproject.form.payload.response.MessageResponse;
 import com.oopproject.form.repositories.RoleRepository;
 import com.oopproject.form.repositories.UserRepository;
 import com.oopproject.form.security.jwt.JwtUtils;
-import com.oopproject.form.services.UserDetailsImpl;
+import com.oopproject.form.service.UserDetailsImpl;
 
 import jakarta.validation.Valid;
 
