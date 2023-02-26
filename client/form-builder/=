@@ -1,0 +1,7 @@
+Unknown command: "react-scripts"
+
+Did you mean this?
+    npm run-script # Run arbitrary package scripts
+
+To see a list of supported npm commands, run:
+  npm help

@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.oopproject.form.security.jwt.AuthEntryPointJwt;
 import com.oopproject.form.security.jwt.AuthTokenFilter;
-import com.oopproject.form.services.UserDetailsServiceImpl;
+import com.oopproject.form.service.UserDetailsServiceImpl;
 
 @Configuration
 

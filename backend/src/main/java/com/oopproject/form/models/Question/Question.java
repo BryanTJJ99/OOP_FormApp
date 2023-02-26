@@ -1,17 +1,20 @@
-package com.oopproject.form.models;
+package com.oopproject.form.models.Question;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Question")
-public class Question {
+public abstract class Question {
     private String questionStatement;
-    private String questionType;
+    private String category;
     private boolean isRequiredField;
     // formId;
-    private String response;
     private String documents;
 
-    public Question() {
+    public Question(String questionStatement, String category, boolean isRequiredField,
+            String documents) {
+        this.questionStatement = questionStatement;
+        this.isRequiredField = isRequiredField;
+        this.documents = documents;
     }
 
     public String getQuestionStatement() {
@@ -22,28 +25,12 @@ public class Question {
         this.questionStatement = questionStatement;
     }
 
-    public String getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(String questionType) {
-        this.questionType = questionType;
-    }
-
     public boolean isRequiredField() {
         return isRequiredField;
     }
 
     public void setRequiredField(boolean isRequiredField) {
         this.isRequiredField = isRequiredField;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
     }
 
     public String getDocuments() {
@@ -54,10 +41,18 @@ public class Question {
         this.documents = documents;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
-        return "Question [questionStatement=" + questionStatement + ", questionType=" + questionType
-                + ", isRequiredField=" + isRequiredField + ", response=" + response + ", documents=" + documents + "]";
+        return "Question [questionStatement=" + questionStatement + ", category=" + category
+                + ", isRequiredField=" + isRequiredField + ", documents=" + documents + "]";
     }
 
 }

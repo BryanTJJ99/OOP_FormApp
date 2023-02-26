@@ -1,4 +1,4 @@
-package com.oopproject.form.models;
+package com.oopproject.form.models.User;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -14,7 +14,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Document(collection = "Users")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+@Document(collection = "User")
 public class User {
     @Id
     private String id;
@@ -39,14 +42,24 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date created_at = new Date();
+    private Date created_at;
     // store timestamp when user is created in the ISO format
-    @DocumentReference
+    @DocumentReference(lazy = true)
+    // @DBRef(lazy = true)
+    // @JsonIgnore
     private User created_by;
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    public User() {
+    public User(String id, String username, String email, String role, String password, Date created_at,
+            User created_by) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.created_at = created_at;
+        this.created_by = created_by;
     }
 
     public User(String username, String email, String password) {
@@ -111,5 +124,9 @@ public class User {
         this.roles = roles;
     }
 
+    @Override
+    public String toString() {
+        return "User [username=" + username + ", email=" + email + ", password=" + password + "]";
+    }
 
 }
