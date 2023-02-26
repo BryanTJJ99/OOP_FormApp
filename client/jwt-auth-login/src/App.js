@@ -36,7 +36,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        showVendorBoard: user.roles.includes("ROLE_MODERATOR"),
+        showVendorBoard: user.roles.includes("ROLE_VENDOR"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
         showApproverBoard: user.roles.includes("ROLE_APPROVER"),
       });
