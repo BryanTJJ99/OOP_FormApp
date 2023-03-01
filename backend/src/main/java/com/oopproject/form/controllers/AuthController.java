@@ -1,8 +1,6 @@
 package com.oopproject.form.controllers;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +38,6 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
-	// @Autowired
-	// RoleRepository roleRepository;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -95,17 +91,17 @@ public class AuthController {
 			throw new RuntimeException("Error: Role is not found.");
 		} else {
 			switch (strRole) {
-				case "admin":
-					user.setRole(Roles.ROLE_ADMIN);
-					break;
-				case "approver":
-					user.setRole(Roles.ROLE_APPROVER);
-					break;
-				case "vendor":
-					user.setRole(Roles.ROLE_VENDOR);
-					break;
-				default:
-					throw new RuntimeException("Error: Role is not found.");
+			case "admin":
+				user.setRole(Roles.ROLE_ADMIN);
+				break;
+			case "approver":
+				user.setRole(Roles.ROLE_APPROVER);
+				break;
+			case "vendor":
+				user.setRole(Roles.ROLE_VENDOR);
+				break;
+			default:
+				throw new RuntimeException("Error: Role is not found.");
 			}
 		}
 

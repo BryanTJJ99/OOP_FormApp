@@ -1,11 +1,8 @@
 package com.oopproject.form.models.User;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,8 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "User")
 public class User {
@@ -38,10 +33,6 @@ public class User {
     private String password;
 
     private Roles role;
-    // private Roles role;
-
-    // @DBRef
-    // private Set<Role> roles = new HashSet<>();
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date created_at;
@@ -126,17 +117,11 @@ public class User {
         this.role = role;
     }
 
-    // public Set<Role> getRoles() {
-    // return roles;
-    // }
-
-    // public void setRoles(Set<Role> roles) {
-    // this.roles = roles;
-    // }
-
     @Override
     public String toString() {
-        return "User [username=" + username + ", email=" + email + ", password=" + password + "]";
+        return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", role="
+                + role + ", created_at=" + created_at + ", created_by=" + created_by + "]";
     }
+
 
 }
