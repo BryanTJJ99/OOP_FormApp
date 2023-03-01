@@ -10,7 +10,7 @@ import com.oopproject.form.models.User.User;
 import com.oopproject.form.repositories.UserRepository;
 
 @Service
-@Primary
+// @Primary
 public class UserServiceImp implements UserService {
 
 }

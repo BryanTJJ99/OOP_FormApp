@@ -46,10 +46,10 @@ public class UserDetailsImpl implements UserDetails {
 		authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
 
 		return new UserDetailsImpl(
-				user.getId(), 
-				user.getUsername(), 
+				user.getId(),
+				user.getUsername(),
 				user.getEmail(),
-				user.getPassword(), 
+				user.getPassword(),
 				authorities);
 	}
 

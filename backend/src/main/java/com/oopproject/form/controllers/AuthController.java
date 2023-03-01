@@ -38,6 +38,7 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
+
 	@Autowired
 	PasswordEncoder encoder;
 
@@ -85,7 +86,7 @@ public class AuthController {
 				encoder.encode(signUpRequest.getPassword()));
 
 		String strRole = signUpRequest.getRole();
-		
+
 		if (strRole == null) {
 			throw new RuntimeException("Error: Role is not found.");
 		} else {
