@@ -1,11 +1,8 @@
 package com.oopproject.form.models;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,9 +11,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import com.oopproject.form.models.Roles;
-
-@Document(collection = "Users")
+@Document(collection = "User")
 public class User {
     @Id
     private String id;

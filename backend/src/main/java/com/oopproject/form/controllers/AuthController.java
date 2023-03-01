@@ -1,8 +1,6 @@
 package com.oopproject.form.controllers;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oopproject.form.models.Roles;
-
 import com.oopproject.form.models.User;
 import com.oopproject.form.payload.request.LoginRequest;
 import com.oopproject.form.payload.request.SignupRequest;
 import com.oopproject.form.payload.response.JwtResponse;
 import com.oopproject.form.payload.response.MessageResponse;
-
 import com.oopproject.form.repositories.UserRepository;
 import com.oopproject.form.security.jwt.JwtUtils;
 import com.oopproject.form.service.UserDetailsImpl;
