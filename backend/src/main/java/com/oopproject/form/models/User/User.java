@@ -37,7 +37,7 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    private String role;
+    private Roles role;
     // private Roles role;
 
     // @DBRef
@@ -53,7 +53,7 @@ public class User {
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    public User(String id, String username, String email, String role, String password, Date created_at,
+    public User(String id, String username, String email, Roles role, String password, Date created_at,
             User created_by) {
         this.id = id;
         this.username = username;
@@ -118,11 +118,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

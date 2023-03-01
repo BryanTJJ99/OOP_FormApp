@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oopproject.form.models.ERole;
-import com.oopproject.form.models.Role;
+import com.oopproject.form.models.User.Roles;
 import com.oopproject.form.models.User.User;
 import com.oopproject.form.payload.request.LoginRequest;
 import com.oopproject.form.payload.request.SignupRequest;
 import com.oopproject.form.payload.response.JwtResponse;
 import com.oopproject.form.payload.response.MessageResponse;
-import com.oopproject.form.repositories.RoleRepository;
 import com.oopproject.form.repositories.UserRepository;
 import com.oopproject.form.security.jwt.JwtUtils;
 import com.oopproject.form.service.UserDetailsImpl;
@@ -42,8 +40,8 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	RoleRepository roleRepository;
+	// @Autowired
+	// RoleRepository roleRepository;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -91,53 +89,26 @@ public class AuthController {
 				signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
 
-		Set<String> strRoles = signUpRequest.getRoles();
-		Set<Role> roles = new HashSet<>();
+		String strRole = signUpRequest.getRole();
 
-		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER);
-			if (userRole == null) {
-				throw new RuntimeException("Error: Role is not found.");
-			}
-			roles.add(userRole);
+		if (strRole == null) {
+			throw new RuntimeException("Error: Role is not found.");
 		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-					case "admin":
-						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-						if (adminRole == null) {
-							throw new RuntimeException("Error: Role is not found.");
-						}
-						roles.add(adminRole);
-
-						break;
-					case "vendor":
-						Role vendorRole = roleRepository.findByName(ERole.ROLE_VENDOR);
-						if (vendorRole == null) {
-							throw new RuntimeException("Error: Role is not found.");
-						}
-						roles.add(vendorRole);
-
-						break;
-					case "approver":
-						Role approverRole = roleRepository.findByName(ERole.ROLE_APPROVER);
-						if (approverRole == null) {
-							throw new RuntimeException("Error: Role is not found.");
-						}
-						roles.add(approverRole);
-
-						break;
-					default:
-						Role userRole = roleRepository.findByName(ERole.ROLE_USER);
-						if (userRole == null) {
-							throw new RuntimeException("Error: Role is not found.");
-						}
-						roles.add(userRole);
-				}
-			});
+			switch (strRole) {
+				case "admin":
+					user.setRole(Roles.ROLE_ADMIN);
+					break;
+				case "approver":
+					user.setRole(Roles.ROLE_APPROVER);
+					break;
+				case "vendor":
+					user.setRole(Roles.ROLE_VENDOR);
+					break;
+				default:
+					throw new RuntimeException("Error: Role is not found.");
+			}
 		}
 
-		// user.setRoles(roles);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
