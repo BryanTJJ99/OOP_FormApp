@@ -16,7 +16,7 @@ const Navbar = () => {
                     <NavLink to="/Dashboard" activeStyle>
                         Dashboard
                     </NavLink>
-                    <NavLink to="/form-builder" activeStyle>
+                    <NavLink to="/FormBuilder" activeStyle>
                         Form Builder
                     </NavLink>
                     <NavLink to="/Settings" activeStyle>

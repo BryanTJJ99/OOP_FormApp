@@ -8,6 +8,7 @@ import AccountManagementPage from './pages/AccountManagementPage';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
 import FormBuilder from './pages/formBuilder';
+import FormView from './pages/formView';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path='/AccountManagementPage' element={<AccountManagementPage />} />
         <Route path='/Settings' element={<Settings />} />
         <Route path='/Dashboard' element={<Dashboard />} />
-        <Route path='/form-builder' element={<FormBuilder />} />
+        <Route path='/FormBuilder' element={<FormBuilder />} />
+        <Route path='/FormView' element={<FormView />} />
       </Routes>
     </Router>
   );
