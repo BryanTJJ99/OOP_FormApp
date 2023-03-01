@@ -9,11 +9,13 @@ import AccountManagementPage from './pages/AccountManagementPage';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
 import FormBuilder from './pages/FormBuilder';
+import { CssBaseline } from '@mui/material';
 
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      
       <Router>
         <Navbar />
         <Routes>

@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-
+import { Button } from '@mui/material';
 const theme = createTheme({
   palette: {
     primary: {
@@ -11,24 +11,24 @@ const theme = createTheme({
       light: '#BCBCBC',
       main: '#7F7F7F',
       contrastText: '#FFFFFF',
-      
+
     },
-    
-    Success: {
+
+    success: {
       light: '#A5DEB8',
       main: '#70C18C',
       contrastText: '#FFFFFF',
     },
-    Danger: {
+    danger: {
       light: '#EBB4B4',
       main: '#EB8C8C',
       contrastText: '#FFFFFF',
     },
-    Warning: {
+    warning: {
       light: '#F6DEAF',
       main: '#F4CC7E',
     },
-    Info: {
+    info: {
       light: '#A7E8F1',
       main: '#57B9C6',
       contrastText: '#FFFFFF',
@@ -37,3 +37,8 @@ const theme = createTheme({
     tonalOffset: 0.2,
   },
 });
+
+
+const button = styled(Button)(({theme}) => ({
+  color: 'secondary'
+}));
