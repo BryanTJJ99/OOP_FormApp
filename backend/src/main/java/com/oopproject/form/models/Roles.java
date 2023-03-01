@@ -1,7 +1,6 @@
 package com.oopproject.form.models;
 
-public enum ERole {
-  ROLE_USER,
+public enum Roles {
   ROLE_VENDOR,
   ROLE_ADMIN,
   ROLE_APPROVER
