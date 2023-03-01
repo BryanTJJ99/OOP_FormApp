@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import com.oopproject.form.models.ERole;
+import com.oopproject.form.models.Roles;
 
 @Document(collection = "Users")
 public class User {
@@ -37,7 +37,7 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    private ERole role;
+    private Roles role;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date created_at = new Date();
@@ -104,11 +104,11 @@ public class User {
         this.password = password;
     }
 
-    public ERole getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(ERole role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oopproject.form.models.ERole;
+import com.oopproject.form.models.Roles;
 
 import com.oopproject.form.models.User;
 import com.oopproject.form.payload.request.LoginRequest;
@@ -95,13 +95,13 @@ public class AuthController {
 		} else {
 			switch (strRole) {
 			case "admin":
-				user.setRole(ERole.ROLE_ADMIN);
+				user.setRole(Roles.ROLE_ADMIN);
 				break;
 			case "approver":
-				user.setRole(ERole.ROLE_APPROVER);
+				user.setRole(Roles.ROLE_APPROVER);
 				break;
 			case "vendor":
-				user.setRole(ERole.ROLE_VENDOR);
+				user.setRole(Roles.ROLE_VENDOR);
 				break;
 			default:
 				throw new RuntimeException("Error: Role is not found.");
