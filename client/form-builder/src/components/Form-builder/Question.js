@@ -32,12 +32,16 @@ const Question = (props) => {
             to_update = <LinearScale />;
         } else {
             let textInputValue = '';
+            let textInputLabel = '';
             if (questionType === 'text') {
                 textInputValue = 'Short text answer';
+                textInputLabel = 'Short Text';
+                
             } else {
                 textInputValue = 'Paragraph answer';
+                textInputLabel = 'Paragraph';
             }
-            to_update = <TextInput value={textInputValue} />;
+            to_update = <TextInput value={textInputValue} label = {textInputLabel} />;
         }
         setSpecialQuesSection(to_update); 
     }, [showOption])

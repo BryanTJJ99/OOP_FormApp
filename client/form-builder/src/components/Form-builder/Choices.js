@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Choice } from './index.js';
-
+import { IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 const Choices = (props) => { 
     const [choiceNum, setChoiceNum] = useState(0);
     const [choicesList, setChoicesList] = useState(Array(0));
@@ -17,6 +18,7 @@ const Choices = (props) => {
                 questionNum={props.questionNum}
                 type={props.questionType}
                 handleDeleteChoice={handleDeleteChoice}
+                
             />
         )
     }
@@ -71,7 +73,8 @@ const Choices = (props) => {
         <div className="d-block">
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <label className="my-auto">Choices</label>
-                <button className="btn btn-secondary btn-sm" onClick={() => handleAddQuestionClick(renderChoice())}>Add choice</button>
+                
+                <IconButton color='secondary' onClick={() => handleAddQuestionClick(renderChoice())}><AddIcon sx={{ fontSize: "30px" }}/></IconButton>
             </div>
             {choicesList}
         </div>
