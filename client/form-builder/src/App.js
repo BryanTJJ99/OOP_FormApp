@@ -51,7 +51,7 @@ const theme = createTheme({
     },
     danger: {
       light: '#EBB4B4',
-      main: '#EB8C8C',
+      main: '#EE7171',
       contrastText: '#FFFFFF',
     },
     warning: {

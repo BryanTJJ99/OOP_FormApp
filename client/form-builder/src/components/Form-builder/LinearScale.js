@@ -1,4 +1,4 @@
-import { TextField,Box, Select, MenuItem } from '@mui/material';
+import { TextField,Box, Select, MenuItem, FormControl } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 const LinearScale = (props) => { 
@@ -9,23 +9,25 @@ const LinearScale = (props) => {
         <div className="d-block">
             <div className="d-flex form-group input-group mb-3">
                 <div>
-                    <Select value={minVal}  onChange={(event) => setMinVal(event.target.value)}>
-                        <MenuItem>0</MenuItem>
-                        <MenuItem>1</MenuItem>
+                    <FormControl>
+                    <Select value={minVal}  onChange={(event) => setMinVal(event.target.value)} label={minVal}>
+                        <MenuItem value={0}>0</MenuItem>
+                        <MenuItem value={1}>1</MenuItem>
                     </Select>
+                    </FormControl>
                 </div>
                 <label className="my-auto mx-3">to</label>
                 <div>
-                    <Select value={maxVal} onChange={(event) => setMaxVal(event.target.value)}>
-                        <MenuItem>2</MenuItem>
-                        <MenuItem>3</MenuItem>
-                        <MenuItem>4</MenuItem>
-                        <MenuItem>5</MenuItem>
-                        <MenuItem>6</MenuItem>
-                        <MenuItem>7</MenuItem>
-                        <MenuItem>8</MenuItem>
-                        <MenuItem>9</MenuItem>
-                        <MenuItem>10</MenuItem>
+                    <Select value={maxVal} onChange={(event) => setMaxVal(event.target.value)} label={minVal}>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        <MenuItem value={4}>4</MenuItem>
+                        <MenuItem value={5}>5</MenuItem>
+                        <MenuItem value={6}>6</MenuItem>
+                        <MenuItem value={7}>7</MenuItem>
+                        <MenuItem value={8}>8</MenuItem>
+                        <MenuItem value={9}>9</MenuItem>
+                        <MenuItem value={10}>10</MenuItem>
                     </Select>
                 </div>
             </div>
