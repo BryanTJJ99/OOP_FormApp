@@ -61,6 +61,23 @@ const theme = createTheme({
         contrastThreshold: 3,
         tonalOffset: 0.2,
     },
+    danger: {
+      light: '#EBB4B4',
+      main: '#EE7171',
+      contrastText: '#FFFFFF',
+    },
+    warning: {
+      light: '#F6DEAF',
+      main: '#F4CC7E',
+    },
+    info: {
+      light: '#A7E8F1',
+      main: '#57B9C6',
+      contrastText: '#FFFFFF',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
 });
 
 export default App;
