@@ -13,7 +13,6 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
 
     },
-
     success: {
       light: '#A5DEB8',
       main: '#70C18C',
@@ -21,7 +20,7 @@ const theme = createTheme({
     },
     danger: {
       light: '#EBB4B4',
-      main: '#EB8C8C',
+      main: '#EE7171',
       contrastText: '#FFFFFF',
     },
     warning: {
@@ -39,6 +38,3 @@ const theme = createTheme({
 });
 
 
-const button = styled(Button)(({theme}) => ({
-  color: 'secondary'
-}));

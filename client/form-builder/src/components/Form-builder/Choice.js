@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { palette, spacing } from '@mui/system';
 import { TextField, Radio, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
-//replaced line 13
+
 const Choice = (props, handleDeleteChoice) => {
     return (
         <div id={'Question' + props.questionNum + 'Choice' + props.choiceNum} className="input-group d-flex mb-3 choice" >

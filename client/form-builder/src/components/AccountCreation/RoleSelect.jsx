@@ -1,7 +1,7 @@
 import { MenuItem, TextField } from "@mui/material";
 import React from "react";
 
-const RoleSelect = () => {
+const RoleSelect = (props) => {
     const roles = ["Vendor", "Admin", "Approver"];
 
     return (
@@ -11,6 +11,7 @@ const RoleSelect = () => {
             label="Role"
             defaultValue="Vendor"
             style={{ marginBottom: "10px" }}
+            onChange={(e) => props.setRole(e.target.value)}
         >
             {roles.map((option) => (
                 <MenuItem key={option} value={option}>
