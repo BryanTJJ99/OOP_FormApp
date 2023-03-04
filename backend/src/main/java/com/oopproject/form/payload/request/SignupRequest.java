@@ -1,7 +1,5 @@
 package com.oopproject.form.payload.request;
 
-import java.util.Set;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,7 +14,7 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> roles;
+    private String role;
 
     @NotBlank
     @Size(min = 6, max = 40)
@@ -46,11 +44,11 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public Set<String> getRoles() {
-        return this.roles;
+    public String getRole() {
+        return this.role;
     }
 
-    public void setRole(Set<String> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
