@@ -7,8 +7,8 @@ import AccountManagementPage from "./pages/AccountManagementPage";
 import AccountCreationPage from "./pages/AccountCreationPage";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
-import FormBuilder from "./pages/formBuilder";
-import FormView from "./pages/formView";
+import FormBuilder from "./pages/FormBuilder";
+import FormView from "./pages/FormView";
 import { createTheme } from "@mui/material";
 
 function App() {
