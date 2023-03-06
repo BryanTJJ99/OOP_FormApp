@@ -3,30 +3,20 @@ package com.oopproject.form.models.Question;
 import java.util.List;
 
 public class MultiSelectQuestion extends Question {
-    private List<String> options;
-    private List<String> response;
+    @DocumentReference
+    private List<Choice> choices;
 
-    public MultiSelectQuestion(String questionStatement, String questionType, boolean isRequiredField,
-            String documents, boolean isMultiSelectQuestion, List<String> options, List<String> response) {
-        super(questionStatement, questionType, isRequiredField, documents);
-        this.options = options;
-        this.response = response;
+    public MultiSelectQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
+            Date createdAt, Date updatedAt, Date deletedAt, Choice choices) {
+        super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
+        this.choices = choices; 
     }
 
-    public List<String> getOptions() {
-        return options;
+    public List<Choice> getChoices() {
+        return choices;
     }
 
-    public void setOptions(List<String> options) {
-        this.options = options;
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
     }
-
-    public List<String> getResponse() {
-        return response;
-    }
-
-    public void setResponse(List<String> response) {
-        this.response = response;
-    }
-
 }
