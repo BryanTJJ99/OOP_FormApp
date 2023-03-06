@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 
-const pages = ['Home', 'Account Management Page', 'Dashboard', 'FormBuilder', 'Settings'];
+const pages = ['Home', 'Account Management', 'Dashboard', 'FormBuilder', 'Settings'];
 
 
 function Navbar() {
@@ -45,8 +45,8 @@ function Navbar() {
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontWeight: 600,
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -54,7 +54,9 @@ function Navbar() {
             Quantum Leap Incorporation
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, marginLeft:"30px"}}
+            marginLeft="50px"
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -92,7 +94,7 @@ function Navbar() {
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="a"
             href=""
@@ -101,13 +103,13 @@ function Navbar() {
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
               fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontWeight: 600,
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Quantum Leap Incorporation
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

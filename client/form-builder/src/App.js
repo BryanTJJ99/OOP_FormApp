@@ -1,14 +1,14 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/index";
 import AccountManagementPage from "./pages/AccountManagementPage";
 import AccountCreationPage from "./pages/AccountCreationPage";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
-import FormBuilder from "./pages/formBuilder";
-import FormView from "./pages/formView";
+import FormBuilder from "./pages/FormBuilder";
+import FormView from "./pages/FormView";
 import { createTheme } from "@mui/material";
 
 function App() {
