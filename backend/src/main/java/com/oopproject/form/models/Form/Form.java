@@ -16,10 +16,12 @@ public class Form extends FormTemplate {
     private User reviewedBy;
     @DocumentReference
     private User approvedBy;
+    private String formStatus;
 
     public Form(String formId, String formName, List<Section> sections, User vendor) {
         super(formId, formName, sections);
         this.vendor = vendor;
+        this.formStatus = "open";
     }
 
     public User getVendor() {
@@ -44,6 +46,14 @@ public class Form extends FormTemplate {
 
     public void setApprovedBy(User approvedBy) {
         this.approvedBy = approvedBy;
+    }
+
+    public String getFormStatus() {
+        return formStatus;
+    }
+
+    public void setFormStatus(String formStatus) {
+        this.formStatus = formStatus;
     }
 
     public void makePDF(Form form) {
