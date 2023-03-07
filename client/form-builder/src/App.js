@@ -22,7 +22,7 @@ function App() {
                     element={<AccountManagementPage />}
                 />
                 <Route
-                    path="/AccountCreationPage"
+                    path="/AccountCreation"
                     element={<AccountCreationPage />}
                 />
                 <Route path="/Settings" element={<Settings />} />

@@ -6,7 +6,7 @@ const SubmitAccountCreation = (props) => {
     return (
         <Button
             component={Link}
-            to={"/AccountManagementPage"}
+            to={"/AccountManagement"}
             variant="contained"
             color="primary"
             onClick={() => {
