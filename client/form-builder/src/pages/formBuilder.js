@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FormDetails, QuestionsSection, SubmitBtn } from '../components/Form-builder/index.js';
+import { FormDetails, QuestionsSection, SubmitBtn } from '../components/formBuilder/index.js';
 
 const FormBuilder = (props) => {
     return (
