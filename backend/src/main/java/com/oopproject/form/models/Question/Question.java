@@ -1,7 +1,13 @@
 package com.oopproject.form.models.Question;
 
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Getter @Setter
 @Document(collection = "Question")
 public abstract class Question {
     private String questionId; 
@@ -30,34 +36,10 @@ public abstract class Question {
         this.deletedAt = deletedAt; 
     }
 
-    public String getQuestionTitle() {
-        return questionTitle;
-    }
-
-    public void setQuestionTitle(String questionTitle) {
-        this.questionTitle = questionTitle;
-    }
-
-    public boolean getIsRequired() {
-        return isRequired;
-    }
-
-    public void setIsRequired(boolean isRequired) {
-        this.isRequired = isRequired;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Question [questionStatement=" + questionStatement + ", category=" + category
-                + ", isRequiredField=" + isRequiredField + ", documents=" + documents + "]";
-    }
+    // @Override
+    // public String toString() {
+    //     return "Question [questionStatement=" + questionStatement + ", category=" + category
+    //             + ", isRequiredField=" + isRequiredField + ", documents=" + documents + "]";
+    // }
 
 }
