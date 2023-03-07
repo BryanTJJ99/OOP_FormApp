@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 
-const pages = ['Home', 'Account Management', 'Dashboard', 'FormBuilder', 'Settings'];
+const pages = ['Home', 'Account Management', 'Dashboard', 'Form Templates', 'Settings'];
 
 
 function Navbar() {
