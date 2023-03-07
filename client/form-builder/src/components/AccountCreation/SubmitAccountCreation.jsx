@@ -11,7 +11,7 @@ const SubmitAccountCreation = () => {
             color="primary"
             onClick={() => {
                 console.log("submitted");
-                // this function will send the information to the backend to create a new user
+                // this function will send the information to the backend to create a new user and then redirects user to account management page
             }}
         >
             Submit

@@ -10,7 +10,7 @@ const RoleSelect = (props) => {
             select
             label="Role"
             defaultValue="Vendor"
-            style={{ marginBottom: "10px" }}
+            sx={{ marginBottom: "10px" }}
             onChange={(e) => props.setRole(e.target.value)}
         >
             {roles.map((option) => (

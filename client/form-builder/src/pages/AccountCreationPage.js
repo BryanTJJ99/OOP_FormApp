@@ -12,7 +12,7 @@ const AccountCreationPage = () => {
 
     return (
         <Box
-            style={{
+            sx={{
                 textAlign: "center",
                 display: "flex",
                 flexDirection: "column",
@@ -35,7 +35,7 @@ const AccountCreationPage = () => {
                     console.log("submitted");
                     console.log(accountDetails);
                     console.log(role);
-                    // this function will send the information to the backend to create a new user
+                    // this function will send the information to the backend to create a new user and then redirects user to account management page
                 }}
             >
                 Submit
