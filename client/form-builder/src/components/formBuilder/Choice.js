@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { palette, spacing } from '@mui/system';
-import { TextField, Radio, IconButton } from '@mui/material';
+import { TextField, Radio, IconButton, Checkbox, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const Choice = (props, handleDeleteChoice) => {
+    const [icon, setIcon] = useState(null);
+
+    useEffect(() => {
+        if (props.type === 'radio') {
+            setIcon(<Radio disabled />);
+        } else if (props.type === 'checkbox') { 
+            setIcon(<Checkbox disabled />);
+        } else { 
+            setIcon(<Typography sx={{pr: 2, my: 'auto'}}>{props.choiceNum+1}.</Typography>);
+        }
+    }, [])
     return (
         <div id={'Question' + props.questionNum + 'Choice' + props.choiceNum} className="input-group d-flex mb-3 choice" >
-            
-            <Radio  name="radio-buttons" />
+            {icon}
             <TextField className="mb-3" variant='standard' label="" placeholder={'Option ' + Number(props.choiceNum+1)} >
             </TextField>
             <IconButton onClick={() => props.handleDeleteChoice(props.choiceNum)} ><DeleteIcon /></IconButton>
