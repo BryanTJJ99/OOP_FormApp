@@ -12,32 +12,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oopproject.form.models.Form.Form;
-import com.oopproject.form.service.FormService;
+import com.oopproject.form.models.FormTemplate.FormTemplate;
+import com.oopproject.form.service.FormTemplateService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/form")
-public class FormController {
+@RequestMapping("/formTemplate")
+public class FormTemplateController {
     @Autowired
-    private FormService formService;
+    private FormTemplateService formTemplateService;
 
-    @GetMapping("/allForms")
+    @GetMapping("/all")
     @CrossOrigin
-    public List<Form> getAllForms() {
-        return formService.getAllForms();
+    public List<FormTemplate> getAllFormTemplates() {
+        return formTemplateService.getAllFormTemplates();
     }
 
     @GetMapping("/{id}")
     @CrossOrigin
-    public Optional<Form> getFormById(@PathVariable String id) {
-        return formService.getFormById(id);
+    public Optional<FormTemplate> getFormTemplateById(@PathVariable String id) {
+        return formTemplateService.getFormTemplateById(id);
     }
 
     @PostMapping("/create")
     @CrossOrigin
-    public void createForm(@RequestBody Form form) {
-        formService.addForm(form);
+    public void createFormTemplate(@RequestBody FormTemplate formTemplate) {
+        formTemplateService.addFormTemplate(formTemplate);
     }
 
 }

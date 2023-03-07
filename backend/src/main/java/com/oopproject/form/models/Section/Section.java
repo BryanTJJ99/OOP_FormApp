@@ -1,6 +1,10 @@
 package com.oopproject.form.models.Section;
 
 import java.util.List;
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import com.oopproject.form.models.Question.Question;
 
+@Getter @Setter
 @Document(collection = "Section")
 public class Section {
     @Id
