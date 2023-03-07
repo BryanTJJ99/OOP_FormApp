@@ -19,7 +19,10 @@ const AccountCreationFields = (props) => {
     return (
         <>
             {textFields}
-            <RoleSelect setRole={props.setRole} />
+            <RoleSelect
+                accountDetails={props.accountDetails}
+                setAccountDetails={props.setAccountDetails}
+            />
         </>
     );
 };
