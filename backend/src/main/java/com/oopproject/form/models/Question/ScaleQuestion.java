@@ -1,5 +1,6 @@
 package com.oopproject.form.models.Question;
 
+
 public class ScaleQuestion extends Question {
     private int minValue;
     private int maxValue;
