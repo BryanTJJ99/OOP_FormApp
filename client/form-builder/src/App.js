@@ -7,9 +7,12 @@ import AccountManagementPage from "./pages/AccountManagementPage";
 import AccountCreationPage from "./pages/AccountCreationPage";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
-import FormBuilder from "./pages/FormBuilder";
-import FormView from "./pages/FormView";
+// import FormBuilder from "./pages/FormBuilder";
+// import FormView from "./pages/FormView";
 import { createTheme } from "@mui/material";
+
+import ProjectCreationPage from "./pages/ProjectCreationPage";
+
 
 function App() {
     return (
@@ -17,6 +20,7 @@ function App() {
             <Navbar />
             <Routes>
                 <Route exact path="/Home" element={<Home />} />
+                <Route path="/projectCreationPage" element={<ProjectCreationPage/>}/>
                 <Route
                     path="/AccountManagementPage"
                     element={<AccountManagementPage />}
@@ -27,8 +31,8 @@ function App() {
                 />
                 <Route path="/Settings" element={<Settings />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
-                <Route path="/FormBuilder" element={<FormBuilder />} />
-                <Route path="/FormView" element={<FormView />} />
+                {/* <Route path="/FormBuilder" element={<FormBuilder />} /> */}
+                {/* <Route path="/FormView" element={<FormView />} /> */}
             </Routes>
         </Router>
     );
