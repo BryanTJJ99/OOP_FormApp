@@ -67,8 +67,6 @@ const columns: GridColDef[] = [
 
   
 const FormTable = () => {
-    const [rowsOfData, setRowsOfData] = useState(Array(0));
-
     const rows = [
       { id: 1, vendor: 'Ken Company', project: 'Wack Stuff', forms: [{name: 'Reflection', status: 'partial', link: '/FormBuilder'}]},
       { id: 2, vendor: 'Bryan Company', project: 'Good Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormBuilder'}, {name: 'Post Eval Report', status: 'complete', link: '/FormBuilder'}, {name: 'Reflection', status: 'partial', link: '/FormBuilder'}]},
@@ -78,17 +76,6 @@ const FormTable = () => {
       { id: 6, vendor: 'KM Company', project: 'Wow Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormBuilder'}]},
       { id: 7, vendor: 'Elt Company', project: 'Great Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormBuilder'}, {name: 'Reflection', status: 'unfilled', link: '/FormBuilder'}]},
     ];
-
-    // useEffect(() => { 
-    //   let newRowsOfData = []; 
-    //   for (let row of rows) { 
-    //     let rowForm = <FormPills forms={row.form} id={row.id}/>; 
-    //     row.forms = rowForm; 
-    //     newRowsOfData.push(row);
-    //   }
-    //   setRowsOfData(newRowsOfData);
-    //   console.log(newRowsOfData);
-    // }, [])
 
     return (
       <Box sx={{ width: '80%', }}
