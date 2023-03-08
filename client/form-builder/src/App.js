@@ -8,6 +8,7 @@ import AccountCreationPage from "./pages/AccountCreationPage";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import FormTemplateIndex from "./pages/formTemplateIndex";
+import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/Settings' element={<Settings />} />
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/FormTemplates' element={<FormTemplateIndex />} />
+        <Route path='/FormResponses' element={<FormResponseIndex />} />
         <Route path='/FormBuilder' element={<FormBuilder />} />
         <Route path='/FormView' element={<FormView />} />
       </Routes>
