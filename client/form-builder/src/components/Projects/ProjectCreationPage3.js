@@ -22,7 +22,7 @@ const ProjectCreationPage3 = (props) => {
         // Handle form submission logic here
 
         //to do URL
-        url = "/hello";
+        url = "/project";
         axios.post(url,{
 
         })
