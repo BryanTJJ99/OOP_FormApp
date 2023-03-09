@@ -1,7 +1,5 @@
 package com.oopproject.form.models.Question;
 
-
-
 import java.util.Date;
 
 import lombok.Getter;
