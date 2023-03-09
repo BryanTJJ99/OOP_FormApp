@@ -32,7 +32,7 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    private String role;
+    private Roles role;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date created_at;
@@ -44,22 +44,21 @@ public class User {
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    // public User(String id, String username, String email, String role, String password, Date created_at,
-    //         User created_by) {
-    //     this.id = id;
-    //     this.username = username;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.role = role;
-    //     this.created_at = created_at;
-    //     this.created_by = created_by;
-    // }
-
-    public User(String username, String email, String password, String role) {
+    public User(String id, String username, String email, Roles role, String password, Date created_at,
+            User created_by) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.created_at = created_at;
+        this.created_by = created_by;
+    }
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public String getId() {
@@ -110,12 +109,19 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", role="
+                + role + ", created_at=" + created_at + ", created_by=" + created_by + "]";
+    }
+
 
 }
