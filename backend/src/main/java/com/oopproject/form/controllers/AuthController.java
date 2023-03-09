@@ -38,7 +38,6 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
-
 	@Autowired
 	PasswordEncoder encoder;
 
@@ -64,6 +63,7 @@ public class AuthController {
 				userDetails.getUsername(),
 				userDetails.getEmail(),
 				roles));
+
 	}
 
 	@PostMapping("/signup")
@@ -83,28 +83,43 @@ public class AuthController {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(),
 				signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getPassword()));
+				encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
 
 		String strRole = signUpRequest.getRole();
 
-		if (strRole == null) {
-			throw new RuntimeException("Error: Role is not found.");
-		} else {
-			switch (strRole) {
+		// if (strRole == null) {
+		// 	throw new RuntimeException("Error: Role is not found.");
+		// } else {
+		// 	switch (strRole) {
+		// 	case "admin":
+		// 		user.setRole(Roles.ROLE_ADMIN);
+		// 		break;
+		// 	case "approver":
+		// 		user.setRole(Roles.ROLE_APPROVER);
+		// 		break;
+		// 	case "vendor":
+		// 		user.setRole(Roles.ROLE_VENDOR);
+		// 		break;
+		// 	default:
+		// 		throw new RuntimeException("Error: Role is not found.");
+		// 	}
+		// }
+
+		// reassign user role string to enum as per the database Roles enum
+		switch (strRole) {
 			case "admin":
-				user.setRole(Roles.ROLE_ADMIN);
+				user.setRole(Roles.ROLE_ADMIN.toString());
 				break;
 			case "approver":
-				user.setRole(Roles.ROLE_APPROVER);
+				user.setRole(Roles.ROLE_APPROVER.toString());
 				break;
 			case "vendor":
-				user.setRole(Roles.ROLE_VENDOR);
+				user.setRole(Roles.ROLE_VENDOR.toString());
 				break;
 			default:
 				throw new RuntimeException("Error: Role is not found.");
-			}
 		}
-
+		
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
