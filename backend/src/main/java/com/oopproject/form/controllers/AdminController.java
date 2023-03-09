@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import com.oopproject.form.models.User.User;
@@ -16,6 +17,7 @@ import com.oopproject.form.service.AdminService;
 public class AdminController extends UserController {
 
     @Autowired
+    @Qualifier("admin")
     private AdminService adminService;
 
     @GetMapping("/allUsers")
