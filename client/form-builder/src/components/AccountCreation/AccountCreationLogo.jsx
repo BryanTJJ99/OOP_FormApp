@@ -6,7 +6,7 @@ const AccountCreationLogo = () => {
         <img
             src={QuantumLeapLogo}
             alt="QuantumLeap Logo"
-            height={"200px"}
+            width={"70%"}
             style={{ display: "block", margin: "auto" }}
         />
     );

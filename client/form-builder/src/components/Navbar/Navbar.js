@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import companyLogo from '../../../src/assets/QuantumLeapLogo.png'
 
 
-const pages = ['Home', 'Account Management', 'Dashboard', 'FormBuilder', 'Settings'];
+const pages = ['Home', 'Account Management', 'Dashboard', 'Form Responses', 'Form Templates', 'Settings'];
 
 
 function Navbar() {

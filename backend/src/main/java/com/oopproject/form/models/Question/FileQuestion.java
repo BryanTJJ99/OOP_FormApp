@@ -1,5 +1,12 @@
 package com.oopproject.form.models.Question;
 
+import java.util.Date;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class FileQuestion extends Question {
 
     private String fileName;
@@ -12,22 +19,6 @@ public class FileQuestion extends Question {
         this.fileName = fileName; 
         this.fileType = fileType;
         this.data = data;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
     }
 
     public byte[] getData() {

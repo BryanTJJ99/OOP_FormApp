@@ -1,12 +1,12 @@
 package com.oopproject.form.repositories;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.oopproject.form.models.Form.Form;
+import com.oopproject.form.models.FormResponse.FormResponse;
 
 public interface FormResponseRepository extends MongoRepository<FormResponse, String> {
-    void save(FormResponse formResponse);
-    FormResponse findById(int id); 
-    FormResponse findByFormTemplateAndVendorProject(int formTemplateId, int vendorProjectId); 
+    FormResponse findByFormTemplateIdAndVendorProjectId(String formTemplateId, String vendorProjectId); 
     List<FormResponse> findAll(); 
 }

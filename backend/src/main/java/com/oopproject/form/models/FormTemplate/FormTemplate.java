@@ -1,13 +1,19 @@
 package com.oopproject.form.models.FormTemplate;
 
 import java.util.List;
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import com.oopproject.form.models.Section.Section;
+import com.oopproject.form.models.User.User;
 
+@Getter @Setter
 @Document(collection = "FormTemplate")
 public class FormTemplate {
     @Id

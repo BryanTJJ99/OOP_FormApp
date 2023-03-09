@@ -1,6 +1,13 @@
 package com.oopproject.form.models.Question;
 
 
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class ScaleQuestion extends Question {
     private int minValue;
     private int maxValue;
