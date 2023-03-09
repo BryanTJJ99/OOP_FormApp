@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormResponseIndex from "./pages/formResponseIndex";
-import FormBuilder from "./pages/FormBuilder";
+import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
