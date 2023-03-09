@@ -16,23 +16,28 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 function App() {
-  return (
-    <ThemeProvider theme={theme}>
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route exact path='/Home' element={<Home />} />
-        <Route path='/AccountManagementPage' element={<AccountManagementPage />} />
-        <Route path='/Settings' element={<Settings />} />
-        <Route path='/Dashboard' element={<Dashboard />} />
-        <Route path='/FormTemplates' element={<FormTemplateIndex />} />
-        <Route path='/FormResponses' element={<FormResponseIndex />} />
-        <Route path='/FormBuilder' element={<FormBuilder />} />
-        <Route path='/FormView' element={<FormView />} />
-      </Routes>
-    </Router>
-    </ThemeProvider>
-  );
+    return (
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route exact path="/Home" element={<Home />} />
+                <Route
+                    path="/AccountManagement"
+                    element={<AccountManagementPage />}
+                />
+                <Route
+                    path="/AccountCreation"
+                    element={<AccountCreationPage />}
+                />
+                <Route path="/Settings" element={<Settings />} />
+                <Route path="/Dashboard" element={<Dashboard />} />
+                <Route path='/FormTemplates' element={<FormTemplateIndex />} />
+                <Route path='/FormResponses' element={<FormResponseIndex />} />
+                <Route path="/FormBuilder" element={<FormBuilder />} />
+                <Route path="/FormView" element={<FormView />} />
+            </Routes>
+        </Router>
+    );
 }
 
 const theme = createTheme({
@@ -70,8 +75,22 @@ const theme = createTheme({
         contrastThreshold: 3,
         tonalOffset: 0.2,
     },
-    
-  },
-);
+    danger: {
+        light: "#EBB4B4",
+        main: "#EE7171",
+        contrastText: "#FFFFFF",
+    },
+    warning: {
+        light: "#F6DEAF",
+        main: "#F4CC7E",
+    },
+    info: {
+        light: "#A7E8F1",
+        main: "#57B9C6",
+        contrastText: "#FFFFFF",
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+});
 
 export default App;

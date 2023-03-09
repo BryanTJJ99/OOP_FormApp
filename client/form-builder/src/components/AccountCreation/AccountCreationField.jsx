@@ -10,7 +10,7 @@ const AccountCreationField = (props) => {
             id={props.field}
             label={props.field}
             variant="outlined"
-            style={{ marginBottom: "10px" }}
+            sx={{ marginBottom: "10px" }}
             inputProps={{
                 autoComplete: "off",
             }}
