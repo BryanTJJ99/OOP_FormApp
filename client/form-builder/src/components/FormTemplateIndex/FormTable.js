@@ -7,7 +7,7 @@ import { renderCountry, renderAvatar, renderIncoterm, renderPnl, renderProgress,
 import { CONTRACT_TYPE_OPTIONS, COUNTRY_ISO_OPTIONS_SORTED, CURRENCY_OPTIONS, INCOTERM_OPTIONS, RATE_TYPE_OPTIONS, STATUS_OPTIONS, TAXCODE_OPTIONS } from '@mui/x-data-grid-generator/services/static-data';
 import { FormPills } from './index.js';
 import { lineHeight } from '@mui/system';
-import moment from 'moment';
+//import moment from 'moment';
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
 
 const columns: GridColDef[] = [
