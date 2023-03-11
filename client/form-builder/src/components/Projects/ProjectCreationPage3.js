@@ -21,17 +21,17 @@ const ProjectCreationPage3 = (props) => {
         e.preventDefault();
         // Handle form submission logic here
 
-        //to do URL
-        url = "/project";
-        axios.post(url,{
+        // //to do URL
+        // url = "/project";
+        // axios.post(url,{
 
-        })
-        .then(response=>{
+        // })
+        // .then(response=>{
 
-        })
-        .catch(error=>{
+        // })
+        // .catch(error=>{
 
-        });
+        // });
         
     
     };
