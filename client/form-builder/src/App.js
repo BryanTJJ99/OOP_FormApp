@@ -15,6 +15,9 @@ import FormView from "./pages/formView";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
+import ProjectCreationPage from "./pages/ProjectCreationPage";
+
+
 function App() {
     return (
         <ThemeProvider theme = {theme}>
@@ -30,6 +33,7 @@ function App() {
                         path="/AccountCreation"
                         element={<AccountCreationPage />}
                     />
+                    <Route path="/projectCreationPage" element={<ProjectCreationPage/>}/>
                     <Route path="/Settings" element={<Settings />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
