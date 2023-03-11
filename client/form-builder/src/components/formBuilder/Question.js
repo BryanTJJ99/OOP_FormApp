@@ -8,33 +8,22 @@ import { Dangerous } from '@mui/icons-material';
 const Question = (props) => {
     const [questionType, setQuestionType] = useState('text');
     const [questionNum, setQuestionNum] = useState(0);
-    const [showOption, setShowOption] = useState('text');
     const [specialQuesSection, setSpecialQuesSection] = useState(0);
-    const [questionTitle, setQuestionTitle] = useState(`Question ${props.questionNum} Title`);
+    const [questionTitle, setQuestionTitle] = useState('');
 
     function handleChangeQuestionType(value) {
-        if (value === 'radio' || value === 'checkbox' || value === 'dropdown') {
-            setShowOption("choice");
-        } else if (value === 'file') {
-            setShowOption("file");
-        } else if (value === 'scale') {
-            setShowOption("scale");
-        } else if (value === 'text') {
-            setShowOption("text");
-        } else {
-            setShowOption("textarea");
-        }
         setQuestionType(value);
     }
 
     let to_update;
     useEffect(() => {
-        if (showOption === "choice") {
+        setSpecialQuesSection(0);
+        if (questionType === "radio" || questionType === "checkbox" || questionType === "dropdown") {
             // this.setState({specialQuesSection: <Choices/>})
             to_update = <Choices questionType={questionType} questionNum={questionNum} />;
-        } else if (showOption === "file") {
+        } else if (questionType === "file") {
             to_update = <FileUpload />;
-        } else if (showOption === "scale") {
+        } else if (questionType === "scale") {
             to_update = <LinearScale />;
         } else {
             let textInputValue = '';
@@ -50,16 +39,18 @@ const Question = (props) => {
             to_update = <TextInput value={textInputValue} label={textInputLabel} />;
         }
         setSpecialQuesSection(to_update);
-    }, [showOption])
+    }, [questionType])
 
     return (
-        <div className="card mb-3" id={"Question" + props.questionNum}>
+        <div className="card mb-2" id={"Question" + props.questionNum}>
             <div className="card-header d-flex justify-content-between align-items-center">
                 <div className="w-50">
-                    <input type="text" className="form-control" value={questionTitle} onChange={(event) => setQuestionTitle(event.target.value)}></input>
+                    {/* ken update the input to TextInput from MUI */}
+                    <input type="text" className="form-control" value={questionTitle} placeholder={`Question ${props.questionNum} Title`} onChange={(event) => setQuestionTitle(event.target.value)}></input>
                 </div>
                 <div className="d-flex">
-                    <Button color='secondary' >Move up</Button>
+                    {/* bernice create the javascript for the move up and move down buttons */}
+                    <Button color='secondary'>Move up</Button>
                     <Button color='secondary'>Move down</Button>
                     <Button >
                         <IconButton  ><DeleteIcon color='danger' /></IconButton>
@@ -71,7 +62,7 @@ const Question = (props) => {
                     Question type:
                     <FormControl>
                         <Box sx={{ width: '25%' }}>
-                            <Select name="questionType" sx={{ height: '50px', ms: '3' }} placeholder="text" value={showOption} onChange={(event) => handleChangeQuestionType(event.target.value)}>
+                            <Select name="questionType" sx={{ height: '50px', ms: '3' }} placeholder="text" value={questionType} onChange={(event) => handleChangeQuestionType(event.target.value)}>
                                 <MenuItem value="text">Short text</MenuItem>
                                 <MenuItem value="textarea">Paragraph</MenuItem>
                                 <MenuItem value="radio">Multiple choice</MenuItem>
@@ -93,6 +84,7 @@ const Question = (props) => {
                         <input className="form-check-input" type="checkbox"></input>
                         <label className="form-check-label">Required</label>
                     </div>
+                    {/* bernice create the javascript for conditional questions */}
                     <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox"></input>
                         <label className="form-check-label">Conditional</label>

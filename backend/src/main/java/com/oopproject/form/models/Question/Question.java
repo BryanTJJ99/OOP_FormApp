@@ -1,58 +1,45 @@
 package com.oopproject.form.models.Question;
 
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Getter @Setter
 @Document(collection = "Question")
 public abstract class Question {
-    private String questionStatement;
-    private String category;
-    private boolean isRequiredField;
+    private String questionId; 
+    private int questionOrder; 
+    private String questionTitle;
+    private String questionType; 
+    private boolean isRequired;
+    private String conditionalParentId; 
+    private String conditionalParentCondition; 
+    private Date createdAt; 
+    private Date updatedAt; 
+    private Date deletedAt; 
     // formId;
-    private String documents;
 
-    public Question(String questionStatement, String category, boolean isRequiredField,
-            String documents) {
-        this.questionStatement = questionStatement;
-        this.isRequiredField = isRequiredField;
-        this.documents = documents;
+    public Question(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
+            Date createdAt, Date updatedAt, Date deletedAt) {
+        this.questionId = questionId; 
+        this.questionOrder = questionOrder; 
+        this.questionTitle = questionTitle; 
+        this.questionType = questionType; 
+        this.isRequired = isRequired; 
+        this.conditionalParentId = conditionalParentId;
+        this.conditionalParentCondition = conditionalParentCondition; 
+        this.createdAt = createdAt; 
+        this.updatedAt = updatedAt; 
+        this.deletedAt = deletedAt; 
     }
 
-    public String getQuestionStatement() {
-        return questionStatement;
-    }
-
-    public void setQuestionStatement(String questionStatement) {
-        this.questionStatement = questionStatement;
-    }
-
-    public boolean isRequiredField() {
-        return isRequiredField;
-    }
-
-    public void setRequiredField(boolean isRequiredField) {
-        this.isRequiredField = isRequiredField;
-    }
-
-    public String getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(String documents) {
-        this.documents = documents;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Question [questionStatement=" + questionStatement + ", category=" + category
-                + ", isRequiredField=" + isRequiredField + ", documents=" + documents + "]";
-    }
+    // @Override
+    // public String toString() {
+    //     return "Question [questionStatement=" + questionStatement + ", category=" + category
+    //             + ", isRequiredField=" + isRequiredField + ", documents=" + documents + "]";
+    // }
 
 }

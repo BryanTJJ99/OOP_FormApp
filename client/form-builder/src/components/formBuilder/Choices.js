@@ -67,7 +67,7 @@ const Choices = (props) => {
             let firstChoice = renderChoice();
             setChoicesList(choicesList => [firstChoice]);
         }
-    })
+    }, [])
 
     return (
         <div className="d-block">

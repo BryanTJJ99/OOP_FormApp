@@ -1,16 +1,24 @@
 package com.oopproject.form.models.Question;
 
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class ScaleQuestion extends Question {
     private int minValue;
     private int maxValue;
-    private int response;
+    private String minLabel; 
+    private String maxLabel; 
 
-    public ScaleQuestion(String questionStatement, String category, boolean isRequiredField,
-            String documents, int minValue, int maxValue, int response) {
-        super(questionStatement, category, isRequiredField, documents);
+    public ScaleQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
+            Date createdAt, Date updatedAt, Date deletedAt, int minValue, int maxValue, String minLabel, String maxLabel) {
+        super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
         this.minValue = minValue;
         this.maxValue = maxValue;
-        this.response = response;
+        this.minLabel = minLabel; 
+        this.maxLabel = maxLabel; 
     }
 
     public int getMinValue() {
@@ -28,13 +36,4 @@ public class ScaleQuestion extends Question {
     public void setMaxValue(int maxValue) {
         this.maxValue = maxValue;
     }
-
-    public int getResponse() {
-        return response;
-    }
-
-    public void setResponse(int response) {
-        this.response = response;
-    }
-
 }

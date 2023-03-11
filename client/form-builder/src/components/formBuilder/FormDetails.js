@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const FormDetails = () => { 
     return ( 
-        <div className='mx-3 mt-3'>
+        <div className='mx-5 mt-3'>
             <div className='card'>
                 <div className='card-header bg-light rounded'> 
                     <div className='form-group mt-3'>

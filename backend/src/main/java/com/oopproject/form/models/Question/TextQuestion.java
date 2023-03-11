@@ -1,20 +1,14 @@
 package com.oopproject.form.models.Question;
 
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class TextQuestion extends Question {
-
-    private String response;
-
-    public TextQuestion(String questionStatement, String category, boolean isRequiredField,
-            String documents, String response) {
-        super(questionStatement, category, isRequiredField, documents);
-        this.response = response;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
+    public TextQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
+            Date createdAt, Date updatedAt, Date deletedAt) {
+        super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
     }
 }

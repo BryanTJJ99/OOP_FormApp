@@ -1,6 +1,10 @@
 package com.oopproject.form.models.Section;
 
 import java.util.List;
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,20 +12,26 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import com.oopproject.form.models.Question.Question;
 
+@Getter @Setter
 @Document(collection = "Section")
 public class Section {
     @Id
     private String sectionId;
     private String sectionName;
-    private List<String> userAccess;
-    // userAccess would be which roles can access this section. ie. list of roles
+    private String sectionDescription; 
+    private String assignedTo;
+    private Date createdAt; 
+    private Date updatedAt; 
+    private Date deletedAt; 
+    // assignedTo refers to 'admin', 'vendor', or 'approver'
     @DocumentReference
     private List<Question> questions;
 
-    public Section(String sectionId, String sectionName, List<String> userAccess, List<Question> questions) {
+    public Section(String sectionId, String sectionName, String sectionDescription, String assignedTo, Date createdAt, Date updatedAt, Date deletedAt, List<Question> questions) {
         this.sectionId = sectionId;
         this.sectionName = sectionName;
-        this.userAccess = userAccess;
+        this.sectionDescription = sectionDescription; 
+        this.assignedTo = assignedTo;
         this.questions = questions;
     }
 
@@ -41,12 +51,12 @@ public class Section {
         this.sectionName = sectionName;
     }
 
-    public List<String> getUserAccess() {
-        return userAccess;
+    public String getAssignedTo() {
+        return assignedTo;
     }
 
-    public void setUserAccess(List<String> userAccess) {
-        this.userAccess = userAccess;
+    public void setUserAccess(String assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     public List<Question> getQuestions() {

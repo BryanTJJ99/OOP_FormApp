@@ -12,9 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import companyLogo from '../../../src/assets/QuantumLeapLogo.png'
 
 
-const pages = ['Home', 'Account Management', 'Dashboard', 'FormBuilder', 'Settings'];
+const pages = ['Home', 'Account Management', 'Dashboard', 'Form Responses', 'Form Templates', 'Settings'];
 
 
 function Navbar() {
@@ -35,7 +36,7 @@ function Navbar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        <Box sx={{height: 100, width: 150, backgroundColor:"info.light"}}component="img" alt = "Company Logo" src = {companyLogo}></Box>
           <Typography
             variant="h6"
             noWrap = "false"
@@ -92,7 +93,7 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          
           <Typography
             variant="h6"
             noWrap

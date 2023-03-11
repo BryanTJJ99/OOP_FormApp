@@ -3,12 +3,14 @@ package com.oopproject.form.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.oopproject.form.models.User.User;
 import com.oopproject.form.repositories.AdminRepository;
 
 @Service
+@Qualifier("admin")
 public class AdminServiceImp extends UserServiceImp implements AdminService {
 
     @Autowired
