@@ -214,7 +214,7 @@ export default function MiniDrawer({children}) {
         </List>
       </Drawer>
       {/* box component here is supposed to store the page content to be displayed via routing */}
-      <Box component="main" sx={{ flexGrow: 1, my: '40px' }}>
+      <Box component="main" sx={{ flexGrow: 1, my: '40px', }}>
         {/* <DrawerHeader /> */}
         {children}
       </Box>
