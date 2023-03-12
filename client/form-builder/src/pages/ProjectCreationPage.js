@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import ProjectCreationPage1 from "../components/Projects/ProjectCreationPage1";
 import ProjectCreationPage2 from "../components/Projects/ProjectCreationPage2";
 import ProjectCreationPage3 from "../components/Projects/ProjectCreationPage3";
@@ -10,13 +10,26 @@ import { Transition } from '@headlessui/react';
 const ProjectCreationPage = (props) => {
 
 
-    const [activePage,setActivePage] = React.useState('1')
+    const [activePage,setActivePage] = useState('1')
     
-    const [projectName, setProjectName] = React.useState()
-    const [vendorCompanyName, setVendorCompanyName] = React.useState()
-    const [projectDescription, setProjectDescription] = React.useState()
+    // const [projectName, setProjectName] = useState()
+    // const [vendorCompanyName, setVendorCompanyName] = useState()
+    // const [projectDescription, setProjectDescription] = useState()
+    // const [selectedFormArr, setSelectedFormArr] = useState([])
+
     
-    const [selectedFormArr, setSelectedFormArr] = React.useState([])
+    const [projectData, setProjectData] = useState({
+        projectName: '',
+        vendorCompanyName: '',
+        projectDescription: '',
+        selectedForm: []
+      })
+
+
+    const handleProjectDataChange = (field, value) => {
+        setProjectData({ ...projectData, [field]: value })
+      }
+    
 
 
     return (
@@ -32,10 +45,12 @@ const ProjectCreationPage = (props) => {
                 leaveTo="opacity-0 scale-95 "
       
             >
-            <ProjectCreationPage1 setActivePage={setActivePage} setProjectName={setProjectName} setVendorCompanyName={setVendorCompanyName} setProjectDescription={setProjectDescription}/>
-            {console.log(projectName)}
-            {console.log(vendorCompanyName)}
-            {console.log(projectDescription)}
+            {/* <ProjectCreationPage1 setActivePage={setActivePage} setProjectName={setProjectName} setVendorCompanyName={setVendorCompanyName} setProjectDescription={setProjectDescription}/> */}
+            <ProjectCreationPage1 
+                setActivePage={setActivePage} 
+                handleProjectDataChange={handleProjectDataChange} 
+                projectData={projectData}
+            />
 
             </Transition>
             )}
@@ -51,7 +66,11 @@ const ProjectCreationPage = (props) => {
                 leaveTo="opacity-0 scale-95 "
       
             >
-            <ProjectCreationPage2 setActivePage={setActivePage}/>
+            <ProjectCreationPage2 
+                setActivePage={setActivePage}
+                handleProjectDataChange={handleProjectDataChange} 
+                projectData={projectData}
+            />
             </Transition>
             )}
         
@@ -66,7 +85,17 @@ const ProjectCreationPage = (props) => {
                 leaveTo="opacity-0 scale-95 "
       
             >
-            <ProjectCreationPage3 setActivePage={setActivePage} projectName={projectName} vendorCompanyName={vendorCompanyName} projectDescription={projectDescription}/>
+            {/* <ProjectCreationPage3 setActivePage={setActivePage} projectName={projectName} vendorCompanyName={vendorCompanyName} projectDescription={projectDescription}/> */}
+
+            <ProjectCreationPage3 
+            setActivePage={setActivePage} 
+            projectName={projectData.projectName} 
+            vendorCompanyName={projectData.vendorCompanyName} 
+            projectDescription={projectData.projectDescription}
+            selectedForm={projectData.selectedForm}
+          />
+            
+            
             </Transition>
             )}
         </div>
