@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/index";
 import AccountManagementPage from "./pages/AccountManagementPage";
@@ -11,15 +10,17 @@ import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
+import MiniDrawer from './components/Navbar/MiniDrawer'
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { styled, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 function App() {
     return (
         <ThemeProvider theme = {theme}>
             <Router>
-                <Navbar />
+                <MiniDrawer>
                 <Routes>
                     <Route exact path="/Home" element={<Home />} />
                     <Route
@@ -30,13 +31,15 @@ function App() {
                         path="/AccountCreation"
                         element={<AccountCreationPage />}
                     />
+                    {/* <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                     <Route path="/Settings" element={<Settings />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
                     <Route path='/FormResponses' element={<FormResponseIndex />} />
                     <Route path="/FormBuilder" element={<FormBuilder />} />
-                    <Route path="/FormView" element={<FormView />} />
+                    <Route path="/FormView" element={<FormView />} /> */}
                 </Routes>
+                </MiniDrawer>
             </Router>
         </ThemeProvider>
     );
