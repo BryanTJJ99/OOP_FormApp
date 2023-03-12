@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/index";
 import AccountManagementPage from "./pages/AccountManagementPage";
@@ -11,8 +10,12 @@ import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
+import MiniDrawer from './components/Navbar/MiniDrawer'
 
-import { createTheme, ThemeProvider,responsiveFontSizes } from '@mui/material/styles';
+import { styled, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+import ProjectCreationPage from "./pages/ProjectCreationPage";
 
 
 function App() {
@@ -25,7 +28,7 @@ function App() {
         </div>
         <ThemeProvider theme={theme}>
             <Router>
-                <Navbar >
+                <MiniDrawer>
                 <Routes>
                     <Route exact path="/Home" element={<Home />} />
                     <Route
@@ -36,6 +39,7 @@ function App() {
                         path="/AccountCreation"
                         element={<AccountCreationPage />}
                     />
+                    <Route path="/projectCreationPage" element={<ProjectCreationPage/>}/>
                     <Route path="/Settings" element={<Settings />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
@@ -43,7 +47,7 @@ function App() {
                     <Route path="/FormBuilder" element={<FormBuilder />} />
                     <Route path="/FormView" element={<FormView />} />
                 </Routes>
-                </Navbar>
+                </MiniDrawer>
             </Router>
         </ThemeProvider>
         </>
@@ -67,26 +71,17 @@ let theme = createTheme({
             main: "#7F7F7F",
             contrastText: "#FFFFFF",
         },
+        cyan: {
+            light: "#4db6ac",
+            main: "#00acc1",
+            contrastText: "#FFFFFF",
+        },
+        indigo: {
+            light: "#8c9eff",
+            main: "#536dfe",
+            contrastText: "#FFFFFF",
+        },
 
-        success: {
-            light: "#A5DEB8",
-            main: "#70C18C",
-            contrastText: "#FFFFFF",
-        },
-        danger: {
-            light: "#EBB4B4",
-            main: "#EB8C8C",
-            contrastText: "#FFFFFF",
-        },
-        warning: {
-            light: "#F6DEAF",
-            main: "#F4CC7E",
-        },
-        info: {
-            light: "#A7E8F1",
-            main: "#57B9C6",
-            contrastText: "#FFFFFF",
-        },
         contrastThreshold: 3,
         tonalOffset: 0.2,
     }
