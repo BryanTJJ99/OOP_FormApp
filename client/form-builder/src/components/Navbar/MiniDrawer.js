@@ -26,6 +26,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Link } from 'react-router-dom';
 
 // sample code from mui 
@@ -100,13 +101,14 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState("Home")
-  const pages = ['Home', 'Account Management', 'Dashboard', 'Form Responses', 'Form Templates']
-  const widgets = ['Account','Logout','Settings']
-  const iconsPrimary = [<CottageIcon/>,<PeopleAltIcon/>,<DashboardIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,]
+  const pages = ['Home', 'Account Management', 'Dashboard', 'Form Responses', 'Form Templates','Project Creation']
+  const widgets = ['Settings','Account','Logout']
+  const iconsPrimary = [<CottageIcon/>,<PeopleAltIcon/>,<DashboardIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
   const iconsSecondary = [
+    <SettingsIcon/>,
     <AccountCircleIcon/>,
     <LogoutIcon/>,
-    <SettingsIcon/>
+    
   ]
 
   const handleDrawerOpen = () => {
@@ -155,7 +157,7 @@ export default function MiniDrawer({children}) {
               disablePadding sx={{ display: 'block' }}
               onClick={() => setPage(text)}
             >
-            <Link to={`/${text}`} style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+            <Link to={`/${text.replace(/\s/g,'')}`} style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -212,8 +214,8 @@ export default function MiniDrawer({children}) {
         </List>
       </Drawer>
       {/* box component here is supposed to store the page content to be displayed via routing */}
-      <Box component="main" sx={{ flexGrow: 1, px: 2 }}>
-        <DrawerHeader />
+      <Box component="main" sx={{ flexGrow: 1, my: '40px' }}>
+        {/* <DrawerHeader /> */}
         {children}
       </Box>
     </Box>
