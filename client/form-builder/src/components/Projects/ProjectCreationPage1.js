@@ -1,29 +1,47 @@
-import { React, useState } from 'react' //rafce 
+import { React, useState, useEffect } from 'react'
 import { Button, TextField, Typography } from '@mui/material'
-
+import './ProjectCreationPage.css';
 
 
 
 const ProjectCreationPage1 = (props) => {
 
-    const [projectName, setProjectName] = useState(props.projectName)
-    const [vendorCompanyName, setVendorCompanyName] = useState(props.vendorCompanyName)
-    const [projectDescription, setProjectDescription] = useState(props.projectDescription)
+    // const [projectName, setProjectName] = useState(props.projectName)
+    // const [vendorCompanyName, setVendorCompanyName] = useState(props.vendorCompanyName)
+    // const [projectDescription, setProjectDescription] = useState(props.projectDescription)
 
-    const handleProjectNameChange = (e) => {
-        setProjectName(e.target.value)
-        props.setProjectName(e.target.value)
-      }
+
+    // const handleProjectNameChange = (e) => {
+    //     setProjectName(e.target.value)
+    //     props.setProjectName(e.target.value)
+    //   }
     
-    const handleVendorCompanyNameChange = (e) => {
-        setVendorCompanyName(e.target.value)
-        props.setVendorCompanyName(e.target.value)
-      }
+    // const handleVendorCompanyNameChange = (e) => {
+    //     setVendorCompanyName(e.target.value)
+    //     props.setVendorCompanyName(e.target.value)
+    //   }
     
-    const handleProjectDescriptionChange = (e) => {
-        setProjectDescription(e.target.value)
-        props.setProjectDescription(e.target.value)
-      }
+    // const handleProjectDescriptionChange = (e) => {
+    //     setProjectDescription(e.target.value)
+    //     props.setProjectDescription(e.target.value)
+    //   }
+
+  const { handleProjectDataChange, projectData } = props;
+
+  const handleProjectNameChange = (e) => {
+    handleProjectDataChange('projectName', e.target.value);
+  }
+    
+  const handleVendorCompanyNameChange = (e) => {
+    handleProjectDataChange('vendorCompanyName', e.target.value);
+  }
+    
+  const handleProjectDescriptionChange = (e) => {
+    handleProjectDataChange('projectDescription', e.target.value);
+  }
+
+    
+      
 
 
   return (
@@ -31,8 +49,8 @@ const ProjectCreationPage1 = (props) => {
     <div>
         <br></br>
         <br></br>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Add project
+        <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
+          Create a new project
         </Typography>
         
 
@@ -40,14 +58,15 @@ const ProjectCreationPage1 = (props) => {
                     label='Project Name' 
                     style={{ margin: 40, width: '300px' }}
                     onChange={handleProjectNameChange}
-                    value={props.projectName}
+                    value={projectData.projectName}
                     
         />
         
         <TextField id="VendorCompanyName" 
                     label='Vendor Company Name' 
                     style={{ margin: 40, width: '300px' }}
-                    onChange={(e) => props.setVendorCompanyName(e.target.value)}
+                    onChange={handleVendorCompanyNameChange}
+                    value={projectData.vendorCompanyName}
         />
 
 
@@ -59,7 +78,8 @@ const ProjectCreationPage1 = (props) => {
                     fullWidth={true}
                     maxRows={4}
                     style={{width: '800px'}}
-                    onChange={(e) => props.setProjectDescription(e.target.value)}
+                    onChange={handleProjectDescriptionChange}
+                    value={projectData.projectDescription}
         />
         
         <br></br>

@@ -24,10 +24,10 @@ public class FormResponseServiceImp implements FormResponseService {
         return formResponseRepository.findById(id);
     }
 
-    @Override
-    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId, String vendorProjectId) {
-        return formResponseRepository.findByFormTemplateIdAndVendorProjectId(formTemplateId, vendorProjectId);
-    }
+    // @Override
+    // public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId, String vendorProjectId) {
+    //     return formResponseRepository.findByFormTemplateIdAndVendorProjectId(formTemplateId, vendorProjectId);
+    // }
 
     @Override
     public void addFormResponse(FormResponse formResponse) {

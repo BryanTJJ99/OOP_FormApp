@@ -8,7 +8,7 @@ import com.oopproject.form.models.FormTemplate.FormTemplate;
 public interface FormTemplateService {
     public List<FormTemplate> getAllFormTemplates();
 
-    public Optional<FormTemplate> getFormTemplateById(String id);
+    public FormTemplate getFormTemplateById(String id);
 
     public void addFormTemplate(FormTemplate formTemplate);
 }
