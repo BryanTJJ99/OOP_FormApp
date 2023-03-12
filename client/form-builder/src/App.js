@@ -12,7 +12,7 @@ import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
 import MiniDrawer from './components/Navbar/MiniDrawer'
 
-import { styled, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 
 
 import ProjectCreationPage from "./pages/ProjectCreationPage";
