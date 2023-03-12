@@ -111,7 +111,7 @@ const columns = [
     { id: 8, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
     { id: 9, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
     { id: 10, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Approved'},
-    { id: 11, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
+    { id: 11, projectName: '5G', vendorName: 'Bitch Ass', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
   ];
   
 const Dashboard = () => {
@@ -120,7 +120,7 @@ const Dashboard = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <Box sx={{ height: 630,width:"80%",my:'50px', boxShadow:2}}
+        <Box sx={{ height: 632,width:990,my:'50px', boxShadow:2}}
         >
           <DataGrid
             rows={rows}
