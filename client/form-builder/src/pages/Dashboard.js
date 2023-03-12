@@ -120,7 +120,7 @@ const Dashboard = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <Box sx={{ height: 632,width:990,my:'50px', boxShadow:2}}
+        <Box sx={{ height: 631,width:990, boxShadow:2}}
         >
           <DataGrid
             rows={rows}
