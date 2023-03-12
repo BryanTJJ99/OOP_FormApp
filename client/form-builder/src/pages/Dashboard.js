@@ -4,6 +4,20 @@ import Link from '@mui/material/Link';
 import NameAvatar from '../components/Dashboard/NameAvatar';
 import StatusChip from '../components/Dashboard/StatusChip';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Card from '@mui/material/Card'
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import { styled } from '@mui/material/styles';
+
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
 const STATUS_OPTIONS = ["Filled","Approved","Reviewed","Rejected","PartiallyFilled","Approved"]
@@ -100,7 +114,7 @@ const columns = [
     
   ];
 
-  const rows = [
+const rows = [
     { id: 1, projectName: 'Cloud', vendorName: 'Kong Leong', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
     { id: 2, projectName: 'Cloud', vendorName: 'Justin', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Rejected'},
     { id: 3, projectName: 'DigiX', vendorName: 'Accenture', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'PartiallyFilled'},
@@ -114,31 +128,157 @@ const columns = [
     { id: 11, projectName: '5G', vendorName: 'Bitch Ass', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
   ];
   
-const Dashboard = () => {
-    return (
-      <Box 
-        display={"flex"}
-        justifyContent={"center"}
-      >
-        <Box sx={{ height: 631,width:990, boxShadow:2}}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 10,
-                },
-              },
-            }}
-            pageSizeOptions={[10]}
-            checkboxSelection={false}
-            disableRowSelectionOnClick
+const UserWidget = () => {
+  // to be dynamic
+  const totalUsers = 25
+  return (
+    <Box sx={{height: 300 ,padding:5}} 
+    variant="outlined">
+      <Typography variant="h4">
+        Total Users
+      </Typography>
+      <PeopleAltIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
+      <span style={{fontSize: "24px"}}>{totalUsers}</span>
+    </Box>
+  )
+}
+const ProjectWidget = () => {
+  // to be dynamic
+  const totalProjects = 11020
+  return (
+    <Box sx={{height: 300 ,padding:5}} 
+    variant="outlined">
+      <Typography variant="h4">
+        Total Projects
+      </Typography>
+      <FolderCopyIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
+      <span style={{fontSize: "24px"}}>{totalProjects}</span>
+    </Box>
+  )
+}
+
+
+const RecentUsersWidget = () => {
+  return (
+    <Box sx={{height: 300}} variant="outlined">
+      <Typography variant="h6" sx={{p:0 ,m:0}}>
+        Recently Added Users
+      </Typography>
+      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', my: 0, py:0}}>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <NameAvatar name="Remy Sharp"/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <React.Fragment>
+                <Typography
+                  sx={{ display: 'inline' }}
+                  component="span"
+                  variant="body2"
+                  color="text.primary"
+                >
+                  Ali Connors
+                </Typography>
+                {" — I'll be in your neighborhood doing errands this…"}
+              </React.Fragment>
+            }
           />
+        </ListItem>
+        <Divider variant="inset" component="li" />
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <NameAvatar name="Travis Howard" />
+          </ListItemAvatar>
+          <ListItemText
+            primary="Summer BBQ"
+            secondary={
+              <React.Fragment>
+                <Typography
+                  sx={{ display: 'inline' }}
+                  component="span"
+                  variant="body2"
+                  color="text.primary"
+                >
+                  to Scott, Alex, Jennifer
+                </Typography>
+                {" — Wish I could come, but I'm out of town this…"}
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+        <Divider variant="inset" component="li" />
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <NameAvatar name="Cindy Baker"/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Oui Oui"
+            secondary={
+              <React.Fragment>
+                <Typography
+                  sx={{ display: 'inline' }}
+                  component="span"
+                  variant="body2"
+                  color="text.primary"
+                >
+                  Sandra Adams
+                </Typography>
+                {' — Do you have Paris recommendations? Have you ever…'}
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+      </List>
+    </Box>
+  )
+}
+
+const Dashboard = () => {
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }))
+  return (
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
+      <Grid container spacing={2} style={{height:"100%"}}>
+        <Grid item xs={4}>
+          <Item><UserWidget/></Item>
+        </Grid>
+        <Grid item xs={4}>
+          <Item><ProjectWidget/></Item>
+        </Grid>
+        <Grid item xs={4}>
+          <Item><RecentUsersWidget/></Item>
+        </Grid>
+        <Grid item xs={12}>
+          <Item>
+            <Box sx={{ height: 631,width:1100, boxShadow:2}}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[10]}
+              checkboxSelection={false}
+              disableRowSelectionOnClick
+            />
             </Box>
-      </Box>
-    )
-};
+          </Item>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}
+
 
 export default Dashboard;
