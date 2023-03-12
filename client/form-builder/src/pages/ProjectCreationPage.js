@@ -31,14 +31,23 @@ const ProjectCreationPage = (props) => {
     //   }
     const handleProjectDataChange = (field, value) => {
         if (field === 'selectedForm') {
-          setProjectData(prevState => ({
-            ...prevState,
-            selectedForm: [...prevState.selectedForm, value]
-          }))
+            const foundIndex = projectData.selectedForm.findIndex(form => form.id === value.id);
+            if(foundIndex !== -1){
+                setProjectData(prevState => ({
+                    ...prevState,
+                    selectedForm: prevState.selectedForm.filter((_, index) => index !== foundIndex)
+                }));
+            }
+            else{
+                setProjectData(prevState => ({
+                    ...prevState,
+                    selectedForm: [...prevState.selectedForm, value]
+                }))
+            }
         } else {
           setProjectData({ ...projectData, [field]: value })
         }
-      }
+    }
     
     
 
