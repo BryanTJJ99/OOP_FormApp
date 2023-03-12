@@ -22,34 +22,17 @@ import Typography from '@mui/material/Typography';
 
 export default function FormTemplate(props) {
 
-  // const { handleProjectDataChange, projectData } = props;
-
-  // function addForm(){
-    
-  //   if(buttonName == "Select Form"){
-  //     setButtonName("Selected")
-  //     setButtonStyle({ margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" });
-  //     props.setSelectedForm( prevSelectedForm => [...prevSelectedForm , {'id': props.id, 'name': props.name}]);
-  //     props.handleSelectedFormDataChange('selectedForm',props.selectedForm)
-  //   }
-  //   else{
-  //     setButtonName("Select Form")
-  //     setButtonStyle({ margin: "auto", width: 300, color: "blue" });
-  //     // props.setSelectedForm(props.selectedForm.filter((id) => id !== props.id));
-  //     props.setSelectedForm(prevSelectedForms => prevSelectedForms.filter(form => form.id !== props.id));
-      
-  //   }
-  // }
-
-
+ 
   const addForm = (form) => {
     props.handleProjectDataChange('selectedForm', form)
+
   }
 
 
-  const [buttonName, setButtonName] = useState("Select Form");
-  const [buttonStyle, setButtonStyle] = useState({ margin: "auto", width: 300, color:"blue"})
   
+  const isInSelectedForm = props.projectData.selectedForm.some(form => form.id === props.id);
+  const buttonName = isInSelectedForm ? "Selected" : "Select Form";
+  const buttonStyle = isInSelectedForm ? { margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" } : { margin: "auto", width: 300, color:"blue"};
 
 
   return (
@@ -69,7 +52,7 @@ export default function FormTemplate(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button style={buttonStyle} onClick={() => addForm({"id":props.id, "name":props.name})}>{buttonName}</Button> 
+        <Button style={buttonStyle} onClick={() => addForm({"id":props.id, "name":props.name})}>{buttonName}</Button>
       </CardActions>
     </Card>
     {console.log(props.selectedForm)}
