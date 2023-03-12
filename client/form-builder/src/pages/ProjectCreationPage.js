@@ -26,9 +26,20 @@ const ProjectCreationPage = (props) => {
       })
 
 
+    // const handleProjectDataChange = (field, value) => {
+    //     setProjectData({ ...projectData, [field]: value })
+    //   }
     const handleProjectDataChange = (field, value) => {
-        setProjectData({ ...projectData, [field]: value })
+        if (field === 'selectedForm') {
+          setProjectData(prevState => ({
+            ...prevState,
+            selectedForm: [...prevState.selectedForm, value]
+          }))
+        } else {
+          setProjectData({ ...projectData, [field]: value })
+        }
       }
+    
     
 
 
@@ -64,12 +75,11 @@ const ProjectCreationPage = (props) => {
                 leave="transform duration-200 transition ease-in-out"
                 leaveFrom="opacity-100 rotate-0 scale-100 "
                 leaveTo="opacity-0 scale-95 "
-      
             >
             <ProjectCreationPage2 
                 setActivePage={setActivePage}
-                handleProjectDataChange={handleProjectDataChange} 
                 projectData={projectData}
+                handleProjectDataChange={handleProjectDataChange} 
             />
             </Transition>
             )}

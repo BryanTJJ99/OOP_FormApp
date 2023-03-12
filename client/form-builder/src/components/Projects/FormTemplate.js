@@ -22,22 +22,30 @@ import Typography from '@mui/material/Typography';
 
 export default function FormTemplate(props) {
 
+  // const { handleProjectDataChange, projectData } = props;
 
-  function addForm(){
+  // function addForm(){
     
-    if(buttonName == "Select Form"){
-      setButtonName("Selected")
-      setButtonStyle({ margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" });
-      props.setSelectedForm( prevSelectedForm => [...prevSelectedForm , {'id': props.id, 'name': props.name}]);
-    }
-    else{
-      setButtonName("Select Form")
-      setButtonStyle({ margin: "auto", width: 300, color: "blue" });
-      // props.setSelectedForm(props.selectedForm.filter((id) => id !== props.id));
-      props.setSelectedForm(prevSelectedForms => prevSelectedForms.filter(form => form.id !== props.id));
+  //   if(buttonName == "Select Form"){
+  //     setButtonName("Selected")
+  //     setButtonStyle({ margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" });
+  //     props.setSelectedForm( prevSelectedForm => [...prevSelectedForm , {'id': props.id, 'name': props.name}]);
+  //     props.handleSelectedFormDataChange('selectedForm',props.selectedForm)
+  //   }
+  //   else{
+  //     setButtonName("Select Form")
+  //     setButtonStyle({ margin: "auto", width: 300, color: "blue" });
+  //     // props.setSelectedForm(props.selectedForm.filter((id) => id !== props.id));
+  //     props.setSelectedForm(prevSelectedForms => prevSelectedForms.filter(form => form.id !== props.id));
       
-    }
+  //   }
+  // }
+
+
+  const addForm = (form) => {
+    props.handleProjectDataChange('selectedForm', form)
   }
+
 
   const [buttonName, setButtonName] = useState("Select Form");
   const [buttonStyle, setButtonStyle] = useState({ margin: "auto", width: 300, color:"blue"})
@@ -46,6 +54,7 @@ export default function FormTemplate(props) {
 
   return (
     <>
+    {console.log(props.projectData)}
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
@@ -60,7 +69,7 @@ export default function FormTemplate(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button style={buttonStyle} onClick={addForm}>{buttonName}</Button> 
+        <Button style={buttonStyle} onClick={() => addForm({"id":props.id, "name":props.name})}>{buttonName}</Button> 
       </CardActions>
     </Card>
     {console.log(props.selectedForm)}

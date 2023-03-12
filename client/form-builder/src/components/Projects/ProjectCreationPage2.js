@@ -92,7 +92,19 @@ const ProjectCreationPage2 = (props) => {
 
     const [formTemplate, setformTemplate] = useState(formTemplateData)
     const [filterValue, setFilterValue] = useState(props.filterValue)
-    const [selectedForm, setSelectedForm] = useState([]);
+    // const [selectedForm, setSelectedForm] = useState([]);
+
+
+    // const { handleProjectDataChange, projectData } = props;
+
+
+    // const handleSelectedFormDataChange = (field,value) => {
+    //   handleProjectDataChange(field,value);
+      
+    // }
+
+
+
 
 
     // For building filter logic
@@ -109,86 +121,33 @@ const ProjectCreationPage2 = (props) => {
       setformTemplate(filtered_forms)
     }
 
-    
-    // //For Carousell###################
-    // const responsive = {
-    //     superLargeDesktop: {
-    //       // the naming can be any, depends on you.
-    //       breakpoint: { max: 4000, min: 1024 },
-    //       items: 5,
-    //       slidesToSlide: 2,
-    //     },
-    //     desktop: {
-    //       breakpoint: { max: 1024, min: 800 },
-    //       items: 4,
-    //     },
-    //     tablet: {
-    //       breakpoint: { max: 800, min: 464 },
-    //       items: 2,
-    //     },
-    //     mobile: {
-    //       breakpoint: { max: 464, min: 0 },
-    //       items: 1,
-    //     },
-    //   };
-
-
-
-
-
+  
     // for table with cards######################
-
     const numRows = Math.ceil(formTemplate.length / 3);
     const rows = Array.from({ length: numRows }, (_, i) => formTemplate.slice(i * 3, i * 3 + 3));
-
-
 
 
 
   return (
     
     <>
-        {/* <button onClick={() => setIsShowing((isShowing) => !isShowing)}>
-        Toggle
-        </button>
-        <Transition
-        //   as={Fragment}
-          show={isShowing}
-          enter="transform transition duration-[400ms]"
-          enterFrom="opacity-0 rotate-[-120deg] scale-50"
-          enterTo="opacity-100 rotate-0 scale-100"
-          leave="transform duration-200 transition ease-in-out"
-          leaveFrom="opacity-100 rotate-0 scale-100 "
-          leaveTo="opacity-0 scale-95 "
-        > */}
 
         <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
             Add Form For Vendor
         </Typography>
         
 
-        {/* FOR CAROUSEL
-        <Carousel showDots={true} responsive={responsive}>
-            {formTemplate}
-        </Carousel> */}
-
-
-
 
       {/* For container showing forms that are selected */}
       <Fragment>
-  <CssBaseline />
-  <Container maxWidth="sm" style={{ backgroundColor:"#cfe8fc", borderRadius:"20px"}}>
-    Selected Form(s)<br></br>
-    {/* <Box sx={{ bgcolor: '#cfe8fc', height: '10vh' }} /> */}
-    {selectedForm.map((item) => (
-      <Chip label={item.name} />
-    ))}
-  </Container>
-</Fragment>
-
-
-
+        <CssBaseline />
+          <Container maxWidth="sm" style={{ backgroundColor:"#cfe8fc", borderRadius:"20px"}}>
+            Selected Form(s)<br></br>
+            {props.projectData.selectedForm.map((item) => (
+              <Chip label={item.name} />
+            ))}
+          </Container>
+      </Fragment>
 
 
         <br/>
@@ -220,18 +179,13 @@ const ProjectCreationPage2 = (props) => {
                         <TableRow key={rowIndex}>
                             {row.map((item, columnIndex) => (
                                 <TableCell key={columnIndex}>
-                                    {/* <Card>
-                                        <CardContent>
-                                            {item}
-                                        </CardContent>
-                                    </Card> */}
                                     <FormTemplate
                                               id = {item.id}
                                               name={item.name}
                                               url={item.imageurl}
                                               description={item.description}
-                                              setSelectedForm={setSelectedForm}
-                                              selectedForm={selectedForm}
+                                              projectData={props.projectData}
+                                              handleProjectDataChange={props.handleProjectDataChange}
                                               >
                                       {item}
                                     </FormTemplate>
@@ -254,8 +208,6 @@ const ProjectCreationPage2 = (props) => {
 
 
 
-
-
         <br/>
         <br/>
         
@@ -263,7 +215,6 @@ const ProjectCreationPage2 = (props) => {
 
         <Button onClick={() => props.setActivePage('3')} style={{ backgroundColor: '#a8c7f7', color: 'inherit', margin: 100,  height:50, width:150 }}>Next</Button>
 
-        {/* </Transition> */}
 
     </>
 

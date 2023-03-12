@@ -50,7 +50,7 @@ const ProjectCreationPage1 = (props) => {
         <br></br>
         <br></br>
         <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
-          Add Project
+          Create a new project
         </Typography>
         
 

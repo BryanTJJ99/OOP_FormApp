@@ -9,7 +9,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper
+    Paper,
+    Chip
   } from "@material-ui/core";
 
   import axios from "axios";
@@ -18,7 +19,7 @@ import {
 const ProjectCreationPage3 = (props) => {
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         // Handle form submission logic here
 
         // //to do URL
@@ -35,8 +36,6 @@ const ProjectCreationPage3 = (props) => {
         
     
     };
-
-
     
 
   return (
@@ -68,18 +67,18 @@ const ProjectCreationPage3 = (props) => {
                 </TableRow>
                 <TableRow>
                     <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Selected forms to fill</TableCell>
-                    <TableCell align='center'>State Selected forms to fill</TableCell>
+                    <TableCell align='center'>
+                        {props.selectedForm.map((item) => (
+                            <Chip label={item.name} />
+                        ))}
+                    </TableCell>
                 </TableRow>
 
             </TableBody>
         </Table>
     </TableContainer>
 
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
+
     <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#a8c7f7', height:50, width:150, margin: 100 }} >Back</Button>
 
     <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#a8c7f7', color: 'inherit',  height:50, width:150, margin: 100 }} >Submit</Button>
