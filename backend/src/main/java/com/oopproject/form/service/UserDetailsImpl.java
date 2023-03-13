@@ -43,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
 		// initialise authorities to empty list;
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		// add the role to the authorities list
-		authorities.add(new SimpleGrantedAuthority(user.getRole()));
+		authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
 
 		return new UserDetailsImpl(
 				user.getId(),
