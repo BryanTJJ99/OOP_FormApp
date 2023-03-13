@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+// import jakarta.validation.constraints.Email;
+// import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.Size;
 
 @Document(collection = "User")
 public class User {
@@ -19,46 +19,33 @@ public class User {
     // never be changed? can we do this with lombok? will there be risk of
     // accidentlly changing the id? idk. something to think about
 
-    @NotBlank
-    @Size(max = 20)
+    // @NotBlank
+    // @Size(max = 20)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    // @NotBlank
+    // @Size(max = 50)
+    // @Email
     private String email;
 
-    @NotBlank
-    @Size(max = 120)
+    // @NotBlank
+    // @Size(max = 120)
     private String password;
 
     private Roles role;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date created_at;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date deleted_at;
     // store timestamp when user is created in the ISO format
     @DocumentReference(lazy = true)
-    // @DBRef(lazy = true)
-    // @JsonIgnore
     private User created_by;
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    public User(String id, String username, String email, Roles role, String password, Date created_at,
-            User created_by) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.created_at = created_at;
-        this.created_by = created_by;
-    }
-
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+    public User() {
     }
 
     public String getId() {
@@ -117,11 +104,18 @@ public class User {
         this.role = role;
     }
 
+    public Date getDeleted_at() {
+        return deleted_at;
+    }
+
+    public void setDeleted_at(Date deleted_at) {
+        this.deleted_at = deleted_at;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", role="
                 + role + ", created_at=" + created_at + ", created_by=" + created_by + "]";
     }
-
 
 }
