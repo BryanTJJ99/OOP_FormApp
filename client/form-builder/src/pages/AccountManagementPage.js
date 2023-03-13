@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import {
@@ -47,6 +47,12 @@ const AccountManagementPage = () => {
                 return response.json();
             })
             .then((users) => {
+                users = users.filter((user) => {
+                    if (user.deleted_at) {
+                        return false;
+                    }
+                    return true;
+                });
                 setRows(users);
             });
     }, []);
@@ -136,8 +142,8 @@ const AccountManagementPage = () => {
 
             try {
                 // Make the HTTP request to save in the backend
-                await fetch("http://localhost:8080/api/admin/edit/user", {
-                    method: "PUT",
+                await fetch("http://localhost:8080/api/admin/user/edit", {
+                    method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -189,8 +195,8 @@ const AccountManagementPage = () => {
 
             try {
                 // Make the HTTP request to save in the backend
-                await fetch("http://localhost:8080/api/admin/delete/user", {
-                    method: "PUT",
+                await fetch("http://localhost:8080/api/admin/user/delete", {
+                    method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -200,8 +206,8 @@ const AccountManagementPage = () => {
                     children: "User successfully deleted",
                     severity: "success",
                 });
-                setDeleteRow(null);
                 setRows(rows.filter((row) => row.id !== deleteRow));
+                setDeleteRow(null);
             } catch (error) {
                 setSnackbar({
                     children: "Error: User could not be deleted",
@@ -250,7 +256,7 @@ const AccountManagementPage = () => {
             field: "role",
             headerName: "Role",
             type: "singleSelect",
-            valueOptions: ["Vendor", "Admin", "Approver"],
+            valueOptions: ["ROLE_VENDOR", "ROLE_ADMIN", "ROLE_APPROVER"],
             editable: true,
             flex: 1,
             minWidth: 100,

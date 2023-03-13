@@ -10,7 +10,9 @@ public interface AdminService {
 
     public User findByUsername(String username);
 
-    public User updateUser(String username, User updatedUser);
+    public User updateUser(User userToUpdate);
+
+    public User deleteUser(User userToDelete);
 
     public User addUser(User user);
 }
