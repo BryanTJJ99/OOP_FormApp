@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+// import jakarta.validation.constraints.Email;
+// import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.Size;
 
 @Document(collection = "User")
 public class User {
@@ -19,17 +19,17 @@ public class User {
     // never be changed? can we do this with lombok? will there be risk of
     // accidentlly changing the id? idk. something to think about
 
-    @NotBlank
-    @Size(max = 20)
+    // @NotBlank
+    // @Size(max = 20)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    // @NotBlank
+    // @Size(max = 50)
+    // @Email
     private String email;
 
-    @NotBlank
-    @Size(max = 120)
+    // @NotBlank
+    // @Size(max = 120)
     private String password;
 
     private String role;
