@@ -13,7 +13,7 @@ import FormView from "./pages/formView";
 import MiniDrawer from './components/Navbar/MiniDrawer'
 
 
-import { styled, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 
 
 import ProjectCreationPage from "./pages/ProjectCreationPage";
@@ -21,7 +21,13 @@ import ProjectCreationPage from "./pages/ProjectCreationPage";
 
 function App() {
     return (
-        <ThemeProvider theme = {theme}>
+        <>
+        <div>
+            <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"></link>
+        </div>
+        <ThemeProvider theme={theme}>
             <Router>
                 <MiniDrawer>
                 <Routes>
@@ -45,12 +51,16 @@ function App() {
                 </MiniDrawer>
             </Router>
         </ThemeProvider>
+        </>
     );
 }
 
 
 
-const theme = createTheme({
+let theme = createTheme({
+    typography:{
+        fontFamily: ['Poppins','sans-serif'].join(','),
+    },
     palette: {
         primary: {
             light: "#88CBED",
@@ -77,5 +87,5 @@ const theme = createTheme({
         tonalOffset: 0.2,
     }
 });
-
+theme = responsiveFontSizes(theme); //makes font responsive
 export default App;
