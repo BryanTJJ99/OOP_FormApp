@@ -15,7 +15,7 @@ const AccountCreationField = (props) => {
                 autoComplete: "off",
             }}
             onChange={(e) => {
-                accountDetails[props.field] = e.target.value;
+                accountDetails[props.field.toLowerCase()] = e.target.value;
                 props.setAccountDetails(accountDetails);
             }}
         />

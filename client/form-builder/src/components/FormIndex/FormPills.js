@@ -3,11 +3,11 @@ import { Chip, Box } from '@mui/material';
 
 const FormPills = (props) => { 
     const [pillArea, setPillArea] = useState(Array(0)); 
-    const statusColourMap = {complete: 'success', partial: 'warning', unfilled: 'danger'}
+    const statusColourMap = {complete: 'primary', partial: 'secondary', unfilled: 'cyan'}
 
     useEffect(() => { 
         let newPillArea = []; 
-        console.log(props.forms.formattedValue)
+        // console.log(props.forms.formattedValue)
         for (let form of props.forms.formattedValue) { 
             newPillArea.push(<Chip 
                                 label={form.name} 
@@ -19,7 +19,7 @@ const FormPills = (props) => {
                             />);
         }
         setPillArea(newPillArea);
-        console.log(pillArea)
+        // console.log(pillArea)
     }, []);
 
     return ( 

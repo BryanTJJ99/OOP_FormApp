@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import AccountCreationFields from "../components/AccountCreation/AccountCreationFields";
 import AccountCreationLogo from "../components/AccountCreation/AccountCreationLogo";
 import SubmitAccountCreation from "../components/AccountCreation/SubmitAccountCreation";
-// import SubmitAccountCreation from "../components/AccountCreation/SubmitAccountCreation";
 
 const AccountCreationPage = () => {
     const [accountDetails, setAccountDetails] = useState({});
