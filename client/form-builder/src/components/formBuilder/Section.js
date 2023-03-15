@@ -8,7 +8,7 @@ const Section = (props) => {
 
     return (
 
-        <div id={'Section' + props.sectionNum} className='mb-2 mt-4 d-flex'>
+        <div id={'Section' + props.sectionNum} className='mb-2 mt-4 '>
 
             <Box className="me-0 " sx={{ borderRadius: '8px', display: 'flex', bgcolor: 'secondary.light',height:'60px'}}>
                 <TextField variant='standard'  className=" bg-transparent text-white ms-3 my-auto" placeholder={sectionTitle} onChange={(event) => setSectionTitle(event.target.value)}></TextField>

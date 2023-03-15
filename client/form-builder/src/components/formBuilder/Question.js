@@ -42,7 +42,8 @@ const Question = (props) => {
     }, [questionType])
 
     return (
-        <div className="card mb-2" id={"Question" + props.questionNum}>
+        
+        <div className="card mb-2 w-100" id={"Question" + props.questionNum}>
             <div className="card-header d-flex justify-content-between align-items-center">
                 <div className="w-50">
                     {/* ken update the input to TextInput from MUI */}
@@ -92,6 +93,7 @@ const Question = (props) => {
                 </div>
             </div>
         </div>
+        
     )
 }
 

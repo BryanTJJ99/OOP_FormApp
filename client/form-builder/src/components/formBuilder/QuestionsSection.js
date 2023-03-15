@@ -38,12 +38,12 @@ const QuestionsSection = (props) => {
         <div className="d-flex align-items-start mt-3 w-75 mx-auto">
             <StickyBox>
                 <div className="ms-3 bg-light rounded mt-4 p-3">
-                    <Stack>
+                    <Stack >
                         <Button sx={{borderRadius:'10%'}}>
-                        <IconButton variant='contained' sx={{ bgcolor: 'primary' }} onClick={() => handleAddSection()}><PostAddIcon /></IconButton>
+                            <IconButton variant='contained' sx={{ bgcolor: 'primary' }} onClick={() => handleAddSection()}><PostAddIcon /></IconButton>
                         </Button>
                         <Button sx={{borderRadius:'10%',mt:1}}>
-                        <IconButton variant='contained'  onClick={() => handleAddQuestion()}><AddCircleOutlineOutlinedIcon /></IconButton>
+                            <IconButton variant='contained'  onClick={() => handleAddQuestion()}><AddCircleOutlineOutlinedIcon /></IconButton>
                         </Button>
                     </Stack>
                 </div>
