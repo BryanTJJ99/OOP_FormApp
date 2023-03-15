@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { randomColor, randomDesk, randomEmail, randomFeeRate, generateFilledQuantity, randomId, randomIncoterm, generateIsFilled, randomQuantity, randomTraderName, randomUnitPrice, randomUnitPriceCurrency, randomStatusOptions, randomPnL, randomTradeDate, randomMaturityDate, randomBrokerId, randomCompanyName, randomCountry, randomCurrency, randomAddress, randomCity, randomUpdatedDate, randomCreatedDate, randomRateType, randomContractType, randomTaxCode } from '@mui/x-data-grid-generator/services';
-import { renderCountry, renderAvatar, renderIncoterm, renderPnl, renderProgress, renderStatus, renderTotalPrice, renderEditCurrency, renderEditProgress, renderEditStatus, renderEditIncoterm } from '@mui/x-data-grid-generator/renderer';
-import { CONTRACT_TYPE_OPTIONS, COUNTRY_ISO_OPTIONS_SORTED, CURRENCY_OPTIONS, INCOTERM_OPTIONS, RATE_TYPE_OPTIONS, STATUS_OPTIONS, TAXCODE_OPTIONS } from '@mui/x-data-grid-generator/services/static-data';
-import { FormPills } from './index.js';
-import { lineHeight } from '@mui/system';
+import { Box, Button } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 //import moment from 'moment';
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
 
@@ -49,26 +43,22 @@ const FormTable = () => {
       ];
 
     return (
-      <Box sx={{ width: '80%', }}
-        display={"flex"}
-        justifyContent={"center"}
-        marginX={"auto"}
-      >
-        <DataGrid
-          autoHeight
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
+      <Box sx={{ width: '80%'}} marginX={"auto"}>
+          <DataGrid
+            autoHeight
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
               },
-            },
-          }}
-          pageSizeOptions={[10]}
-          checkboxSelection={false}
-          disableRowSelectionOnClick
-        />
+            }}
+            pageSizeOptions={[10]}
+            checkboxSelection={false}
+            disableRowSelectionOnClick
+          />
     </Box>
     )
 };

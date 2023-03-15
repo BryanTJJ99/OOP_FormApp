@@ -9,12 +9,10 @@ const LinearScale = (props) => {
         <div className="d-block">
             <div className="d-flex form-group input-group mb-3">
                 <div>
-                    <FormControl>
                     <Select value={minVal}  onChange={(event) => setMinVal(event.target.value)} label={minVal}>
                         <MenuItem value={0}>0</MenuItem>
                         <MenuItem value={1}>1</MenuItem>
                     </Select>
-                    </FormControl>
                 </div>
                 <label className="my-auto mx-3">to</label>
                 <div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { unmountComponentAtNode } from "react-dom";
 import { Choices, FileUpload, LinearScale, TextInput } from './index.js';
-import { TextField, Radio, IconButton, Button, InputLabel, Select, MenuItem, Box, FormControl } from '@mui/material';
+import { TextField, Radio, IconButton, Button, InputLabel, Select, MenuItem, Box, FormControl, Card } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Dangerous } from '@mui/icons-material';
 
@@ -8,7 +9,6 @@ import { Dangerous } from '@mui/icons-material';
 const Question = (props) => {
     const [questionType, setQuestionType] = useState('text');
     const [questionNum, setQuestionNum] = useState(0);
-    const [specialQuesSection, setSpecialQuesSection] = useState(0);
     const [questionTitle, setQuestionTitle] = useState('');
 
     function handleChangeQuestionType(value) {
@@ -16,11 +16,10 @@ const Question = (props) => {
     }
 
     let to_update;
-    useEffect(() => {
-        setSpecialQuesSection(0);
+    function updateSpecialQues() { 
         if (questionType === "radio" || questionType === "checkbox" || questionType === "dropdown") {
             // this.setState({specialQuesSection: <Choices/>})
-            to_update = <Choices questionType={questionType} questionNum={questionNum} />;
+            to_update = <Choices questionType={questionType} questionNum={questionNum} choicesList={Array(0)}/>;
         } else if (questionType === "file") {
             to_update = <FileUpload />;
         } else if (questionType === "scale") {
@@ -38,32 +37,28 @@ const Question = (props) => {
             }
             to_update = <TextInput value={textInputValue} label={textInputLabel} />;
         }
-        setSpecialQuesSection(to_update);
-    }, [questionType])
+        return to_update;
+    }
 
     return (
         
-        <div className="card mb-2 w-100" id={"Question" + props.questionNum}>
+        <Card id={"Question" + props.questionNum} className='mb-2'>
             <div className="card-header d-flex justify-content-between align-items-center">
-                <div className="w-50">
-                    {/* ken update the input to TextInput from MUI */}
-                    <input type="text" className="form-control" value={questionTitle} placeholder={`Question ${props.questionNum} Title`} onChange={(event) => setQuestionTitle(event.target.value)}></input>
+                <div className="d-flex w-75">
+                    <TextField variant='standard' placeholder={`Question ${props.questionNum} Title`} onChange={(event) => setQuestionTitle(event.target.value)} fullWidth></TextField>
                 </div>
-                <div className="d-flex">
-                    {/* bernice create the javascript for the move up and move down buttons */}
-                    <Button color='secondary'>Move up</Button>
-                    <Button color='secondary'>Move down</Button>
-                    <Button >
-                        <IconButton  ><DeleteIcon color='danger' /></IconButton>
-                    </Button>
-                </div>
+                <IconButton color='error' onClick={() => props.handleDeleteQuestion("Question" + props.questionNum)}>
+                    <DeleteIcon/>
+                </IconButton>
             </div>
             <div className="card-body">
                 <div className="form-group input-group mb-3">
-                    Question type:
+                    <div className="my-auto me-3"> 
+                        Question type:
+                    </div>
                     <FormControl>
-                        <Box sx={{ width: '25%' }}>
-                            <Select name="questionType" sx={{ height: '50px', ms: '3' }} placeholder="text" value={questionType} onChange={(event) => handleChangeQuestionType(event.target.value)}>
+                        <Box>
+                            <Select name="questionType" sx={{ height: '50px', width: 200, ms: '3' }} placeholder="text" value={questionType} onChange={(event) => handleChangeQuestionType(event.target.value)}>
                                 <MenuItem value="text">Short text</MenuItem>
                                 <MenuItem value="textarea">Paragraph</MenuItem>
                                 <MenuItem value="radio">Multiple choice</MenuItem>
@@ -75,8 +70,8 @@ const Question = (props) => {
                         </Box>
                     </FormControl>
                 </div>
-                <div className="form-group choices_section">
-                    {specialQuesSection}
+                <div className="form-group input-group">
+                    {updateSpecialQues()}
                 </div>
             </div>
             <div className="card-footer d-flex">
@@ -86,13 +81,13 @@ const Question = (props) => {
                         <label className="form-check-label">Required</label>
                     </div>
                     {/* bernice create the javascript for conditional questions */}
-                    <div className="form-check form-switch">
+                    {/* <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox"></input>
                         <label className="form-check-label">Conditional</label>
-                    </div>
+                    </div> */}
                 </div>
             </div>
-        </div>
+        </Card>
         
     )
 }

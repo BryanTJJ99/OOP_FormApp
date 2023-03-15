@@ -1,4 +1,4 @@
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { FormTable } from '../components/FormTemplateIndex/index.js';
 
@@ -13,9 +13,12 @@ const FormTemplateIndex = (props) => {
                 <Typography variant='h4'>View the Form Templates</Typography>
                 <Typography variant='p'>Click on the form templates below to see the forms that you will assign to vendors.</Typography>
             </div>
-
-            <Button variant="contained" color="primary" component="a" href="/FormBuilder">Create New Template</Button>
-            <FormTable/>
+            <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}}>
+                <Button variant="contained" color="primary" component="a" href="/FormBuilder">Create New Template</Button>
+            </Box>
+            <div>
+                <FormTable/>
+            </div>
         </div>
     );
 };
