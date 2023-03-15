@@ -84,6 +84,11 @@ let theme = createTheme({
             main: "#536dfe",
             contrastText: "#FFFFFF",
         },
+        grey: { 
+            light: "#d4d4d4", 
+            main: "#8f8f8f",
+            contrastText: "#000000",
+        },
 
         contrastThreshold: 3,
         tonalOffset: 0.2,

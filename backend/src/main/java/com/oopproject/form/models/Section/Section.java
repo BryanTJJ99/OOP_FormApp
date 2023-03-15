@@ -10,6 +10,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import com.oopproject.form.models.QuestionDeserializer;
 import com.oopproject.form.models.Question.Question;
 
 @Getter @Setter
@@ -25,6 +28,7 @@ public class Section {
     private Date deletedAt; 
     // assignedTo refers to 'admin', 'vendor', or 'approver'
     @DocumentReference
+    @JsonDeserialize(using = QuestionDeserializer.class)
     private List<Question> questions;
 
     public Section(String sectionId, String sectionName, String sectionDescription, String assignedTo, Date createdAt, Date updatedAt, Date deletedAt, List<Question> questions) {
@@ -35,36 +39,36 @@ public class Section {
         this.questions = questions;
     }
 
-    public String getSectionId() {
-        return sectionId;
-    }
+    // public String getSectionId() {
+    //     return sectionId;
+    // }
 
-    public void setSectionId(String sectionId) {
-        this.sectionId = sectionId;
-    }
+    // public void setSectionId(String sectionId) {
+    //     this.sectionId = sectionId;
+    // }
 
-    public String getSectionName() {
-        return sectionName;
-    }
+    // public String getSectionName() {
+    //     return sectionName;
+    // }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
-    }
+    // public void setSectionName(String sectionName) {
+    //     this.sectionName = sectionName;
+    // }
 
-    public String getAssignedTo() {
-        return assignedTo;
-    }
+    // public String getAssignedTo() {
+    //     return assignedTo;
+    // }
 
-    public void setUserAccess(String assignedTo) {
-        this.assignedTo = assignedTo;
-    }
+    // public void setUserAccess(String assignedTo) {
+    //     this.assignedTo = assignedTo;
+    // }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
+    // public List<Question> getQuestions() {
+    //     return questions;
+    // }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
+    // public void setQuestions(List<Question> questions) {
+    //     this.questions = questions;
+    // }
 
 }

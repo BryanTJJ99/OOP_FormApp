@@ -7,7 +7,6 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import AddIcon from '@mui/icons-material/Add';
 
 //Imports for material table with cards
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -22,7 +21,7 @@ import {
   TableRow,
   Paper,
   Chip
-} from "@material-ui/core";
+} from "@mui/material";
 
 
 
