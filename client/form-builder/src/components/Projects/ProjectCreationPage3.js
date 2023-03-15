@@ -1,17 +1,17 @@
 import React from 'react';
+
 import {
-    Button,
-    Card,
-    CardContent,
-    Table,
+    Chip, Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow,
-    Paper,
-    Chip
-  } from "@material-ui/core";
+    TableRow
+} from "@material-ui/core";
+
+import { Button, Typography } from '@mui/material'
+
+
 
   import axios from "axios";
 

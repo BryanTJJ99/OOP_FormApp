@@ -74,9 +74,8 @@ const ProjectCreationPage1 = (props) => {
         <TextField id="ProjectDescription" 
                     label='Project Description'
                     multiline={true}
-                    rows={8}
+                    rows={10}
                     fullWidth={true}
-                    maxRows={4}
                     style={{width: '800px'}}
                     onChange={handleProjectDescriptionChange}
                     value={projectData.projectDescription}
