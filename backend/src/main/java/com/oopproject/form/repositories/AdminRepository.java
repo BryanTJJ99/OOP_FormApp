@@ -8,4 +8,6 @@ public interface AdminRepository extends MongoRepository<User, String> {
 
     User findByUsername(String username);
 
+    User findUserById(String id);
+
 }

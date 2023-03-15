@@ -3,17 +3,24 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const SubmitAccountCreation = (props) => {
+    async function handleSubmit() {
+        console.log(props.accountDetails);
+        await fetch("http://localhost:8080/api/admin/user/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(props.accountDetails),
+        });
+        console.log("submitted");
+    }
     return (
         <Button
             component={Link}
             to={"/AccountManagement"}
             variant="contained"
             color="primary"
-            onClick={() => {
-                console.log("submitted");
-                console.log(props.accountDetails);
-                // this function will send the information to the backend to create a new user and then redirects user to account management page
-            }}
+            onClick={handleSubmit}
         >
             Submit
         </Button>

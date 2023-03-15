@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import {
@@ -27,18 +27,35 @@ import {
     GridActionsCellItem,
 } from "@mui/x-data-grid";
 
-const initialRows = [
-    { id: 1, username: "Snow", email: "Jon@email.com", role: "Vendor" },
-    { id: 2, username: "Lannister", email: "Cersei@email.com", role: "Vendor" },
-    { id: 3, username: "Lannister", email: "Jaime@email.com", role: "Admin" },
-    { id: 4, username: "Stark", email: "Arya@email.com", role: "Approver" },
-];
+// const initialRows = [
+//     { id: 1, username: "Snow", email: "Jon@email.com", role: "Vendor" },
+//     { id: 2, username: "Lannister", email: "Cersei@email.com", role: "Vendor" },
+//     { id: 3, username: "Lannister", email: "Jaime@email.com", role: "Admin" },
+//     { id: 4, username: "Stark", email: "Arya@email.com", role: "Approver" },
+// ];
 
 const AccountManagementPage = () => {
     const [snackbar, setSnackbar] = useState(null);
-    const [rows, setRows] = useState(initialRows);
+    const [rows, setRows] = useState([]);
     const [rowModesModel, setRowModesModel] = useState({});
     const [promiseArguments, setPromiseArguments] = useState(null);
+    const [deleteRow, setDeleteRow] = useState(null);
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/admin/allUsers")
+            .then((response) => {
+                return response.json();
+            })
+            .then((users) => {
+                users = users.filter((user) => {
+                    if (user.deleted_at) {
+                        return false;
+                    }
+                    return true;
+                });
+                setRows(users);
+            });
+    }, []);
 
     const handleCloseSnackbar = () => setSnackbar(null);
 
@@ -75,7 +92,8 @@ const AccountManagementPage = () => {
     };
 
     const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+        setDeleteRow(id);
+        // setRows(rows.filter((row) => row.id !== id));
     };
 
     const handleCancelClick = (id) => () => {
@@ -108,36 +126,44 @@ const AccountManagementPage = () => {
         []
     );
 
-    const handleNo = () => {
-        const { oldRow, resolve } = promiseArguments;
-        resolve(oldRow); // Resolve with the old row to not update the internal state
-        setPromiseArguments(null);
-    };
-
-    const handleYes = async () => {
-        const { newRow, oldRow, reject, resolve } = promiseArguments;
-
-        try {
-            // Make the HTTP request to save in the backend
-            // const response = await mutateRow(newRow);
-            setSnackbar({
-                children: "User successfully saved",
-                severity: "success",
-            });
-            // resolve(response);
-            resolve(newRow);
-            setPromiseArguments(null);
-        } catch (error) {
-            setSnackbar({ children: "Name can't be empty", severity: "error" });
-            reject(oldRow);
-            setPromiseArguments(null);
-        }
-    };
-
     const renderConfirmDialog = () => {
         if (!promiseArguments) {
             return null;
         }
+
+        const handleNo = () => {
+            const { oldRow, resolve } = promiseArguments;
+            resolve(oldRow); // Resolve with the old row to not update the internal state
+            setPromiseArguments(null);
+        };
+
+        const handleYes = async () => {
+            const { newRow, oldRow, reject, resolve } = promiseArguments;
+
+            try {
+                // Make the HTTP request to save in the backend
+                await fetch("http://localhost:8080/api/admin/user/edit", {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newRow),
+                });
+                setSnackbar({
+                    children: "User successfully saved",
+                    severity: "success",
+                });
+                resolve(newRow);
+                setPromiseArguments(null);
+            } catch (error) {
+                setSnackbar({
+                    children: "Fields can't be empty",
+                    severity: "error",
+                });
+                reject(oldRow);
+                setPromiseArguments(null);
+            }
+        };
 
         const { newRow, oldRow } = promiseArguments;
         const mutations = computeMutation(newRow, oldRow);
@@ -151,6 +177,60 @@ const AccountManagementPage = () => {
                 <DialogActions>
                     <Button onClick={handleNo}>No</Button>
                     <Button onClick={handleYes}>Yes</Button>
+                </DialogActions>
+            </Dialog>
+        );
+    };
+
+    const renderDeleteDialog = () => {
+        if (!deleteRow) {
+            return null;
+        }
+        const handleCancelDelete = () => {
+            setDeleteRow(null);
+        };
+
+        const handleConfirmDelete = async () => {
+            const userToDelete = rows.filter((row) => row.id === deleteRow)[0];
+
+            try {
+                // Make the HTTP request to save in the backend
+                await fetch("http://localhost:8080/api/admin/user/delete", {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userToDelete),
+                });
+                setSnackbar({
+                    children: "User successfully deleted",
+                    severity: "success",
+                });
+                setRows(rows.filter((row) => row.id !== deleteRow));
+                setDeleteRow(null);
+            } catch (error) {
+                setSnackbar({
+                    children: "Error: User could not be deleted",
+                    severity: "error",
+                });
+                setDeleteRow(null);
+            }
+        };
+        const userToDelete = rows.filter((row) => row.id === deleteRow)[0];
+
+        return (
+            <Dialog maxWidth="xs" open={!!deleteRow}>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogContent dividers>
+                    {`Pressing 'Delete' will delete user with 
+                    ID: ${userToDelete.id}
+                    Username: ${userToDelete.username}
+                    Email: ${userToDelete.email}
+                    Role: ${userToDelete.role}`}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancelDelete}>No</Button>
+                    <Button onClick={handleConfirmDelete}>Yes</Button>
                 </DialogActions>
             </Dialog>
         );
@@ -176,7 +256,7 @@ const AccountManagementPage = () => {
             field: "role",
             headerName: "Role",
             type: "singleSelect",
-            valueOptions: ["Vendor", "Admin", "Approver"],
+            valueOptions: ["ROLE_VENDOR", "ROLE_ADMIN", "ROLE_APPROVER"],
             editable: true,
             flex: 1,
             minWidth: 100,
@@ -255,6 +335,7 @@ const AccountManagementPage = () => {
                 }}
             >
                 {renderConfirmDialog()}
+                {renderDeleteDialog()}
                 <DataGrid
                     rows={rows}
                     columns={columns}

@@ -3,7 +3,7 @@ import AccountCreationField from "./AccountCreationField";
 import RoleSelect from "./RoleSelect";
 
 const AccountCreationFields = (props) => {
-    const fields = ["Name", "Email"];
+    const fields = ["Username", "Email"];
 
     let textFields = fields.map((field) => {
         return (
