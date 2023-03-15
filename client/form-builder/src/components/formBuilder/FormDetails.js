@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 const FormDetails = () => { 
     return ( 
-        <div className='mx-5 mt-3'>
-            <div className='card'>
+        
+        <div className='mx-5 mt-3 d-flex justify-content-center w-100'>
+            <div className='card' >
                 <div className='card-header bg-light rounded'> 
                     <div className='form-group mt-3'>
                         <label>Form Title:</label>
@@ -16,6 +17,7 @@ const FormDetails = () => {
                 </div>
             </div>
         </div>
+        
     )
 }
 
