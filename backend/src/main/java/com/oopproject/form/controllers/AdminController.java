@@ -13,7 +13,7 @@ import com.oopproject.form.service.AdminService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController extends UserController {
 
     @Autowired
@@ -24,32 +24,32 @@ public class AdminController extends UserController {
     @CrossOrigin
     public List<User> getAllUsers() {
         return adminService.findAllUsers();
+
     }
 
-    // @GetMapping("/user/{username}")
-    // @CrossOrigin
-    // public User getUser(@PathVariable String username) {
-    // return adminService.findByUsername(username);
-    // }
+    @GetMapping("/user/{username}")
+    @CrossOrigin
+    public User getUser(@PathVariable String username) {
+        return adminService.findByUsername(username);
+    }
 
-    @PostMapping("/create-user")
+    @PostMapping("user/create")
     @CrossOrigin
     public User addUser(@RequestBody User user) {
         user.setCreated_at(new Date());
         return adminService.addUser(user);
     }
 
-    // @PostMapping("/create-admin")
-    // @CrossOrigin
-    // public User addAdmin(@RequestBody Admin admin) {
-    // admin.setCreated_at(new Date());
-    // return adminService.addUser(admin);
-    // }
+    @PatchMapping("user/edit")
+    @CrossOrigin
+    public User updateUser(@RequestBody User updatedUser) {
+        return adminService.updateUser(updatedUser);
+    }
 
-    // @PatchMapping("/user/{username}/update")
-    // public User updateUser(@PathVariable String username, @RequestBody User
-    // updatedUser) {
-    // return adminService.updateUser(username, updatedUser);
-    // }
+    @PatchMapping("user/delete")
+    @CrossOrigin
+    public User deleteUser(@RequestBody User deletedUser) {
+        return adminService.deleteUser(deletedUser);
+    }
 
 }

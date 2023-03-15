@@ -13,6 +13,7 @@ import FormView from "./pages/formView";
 import MiniDrawer from './components/Navbar/MiniDrawer'
 import ClientVendorProfile from "./pages/clientVendorProfile";
 
+
 import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 
 
@@ -40,7 +41,7 @@ function App() {
                         path="/AccountCreation"
                         element={<AccountCreationPage />}
                     />
-                    <Route path="/projectCreationPage" element={<ProjectCreationPage/>}/>
+                    <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                     <Route path="/Settings" element={<Settings />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
