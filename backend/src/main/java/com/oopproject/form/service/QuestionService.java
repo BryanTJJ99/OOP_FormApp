@@ -1,18 +1,11 @@
 package com.oopproject.form.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import com.oopproject.form.models.Question.Question;
-import com.oopproject.form.repositories.QuestionRepository;
 
-@Service
-public class QuestionService {
-    @Autowired
-    QuestionRepository questionRepository;
+public interface QuestionService {
+    public Optional<Question> getQuestionById(String id);
 
-    public Question addQuestion(Question question) {
-        System.out.println("add question");
-        return questionRepository.save(question);
-    }
+    public void addQuestion(Question question);
 }

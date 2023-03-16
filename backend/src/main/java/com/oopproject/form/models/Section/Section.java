@@ -10,10 +10,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import com.oopproject.form.models.QuestionDeserializer;
+import com.oopproject.form.models.SectionListDeserializer;
 import com.oopproject.form.models.Question.Question;
+import com.oopproject.form.models.FormTemplate.FormTemplate;
 
 @Getter @Setter
 @Document(collection = "Section")
@@ -30,14 +33,16 @@ public class Section {
     @DocumentReference
     @JsonDeserialize(using = QuestionDeserializer.class)
     private List<Question> questions;
+    // @JsonBackReference
+    // private FormTemplate formTemplate; 
 
-    public Section(String sectionId, String sectionName, String sectionDescription, String assignedTo, Date createdAt, Date updatedAt, Date deletedAt, List<Question> questions) {
-        this.sectionId = sectionId;
-        this.sectionName = sectionName;
-        this.sectionDescription = sectionDescription; 
-        this.assignedTo = assignedTo;
-        this.questions = questions;
-    }
+    // public Section(String sectionId, String sectionName, String sectionDescription, String assignedTo, Date createdAt, Date updatedAt, Date deletedAt, List<Question> questions) {
+    //     this.sectionId = sectionId;
+    //     this.sectionName = sectionName;
+    //     this.sectionDescription = sectionDescription; 
+    //     this.assignedTo = assignedTo;
+    //     this.questions = questions;
+    // }
 
     // public String getSectionId() {
     //     return sectionId;
