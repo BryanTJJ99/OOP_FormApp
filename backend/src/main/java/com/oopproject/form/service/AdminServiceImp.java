@@ -24,6 +24,7 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
 
     @Override
     public User findByUsername(String username) {
+        // System.out.println("admin service imp: " + username);
         return adminRepository.findByUsername(username);
     }
 

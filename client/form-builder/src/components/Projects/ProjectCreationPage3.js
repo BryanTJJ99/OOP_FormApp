@@ -1,15 +1,23 @@
 import React from 'react';
 
-import {
-    Chip, Table,
+// import {
+//     Chip, Table,
+//     TableBody,
+//     TableCell,
+//     TableContainer,
+//     TableHead,
+//     TableRow
+// } from "@material-ui/core";
+
+import { Button, 
+    Typography,
+    Chip, 
+    Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow
-} from "@material-ui/core";
-
-import { Button, Typography } from '@mui/material'
+    TableRow } from '@mui/material'
 
 
 
@@ -40,7 +48,9 @@ const ProjectCreationPage3 = (props) => {
 
   return (
     <>
-    <div>ProjectCreationPage3</div>
+    <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
+        View Summary
+    </Typography>
     <br></br>
     <br></br>
     <br></br>
@@ -79,7 +89,7 @@ const ProjectCreationPage3 = (props) => {
     </TableContainer>
 
 
-    <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#a8c7f7', height:50, width:150, margin: 100 }} >Back</Button>
+    <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#a8c7f7', color: 'inherit', height:50, width:150, margin: 100 }} >Back</Button>
 
     <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#a8c7f7', color: 'inherit',  height:50, width:150, margin: 100 }} >Submit</Button>
 
