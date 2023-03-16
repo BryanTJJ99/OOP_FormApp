@@ -1,6 +1,6 @@
 package com.oopproject.form.controllers;
 
-// import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,26 +10,20 @@ import com.oopproject.form.service.QuestionService;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/question")
 public class QuestionController {
-
     @Autowired
     private QuestionService questionService;
 
-    // @GetMapping("/{formId}/questions")
-    // @CrossOrigin
-    // public List<Question> getAllQuestions(@PathVariable String username) {
-    // return QuestionService.findAllQuestions();
-    // }
-
-    @PostMapping("/create-question")
+    @GetMapping("/{id}")
     @CrossOrigin
-    public Question addQuestion(@RequestBody Question question) {
-        return questionService.addQuestion(question);
+    public Optional<Question> getQuestionById(@PathVariable String id) { 
+        return questionService.getQuestionById(id); 
     }
 
-    // @PatchMapping("/user/{username}/update")
-    // public User updateUser(@PathVariable String username, @RequestBody User
-    // updatedUser) {
-    // return UserService.updateUser(username, updatedUser);
-    // }
+    @PostMapping("/create")
+    @CrossOrigin
+    public void createQuestion(@RequestBody Question question) { 
+        questionService.addQuestion(question);
+    }
 }

@@ -14,11 +14,11 @@ public class MultiSelectQuestion extends Question {
     @DocumentReference
     private List<Choice> choices;
 
-    public MultiSelectQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
-            Date createdAt, Date updatedAt, Date deletedAt, List<Choice> choices) {
-        super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
-        this.choices = choices; 
-    }
+    // public MultiSelectQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
+    //         Date createdAt, Date updatedAt, Date deletedAt, List<Choice> choices) {
+    //     super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
+    //     this.choices = choices; 
+    // }
 
     // public List<Choice> getChoices() {
     //     return choices;
