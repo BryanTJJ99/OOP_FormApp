@@ -18,8 +18,7 @@ import { Button,
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
-    Chip
+    Paper
   } from "@mui/material";
 
   import axios from "axios";

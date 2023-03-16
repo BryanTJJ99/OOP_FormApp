@@ -19,11 +19,7 @@ const ProjectCreationPage1 = (props) => {
   //   handleProjectDataChange('vendorCompanyName', e.target.value);
   // }
   const handleVendorCompanyNameChange = (value) => {
-    if (value) {
       handleProjectDataChange('vendorCompanyName', value.username);
-    } else {
-      handleProjectDataChange('vendorCompanyName', value.username);
-    }
   };
     
   const handleProjectDescriptionChange = (e) => {
@@ -32,12 +28,10 @@ const ProjectCreationPage1 = (props) => {
 
 
   
-  const apiUrl = 'http://localhost:8080/api/admin/allUsers';
-
+  
 
   const [vendorData, setVendorData] = useState([]);
-
-  // let vendorData;
+  const apiUrl = 'http://localhost:8080/api/admin/allUsers';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +54,8 @@ const ProjectCreationPage1 = (props) => {
   
 
 
-  //for Next button
+  //logic for Next button
+  //Ken Ming
   const [projectNameEntered, setProjectNameEntered] = useState(true);
   const [vendorCompanyNameEntered, setVendorCompanyNameEntered] = useState(true);
   const handleNextButtonClick = () => {
@@ -139,6 +134,8 @@ const ProjectCreationPage1 = (props) => {
         Next
         </Button>
 
+
+        {/* Ken Ming */}
         {!projectNameEntered && <h3>Please Enter Project Name</h3>}
         {!vendorCompanyNameEntered && <h3>Please Enter Vendor Company Name</h3>}
 
