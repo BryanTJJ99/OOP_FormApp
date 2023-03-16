@@ -13,20 +13,20 @@ public class FileQuestion extends Question {
     private String fileType;
     private byte[] data;
 
-    public FileQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
-            Date createdAt, Date updatedAt, Date deletedAt, String fileName, String fileType, byte[] data) {
-        super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
-        this.fileName = fileName; 
-        this.fileType = fileType;
-        this.data = data;
-    }
+    // public FileQuestion(String questionId, int questionOrder, String questionTitle, String questionType, boolean isRequired, String conditionalParentId, String conditionalParentCondition,
+    //         Date createdAt, Date updatedAt, Date deletedAt, String fileName, String fileType, byte[] data) {
+    //     super(questionId, questionOrder, questionTitle, questionType, isRequired, conditionalParentId, conditionalParentCondition, createdAt, updatedAt, deletedAt);
+    //     this.fileName = fileName; 
+    //     this.fileType = fileType;
+    //     this.data = data;
+    // }
 
-    public byte[] getData() {
-        return data;
-    }
+    // public byte[] getData() {
+    //     return data;
+    // }
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+    // public void setData(byte[] data) {
+    //     this.data = data;
+    // }
 
 }

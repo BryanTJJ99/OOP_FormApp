@@ -11,14 +11,21 @@ import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
 import MiniDrawer from './components/Navbar/MiniDrawer'
+import ClientVendorProfile from "./pages/clientVendorProfile";
 
 
-import { styled, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 
 
 function App() {
     return (
-        <ThemeProvider theme = {theme}>
+        <>
+        <div>
+            <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"></link>
+        </div>
+        <ThemeProvider theme={theme}>
             <Router>
                 <MiniDrawer>
                 <Routes>
@@ -37,17 +44,22 @@ function App() {
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
                     <Route path='/FormResponses' element={<FormResponseIndex />} />
                     <Route path="/FormBuilder" element={<FormBuilder />} />
-                    <Route path="/FormView" element={<FormView />} /> */}
+                    <Route path="/FormView" element={<FormView />} />
+                    <Route path="/ClientVendorProfile" element = {<ClientVendorProfile/>}/>
                 </Routes>
                 </MiniDrawer>
             </Router>
         </ThemeProvider>
+        </>
     );
 }
 
 
 
-const theme = createTheme({
+let theme = createTheme({
+    typography:{
+        fontFamily: ['Poppins','sans-serif'].join(','),
+    },
     palette: {
         primary: {
             light: "#88CBED",
@@ -69,10 +81,15 @@ const theme = createTheme({
             main: "#536dfe",
             contrastText: "#FFFFFF",
         },
+        grey: { 
+            light: "#d4d4d4", 
+            main: "#8f8f8f",
+            contrastText: "#000000",
+        },
 
         contrastThreshold: 3,
         tonalOffset: 0.2,
     }
 });
-
+theme = responsiveFontSizes(theme); //makes font responsive
 export default App;
