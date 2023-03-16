@@ -19,9 +19,9 @@ const Choice = (props, handleDeleteChoice) => {
     return (
         <div id={'Question' + props.questionNum + 'Choice' + props.choiceNum} className="input-group d-flex mb-3 choice" >
             {icon}
-            <TextField className="mb-3" variant='standard' label="" placeholder={'Option ' + Number(props.choiceNum+1)} >
+            <TextField className="mb-3 w-75" variant='standard' label="" placeholder={'Option ' + Number(props.choiceNum+1)} >
             </TextField>
-            <IconButton onClick={() => props.handleDeleteChoice(props.choiceNum)} ><DeleteIcon /></IconButton>
+            <IconButton color='error' onClick={() => props.handleDeleteChoice(props.choiceNum)} ><DeleteIcon /></IconButton>
         </div>
     )
 

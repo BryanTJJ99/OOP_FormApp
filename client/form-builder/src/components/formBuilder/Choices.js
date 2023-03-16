@@ -6,7 +6,6 @@ const Choices = (props) => {
     const [choiceNum, setChoiceNum] = useState(0);
     const [choicesList, setChoicesList] = useState(Array(0));
     const [choicesOrder, setChoicesOrder] = useState({});
-    const [firstChoiceRendered, setFirstChoiceRendered] = useState(false); 
     const [choiceToDelete, setChoiceToDelete] = useState(null);
 
     function renderChoice() { 
@@ -36,16 +35,8 @@ const Choices = (props) => {
     }
 
     useEffect(() => {
-        console.log(choiceToDelete, choicesList)
         const copyChoicesList = choicesList.filter((choice) => parseInt(choice.props.choiceNum) !== choiceToDelete)
         setChoicesList(copyChoicesList);
-        // const newChoicesOrder = {}; 
-        // let order = 1;
-        // for (let choice of choicesList) { 
-        //     console.log(choice.props.choiceNum);
-        //     newChoicesOrder[choice.props.choiceNum] = order; 
-        //     order++;
-        // }
     }, [choiceToDelete])
 
     // function getChoiceOrder(choiceKey) { 
@@ -62,15 +53,12 @@ const Choices = (props) => {
     // }
 
     useEffect(() => { 
-        if (!firstChoiceRendered) { 
-            setFirstChoiceRendered(true); 
-            let firstChoice = renderChoice();
-            setChoicesList(choicesList => [firstChoice]);
-        }
+        let firstChoice = renderChoice();
+        setChoicesList(choicesList => [firstChoice]);
     }, [])
 
     return (
-        <div className="d-block">
+        <div className="d-block w-100" key={props.questionType}>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <label className="my-auto">Choices</label>
                 

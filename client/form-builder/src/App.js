@@ -11,6 +11,7 @@ import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
 import MiniDrawer from './components/Navbar/MiniDrawer'
+import ClientVendorProfile from "./pages/clientVendorProfile";
 
 
 import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
@@ -47,6 +48,7 @@ function App() {
                     <Route path='/FormResponses' element={<FormResponseIndex />} />
                     <Route path="/FormBuilder" element={<FormBuilder />} />
                     <Route path="/FormView" element={<FormView />} />
+                    <Route path="/ClientVendorProfile" element = {<ClientVendorProfile/>}/>
                 </Routes>
                 </MiniDrawer>
             </Router>
@@ -81,6 +83,11 @@ let theme = createTheme({
             light: "#8c9eff",
             main: "#536dfe",
             contrastText: "#FFFFFF",
+        },
+        grey: { 
+            light: "#d4d4d4", 
+            main: "#8f8f8f",
+            contrastText: "#000000",
         },
 
         contrastThreshold: 3,

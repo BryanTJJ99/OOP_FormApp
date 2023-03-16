@@ -21,19 +21,19 @@ public class ScaleQuestion extends Question {
         this.maxLabel = maxLabel; 
     }
 
-    public int getMinValue() {
-        return minValue;
-    }
+    // public int getMinValue() {
+    //     return minValue;
+    // }
 
-    public void setMinValue(int minValue) {
-        this.minValue = minValue;
-    }
+    // public void setMinValue(int minValue) {
+    //     this.minValue = minValue;
+    // }
 
-    public int getMaxValue() {
-        return maxValue;
-    }
+    // public int getMaxValue() {
+    //     return maxValue;
+    // }
 
-    public void setMaxValue(int maxValue) {
-        this.maxValue = maxValue;
-    }
+    // public void setMaxValue(int maxValue) {
+    //     this.maxValue = maxValue;
+    // }
 }
