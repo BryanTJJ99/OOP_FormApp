@@ -62,8 +62,18 @@ const ProjectCreationPage1 = (props) => {
     if (projectData.projectName && projectData.vendorCompanyName) {
       props.setActivePage('2');
     } else {
-      setProjectNameEntered(false);
-      setVendorCompanyNameEntered(false);
+      if(projectData.projectName == ""){
+        setProjectNameEntered(false);
+      }
+      else{
+        setProjectNameEntered(true);
+      }
+      if(projectData.vendorCompanyName == "" || projectData.vendorCompanyName == null){
+        setVendorCompanyNameEntered(false);
+      }
+      else{
+        setVendorCompanyNameEntered(true);
+      }
     }
   };
 

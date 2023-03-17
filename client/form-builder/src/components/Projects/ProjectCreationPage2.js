@@ -22,6 +22,7 @@ import {
   Paper,
   Chip
 } from "@mui/material";
+import FullScreenDialog from './CustomPopUp';
 
 
 
@@ -114,8 +115,6 @@ const ProjectCreationPage2 = (props) => {
     const numRows = Math.ceil(formTemplate.length / 3);
     const rows = Array.from({ length: numRows }, (_, i) => formTemplate.slice(i * 3, i * 3 + 3));
 
-
-
   return (
     
     <>
@@ -148,12 +147,14 @@ const ProjectCreationPage2 = (props) => {
                     <TableRow>
                         <TableCell style={{textAlign: "center"}}>
                           
-                            <Button style={{ backgroundColor: '#A5DEB8', height:50, width:250 }}>
+                            {/* <Button style={{ backgroundColor: '#A5DEB8', height:50, width:250 }} onClick={() => setOpen(true)}>
                               <Typography variant="h10" style={{ fontFamily: 'Arial', color:'black' }}>
                                 <AddIcon></AddIcon>
                                   Create Custom Form
                               </Typography>
-                            </Button>
+                            </Button> */}
+                        <FullScreenDialog projectData={props.projectData} handleProjectDataChange={props.handleProjectDataChange}></FullScreenDialog>
+
                         </TableCell>
                         <TableCell></TableCell>
                         <TableCell>
