@@ -9,14 +9,14 @@ const LinearScale = (props) => {
         <div className="d-block">
             <div className="d-flex form-group input-group mb-3">
                 <div>
-                    <Select value={minVal}  onChange={(event) => setMinVal(event.target.value)} label={minVal}>
+                    <Select name={props.questionId + 'minValue'} value={minVal} onChange={(event) => setMinVal(event.target.value)}>
                         <MenuItem value={0}>0</MenuItem>
                         <MenuItem value={1}>1</MenuItem>
                     </Select>
                 </div>
                 <label className="my-auto mx-3">to</label>
                 <div>
-                    <Select value={maxVal} onChange={(event) => setMaxVal(event.target.value)} label={minVal}>
+                    <Select name={props.questionId + 'maxValue'} value={maxVal} onChange={(event) => setMaxVal(event.target.value)}>
                         <MenuItem value={2}>2</MenuItem>
                         <MenuItem value={3}>3</MenuItem>
                         <MenuItem value={4}>4</MenuItem>
@@ -33,8 +33,8 @@ const LinearScale = (props) => {
                 <div>
                 <Box sx={{ display: 'flex', mt:3 }}>
                         <Box sx={{mt:1, mr:2}}>{minVal}</Box>
-                        <div class='d-block'>
-                            <TextField variant='standard' placeholder="Min value label"></TextField>
+                        <div className='d-block'>
+                            <TextField name={props.questionId + 'minLabel'} variant='standard' placeholder="Min value label" required></TextField>
                         </div>
                     </Box>
                 </div>
@@ -42,8 +42,8 @@ const LinearScale = (props) => {
                 
                     <Box sx={{ display: 'flex', mt:3 }}>
                         <Box sx={{mt:1, mr:2}}>{maxVal}</Box>
-                        <div class='d-block'>
-                            <TextField variant='standard' placeholder="Max value label"></TextField>
+                        <div className='d-block'>
+                            <TextField name={props.questionId + 'maxLabel'} variant='standard' placeholder="Max value label" required></TextField>
                         </div>
                     </Box>
                 </div>

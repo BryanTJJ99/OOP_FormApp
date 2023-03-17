@@ -10,6 +10,7 @@ import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
+import FormResponse from "./pages/formResponse";
 import MiniDrawer from './components/Navbar/MiniDrawer'
 import ClientVendorProfile from "./pages/clientVendorProfile";
 
@@ -48,6 +49,7 @@ function App() {
                     <Route path='/FormResponses' element={<FormResponseIndex />} />
                     <Route path="/FormBuilder" element={<FormBuilder />} />
                     <Route path="/FormView" element={<FormView />} />
+                    <Route path="/FormResponse" element={<FormResponse />} />
                     <Route path="/ClientVendorProfile" element = {<ClientVendorProfile/>}/>
                 </Routes>
                 </MiniDrawer>

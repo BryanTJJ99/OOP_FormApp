@@ -32,8 +32,6 @@ const QuestionsSection = (props) => {
     }
 
     useEffect(() => { 
-        console.log("povfkopvk")
-        console.log(questionArea)
         const copyQuestionArea = questionArea.filter((quesSec) => quesSec.key !== quesSecDelete)
         setQuestionArea(copyQuestionArea);
     }, [quesSecDelete])
@@ -47,7 +45,6 @@ const QuestionsSection = (props) => {
     }
 
     useEffect(() => {
-        console.log("uoewfn")
         let newQuestionArea = [<Section sectionNum={sectionNumber} key={'Section' + sectionNumber}  handleDeleteSection={handleDeleteQuesSec}/>, 
                                 <Question questionNum={questionNumber} key={'Question' + questionNumber}  handleDeleteQuestion={handleDeleteQuesSec}/>];
         let newSectionNumber = sectionNumber + 1;
@@ -55,8 +52,11 @@ const QuestionsSection = (props) => {
         let newQuestionNumber = questionNumber + 1;
         setQuestionNumber(newQuestionNumber);
         setQuestionArea(newQuestionArea);
-        console.log(questionArea)
     }, [])
+
+    useEffect(() => { 
+        props.handleQuesSecUpdate(questionArea);
+    }, [questionArea])
 
     return (
         <div className="d-flex align-items-start mt-3 w-75 mx-auto">
