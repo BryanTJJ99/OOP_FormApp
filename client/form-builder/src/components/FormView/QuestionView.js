@@ -33,6 +33,10 @@ const QuestionView = (props) => {
         } else if (questionType === 'textarea') { 
             return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} multiline rows={4}></TextField>
         } else if (questionType === 'radio') { 
+            let choices = Array(0);
+            for (let i=0; i<props.question.choices.length; i++) { 
+                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} />)
+            }
             return (
                 <FormControl sx={{width: '100%'}}>
                     <RadioGroup
@@ -40,23 +44,27 @@ const QuestionView = (props) => {
                         defaultValue="female"
                         name="radio-buttons-group"
                     >
-                        <FormControlLabel value="female" control={<Radio />} label="Female" />
-                        <FormControlLabel value="male" control={<Radio />} label="Male" />
-                        <FormControlLabel value="other" control={<Radio />} label="Other" />
+                        {choices}
                     </RadioGroup>
                 </FormControl>
             )
         } else if (questionType === 'checkbox') { 
+            let choices = Array(0);
+            for (let i=0; i<props.question.choices.length; i++) { 
+                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} />)
+            }
             return (
                 <FormControl sx={{width: '100%'}}>
                     <FormGroup>
-                        <FormControlLabel value="female" control={<Checkbox />} label="Female" />
-                        <FormControlLabel value="male" control={<Checkbox />} label="Male" />
-                        <FormControlLabel value="other" control={<Checkbox />} label="Other" />
+                        {choices}
                     </FormGroup>
                 </FormControl>
             )
         } else if (questionType === 'dropdown') { 
+            let choices = Array(0);
+            for (let i=0; i<props.question.choices.length; i++) { 
+                choices.push(<MenuItem value={i}>{props.question.choices[i]}</MenuItem>)
+            }
             return ( 
                 <div className="w-50"> 
                     <FormControl fullWidth sx={{textAlign:"start"}}>
@@ -67,17 +75,24 @@ const QuestionView = (props) => {
                             onChange={handleDropdownChange}
                         >
                             <MenuItem value={"default"} disabled>Select an option</MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {choices}
                         </Select>
                     </FormControl>
                 </div>
             )
         } else if (questionType === 'scale') { 
+            let minVal = parseInt(props.question.minValue); 
+            let minLabel = props.question.minLabel; 
+            let maxVal = parseInt(props.question.maxValue); 
+            let maxLabel = props.question.maxLabel; 
+            let numberOfNodes = maxVal - minVal + 1;
+            console.log(minVal, maxVal, numberOfNodes)
             return ( 
                 <div className='d-flex'> 
-                    <Typography component="legend" marginY={'auto'} width='15%'>Min Label</Typography>
+                    <Box width='15%' marginY={'auto'}> 
+                        <Typography component="legend">{minVal}</Typography>
+                        <Typography component="legend">{minLabel}</Typography>
+                    </Box>
                     <Box width={'70%'}>
                         <StyledRating
                             name="customized-color"
@@ -85,13 +100,16 @@ const QuestionView = (props) => {
                             getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                             precision={1}
                             // use max to set the number of circles
-                            max={10}
+                            max={numberOfNodes}
                             icon={<CircleIcon fontSize="inherit" sx={{margin: '0.8rem'}}/>}
                             emptyIcon={<RadioButtonUncheckedIcon fontSize="inherit" sx={{margin: '0.8rem'}} />}
                             width='70%'
                         />
                     </Box>
-                    <Typography component="legend" marginY={'auto'} width='15%'>Max Label</Typography>
+                    <Box width='15%' marginY={'auto'}>
+                        <Typography component="legend">{maxVal}</Typography>
+                        <Typography component="legend">{maxLabel}</Typography>
+                    </Box>
                 </div>
             )
         } else if (questionType === 'file') { 
@@ -105,10 +123,10 @@ const QuestionView = (props) => {
     return (
         <Card variant="outlined" className="mx-5 mb-3">
             <div className='card-header text-left'>
-                Question Title for {props.questionType}
+                {props.question.questionTitle}
             </div>
             <div className='card-body'>
-                {specialQuestionType(props.questionType)}
+                {specialQuestionType(props.question.questionType)}
             </div>
         </Card>
     )

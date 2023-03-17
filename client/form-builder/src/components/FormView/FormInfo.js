@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 
-const FormInfo = () => {
+const FormInfo = (props) => {
     return (
         <div className="text-center mt-5">
-            <Typography variant='h4'>Form Title</Typography>
-            <Typography variant='p'>This is the description of the form, which will contain a few lines</Typography>
+            <Typography variant='h4'>{props.formTemplate.formName}</Typography>
+            <Typography variant='p'>{props.formTemplate.formDescription}</Typography>
         </div>
     )
 }
