@@ -1,6 +1,9 @@
 package com.oopproject.form.models;
 
 import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -20,6 +23,8 @@ public class SectionListDeserializer extends StdDeserializer<List<Section>> {
 
     public SectionListDeserializer(SectionController sectionController) {
         super(List.class);
+        System.out.println("----ATTENTION----");
+        System.out.println(sectionController);
         this.sectionController = sectionController;
     }
 
@@ -30,9 +35,25 @@ public class SectionListDeserializer extends StdDeserializer<List<Section>> {
         List<Section> sections = new ArrayList<>();
         for (JsonNode sectionNode : sectionsNode) {
             System.out.println("----------------ouhefohiuefiuoueffeef----------------");
+            // Section section = new Section();
+            // section.setSectionId(sectionNode.get("sectionId").asText());
+            // section.setSectionName(sectionNode.get("sectionName").asText());
+            // section.setSectionDescription(sectionNode.get("sectionDescription").asText());
+            // section.setAssignedTo(sectionNode.get("assignedTo").asText());
+            // String createdAtString = sectionNode.get("createdAt").asText();
+            // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // adjust the pattern to match the actual date format
+            // LocalDate createdAt = LocalDate.parse(createdAtString, formatter);
+            // section.setCreatedAt(createdAt);
+            // String updatedAtString = sectionNode.get("updatedAt").asText();
+            // LocalDate updatedAt = LocalDate.parse(updatedAtString, formatter);
+            // section.setUpdatedAt(updatedAt);
+
+            // section.setQuestions(sectionNode.get("questions").);
+            System.out.println(sectionNode);
             Section section = sectionController.createSectionFromFormTemplate(sectionNode);
             sections.add(section);
         }
+        System.out.println(sections);
         return sections;
     }
 }
