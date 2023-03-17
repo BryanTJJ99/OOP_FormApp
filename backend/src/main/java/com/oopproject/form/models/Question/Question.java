@@ -7,13 +7,20 @@ import lombok.Setter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter @Setter
 @Document(collection = "Question")
+// @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Question {
+    @Id
     private String questionId; 
     private int questionOrder; 
+    private int belongsToSection; 
     private String questionTitle;
     private String questionType; 
     @JsonProperty("isRequired")

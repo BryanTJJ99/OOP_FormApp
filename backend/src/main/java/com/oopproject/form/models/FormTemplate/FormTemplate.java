@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.oopproject.form.models.Section.Section;
 import com.oopproject.form.models.User.User;
 import com.oopproject.form.models.SectionListDeserializer;
+import com.oopproject.form.models.QuestionDeserializer;
+import com.oopproject.form.models.Question.Question;
 
 @Getter @Setter
 @Document(collection = "FormTemplate")
@@ -32,6 +34,10 @@ public class FormTemplate {
     @DocumentReference
     @JsonDeserialize(using = SectionListDeserializer.class)
     private List<Section> sections;
+    @DocumentReference
+    @JsonDeserialize(using = QuestionDeserializer.class)
+    private List<Question> questions;
+
 
     // public FormTemplate(String formTemplateId, String formName, String formDescription, String createdBy, Date createdAt, Date updatedAt, Date deletedAt, List<Section> sections) {
     //     this.formTemplateId = formTemplateId;
