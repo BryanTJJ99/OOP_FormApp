@@ -1,5 +1,7 @@
 package com.oopproject.form.models.Section;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -7,22 +9,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.oopproject.form.models.Question.Question;
 import com.oopproject.form.models.QuestionDeserializer;
+import com.oopproject.form.controllers.QuestionController;
 
 
 @Configuration
-public class JacksonConfig {
-    @Bean
-    public Module questionDeserializerModule() {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Question.class, new QuestionDeserializer());
-        return module;
-    }
+public class AppConfig {
 
+    @Autowired
+    private QuestionController questionController;
+    
     @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(questionDeserializerModule());
-        return objectMapper;
+    public QuestionDeserializer questionDeserializer() {
+        return new QuestionDeserializer(questionController);
     }
 }
-

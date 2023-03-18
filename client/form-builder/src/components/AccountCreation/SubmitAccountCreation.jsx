@@ -2,16 +2,20 @@ import React from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 const SubmitAccountCreation = (props) => {
     async function handleSubmit() {
-        console.log(props.accountDetails);
-        await fetch("http://localhost:8080/api/admin/user/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(props.accountDetails),
-        });
+        await axios.post(
+            "http://localhost:8080/api/admin/user/create",
+            props.accountDetails,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        props.setCreatedAccount(true);
         console.log("submitted");
     }
     return (

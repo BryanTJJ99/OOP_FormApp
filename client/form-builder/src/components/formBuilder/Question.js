@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { unmountComponentAtNode } from "react-dom";
 import { Choices, FileUpload, LinearScale, TextInput } from './index.js';
-import { TextField, Radio, IconButton, Button, InputLabel, Select, MenuItem, Box, FormControl, Card } from '@mui/material';
+import { TextField, Radio, IconButton, Button, InputLabel, Select, MenuItem, Box, FormControl, Card, Switch, FormControlLabel } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Dangerous } from '@mui/icons-material';
 
@@ -19,11 +19,11 @@ const Question = (props) => {
     function updateSpecialQues() { 
         if (questionType === "radio" || questionType === "checkbox" || questionType === "dropdown") {
             // this.setState({specialQuesSection: <Choices/>})
-            to_update = <Choices questionType={questionType} questionNum={questionNum} choicesList={Array(0)}/>;
+            to_update = <Choices questionType={questionType} questionNum={questionNum} questionId={"Question" + props.questionNum} choicesList={Array(0)}/>;
         } else if (questionType === "file") {
             to_update = <FileUpload />;
         } else if (questionType === "scale") {
-            to_update = <LinearScale />;
+            to_update = <LinearScale questionId={"Question" + props.questionNum}/>;
         } else {
             let textInputValue = '';
             let textInputLabel = '';
@@ -45,7 +45,7 @@ const Question = (props) => {
         <Card id={"Question" + props.questionNum} className='mb-2'>
             <div className="card-header d-flex justify-content-between align-items-center">
                 <div className="d-flex w-75">
-                    <TextField variant='standard' placeholder={`Question ${props.questionNum} Title`} onChange={(event) => setQuestionTitle(event.target.value)} fullWidth></TextField>
+                    <TextField name={"Question" + props.questionNum + 'questionTitle'} variant='standard' placeholder={`Question ${props.questionNum} Title`} onChange={(event) => setQuestionTitle(event.target.value)} fullWidth required></TextField>
                 </div>
                 <IconButton color='error' onClick={() => props.handleDeleteQuestion("Question" + props.questionNum)}>
                     <DeleteIcon/>
@@ -56,9 +56,9 @@ const Question = (props) => {
                     <div className="my-auto me-3"> 
                         Question type:
                     </div>
-                    <FormControl>
+                    <FormControl sx={{textAlign:"start"}}>
                         <Box>
-                            <Select name="questionType" sx={{ height: '50px', width: 200, ms: '3' }} placeholder="text" value={questionType} onChange={(event) => handleChangeQuestionType(event.target.value)}>
+                            <Select name={"Question" + props.questionNum + 'questionType'} sx={{ height: '50px', width: 200, ms: '3' }} placeholder="text" value={questionType} onChange={(event) => handleChangeQuestionType(event.target.value)}>
                                 <MenuItem value="text">Short text</MenuItem>
                                 <MenuItem value="textarea">Paragraph</MenuItem>
                                 <MenuItem value="radio">Multiple choice</MenuItem>
@@ -76,10 +76,7 @@ const Question = (props) => {
             </div>
             <div className="card-footer d-flex">
                 <div className="d-flex">
-                    <div className="form-check form-switch me-5">
-                        <input className="form-check-input" type="checkbox"></input>
-                        <label className="form-check-label">Required</label>
-                    </div>
+                    <FormControlLabel name={"Question" + props.questionNum + 'isRequired'} value={true} control={<Switch defaultChecked />} label="Required" />
                     {/* bernice create the javascript for conditional questions */}
                     {/* <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox"></input>
