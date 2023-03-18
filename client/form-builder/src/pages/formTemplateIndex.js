@@ -1,7 +1,6 @@
 import { Typography, Button, Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { FormTable } from '../components/FormTemplateIndex/index.js';
-
             
 const FormTemplateIndex = (props) => {
     return (

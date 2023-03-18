@@ -24,15 +24,16 @@ public class Section {
     @Id
     private String sectionId;
     private String sectionName;
+    private int sectionOrder;
     private String sectionDescription; 
     private String assignedTo;
     private Date createdAt; 
     private Date updatedAt; 
     private Date deletedAt; 
     // assignedTo refers to 'admin', 'vendor', or 'approver'
-    @DocumentReference
-    @JsonDeserialize(using = QuestionDeserializer.class)
-    private List<Question> questions;
+    // @DocumentReference
+    // @JsonDeserialize(using = QuestionDeserializer.class)
+    // private List<Question> questions;
     // @JsonBackReference
     // private FormTemplate formTemplate; 
 

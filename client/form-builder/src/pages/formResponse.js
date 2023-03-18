@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
-import { FormInfo, QuestionView, SectionView } from '../components/FormView/index.js';
+import { FormInfo, QuestionView, SectionView } from '../components/FormResponse/index.js';
 import { getFormTemplateById } from '../services/FormTemplate.js';
 
-const FormView = (props) => {
+const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0)); 
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
@@ -11,7 +11,7 @@ const FormView = (props) => {
     useEffect(() => { 
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
         // setQuestionsSectionArea(newQuestionsSectionArea); 
-        getFormTemplateById('6414b881b713704fd25c1b2a')
+        getFormTemplateById('6414f557b713704fd25c1b34')
             .then(response => { 
                 // console.log(response);
                 setFormTemplate(response);
@@ -65,6 +65,6 @@ const FormView = (props) => {
     );
 };
 
-export default FormView;
+export default FormResponse;
 //const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<FormBuilder />);

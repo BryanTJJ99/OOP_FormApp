@@ -1,6 +1,10 @@
 package com.oopproject.form.models;
 
 import java.util.*;
+
+import org.glassfish.jaxb.runtime.v2.runtime.unmarshaller.XsiNilLoader.Single;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -8,8 +12,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import java.io.File;
 import java.io.IOException;
 
+import com.oopproject.form.service.QuestionService;
+import com.oopproject.form.controllers.QuestionController;
 import com.oopproject.form.models.Question.FileQuestion;
 import com.oopproject.form.models.Question.MultiSelectQuestion;
 import com.oopproject.form.models.Question.Question;
@@ -26,6 +34,22 @@ public class QuestionDeserializer extends JsonDeserializer<List<Question>> {
     // public QuestionDeserializer(Class<?> vc) {
     //     super(vc);
     // }
+    
+    @Autowired
+    private QuestionController questionController;
+
+
+    public QuestionDeserializer(QuestionController questionController) {
+        // super(List.class);
+        System.out.println("----ATTENTION2----");
+        System.out.println(questionController);
+        this.questionController = questionController;
+    }
+
+    public QuestionDeserializer() { 
+        System.out.println("----ATTENTION3----");
+        this.questionController = new QuestionController();
+    }
 
     @Override
     public List<Question> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -45,20 +69,32 @@ public class QuestionDeserializer extends JsonDeserializer<List<Question>> {
 
             // determine which concrete subclass to use based on the type field
             if ("text".equals(type) || "textarea".equals(type)) {
-                questions.add(jp.getCodec().treeToValue(questionNode, TextQuestion.class));
+                TextQuestion question = jp.getCodec().treeToValue(questionNode, TextQuestion.class);
+                questionController.createQuestionFromSection(question);
+                questions.add(question);
             } else if ("radio".equals(type) || "dropdown".equals(type)) {
-                questions.add(jp.getCodec().treeToValue(questionNode, SingleSelectQuestion.class));
+                SingleSelectQuestion question = jp.getCodec().treeToValue(questionNode, SingleSelectQuestion.class);
+                questionController.createQuestionFromSection(question);
+                questions.add(question);
             } else if ("checkbox".equals(type)) {
-                questions.add(jp.getCodec().treeToValue(questionNode, MultiSelectQuestion.class));
+                MultiSelectQuestion question = jp.getCodec().treeToValue(questionNode, MultiSelectQuestion.class);
+                questionController.createQuestionFromSection(question);
+                questions.add(question);
             } else if ("scale".equals(type)) {
-                questions.add(jp.getCodec().treeToValue(questionNode, ScaleQuestion.class));
+                ScaleQuestion question = jp.getCodec().treeToValue(questionNode, ScaleQuestion.class);
+                questionController.createQuestionFromSection(question);
+                questions.add(question);
             } else if ("file".equals(type)) {
-                questions.add(jp.getCodec().treeToValue(questionNode, FileQuestion.class));
+                FileQuestion question = jp.getCodec().treeToValue(questionNode, FileQuestion.class);
+                questionController.createQuestionFromSection(question);
+                questions.add(question);
             } else {
                 throw new IllegalArgumentException("Unknown question type: " + type);
             }
-        }
 
+
+        }
+        System.out.println(questions);
         return questions;
 
     }

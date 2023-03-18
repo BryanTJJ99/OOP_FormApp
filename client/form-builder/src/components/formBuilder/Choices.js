@@ -7,6 +7,8 @@ const Choices = (props) => {
     const [choicesList, setChoicesList] = useState(Array(0));
     const [choicesOrder, setChoicesOrder] = useState({});
     const [choiceToDelete, setChoiceToDelete] = useState(null);
+    const [choicesLabels, setChoicesLabels] = useState({}); 
+    const [hiddenInput, setHiddenInput] = useState(null);
 
     function renderChoice() { 
         setChoiceNum(choiceNum + 1); 
@@ -17,7 +19,9 @@ const Choices = (props) => {
                 questionNum={props.questionNum}
                 type={props.questionType}
                 handleDeleteChoice={handleDeleteChoice}
-                
+                key={props.questionId + '_' + choiceNum}
+                choiceId={props.questionId + '_' + choiceNum}
+                updateChoiceLabel={updateChoicesLabel}
             />
         )
     }
@@ -32,6 +36,12 @@ const Choices = (props) => {
 
     function handleDeleteChoice(deleteChoiceNum) { 
         setChoiceToDelete(deleteChoiceNum);
+    }
+
+    function updateChoicesLabel(choiceId, valueToUpdate) { 
+        let newChoicesLabels = {...choicesLabels}; 
+        newChoicesLabels[choiceId] = valueToUpdate; 
+        setChoicesLabels(newChoicesLabels); 
     }
 
     useEffect(() => {
@@ -57,14 +67,22 @@ const Choices = (props) => {
         setChoicesList(choicesList => [firstChoice]);
     }, [])
 
+    useEffect(() => {
+        let finalChoiceList = []; 
+        for (let ch of choicesList) { 
+            finalChoiceList.push(choicesLabels[ch.key])
+        }
+        setHiddenInput(<input type='hidden' name={props.questionId + 'choices'} value={finalChoiceList}></input>)
+    }, [choicesLabels, choicesList])
+
     return (
         <div className="d-block w-100" key={props.questionType}>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <label className="my-auto">Choices</label>
-                
                 <IconButton color='secondary' onClick={() => handleAddQuestionClick(renderChoice())}><AddIcon sx={{ fontSize: "30px" }}/></IconButton>
             </div>
             {choicesList}
+            {hiddenInput}
         </div>
     )
 }

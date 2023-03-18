@@ -29,13 +29,13 @@ const QuestionView = (props) => {
 
     function specialQuestionType(questionType) { 
         if (questionType === 'text') { 
-            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} disabled></TextField>
+            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}}></TextField>
         } else if (questionType === 'textarea') { 
-            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} multiline rows={4} disabled></TextField>
+            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} multiline rows={4}></TextField>
         } else if (questionType === 'radio') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
-                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} disabled />)
+                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} />)
             }
             return (
                 <FormControl sx={{width: '100%'}}>
@@ -51,7 +51,7 @@ const QuestionView = (props) => {
         } else if (questionType === 'checkbox') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
-                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} disabled />)
+                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} />)
             }
             return (
                 <FormControl sx={{width: '100%'}}>
@@ -63,7 +63,7 @@ const QuestionView = (props) => {
         } else if (questionType === 'dropdown') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
-                choices.push(<MenuItem value={i} disabled>{props.question.choices[i]}</MenuItem>)
+                choices.push(<MenuItem value={i}>{props.question.choices[i]}</MenuItem>)
             }
             return ( 
                 <div className="w-50"> 
@@ -103,7 +103,6 @@ const QuestionView = (props) => {
                             icon={<CircleIcon fontSize="inherit" sx={{margin: '0.8rem'}}/>}
                             emptyIcon={<RadioButtonUncheckedIcon fontSize="inherit" sx={{margin: '0.8rem'}} />}
                             width='70%'
-                            disabled
                         />
                     </Box>
                     <Box width='15%' marginY={'auto'}>
@@ -115,7 +114,7 @@ const QuestionView = (props) => {
         } else if (questionType === 'file') { 
             return (
                 <div className='d-flex'>
-                    <MuiFileInput value={file} onChange={handleFileChange} placeholder="Select a file" disabled/>
+                    <MuiFileInput value={file} onChange={handleFileChange} placeholder="Select a file"/>
                 </div>)
         }
     }
