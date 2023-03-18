@@ -8,6 +8,8 @@ public interface AdminService {
 
     public List<User> findAllUsers();
 
+    public List<User> findNotDeleted();
+
     public User findByUsername(String username);
 
     public User updateUser(User userToUpdate);

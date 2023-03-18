@@ -23,7 +23,7 @@ public class AdminController extends UserController {
     @GetMapping("/allUsers")
     @CrossOrigin
     public List<User> getAllUsers() {
-        return adminService.findAllUsers();
+        return adminService.findNotDeleted();
 
     }
 
