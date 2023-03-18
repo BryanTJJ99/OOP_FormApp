@@ -20,19 +20,9 @@ import {
     Close as CancelIcon,
 } from "@mui/icons-material";
 
-import {
-    GridRowModes,
-    DataGrid,
-    GridToolbarContainer,
-    GridActionsCellItem,
-} from "@mui/x-data-grid";
+import { GridRowModes, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-// const initialRows = [
-//     { id: 1, username: "Snow", email: "Jon@email.com", role: "Vendor" },
-//     { id: 2, username: "Lannister", email: "Cersei@email.com", role: "Vendor" },
-//     { id: 3, username: "Lannister", email: "Jaime@email.com", role: "Admin" },
-//     { id: 4, username: "Stark", email: "Arya@email.com", role: "Approver" },
-// ];
+import axios from "axios";
 
 const AccountManagementPage = () => {
     const [snackbar, setSnackbar] = useState(null);
@@ -40,13 +30,14 @@ const AccountManagementPage = () => {
     const [rowModesModel, setRowModesModel] = useState({});
     const [promiseArguments, setPromiseArguments] = useState(null);
     const [deleteRow, setDeleteRow] = useState(null);
+    const [createdAccount, setCreatedAccount] = useState("false");
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/admin/allUsers")
+        axios
+            .get("http://localhost:8080/api/admin/allUsers")
             .then((response) => {
-                return response.json();
-            })
-            .then((users) => {
+                let users = response.data;
+                console.log(users);
                 users = users.filter((user) => {
                     if (user.deleted_at) {
                         return false;
@@ -54,8 +45,10 @@ const AccountManagementPage = () => {
                     return true;
                 });
                 setRows(users);
+                setCreatedAccount(false);
+                console.log("test");
             });
-    }, []);
+    }, [createdAccount]);
 
     const handleCloseSnackbar = () => setSnackbar(null);
 
@@ -93,7 +86,6 @@ const AccountManagementPage = () => {
 
     const handleDeleteClick = (id) => () => {
         setDeleteRow(id);
-        // setRows(rows.filter((row) => row.id !== id));
     };
 
     const handleCancelClick = (id) => () => {
@@ -142,13 +134,15 @@ const AccountManagementPage = () => {
 
             try {
                 // Make the HTTP request to save in the backend
-                await fetch("http://localhost:8080/api/admin/user/edit", {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(newRow),
-                });
+                await axios.patch(
+                    "http://localhost:8080/api/admin/user/edit",
+                    newRow,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
                 setSnackbar({
                     children: "User successfully saved",
                     severity: "success",
@@ -195,13 +189,15 @@ const AccountManagementPage = () => {
 
             try {
                 // Make the HTTP request to save in the backend
-                await fetch("http://localhost:8080/api/admin/user/delete", {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(userToDelete),
-                });
+                await axios.patch(
+                    "http://localhost:8080/api/admin/user/delete",
+                    userToDelete,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
                 setSnackbar({
                     children: "User successfully deleted",
                     severity: "success",
@@ -318,6 +314,7 @@ const AccountManagementPage = () => {
                     display: "block",
                     textAlign: "end",
                 }}
+                setCreatedAccount={setCreatedAccount}
             >
                 Create New Account
             </Link>
