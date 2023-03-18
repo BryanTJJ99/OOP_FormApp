@@ -6,7 +6,7 @@ import AccountCreationFields from "../components/AccountCreation/AccountCreation
 import AccountCreationLogo from "../components/AccountCreation/AccountCreationLogo";
 import SubmitAccountCreation from "../components/AccountCreation/SubmitAccountCreation";
 
-const AccountCreationPage = () => {
+const AccountCreationPage = (props) => {
     const [accountDetails, setAccountDetails] = useState({});
 
     return (
@@ -24,7 +24,10 @@ const AccountCreationPage = () => {
                 accountDetails={accountDetails}
                 setAccountDetails={setAccountDetails}
             />
-            <SubmitAccountCreation accountDetails={accountDetails} />
+            <SubmitAccountCreation
+                accountDetails={accountDetails}
+                setCreatedAccount={props.setCreatedAccount}
+            />
         </Box>
     );
 };
