@@ -13,7 +13,7 @@ const RoleSelect = (props) => {
             select
             label="Role"
             defaultValue="ROLE_VENDOR"
-            sx={{ marginBottom: "10px" }}
+            sx={{ margin: "0 10px 10px 0", width: "50%" }}
             onChange={(e) => {
                 accountDetails["role"] = e.target.value;
                 console.log(accountDetails);

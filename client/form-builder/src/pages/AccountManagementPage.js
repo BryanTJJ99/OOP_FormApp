@@ -258,6 +258,13 @@ const AccountManagementPage = () => {
             minWidth: 100,
         },
         {
+            field: "country",
+            headerName: "Country",
+            editable: true,
+            flex: 1,
+            minWidth: 200,
+        },
+        {
             field: "actions",
             type: "actions",
             headerName: "Actions",
