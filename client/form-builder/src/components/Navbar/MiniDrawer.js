@@ -5,7 +5,6 @@ import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -28,7 +27,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Link } from 'react-router-dom';
-
 // sample code from mui 
 const drawerWidth = 240;
 
@@ -101,9 +99,9 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState("Home")
-  const pages = ['Home', 'Account Management', 'Dashboard', 'Form Responses', 'Form Templates','Project Creation']
+  const pages = ['Dashboard', 'Account Management', 'Form Responses', 'Form Templates','Project']
   const widgets = ['Settings','Account','Logout']
-  const iconsPrimary = [<CottageIcon/>,<PeopleAltIcon/>,<DashboardIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
+  const iconsPrimary = [<DashboardIcon/>,<PeopleAltIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
   const iconsSecondary = [
     <SettingsIcon/>,
     <AccountCircleIcon/>,
@@ -121,7 +119,6 @@ export default function MiniDrawer({children}) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
       {/* Appbar to be present in all pages */}
       <AppBar position="fixed" open={open}>
         <Toolbar>
