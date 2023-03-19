@@ -13,10 +13,10 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import Card from '@mui/material/Card'
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { styled } from '@mui/material/styles';
+import { useState, useEffect } from 'react';
+import axios from 'axios'
 
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
@@ -114,6 +114,8 @@ const columns = [
     
   ];
 
+// to getAllFormResponses using findAll() in FormResponseRepository
+
 const rows = [
     { id: 1, projectName: 'Cloud', vendorName: 'Kong Leong', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
     { id: 2, projectName: 'Cloud', vendorName: 'Justin', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Rejected'},
@@ -127,23 +129,39 @@ const rows = [
     { id: 10, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Approved'},
     { id: 11, projectName: '5G', vendorName: 'Bitch Ass', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
   ];
-  
+ 
+
 const UserWidget = () => {
-  // to be dynamic
-  const totalUsers = 25
+  // to be dynamic getAllVendors 
+
+  const vendor_url = "http://localhost:8080/api/admin/allVendors"
+
+  useEffect(() => {
+    // GET request using axios inside useEffect React hook
+    axios.get(vendor_url)
+        .then(response => {
+          console.log(response.data)
+          setTotalVendors(response.data.total)
+        });
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  }, []);  
+  const [totalVendors,setTotalVendors] = useState(0)
+  
   return (
     <Box sx={{height: 300 ,padding:5}} 
     variant="outlined">
       <Typography variant="h4">
-        Total Users
+        Total Vendors
       </Typography>
       <PeopleAltIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
-      <span style={{fontSize: "24px"}}>{totalUsers}</span>
+      <span style={{fontSize: "24px"}}>{totalVendors}</span>
     </Box>
   )
 }
 const ProjectWidget = () => {
-  // to be dynamic
+  // to be dynamic 
+  // getAllProjects which comes from ProjectRepository.java but currently no methods written inside yet
+
   const totalProjects = 11020
   return (
     <Box sx={{height: 300 ,padding:5}} 
