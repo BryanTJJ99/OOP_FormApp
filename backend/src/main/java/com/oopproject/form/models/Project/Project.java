@@ -20,20 +20,17 @@ public class Project {
     private String projectID;
     private String projectName;
     private String projectDescription;
-    @DocumentReference
-    private String vendorId;
-    @DocumentReference
-    private ArrayList<FormResponse> formResponses;
+    // @DocumentReference
+    private ArrayList<String> vendorId;
 
     // Do we need to instantiate forms cause a project may not have forms associated
     // with it
-    public Project(String projectName, String projectDescription, String vendorId,
-            ArrayList<FormResponse> formResponses) {
+    public Project(String projectName, String projectDescription, ArrayList<String> vendorId) {
         // this.projectID = projectID;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
         this.vendorId = vendorId;
-        this.formResponses = new ArrayList<FormResponse>();
+        // this.formResponses = new ArrayList<FormResponse>();
     }
 
     public String getProjectID() {
@@ -50,10 +47,6 @@ public class Project {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public ArrayList<FormResponse> getFormResponses() {
-        return formResponses;
     }
 
 }

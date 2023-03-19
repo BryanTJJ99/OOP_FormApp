@@ -121,10 +121,7 @@ const ProjectCreationPage = (props) => {
 
             <ProjectCreationPage3 
             setActivePage={setActivePage} 
-            projectName={projectData.projectName} 
-            vendorCompanyName={projectData.vendorCompanyName} 
-            projectDescription={projectData.projectDescription}
-            selectedForm={projectData.selectedForm}
+            projectData={projectData}
           />
             
             
