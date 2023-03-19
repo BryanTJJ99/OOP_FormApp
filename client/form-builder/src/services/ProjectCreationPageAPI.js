@@ -1,13 +1,11 @@
 import axios from 'axios';
 
 export async function getVendorData() {
-    const api_url = 'http://localhost:8080/api/admin/allUsers';
+    const api_url = 'http://localhost:8080/api/admin/allVendors';
     try {
         const response = await axios.get(api_url);
-        const userData = response.data;
-        return userData.filter(function getVendor(ele) {
-            return ele.role == "ROLE_VENDOR";
-        })
+        const vendorData = response.data;
+        return vendorData;
     }
     
     catch (error) {
