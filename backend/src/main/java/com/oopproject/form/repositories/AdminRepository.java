@@ -12,6 +12,9 @@ public interface AdminRepository extends MongoRepository<User, String> {
     @Query("{ deleted_at : { $exists : false } }")
     List<User> findNotDeleted();
 
+    @Query("{ deleted_at : { $exists : false }, role : ROLE_VENDOR }")
+    List<User> findAllActiveVendors();
+
     User findByUsername(String username);
 
     User findUserById(String id);
