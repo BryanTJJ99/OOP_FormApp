@@ -10,6 +10,8 @@ public interface AdminService {
 
     public List<User> findNotDeleted();
 
+    public List<User> findAllActiveVendors();
+
     public User findByUsername(String username);
 
     public User updateUser(User userToUpdate);

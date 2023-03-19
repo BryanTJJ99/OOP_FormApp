@@ -24,7 +24,12 @@ public class AdminController extends UserController {
     @CrossOrigin
     public List<User> getAllUsers() {
         return adminService.findNotDeleted();
+    }
 
+    @GetMapping("/allVendors")
+    @CrossOrigin
+    public List<User> getAllVendors() {
+        return adminService.findAllActiveVendors();
     }
 
     @GetMapping("/user/{username}")
