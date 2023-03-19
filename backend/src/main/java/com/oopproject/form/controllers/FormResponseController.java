@@ -56,13 +56,19 @@ public class FormResponseController {
 
     @PostMapping("/create")
     @CrossOrigin
-    public void createForm(@RequestPart("formResponse") String formResponseData, @RequestPart("fileMap") Map<String, Object> fileMap) throws JsonProcessingException {
-        System.out.println("--------woeifowejfioe--------");
-        ObjectMapper mapper = new ObjectMapper();
-        FormResponse formResponse = mapper.readValue(formResponseData, FormResponse.class);
-        System.out.println(fileMap);
+    public void createForm(@RequestBody FormResponse formResponse) {
         formResponseService.addFormResponse(formResponse);
     }
+
+    // @PostMapping("/create")
+    // @CrossOrigin
+    // public void createForm(@RequestPart("formResponse") String formResponseData, @RequestPart("fileMap") Map<String, Object> fileMap) throws JsonProcessingException {
+    //     System.out.println("--------woeifowejfioe--------");
+    //     ObjectMapper mapper = new ObjectMapper();
+    //     FormResponse formResponse = mapper.readValue(formResponseData, FormResponse.class);
+    //     System.out.println(fileMap);
+    //     formResponseService.addFormResponse(formResponse);
+    // }
 
     // @PostMapping("/updateFiles/{id}")
     // @CrossOrigin

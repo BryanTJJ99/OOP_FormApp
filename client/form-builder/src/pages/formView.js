@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import { FormInfo, QuestionView, SectionView } from '../components/FormView/index.js';
 import { getFormTemplateById } from '../services/FormTemplate.js';
+import { getFormResponseById } from '../services/FormResponse.js';
 
 const FormView = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0)); 
+    const [formResponse, setFormResponse] = useState({formAnswer: {}});
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
 
@@ -13,15 +15,35 @@ const FormView = (props) => {
         // setQuestionsSectionArea(newQuestionsSectionArea); 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const formTemplateId = urlParams.get('formTemplateId')
-        getFormTemplateById(formTemplateId)
-            .then(response => { 
-                // console.log(response);
-                setFormTemplate(response);
-            })
-            .catch(error => { 
-                console.log(error.message);
-            })
+        const formResponseId = urlParams.get('formResponseId')
+        if (formResponseId !== null) { 
+            getFormResponseById(formResponseId) 
+                .then(response => {
+                    setFormResponse(response);
+                    let formTemplateId = response.formTemplateId
+                    getFormTemplateById(formTemplateId)
+                        .then(response => { 
+                            // console.log(response);
+                            setFormTemplate(response);
+                        })
+                        .catch(error => { 
+                            console.log(error.message);
+                        })
+                })
+                .catch(error => { 
+                    console.log(error.message)
+                })
+        } else { 
+            let formTemplateId = urlParams.get('formTemplateId')
+            getFormTemplateById(formTemplateId)
+                .then(response => { 
+                    // console.log(response);
+                    setFormTemplate(response);
+                })
+                .catch(error => { 
+                    console.log(error.message);
+                })
+        }
     }, []) 
 
     useEffect(() => { 
@@ -60,7 +82,7 @@ const FormView = (props) => {
                     return (<SectionView section={item} key={"Section" + item.sectionOrder}></SectionView>)
                 } else { 
                     return ( 
-                        <QuestionView question={item} key={"Question" + item.questionOrder}></QuestionView>
+                        <QuestionView question={item} response={formResponse} key={"Question" + item.questionOrder}></QuestionView>
                     )
                 }
             })}

@@ -10,7 +10,7 @@ const FormResponse = (props) => {
     const [formInfo, setFormInfo] = useState(null);
     const [fileMap, setFileMap] = useState({});
 
-    function handleFormResponseSubmit(e) { 
+    async function handleFormResponseSubmit(e) { 
         e.preventDefault();
         const data = new FormData(e.currentTarget); 
         let numOfQuestions = formTemplate.questions.length;
@@ -26,6 +26,26 @@ const FormResponse = (props) => {
             if (listOfMultiSelect.includes(i)) { 
                 dataToStore = data.get(i.toString()).split(',');
             }
+            console.log(i)
+            if (i+1 in fileMap) { 
+                let fileToStore = fileMap[(i+1).toString()];
+                const reader = new FileReader();
+                // reader.readAsDataURL(fileToStore);
+                await readFileAsync(fileToStore, reader)
+                    .then(result => { 
+                        // console.log(result)
+                        dataToStore = result;
+                    })
+                    .catch(error => { 
+                        console.log(error.message);
+                    })
+                // let base64String; 
+                // reader.onload = function () {
+                //     console.log(reader, reader.result)
+                //     base64String = reader.result.split(',')[1];
+                //     dataToStore = base64String;
+                // };
+            }
             formAnswer[i] = dataToStore;
         }
         let formResponseData = { 
@@ -37,18 +57,18 @@ const FormResponse = (props) => {
             formAnswer: formAnswer
         }
         console.log(formResponseData);
-        console.log(fileMap);
-        let formData = new FormData(); 
-        formData.append("formResponse", JSON.stringify(formResponseData)); 
-        for (const [key, value] of Object.entries(fileMap)) {
-            formData.append(`fileMap`, value);
-        }
+        // console.log(fileMap);
+        // let formData = new FormData(); 
+        // formData.append("formResponse", JSON.stringify(formResponseData)); 
+        // for (const [key, value] of Object.entries(fileMap)) {
+        //     formData.append(`fileMap`, value);
+        // }
         // formData.append("fileMap", fileMap);
         // formData.append("formResponse", `{"formTemplateId":"6414f557b713704fd25c1b34","vendorId":"6409dc37e3139a5d267579b3","reviewedBy":"6411538f436af646394c3fe4","approvedBy":"6409dc0be3139a5d267579b2","status":"open","formAnswer":{"1":"ken","2":"ken is sleeping","3":"0","4":["1","2"],"5":"0","6":""}}`);
-        for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
-        createFormResponse(formData) 
+        // for (var pair of formData.entries()) {
+        //     console.log(pair[0]+ ', ' + pair[1]); 
+        // }
+        createFormResponse(formResponseData) 
             .then(response => { 
                 console.log(response); 
             })
@@ -64,6 +84,17 @@ const FormResponse = (props) => {
         //         console.log(error.message);
         //     })
     }
+
+    async function readFileAsync(file, reader) {
+        return new Promise((resolve, reject) => {
+          reader.onload = () => {
+            let base64String = reader.result.split(',')[1];
+            resolve(base64String);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
 
     function handleFileUpload(questionOrder, fileToUpload) { 
         let newFileMap = {...fileMap}; 
