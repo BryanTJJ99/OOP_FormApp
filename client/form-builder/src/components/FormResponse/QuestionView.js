@@ -7,6 +7,17 @@ import { MuiFileInput } from 'mui-file-input'
 const QuestionView = (props) => {
     const [dropdownVal, setDropdownVal] = useState("default");
     const [file, setFile] = useState(null);
+    const [checkboxValue, setCheckboxValue] = useState([]);
+
+    const handleCheckboxChange = (event) => { 
+        let newCheckboxValue = [...checkboxValue]; 
+        if (newCheckboxValue.includes(event.target.value)) { 
+            newCheckboxValue.splice(newCheckboxValue.indexOf(event.target.value),1);
+        } else { 
+            newCheckboxValue.push(event.target.value); 
+        }
+        setCheckboxValue(newCheckboxValue);
+    }
 
     const handleDropdownChange = (event) => {
         setDropdownVal(event.target.value);
@@ -15,6 +26,7 @@ const QuestionView = (props) => {
 
     const handleFileChange = (newFile) => {
         setFile(newFile);
+        props.handleFileUpload(props.question.questionOrder, newFile); 
         console.log(newFile);
     };
 
@@ -29,9 +41,9 @@ const QuestionView = (props) => {
 
     function specialQuestionType(questionType) { 
         if (questionType === 'text') { 
-            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}}></TextField>
+            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" sx={{width: '100%'}} ></TextField>
         } else if (questionType === 'textarea') { 
-            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} multiline rows={4}></TextField>
+            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" sx={{width: '100%'}} multiline rows={4} ></TextField>
         } else if (questionType === 'radio') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
@@ -42,7 +54,8 @@ const QuestionView = (props) => {
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue="female"
-                        name="radio-buttons-group"
+                        name={props.question.questionOrder.toString()}
+                        
                     >
                         {choices}
                     </RadioGroup>
@@ -51,13 +64,14 @@ const QuestionView = (props) => {
         } else if (questionType === 'checkbox') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
-                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} />)
+                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} onChange={handleCheckboxChange}/>)
             }
             return (
                 <FormControl sx={{width: '100%'}}>
                     <FormGroup>
                         {choices}
                     </FormGroup>
+                    <input type="hidden" name={props.question.questionOrder.toString()} value={checkboxValue}></input>
                 </FormControl>
             )
         } else if (questionType === 'dropdown') { 
@@ -73,6 +87,7 @@ const QuestionView = (props) => {
                             id="demo-simple-select"
                             value={dropdownVal}
                             onChange={handleDropdownChange}
+                            name={props.question.questionOrder.toString()}
                         >
                             <MenuItem value={"default"} disabled>Select an option</MenuItem>
                             {choices}
@@ -94,7 +109,7 @@ const QuestionView = (props) => {
                     </Box>
                     <Box width={'70%'}>
                         <StyledRating
-                            name="customized-color"
+                            name={props.question.questionOrder.toString()}
                             defaultValue={null}
                             getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                             precision={1}
@@ -103,6 +118,7 @@ const QuestionView = (props) => {
                             icon={<CircleIcon fontSize="inherit" sx={{margin: '0.8rem'}}/>}
                             emptyIcon={<RadioButtonUncheckedIcon fontSize="inherit" sx={{margin: '0.8rem'}} />}
                             width='70%'
+                            
                         />
                     </Box>
                     <Box width='15%' marginY={'auto'}>
@@ -114,7 +130,7 @@ const QuestionView = (props) => {
         } else if (questionType === 'file') { 
             return (
                 <div className='d-flex'>
-                    <MuiFileInput value={file} onChange={handleFileChange} placeholder="Select a file"/>
+                    <MuiFileInput name={props.question.questionOrder.toString()} value={file} onChange={handleFileChange} placeholder="Select a file" />
                 </div>)
         }
     }
@@ -123,6 +139,7 @@ const QuestionView = (props) => {
         <Card variant="outlined" className="mx-5 mb-3">
             <div className='card-header text-left'>
                 {props.question.questionTitle}
+                <Box component='span' color='primary.main'>{props.question.isRequired ? " *" : ""}</Box>
             </div>
             <div className='card-body'>
                 {specialQuestionType(props.question.questionType)}

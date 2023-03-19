@@ -11,7 +11,10 @@ const FormView = (props) => {
     useEffect(() => { 
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
         // setQuestionsSectionArea(newQuestionsSectionArea); 
-        getFormTemplateById('6414b881b713704fd25c1b2a')
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const formTemplateId = urlParams.get('formTemplateId')
+        getFormTemplateById(formTemplateId)
             .then(response => { 
                 // console.log(response);
                 setFormTemplate(response);

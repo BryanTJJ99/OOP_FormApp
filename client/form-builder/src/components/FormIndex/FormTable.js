@@ -29,14 +29,14 @@ const columns: GridColDef[] = [
     {
       field: 'vendor',
       headerName: 'Vendor',
-      width: 250,
+      flex: 2,
       editable: false,
     },
 
     {
       field: 'project',
       headerName: 'Project',
-      width: 250,
+      flex: 2,
       editable: false,
     },
 
@@ -48,7 +48,7 @@ const columns: GridColDef[] = [
         return <FormPills forms={params}/>
       },
       editable: false,
-      width: 500,
+      flex: 5,
     }, 
     
     // {

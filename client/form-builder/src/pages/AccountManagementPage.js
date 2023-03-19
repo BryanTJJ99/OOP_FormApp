@@ -37,16 +37,9 @@ const AccountManagementPage = () => {
             .get("http://localhost:8080/api/admin/allUsers")
             .then((response) => {
                 let users = response.data;
-                console.log(users);
-                users = users.filter((user) => {
-                    if (user.deleted_at) {
-                        return false;
-                    }
-                    return true;
-                });
+                // console.log(users);
                 setRows(users);
                 setCreatedAccount(false);
-                console.log("test");
             });
     }, [createdAccount]);
 
@@ -256,6 +249,13 @@ const AccountManagementPage = () => {
             editable: true,
             flex: 1,
             minWidth: 100,
+        },
+        {
+            field: "country",
+            headerName: "Country",
+            editable: true,
+            flex: 1,
+            minWidth: 200,
         },
         {
             field: "actions",
