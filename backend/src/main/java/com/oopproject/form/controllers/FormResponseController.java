@@ -22,6 +22,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.oopproject.form.models.FormResponse.FormResponse;
 import com.oopproject.form.service.FormResponseService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
 @CrossOrigin
@@ -49,7 +52,8 @@ public class FormResponseController {
     }
 
     @PostMapping("/initialise")
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseStatus(HttpStatus.CREATED)
     public void initialiseForm(@RequestBody FormResponse formResponse) {
         formResponseService.addFormResponse(formResponse);
     }

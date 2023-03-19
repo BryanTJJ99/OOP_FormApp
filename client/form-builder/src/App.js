@@ -19,7 +19,7 @@ import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } fro
 
 
 import ProjectCreationPage from "./pages/ProjectCreationPage";
-
+import ProjectPage from "./pages/ProjectPage";
 
 function App() {
     return (
