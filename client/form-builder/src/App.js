@@ -19,7 +19,7 @@ import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } fro
 
 
 import ProjectCreationPage from "./pages/ProjectCreationPage";
-import ProjectPage from "./pages/ProjectPage";
+import Project from "./pages/ProjectPage";
 
 function App() {
     return (
@@ -42,7 +42,8 @@ function App() {
                         path="/AccountCreation"
                         element={<AccountCreationPage />}
                     />
-                    <Route path="/Project" element={<ProjectCreationPage/>}/>
+                    <Route path="/Project" element={<Project/>}/>
+                    <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                     <Route path="/Settings" element={<Settings />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
