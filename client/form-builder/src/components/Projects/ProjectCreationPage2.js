@@ -68,7 +68,7 @@ const ProjectCreationPage2 = (props) => {
       let filter_value = event.target.value
       let filtered_forms = []
       for(var form of rawData){
-        let slice = form.name.toLowerCase().slice(0, filter_value.length)
+        let slice = form.formName.toLowerCase().slice(0, filter_value.length)
         if(slice == filter_value.toLowerCase()){
           filtered_forms.push(form)
         }
@@ -106,72 +106,46 @@ const ProjectCreationPage2 = (props) => {
         <br/>
         <br/>
 
-        {/* FOR TABLE WITH CARDS */}
-        {/* <TableContainer style={{ maxHeight: 800 }}>
-            <Table stickyHeader={true}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={{textAlign: "center"}}>
-                          
-                        <FullScreenDialog projectData={props.projectData} handleProjectDataChange={props.handleProjectDataChange}></FullScreenDialog>
 
-                        </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell>
-                          <FilterAltIcon></FilterAltIcon>
-                          <TextField id="standard-basic" label="Filter" variant="standard" value={filterValue} onChange={filter}/>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row, rowIndex) => (
-                        <TableRow key={rowIndex}>
-                            {row.map((item, columnIndex) => (
-                                <TableCell key={columnIndex}>
-                                    <FormTemplate
-                                              id = {item.id}
-                                              name={item.name}
-                                              url={item.imageurl}
-                                              description={item.description}
-                                              projectData={props.projectData}
-                                              handleProjectDataChange={props.handleProjectDataChange}
-                                              >
-                                      {item}
-                                    </FormTemplate>
-                                </TableCell>
-                            ))}
-                    
-                            {row.length < 3 && (
-                                <>
-                                    {[...Array(3 - row.length)].map((_, i) => (
-                                        <TableCell key={row.length + i}></TableCell>
-                                    ))}
-                                </>
-                            )}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer> */}
-            <Grid container spacing={2} justifyContent="center">
-      {formTemplate.map((item) => (
-        
-        <Grid key={item.id} item xs={12} sm={6} md={4}>
-          <FormTemplate
-                id = {item._id}
-                name={item.formName}
-                url={item.imageurl}
-                description={item.formDescription}
-                projectData={props.projectData}
-                handleProjectDataChange={props.handleProjectDataChange}
-          >
-                {item}
-            </FormTemplate>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12}>
+            <Grid container spacing={2} justifyContent="space-between" alignItems="center">
+              <Grid item>
+                <FullScreenDialog projectData={props.projectData} handleProjectDataChange={props.handleProjectDataChange} />
+              </Grid>
+              <Grid item>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <FilterAltIcon />
+                  </Grid>
+                  <Grid item>
+                    <TextField id="standard-basic" label="Filter" variant="standard" value={filterValue} onChange={filter} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ height: '90%', overflowY:'auto' }}>
+              <Grid container spacing={2} justifyContent="center" style={{ height: '100%' }}>
+                {formTemplate.map((item) => (
+                  <Grid key={item._id} item xs={12} sm={6} md={4}>
+                    <FormTemplate
+                      id={item.formTemplateId}
+                      name={item.formName}
+                      // url={item.imageurl}
+                      description={item.formDescription}
+                      projectData={props.projectData}
+                      handleProjectDataChange={props.handleProjectDataChange}
+                    >
+                      {item}
+                    </FormTemplate>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          </Grid>
         </Grid>
-      ))}
-    </Grid>
-
-
 
 
         <br/>

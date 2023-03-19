@@ -24,20 +24,21 @@ export default function FormTemplate(props) {
 
  
   const addForm = (form) => {
+    console.log(form)
     props.handleProjectDataChange('selectedForm', form)
 
   }
 
 
   
-  const isInSelectedForm = props.projectData.selectedForm.some(form => form._id === props._id);
+  const isInSelectedForm = props.projectData.selectedForm.some(form => form.id === props.id);
   const buttonName = isInSelectedForm ? "Selected" : "Select Form";
   const buttonStyle = isInSelectedForm ? { margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" } : { margin: "auto", width: 300, color:"blue"};
 
 
   return (
     <>
-    {console.log(props.projectData)}
+    {/* {console.log(props.projectData)} */}
     <Card sx={{ maxWidth: 345 }}>
       {/* <CardMedia
         sx={{ height: 140 }}
@@ -45,14 +46,14 @@ export default function FormTemplate(props) {
       /> */}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {props.formName}
+          {props.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {props.formDescription}
+          {props.description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button style={buttonStyle} onClick={() => addForm({"id":props._id, "name":props.formName})}>{buttonName}</Button>
+        <Button style={buttonStyle} onClick={() => addForm({"id":props.id, "name":props.name})}>{buttonName}</Button>
       </CardActions>
     </Card>
     {console.log(props.selectedForm)}

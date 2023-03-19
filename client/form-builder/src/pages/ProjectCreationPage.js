@@ -33,7 +33,7 @@ const ProjectCreationPage = (props) => {
     //   }
     const handleProjectDataChange = (field, value) => {
         if (field === 'selectedForm') {
-            const foundIndex = projectData.selectedForm.findIndex(form => form._id === value._id);
+            const foundIndex = projectData.selectedForm.findIndex(form => form.id === value.id);
             if(foundIndex !== -1){
                 setProjectData(prevState => ({
                     ...prevState,
