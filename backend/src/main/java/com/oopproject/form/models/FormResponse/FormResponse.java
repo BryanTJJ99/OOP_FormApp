@@ -2,6 +2,7 @@ package com.oopproject.form.models.FormResponse;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
 import org.json.simple.JSONObject;
 
 import lombok.Getter;
@@ -19,32 +20,26 @@ import com.oopproject.form.models.User.User;
 public class FormResponse {
     @Id 
     private String formResponseId; 
-    @DocumentReference
     private String formTemplateId; 
-    @DocumentReference
     private String vendorProjectId; 
-    @DocumentReference
     private String vendorId; 
-    @DocumentReference 
     private String projectId;
-    @DocumentReference
-    private User reviewedBy; 
-    @DocumentReference
-    private User approvedBy; 
+    private String reviewedBy; 
+    private String approvedBy; 
     private String status; 
-    private JSONObject formAnswer; 
+    private Map<String, Object> formAnswer; 
 
-    public FormResponse(String formResponseId, String formTemplateId, String vendorProjectId, String vendorId, String projectId, User reviewedBy, User approvedBy, String status, JSONObject formAnswer) {
-        this.formResponseId = formResponseId; 
-        this.formTemplateId = formTemplateId; 
-        this.vendorProjectId = vendorProjectId; 
-        this.vendorId = vendorId; 
-        this.projectId = projectId;
-        this.reviewedBy = reviewedBy; 
-        this.approvedBy = approvedBy; 
-        this.status = status; 
-        this.formAnswer = formAnswer;
-    }
+    // public FormResponse(String formResponseId, String formTemplateId, String vendorProjectId, String vendorId, String projectId, User reviewedBy, User approvedBy, String status, JSONObject formAnswer) {
+    //     this.formResponseId = formResponseId; 
+    //     this.formTemplateId = formTemplateId; 
+    //     this.vendorProjectId = vendorProjectId; 
+    //     this.vendorId = vendorId; 
+    //     this.projectId = projectId;
+    //     this.reviewedBy = reviewedBy; 
+    //     this.approvedBy = approvedBy; 
+    //     this.status = status; 
+    //     this.formAnswer = formAnswer;
+    // }
 
     public void makePDF(FormResponse formRespons) {
         //
