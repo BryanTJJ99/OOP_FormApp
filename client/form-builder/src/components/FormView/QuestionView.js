@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Card, TextField, FormControl, FormGroup, RadioGroup, FormControlLabel, Radio, Checkbox, Select, MenuItem, styled, Rating, Box } from '@mui/material';
+import { Typography, Card, TextField, FormControl, FormGroup, RadioGroup, FormControlLabel, Radio, Checkbox, Select, MenuItem, styled, Rating, Box, Button } from '@mui/material';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CircleIcon from '@mui/icons-material/Circle';
 import { MuiFileInput } from 'mui-file-input'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 const QuestionView = (props) => {
     const [dropdownVal, setDropdownVal] = useState("default");
@@ -29,13 +30,17 @@ const QuestionView = (props) => {
 
     function specialQuestionType(questionType) { 
         if (questionType === 'text') { 
-            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} disabled></TextField>
+            return <TextField variant='standard' placeholder="Your answer" value={props.response.formAnswer[props.question.questionOrder]} sx={{width: '100%'}} disabled></TextField>
         } else if (questionType === 'textarea') { 
-            return <TextField variant='standard' placeholder="Your answer" sx={{width: '100%'}} multiline rows={4} disabled></TextField>
+            return <TextField variant='standard' placeholder="Your answer" value={props.response.formAnswer[props.question.questionOrder]} sx={{width: '100%'}} multiline rows={4} disabled></TextField>
         } else if (questionType === 'radio') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
-                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} disabled />)
+                let checked = false; 
+                if (props.response.formAnswer[props.question.questionOrder] === i.toString()) { 
+                    checked = true; 
+                }
+                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} disabled checked={checked} />)
             }
             return (
                 <FormControl sx={{width: '100%'}}>
@@ -43,6 +48,7 @@ const QuestionView = (props) => {
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue="female"
                         name="radio-buttons-group"
+                        // value={props.response.formAnswer[props.question.questionOrder]}
                     >
                         {choices}
                     </RadioGroup>
@@ -51,7 +57,14 @@ const QuestionView = (props) => {
         } else if (questionType === 'checkbox') { 
             let choices = Array(0);
             for (let i=0; i<props.question.choices.length; i++) { 
-                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} disabled />)
+                let checked = false;
+                console.log(Object.keys(props.response.formAnswer), )
+                if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) { 
+                    if (Object.values(props.response.formAnswer[props.question.questionOrder]).includes(i.toString())) { 
+                        checked = true; 
+                    }
+                }
+                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} disabled checked={checked} />)
             }
             return (
                 <FormControl sx={{width: '100%'}}>
@@ -71,8 +84,8 @@ const QuestionView = (props) => {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={dropdownVal}
                             onChange={handleDropdownChange}
+                            value={props.response.formAnswer[props.question.questionOrder]}
                         >
                             <MenuItem value={"default"} disabled>Select an option</MenuItem>
                             {choices}
@@ -95,7 +108,7 @@ const QuestionView = (props) => {
                     <Box width={'70%'}>
                         <StyledRating
                             name="customized-color"
-                            defaultValue={null}
+                            // defaultValue={null}
                             getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                             precision={1}
                             // use max to set the number of circles
@@ -104,6 +117,7 @@ const QuestionView = (props) => {
                             emptyIcon={<RadioButtonUncheckedIcon fontSize="inherit" sx={{margin: '0.8rem'}} />}
                             width='70%'
                             disabled
+                            defaultValue={parseInt(props.response.formAnswer[props.question.questionOrder])}
                         />
                     </Box>
                     <Box width='15%' marginY={'auto'}>
@@ -112,12 +126,28 @@ const QuestionView = (props) => {
                     </Box>
                 </div>
             )
-        } else if (questionType === 'file') { 
+        } else if (questionType === 'file') {
+            let fileBase64String = props.response.formAnswer[props.question.questionOrder];
+            console.log(fileBase64String)
+            // var base64String = document.getElementById("Base64StringTxtBox").value;
+            let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" disabled value={file}/>)
+            console.log(Object.keys(props.response.formAnswer), props.question.questionOrder)
+            if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) { 
+                // const downloadLink = document.createElement("a");
+                // downloadLink.href = fileBase64String;
+                // downloadLink.download = "convertedPDFFile.pdf";
+                // downloadLink.click();
+                fileElement = (<Button component="a" href={"data:application/pdf;base64," + fileBase64String} download="userInputFile" variant="outlined" sx={{padding:2}}><AttachFileIcon sx={{marginRight:1}}/>Download Submitted File</Button>)
+            }
             return (
                 <div className='d-flex'>
-                    <MuiFileInput value={file} onChange={handleFileChange} placeholder="Select a file" disabled/>
+                    {fileElement}
                 </div>)
         }
+    }
+
+    function controlFileElement() { 
+
     }
 
     return (

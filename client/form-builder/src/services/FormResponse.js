@@ -14,11 +14,7 @@ export async function getFormResponseById(id) {
 export async function createFormResponse(formData) { 
     let api_url = 'http://localhost:8080/formResponse/create'; 
     try { 
-        const response = await axios.post(api_url, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        });
+        const response = await axios.post(api_url, formData);
         console.log('response ', response); 
         return response.data;
     } catch(error) { 
