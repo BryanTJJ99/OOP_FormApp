@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { getAllFormTemplate } from '../../services/FormTemplate.js';
+import { getAllUsers } from '../../services/User.js';
 //import moment from 'moment';
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
 
@@ -9,7 +10,7 @@ const columns: GridColDef[] = [
     {
       field: 'formName',
       headerName: 'Form Template Name',
-      width: 350,
+      flex: 2,
       editable: false,
       renderCell: (params) => { 
         return <a href={params.value.link}>{params.value.name}</a>
@@ -19,14 +20,14 @@ const columns: GridColDef[] = [
     {
       field: 'createdBy',
       headerName: 'Created By',
-      width: 200,
+      flex: 1,
       editable: false,
     },
 
     {
       field: 'updatedAt',
       headerName: 'Last Updated',
-      width: 200, 
+      flex: 1,
       editable: false, 
       valueFormatter: (params) => {
         // new Date(params.value).format('DD/MM/YYYY')
@@ -41,6 +42,7 @@ const columns: GridColDef[] = [
 const FormTable = () => {
     const [formTemplates, setFormTemplates] = useState(null); 
     const [dataGrid, setDataGrid] = useState(null); 
+    const [users, setUsers] = useState(null); 
 
     useEffect(() => {
         getAllFormTemplate()
@@ -50,7 +52,24 @@ const FormTable = () => {
             .catch(error => {
                 console.log(error.message); 
             })
+
+        getAllUsers() 
+            .then(response => { 
+              setUsers(response); 
+              console.log(response)
+            })
+            .catch(error => { 
+              console.log(error.message); 
+            })
     }, [])
+
+    function findUsernameByUserId(id) { 
+      for (let user of users) { 
+        if (user.id === id) { 
+          return user.username;
+        }
+      }
+    }
 
     useEffect(() => {
         if (formTemplates !== null) { 
@@ -59,9 +78,9 @@ const FormTable = () => {
             for (let formTem of formTemplates) { 
               let row = {id: rowIdCounter}; 
               rowIdCounter++; 
-              row['formName'] = {name: formTem.formName, link: '/FormView'};
+              row['formName'] = {name: formTem.formName, link: '/FormView?formTemplateId=' + formTem.formTemplateId};
               // bernice need to query out the username from the userDB using the formTem.createdBy userId
-              row['createdBy'] = formTem.createdBy;
+              row['createdBy'] = findUsernameByUserId(formTem.createdBy);
               row['updatedAt'] = formTem.updatedAt;
               newDataGridRows.push(row);
             }
