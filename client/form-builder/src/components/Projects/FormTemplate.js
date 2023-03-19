@@ -30,7 +30,7 @@ export default function FormTemplate(props) {
 
 
   
-  const isInSelectedForm = props.projectData.selectedForm.some(form => form.id === props.id);
+  const isInSelectedForm = props.projectData.selectedForm.some(form => form._id === props._id);
   const buttonName = isInSelectedForm ? "Selected" : "Select Form";
   const buttonStyle = isInSelectedForm ? { margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" } : { margin: "auto", width: 300, color:"blue"};
 
@@ -39,20 +39,20 @@ export default function FormTemplate(props) {
     <>
     {console.log(props.projectData)}
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
+      {/* <CardMedia
         sx={{ height: 140 }}
         image={props.url}
-      />
+      /> */}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {props.name}
+          {props.formName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {props.description}
+          {props.formDescription}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button style={buttonStyle} onClick={() => addForm({"id":props.id, "name":props.name})}>{buttonName}</Button>
+        <Button style={buttonStyle} onClick={() => addForm({"id":props._id, "name":props.formName})}>{buttonName}</Button>
       </CardActions>
     </Card>
     {console.log(props.selectedForm)}

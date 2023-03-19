@@ -1,8 +1,10 @@
-import { React, useState, useEffect } from "react";
+import { Transition } from '@headlessui/react';
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom"
+import { React, useState } from "react";
 import ProjectCreationPage1 from "../components/Projects/ProjectCreationPage1";
 import ProjectCreationPage2 from "../components/Projects/ProjectCreationPage2";
 import ProjectCreationPage3 from "../components/Projects/ProjectCreationPage3";
-import { Transition } from '@headlessui/react';
 
 
 // import Navbar from "./components/Navbar/Navbar";
@@ -31,7 +33,7 @@ const ProjectCreationPage = (props) => {
     //   }
     const handleProjectDataChange = (field, value) => {
         if (field === 'selectedForm') {
-            const foundIndex = projectData.selectedForm.findIndex(form => form.id === value.id);
+            const foundIndex = projectData.selectedForm.findIndex(form => form._id === value._id);
             if(foundIndex !== -1){
                 setProjectData(prevState => ({
                     ...prevState,
@@ -54,6 +56,17 @@ const ProjectCreationPage = (props) => {
 
     return (
         <div>
+
+
+        <Link to="/Project" style={{ textDecoration : "none" }}>
+            <Button             
+            style={{ backgroundColor: '#a8c7f7', color: 'inherit', height:50, width:150 }} 
+            // onClick = {}
+            >
+                Back to Projects 
+            </Button>
+        </Link>
+
         {activePage === '1' && (
             <Transition
                 show={activePage === '1'}

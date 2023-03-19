@@ -1,8 +1,12 @@
 import { React, useState, useEffect } from 'react'
-import { Button, TextField, Typography, Autocomplete } from '@mui/material'
+import { Button, TextField, Typography, Autocomplete, Chip } from '@mui/material'
 import './ProjectCreationPage.css';
 // import axios from 'axios';
 import axios from 'axios';
+import { getVendorData } from '../../services/ProjectCreationPageAPI';
+// import SelectButton from "./SelectButton";
+
+
 
 
 
@@ -31,17 +35,15 @@ const ProjectCreationPage1 = (props) => {
   
 
   const [vendorData, setVendorData] = useState([]);
-  const apiUrl = 'http://localhost:8080/api/admin/allUsers';
+  // const apiUrl = 'http://localhost:8080/api/admin/allUsers';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl);
-        const userData = response.data;
-        const vendorData = userData.filter(function getVendor(ele) {
-          return ele.role == "ROLE_VENDOR";
-        });
-        setVendorData(vendorData);
+        let vendor = await getVendorData();
+        console.log(vendor)
+        // console.log(vendorData)
+        setVendorData(vendor);
         // console.log(vendorData);
       } catch (error) {
         console.log(error.message);
@@ -100,7 +102,7 @@ const ProjectCreationPage1 = (props) => {
             value={projectData.projectName}
           />
 
-          <Autocomplete
+          {/* <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={vendorData}
@@ -111,15 +113,47 @@ const ProjectCreationPage1 = (props) => {
               vendorData.find((option) => option.username === projectData.vendorCompanyName) || null
             }
             renderInput={(params) => (
-              <TextField
-                {...params}
-                id="VendorCompanyName"
-                label="Vendor Company Name"
-                value={projectData.vendorCompanyName}
-                onChange={handleVendorCompanyNameChange}
-              />
+              // <TextField
+              //   {...params}
+              //   id="VendorCompanyName"
+              //   label="Vendor Company Name"
+              //   value={projectData.vendorCompanyName}
+              //   onChange={handleVendorCompanyNameChange}
+              // />
+              
+              
+
             )}
+            
+          /> */}
+          <Autocomplete
+              multiple
+              id="vendor-company-name"
+              options={vendorData}
+              getOptionLabel={(option) => option.username}
+              value={vendorData.filter((option) => projectData.vendorCompanyName.includes(option.username))}
+              onChange={(event, newValue) => {
+                handleProjectDataChange('vendorCompanyName', newValue.map((option) => option.username));
+              }}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip variant="outlined" label={option.username} {...getTagProps({ index })} style={{ display: 'inline-flex', margin: '2px' }}/>
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Vendor Company Name"
+                  placeholder="Select vendor companies"
+                  value={projectData.vendorCompanyName.length > 0 ? "" : params.inputProps.value}
+                  onChange={params.onChange}
+                  style={{ width: 300 }}
+                />
+                )}
           />
+
+
         </div>
 
 

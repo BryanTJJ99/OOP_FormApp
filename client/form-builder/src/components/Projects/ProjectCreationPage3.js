@@ -69,7 +69,9 @@ const ProjectCreationPage3 = (props) => {
                 </TableRow>
                 <TableRow>
                     <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Vendor Company Name</TableCell>
-                    <TableCell align='center'>{props.vendorCompanyName}</TableCell>
+                    <TableCell align='center'>{props.vendorCompanyName.map((item) => (
+                            <Chip label={item} />
+                        ))}</TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Project Description</TableCell>
