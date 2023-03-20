@@ -88,6 +88,7 @@ const FormResponse = (props) => {
         if (formTemplate !== null) { 
             setFormInfo(<FormInfo formTemplate={formTemplate}/>);
             let questionSectionDict = {}; 
+            console.log(formTemplate); // give an Axios error
             for (let section of formTemplate.sections) { 
                 questionSectionDict[section.sectionOrder] = [];
             }

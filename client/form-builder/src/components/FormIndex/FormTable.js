@@ -78,10 +78,11 @@ const FormTable = () => {
     ];
 
     return (
-      <Box sx={{ width: '80%', }}
+      <Box sx={{ width: '80%',overflowX:'auto', }}
         display={"flex"}
         justifyContent={"center"}
         marginX={"auto"}
+
       >
         <DataGrid
           autoHeight
@@ -97,6 +98,14 @@ const FormTable = () => {
           pageSizeOptions={[10]}
           checkboxSelection={false}
           disableRowSelectionOnClick
+          sx={{
+            '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+              backgroundColor: "secondary.main",
+              color:"white",
+              fontWeight: 'bold',
+            },
+          }}
+          
         />
     </Box>
     )
