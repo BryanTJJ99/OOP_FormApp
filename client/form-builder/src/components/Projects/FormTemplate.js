@@ -24,6 +24,7 @@ export default function FormTemplate(props) {
 
  
   const addForm = (form) => {
+    console.log(form)
     props.handleProjectDataChange('selectedForm', form)
 
   }
@@ -37,12 +38,12 @@ export default function FormTemplate(props) {
 
   return (
     <>
-    {console.log(props.projectData)}
+    {/* {console.log(props.projectData)} */}
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
+      {/* <CardMedia
         sx={{ height: 140 }}
         image={props.url}
-      />
+      /> */}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.name}

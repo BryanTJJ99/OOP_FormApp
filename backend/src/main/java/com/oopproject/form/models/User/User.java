@@ -34,6 +34,8 @@ public class User {
 
     private String role;
 
+    private String country;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date created_at;
 
@@ -126,6 +128,14 @@ public class User {
 
     public void setDeleted_at(Date deleted_at) {
         this.deleted_at = deleted_at;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

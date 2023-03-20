@@ -29,14 +29,14 @@ const columns: GridColDef[] = [
     {
       field: 'vendor',
       headerName: 'Vendor',
-      width: 250,
+      flex: 2,
       editable: false,
     },
 
     {
       field: 'project',
       headerName: 'Project',
-      width: 250,
+      flex: 2,
       editable: false,
     },
 
@@ -48,7 +48,7 @@ const columns: GridColDef[] = [
         return <FormPills forms={params}/>
       },
       editable: false,
-      width: 500,
+      flex: 5,
     }, 
     
     // {
@@ -68,8 +68,8 @@ const columns: GridColDef[] = [
   
 const FormTable = () => {
     const rows = [
-      { id: 1, vendor: 'Ken Company', project: 'Wack Stuff', forms: [{name: 'Reflection', status: 'partial', link: '/FormResponse'}]},
-      { id: 2, vendor: 'Bryan Company', project: 'Good Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'partial', link: '/FormResponse'}]},
+      { id: 1, vendor: 'Ken Company', project: 'Wack Stuff', forms: [{name: 'Reflection', status: 'partial', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}]},
+      { id: 2, vendor: 'Bryan Company', project: 'Good Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'partial', link: '/FormResponse'}]},
       { id: 3, vendor: 'ZX Company', project: 'Smart Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormResponse'}]},
       { id: 4, vendor: 'HM Company', project: 'Quick Stuff', forms: [{name: 'Customer Service Form', status: 'complete', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}]},
       { id: 5, vendor: 'Ber Company', project: 'Amazing Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'partial', link: '/FormResponse'}, {name: 'Customer Service Form', status: 'unfilled', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'complete', link: '/FormResponse'}]},

@@ -25,7 +25,6 @@ const FormBuilder = (props) => {
                 sectionList.push({
                     sectionName: data.get(itemId + 'sectionName'),
                     sectionOrder: sectionOrder,
-                    // bernice ken softcode assignedTo once the GET params flow is set up 
                     assignedTo: data.get(itemId + 'assignedTo'),
                     createdAt: today, 
                     updatedAt: today
@@ -59,7 +58,7 @@ const FormBuilder = (props) => {
             formName: data.get('formName'),
             formDescription: data.get('formDescription'),
             // bernice ken softcode createdBy once the GET params flow is set up
-            createdBy: "6411538f436af646394c3fe4",
+            createdBy: "6413082b2c8abc263c9eecbf",
             createdAt: today,
             updatedAt: today,
             sections: sectionList,

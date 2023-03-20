@@ -18,6 +18,9 @@ import ClientVendorProfile from "./pages/clientVendorProfile";
 import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 
 
+import ProjectCreationPage from "./pages/ProjectCreationPage";
+import Project from "./pages/ProjectPage";
+
 function App() {
     return (
         <>
@@ -39,7 +42,8 @@ function App() {
                         path="/AccountCreation"
                         element={<AccountCreationPage />}
                     />
-                    {/* <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
+                    <Route path="/Project" element={<Project/>}/>
+                    <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                     <Route path="/Settings" element={<Settings />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />

@@ -1,4 +1,4 @@
-import { React  , useState, Fragment } from 'react' //rafce 
+import { React  , useState, Fragment, useEffect } from 'react' //rafce 
 import { Button, Typography, TextField } from '@mui/material'
 import FormTemplate from "./FormTemplate";
 import Carousel from "react-multi-carousel";
@@ -20,89 +20,45 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip
+  Chip, 
+  Grid
 } from "@mui/material";
+import FullScreenDialog from './CustomPopUp';
 
+
+import { getFormTemplateData }  from '../../services/ProjectCreationPageAPI';
+
+
+
+// const apiUrl = 'http://localhost:8080/api/admin/allUsers';
 
 
 const ProjectCreationPage2 = (props) => {
 
-        //Dummy Dataset
-        const formTemplateData = [
-          {
-            id: 1,
-            imageurl:
-              "https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "Colorful sneakers",
-            description: "Some text about the product..",
-          },
-          {
-            id: 2,
-            imageurl:
-              "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-            name: "Sport sneakers",
-            description: "Some text about the product..",
-          },
-          {
-            id: 3,
-            imageurl:
-              "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjZ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "iWatch",
-            description: "Some text about the product..",
-          },
-          {
-            id: 4,
-            imageurl:
-              "https://images.unsplash.com/photo-1610824352934-c10d87b700cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjl8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "Water Bottle",
-            description: "Some text about the product..",
-          },
-          {
-            id: 5,
-            imageurl:
-              "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "Vans sneakers",
-            description: "Some text about the product..",
-          },
-          {
-            id: 6,
-            imageurl:
-              "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "Coco Noir",
-            description: "Some text about the product..",
-          },
-          {
-            id: 7,
-            imageurl:
-              "https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "Sunglasses",
-            description: "Some text about the product..",
-          },
-          {
-            id: 8,
-            imageurl:
-              "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-            name: "Dove cream",
-            description: "Some text about the product..",
-          },
-        ];
 
 
-
-    const [formTemplate, setformTemplate] = useState(formTemplateData)
+    const [formTemplate, setformTemplate] = useState([])
     const [filterValue, setFilterValue] = useState(props.filterValue)
-    // const [selectedForm, setSelectedForm] = useState([]);
+    const [rawData, setRawData] = useState()
+    const [vendorData, setVendorData] = useState([]);
 
-
-    // const { handleProjectDataChange, projectData } = props;
-
-
-    // const handleSelectedFormDataChange = (field,value) => {
-    //   handleProjectDataChange(field,value);
-      
-    // }
-
-
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          let forms = await getFormTemplateData();
+          console.log(forms)
+          // console.log(vendorData)
+          // setformTemplate(forms);
+          setRawData(forms)
+          setformTemplate(forms)
+          // console.log(vendorData);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+    
+      fetchData();
+    }, []);
 
 
 
@@ -111,8 +67,8 @@ const ProjectCreationPage2 = (props) => {
       // console.log(event.target.value)
       let filter_value = event.target.value
       let filtered_forms = []
-      for(var form of formTemplateData){
-        let slice = form.name.toLowerCase().slice(0, filter_value.length)
+      for(var form of rawData){
+        let slice = form.formName.toLowerCase().slice(0, filter_value.length)
         if(slice == filter_value.toLowerCase()){
           filtered_forms.push(form)
         }
@@ -120,17 +76,15 @@ const ProjectCreationPage2 = (props) => {
       setformTemplate(filtered_forms)
     }
 
-  
+    console.log(rawData)
+    console.log(formTemplate)
     // for table with cards######################
-    const numRows = Math.ceil(formTemplate.length / 3);
-    const rows = Array.from({ length: numRows }, (_, i) => formTemplate.slice(i * 3, i * 3 + 3));
-
-
+    // const numRows = Math.ceil(formTemplate.length / 3);
+    // const rows = Array.from({ length: numRows }, (_, i) => formTemplate.slice(i * 3, i * 3 + 3));
 
   return (
     
     <>
-
         <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
             Add Form For Vendor
         </Typography>
@@ -141,7 +95,7 @@ const ProjectCreationPage2 = (props) => {
       <Fragment>
         <CssBaseline />
           <Container maxWidth="sm" style={{ backgroundColor:"#cfe8fc", borderRadius:"20px"}}>
-            Selected Form(s)<br></br>
+            Selected Form(s)<br/>
             {props.projectData.selectedForm.map((item) => (
               <Chip label={item.name} />
             ))}
@@ -152,59 +106,46 @@ const ProjectCreationPage2 = (props) => {
         <br/>
         <br/>
 
-        {/* FOR TABLE WITH CARDS */}
-        <TableContainer style={{ maxHeight: 800 }}>
-            <Table stickyHeader={true}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={{textAlign: "center"}}>
-                          
-                            <Button style={{ backgroundColor: '#A5DEB8', height:50, width:250 }}>
-                              <Typography variant="h10" style={{ fontFamily: 'Arial', color:'black' }}>
-                                <AddIcon></AddIcon>
-                                  Create Custom Form
-                              </Typography>
-                            </Button>
-                        </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell>
-                          <FilterAltIcon></FilterAltIcon>
-                          <TextField id="standard-basic" label="Filter" variant="standard" value={filterValue} onChange={filter}/>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row, rowIndex) => (
-                        <TableRow key={rowIndex}>
-                            {row.map((item, columnIndex) => (
-                                <TableCell key={columnIndex}>
-                                    <FormTemplate
-                                              id = {item.id}
-                                              name={item.name}
-                                              url={item.imageurl}
-                                              description={item.description}
-                                              projectData={props.projectData}
-                                              handleProjectDataChange={props.handleProjectDataChange}
-                                              >
-                                      {item}
-                                    </FormTemplate>
-                                </TableCell>
-                            ))}
-                            {/* Add empty cells to fill up the row if there are less than 3 items */}
-                            {row.length < 3 && (
-                                <>
-                                    {[...Array(3 - row.length)].map((_, i) => (
-                                        <TableCell key={row.length + i}></TableCell>
-                                    ))}
-                                </>
-                            )}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
 
-
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12}>
+            <Grid container spacing={2} justifyContent="space-between" alignItems="center">
+              <Grid item>
+                <FullScreenDialog projectData={props.projectData} handleProjectDataChange={props.handleProjectDataChange} />
+              </Grid>
+              <Grid item>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item>
+                    <FilterAltIcon />
+                  </Grid>
+                  <Grid item>
+                    <TextField id="standard-basic" label="Filter" variant="standard" value={filterValue} onChange={filter} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ height: '90%', overflowY:'auto' }}>
+              <Grid container spacing={2} justifyContent="center" style={{ height: '100%' }}>
+                {formTemplate.map((item) => (
+                  <Grid key={item._id} item xs={12} sm={6} md={4}>
+                    <FormTemplate
+                      id={item.formTemplateId}
+                      name={item.formName}
+                      // url={item.imageurl}
+                      description={item.formDescription}
+                      projectData={props.projectData}
+                      handleProjectDataChange={props.handleProjectDataChange}
+                    >
+                      {item}
+                    </FormTemplate>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          </Grid>
+        </Grid>
 
 
         <br/>
