@@ -1,20 +1,20 @@
-import { useRef, useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 // import Link from '@mui/material/Link';
 // import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
-import AuthService from '../../services/authService';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthService from '../services/authService';
 
 
 function Copyright(props) {
@@ -35,9 +35,6 @@ const theme = createTheme();
 function LogIn() {
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
-
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -73,7 +70,7 @@ function LogIn() {
                         // navigate to the home page
                         // navigate(from, { replace: true });
                         // navigate to settings page
-                        navigate('/settings', { replace: true });
+                        navigate('/dashboard', { replace: true });
 
                         // reload the page to update the state
                         window.location.reload();

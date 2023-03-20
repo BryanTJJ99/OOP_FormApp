@@ -77,13 +77,6 @@ const Settings = () => {
                             </Typography>
                         </Item>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Item>
-                            <Button variant="contained" component={Link} to="/LogOut">
-                                Logout
-                            </Button>
-                        </Item>
-                    </Grid>
                 </Grid>
             </Container>
         </ThemeProvider>
