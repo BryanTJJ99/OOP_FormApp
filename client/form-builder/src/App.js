@@ -26,7 +26,7 @@ function App() {
         <>
         <div>
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"></link>
             <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"></link>
         </div>
         <ThemeProvider theme={theme}>

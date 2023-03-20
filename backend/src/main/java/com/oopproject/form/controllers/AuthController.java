@@ -63,7 +63,6 @@ public class AuthController {
 				userDetails.getUsername(),
 				userDetails.getEmail(),
 				roles));
-
 	}
 
 	@PostMapping("/signup")
@@ -86,24 +85,6 @@ public class AuthController {
 				encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
 
 		String strRole = signUpRequest.getRole();
-
-		// if (strRole == null) {
-		// 	throw new RuntimeException("Error: Role is not found.");
-		// } else {
-		// 	switch (strRole) {
-		// 	case "admin":
-		// 		user.setRole(Roles.ROLE_ADMIN);
-		// 		break;
-		// 	case "approver":
-		// 		user.setRole(Roles.ROLE_APPROVER);
-		// 		break;
-		// 	case "vendor":
-		// 		user.setRole(Roles.ROLE_VENDOR);
-		// 		break;
-		// 	default:
-		// 		throw new RuntimeException("Error: Role is not found.");
-		// 	}
-		// }
 
 		// reassign user role string to enum as per the database Roles enum
 		switch (strRole) {

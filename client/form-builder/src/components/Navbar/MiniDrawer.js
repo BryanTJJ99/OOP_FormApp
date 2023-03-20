@@ -27,6 +27,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Link } from 'react-router-dom';
+import { Login, LoginOutlined } from '@mui/icons-material';
+import { Person2Outlined, Person3Outlined, Person4Outlined } from '@mui/icons-material';
+
 // sample code from mui 
 const drawerWidth = 240;
 
@@ -104,8 +107,8 @@ export default function MiniDrawer({children}) {
   const iconsPrimary = [<DashboardIcon/>,<PeopleAltIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
   const iconsSecondary = [
     <SettingsIcon/>,
-    <AccountCircleIcon/>,
-    <LogoutIcon/>,
+    <LogoutIcon />,
+    <LoginOutlined />
     
   ]
 

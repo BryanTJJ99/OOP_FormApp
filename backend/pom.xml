@@ -42,18 +42,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<!-- added exclusion for junit-vintage-engine -->
-			<!-- <exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions> -->
-			<!-- added exclusion for junit-vintage-engine -->
 		</dependency>
 
 		<!-- added jwt spring security dependecies here -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -79,7 +71,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 		<!-- added jwt spring security dependecies here -->
 
 		<!-- added lombok dependencies here -->
