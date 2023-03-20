@@ -17,12 +17,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import CottageIcon from '@mui/icons-material/Cottage';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import MailIcon from '@mui/icons-material/Mail';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import DescriptionIcon from '@mui/icons-material/Description';
-import SettingsIcon from '@mui/icons-material/Settings';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
@@ -99,14 +98,12 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState("Home")
-  const pages = ['Dashboard', 'Account Management', 'Form Responses', 'Form Templates','Project']
-  const widgets = ['Settings','Account','Logout']
-  const iconsPrimary = [<DashboardIcon/>,<PeopleAltIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
+  const pages = ['Dashboard','Project','Form Responses', 'Form Templates','Account Management',]
+  const widgets = ['Account','Logout']
+  const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
   const iconsSecondary = [
-    <SettingsIcon/>,
     <AccountCircleIcon/>,
     <LogoutIcon/>,
-    
   ]
 
   const handleDrawerOpen = () => {

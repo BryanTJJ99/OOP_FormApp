@@ -26,31 +26,23 @@ function App() {
         <>
         <div>
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"></link>
             <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"></link>
         </div>
         <ThemeProvider theme={theme}>
             <Router>
                 <MiniDrawer>
                 <Routes>
-                    <Route exact path="/Home" element={<Home />} />
-                    <Route
-                        path="/AccountManagement"
-                        element={<AccountManagementPage />}
-                    />
-                    <Route
-                        path="/AccountCreation"
-                        element={<AccountCreationPage />}
-                    />
+                    <Route exact path="/Dashboard" element={<Dashboard />} />
                     <Route path="/Project" element={<Project/>}/>
                     <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
-                    <Route path="/Settings" element={<Settings />} />
-                    <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
                     <Route path='/FormResponses' element={<FormResponseIndex />} />
                     <Route path="/FormBuilder" element={<FormBuilder />} />
                     <Route path="/FormView" element={<FormView />} />
                     <Route path="/FormResponse" element={<FormResponse />} />
+                    <Route path="/AccountManagement" element={<AccountManagementPage />}/>
+                    <Route path="/AccountCreation" element={<AccountCreationPage />}/>
                     <Route path="/ClientVendorProfile" element = {<ClientVendorProfile/>}/>
                 </Routes>
                 </MiniDrawer>
