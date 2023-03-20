@@ -13,15 +13,18 @@ const StatusChip = ({status}) => {
     let color;
     let icon;
     switch(status) {
+        case "approved":
         case "Filled":
             color = "success"
             icon = <DoneIcon/>
             break;
         case "Reviewed":
+        case "vendor":
             color = "cyan"
             icon = <DoneAllIcon/>
             break;
         case "Approved":
+        case "approver":
             color = "indigo"
             icon = <HowToRegIcon/>
             break;
@@ -30,10 +33,13 @@ const StatusChip = ({status}) => {
             icon = <AutorenewIcon/>
             break;
         case "Rejected":
+        case "rejected":
             color = "error"
             icon = <ReportProblemIcon/>
             break
+        case "open":
         case "Open":
+        case "admin":
             color = "info"
             icon = <InfoIcon/>
             break
@@ -41,9 +47,16 @@ const StatusChip = ({status}) => {
             color = "info"
             icon = <InfoIcon/>
       }
+
+    function toTitleCase(str) {
+      return str.toLowerCase().split(' ').map(function (word) {
+        return (word.charAt(0).toUpperCase() + word.slice(1));
+      }).join(' ');
+    }
+    
     return (
         <>
-         <Chip icon={icon} label={status} variant="outlined" color={color}/>
+         <Chip icon={icon} label={toTitleCase(status)} variant="outlined" color={color}/>
         </>
     )
 }
