@@ -16,7 +16,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import axios from 'axios'
+import { getAllVendors , getAllProjects , getAllFormResponses } from '../services/DashboardAPI';
 
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
@@ -132,20 +132,20 @@ const rows = [
  
 
 const UserWidget = () => {
-  // to be dynamic getAllVendors 
+  // defining state variables
+  const [totalVendors,setTotalVendors] = useState(0)
 
-  const vendor_url = "http://localhost:8080/api/admin/allVendors"
+  // to be dynamic getAllVendors 
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
-    axios.get(vendor_url)
-        .then(response => {
-          console.log(response.data)
-          setTotalVendors(response.data.total)
-        });
+    const fetchData = async () => {
+      let vendorData = await getAllVendors()
+      setTotalVendors(vendorData.length)
+    }
+    fetchData()
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
   }, []);  
-  const [totalVendors,setTotalVendors] = useState(0)
   
   return (
     <Box sx={{height: 300 ,padding:5}} 
@@ -159,10 +159,19 @@ const UserWidget = () => {
   )
 }
 const ProjectWidget = () => {
-  // to be dynamic 
-  // getAllProjects which comes from ProjectRepository.java but currently no methods written inside yet
+  // set state 
+  const [totalProjects,setTotalProjects] = useState(0)
 
-  const totalProjects = 11020
+  // getAllProjects which comes from ProjectRepository.java 
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      let projectData = await getAllProjects()
+      setTotalProjects(projectData.length)
+    }
+    fetchData()
+  }, [])
+
   return (
     <Box sx={{height: 300 ,padding:5}} 
     variant="outlined">
@@ -254,6 +263,21 @@ const RecentUsersWidget = () => {
 }
 
 const Dashboard = () => {
+  // set state for form data
+  const [forms,setForms] = useState({})
+
+  // obtaining the form data
+  useEffect(() => {
+    const fetchData = async () => {
+      let formData = await getAllFormResponses()
+      console.log(formData)
+      setForms(formData)
+    }
+    fetchData()
+  }
+  ,[])
+
+  // styling dashboard
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -261,6 +285,7 @@ const Dashboard = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }))
+
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Grid container spacing={2} style={{height:"100%"}}>
