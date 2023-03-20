@@ -34,10 +34,10 @@ function App() {
                 <MiniDrawer>
                 <Routes>
                     <Route exact path="/Dashboard" element={<Dashboard />} />
-                    <Route path="/Project" element={<Project/>}/>
+                    {/* <Route path="/Project" element={<Project/>}/> */}
                     <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
-                    <Route path='/FormResponses' element={<FormResponseIndex />} />
+                    <Route path='/Project' element={<FormResponseIndex />} />
                     <Route path="/FormBuilder" element={<FormBuilder />} />
                     <Route path="/FormView" element={<FormView />} />
                     <Route path="/FormResponse" element={<FormResponse />} />

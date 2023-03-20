@@ -98,7 +98,7 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState("Home")
-  const pages = ['Dashboard','Project','Form Responses', 'Form Templates','Account Management',]
+  const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
   const widgets = ['Account','Logout']
   const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
   const iconsSecondary = [
