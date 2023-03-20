@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{ useState, useEffect, useNavigate } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -29,6 +29,11 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Link } from 'react-router-dom';
 import { Login, LoginOutlined } from '@mui/icons-material';
 import { Person2Outlined, Person3Outlined, Person4Outlined } from '@mui/icons-material';
+
+import AuthService from "../../services/authService";
+import EventBus from "../../common/EventBus";
+import ClientVendorProfile from '../../pages/clientVendorProfile';
+
 
 // sample code from mui 
 const drawerWidth = 240;
@@ -102,14 +107,13 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState("Home")
+
   const pages = ['Dashboard', 'Account Management', 'Form Responses', 'Form Templates','Project']
-  const widgets = ['Settings','Account','Logout']
+  const widgets = ['Account','Logout']
   const iconsPrimary = [<DashboardIcon/>,<PeopleAltIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
   const iconsSecondary = [
-    <SettingsIcon/>,
     <LogoutIcon />,
     <LoginOutlined />
-    
   ]
 
   const handleDrawerOpen = () => {
@@ -119,6 +123,50 @@ export default function MiniDrawer({children}) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  // auth code
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [showDashBoard, setShowDashBoard] = useState(false);
+  const [showAccountManagement, setShowAccountManagement] = useState(false);
+  const [showFormResponses, setShowFormResponses] = useState(false);
+  const [showFormTemplates, setShowFormTemplates] = useState(false);
+  const [showProject, setShowProject] = useState(false);
+  const [showClientVendorProfile, setShowClientVendorProfile] = useState(false);
+
+  useEffect(() => {
+    // retrieving user authentication data from backend
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+        setCurrentUser(user);
+
+        // checks for and displays if either values satisfies using.some() method
+        setShowDashBoard(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+        setShowAccountManagement(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+        setShowFormResponses(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+        setShowFormTemplates(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+        setShowProject(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+        setShowClientVendorProfile(user.roles.includes("ROLE_VENDOR"));
+    }  
+    EventBus.on("logout", () => {
+        logOut();
+    });
+
+    return () => {
+        EventBus.remove("logout");
+    };
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+    setShowDashBoard(false);
+    setShowAccountManagement(false);
+    setShowFormResponses(false);
+    setShowFormTemplates(false);
+    setShowProject(false);
+    setShowClientVendorProfile(false);
+  };
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -143,6 +191,7 @@ export default function MiniDrawer({children}) {
         </Toolbar>
       </AppBar>
       {/* drawer component to replace the navbar component eventually */}
+      { currentUser &&
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -151,7 +200,7 @@ export default function MiniDrawer({children}) {
         </DrawerHeader>
         <Divider />
         <List>
-          {pages.map((text, index) => (
+          {/* {pages.map((text, index) => (
             <ListItem 
               key={text} 
               disablePadding sx={{ display: 'block' }}
@@ -178,11 +227,71 @@ export default function MiniDrawer({children}) {
                 </ListItemButton>
               </Link>
             </ListItem>
-          ))}
+          ))} */}
+          { showDashBoard && <ListItem key="Dashboard" disabledPadding sx={{display:'block'}} onClick={() => setPage("Dashboard")} >
+            <Link to='/Dashboard' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <DashboardIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="Dashboard" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}
+          {showProject && <ListItem key="Project" disabledPadding sx={{display:'block'}} onClick={() => setPage("Project")} >
+            <Link to='/Project' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                  <LibraryAddIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="Project" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}
+          { showFormResponses && <ListItem key="FormResponses" disabledPadding sx={{display:'block'}} onClick={() => setPage("FormResponses")} >
+            <Link to='/FormResponses' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <SpeakerNotesIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="FormResponses" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}
+          { showFormTemplates && <ListItem key="FormTemplates" disabledPadding sx={{display:'block'}} onClick={() => setPage("FormTemplates")} >
+            <Link to='/FormTemplates' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <DescriptionIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="FormTemplates" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}
+          { showAccountManagement && <ListItem key="AccountManagement" disabledPadding sx={{display:'block'}} onClick={() => setPage("AccountManagement")} >
+            <Link to='/AccountManagement' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <PeopleAltIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="AccountManagement" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}
+          { showClientVendorProfile && <ListItem key="ClientVendorProfile" disabledPadding sx={{display:'block'}} onClick={() => setPage("ClientVendorProfile")} >
+            <Link to='/ClientVendorProfile' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <AccountCircleIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="ClientVendorProfile" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}
         </List>
         <Divider />
         <List>
-          {widgets.map((text, index) => (
+          {/* {widgets.map((text, index) => (
             <ListItem 
               key={text} 
               disablePadding 
@@ -210,9 +319,24 @@ export default function MiniDrawer({children}) {
               </ListItemButton>
               </Link>
             </ListItem>
-          ))}
+          ))} */}
+          <ListItem key="Logout" disabledPadding sx={{display:'block'}} 
+            onClick={() => {
+              logOut()
+              setPage("Logout")
+            }}
+            >
+            <Link to='/LogIn' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <LogoutIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="Logout" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>
         </List>
-      </Drawer>
+      </Drawer>}
       {/* box component here is supposed to store the page content to be displayed via routing */}
       <Box component="main" sx={{ flexGrow: 1, my: '40px', }}>
         {/* <DrawerHeader /> */}
