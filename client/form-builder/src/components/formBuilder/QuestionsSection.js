@@ -12,6 +12,7 @@ const QuestionsSection = (props) => {
     const [sectionNumber, setSectionNumber] = useState(1);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [quesSecDelete, setQuesSecDelete] = useState(null); 
+    const [quesSecInput, setQuesSecInput] = useState({});
 
     function handleAddSection() {
         let newSectionNumber = sectionNumber + 1;
@@ -29,6 +30,28 @@ const QuestionsSection = (props) => {
 
     function handleDeleteQuesSec(toDelete) { 
         setQuesSecDelete(toDelete); 
+    }
+
+    const quesSecInputRef = {
+        text: {title: ""}, 
+        textarea: {title: ""},
+        radio: {title: "", choices: []},
+        checkbox: {title: "", choices: []},
+        dropdown: {title: "", choices: []},
+        scale: {title: "", minValue: 1, maxValue: 5, minLabel: "", maxLabel: ""},
+        file: {title: ""}
+    }
+
+    function handleInputQuestionTypeChange(questionId, newQuesType) { 
+        let newQuesSecInput = {...quesSecInput}; 
+        newQuesSecInput[questionId] = {type: newQuesType, content: quesSecInputRef[newQuesType]};
+        setQuesSecInput(newQuesSecInput);
+    }
+
+    function handleSectionInputChange(sectionId, newSectionName) { 
+        let newQuesSecInput = {...quesSecInput}; 
+        newQuesSecInput[sectionId] = {name: newSectionName, assignedTo: "vendor"}; 
+        setQuesSecInput(newQuesSecInput);
     }
 
     useEffect(() => { 
