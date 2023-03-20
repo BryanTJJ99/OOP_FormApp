@@ -175,7 +175,7 @@ function App() {
                         <div className="container mt-3">         
                             <Routes>
                                 <Route exact path="/Home" element={<Home />} />
-                                <Route exact path="/" element={<LogIn />} />
+                                <Route exact path="/" element={<Home />} />
                                 <Route path="/LogIn" element={<LogIn />} />
                                 <Route path="/AccountManagement" element={<AccountManagementPage />}  />
                                 <Route path="/AccountCreation" element={<AccountCreationPage />} />
