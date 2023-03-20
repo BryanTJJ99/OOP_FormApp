@@ -16,6 +16,7 @@ import LogIn from "./pages/LogIn";
 import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Project from "./pages/ProjectPage";
 import Settings from "./pages/Settings";
+import MiniDrawer  from "./components/Navbar/MiniDrawer";
 
 import AuthService from "./services/authService";
 import EventBus from "./common/EventBus";
@@ -28,47 +29,47 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
 
     // declaring the useStates for the specific pages we want to render
-    const [currentUser, setCurrentUser] = useState(undefined);
-    const [showDashBoard, setShowDashBoard] = useState(false);
-    const [showAccountManagement, setShowAccountManagement] = useState(false);
-    const [showFormResponses, setShowFormResponses] = useState(false);
-    const [showFormTemplates, setShowFormTemplates] = useState(false);
-    const [showProject, setShowProject] = useState(false);
-    const [showClientVendorProfile, setShowClientVendorProfile] = useState(false);
+    // const [currentUser, setCurrentUser] = useState(undefined);
+    // const [showDashBoard, setShowDashBoard] = useState(false);
+    // const [showAccountManagement, setShowAccountManagement] = useState(false);
+    // const [showFormResponses, setShowFormResponses] = useState(false);
+    // const [showFormTemplates, setShowFormTemplates] = useState(false);
+    // const [showProject, setShowProject] = useState(false);
+    // const [showClientVendorProfile, setShowClientVendorProfile] = useState(false);
 
-    useEffect(() => {
-        // retrieving user authentication data from backend
-        const user = AuthService.getCurrentUser();
+    // useEffect(() => {
+    //     // retrieving user authentication data from backend
+    //     const user = AuthService.getCurrentUser();
 
-        if (user) {
-            setCurrentUser(user);
+    //     if (user) {
+    //         setCurrentUser(user);
 
-            // checks for and displays if either values satisfies using.some() method
-            setShowDashBoard(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-            setShowAccountManagement(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-            setShowFormResponses(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-            setShowFormTemplates(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-            setShowProject(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-            setShowClientVendorProfile(user.roles.includes("ROLE_VENDOR"));
-        }  
-        EventBus.on("logout", () => {
-            logOut();
-        });
+    //         // checks for and displays if either values satisfies using.some() method
+    //         setShowDashBoard(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+    //         setShowAccountManagement(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+    //         setShowFormResponses(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+    //         setShowFormTemplates(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+    //         setShowProject(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+    //         setShowClientVendorProfile(user.roles.includes("ROLE_VENDOR"));
+    //     }  
+    //     EventBus.on("logout", () => {
+    //         logOut();
+    //     });
 
-        return () => {
-            EventBus.remove("logout");
-        };
-    }, []);
+    //     return () => {
+    //         EventBus.remove("logout");
+    //     };
+    // }, []);
 
-    const logOut = () => {
-        AuthService.logout();
-        setShowDashBoard(false);
-        setShowAccountManagement(false);
-        setShowFormResponses(false);
-        setShowFormTemplates(false);
-        setShowProject(false);
-        setShowClientVendorProfile(false);
-    };
+    // const logOut = () => {
+    //     AuthService.logout();
+    //     setShowDashBoard(false);
+    //     setShowAccountManagement(false);
+    //     setShowFormResponses(false);
+    //     setShowFormTemplates(false);
+    //     setShowProject(false);
+    //     setShowClientVendorProfile(false);
+    // };
     return (
         <>
             <div>
@@ -85,9 +86,9 @@ function App() {
             </div>
             <ThemeProvider theme={theme}>
                 <Router>
-                    {/* <MiniDrawer> */}
+                    <MiniDrawer>
 
-                    <div>
+                    {/* <div>
                         <nav className="navbar navbar-expand navbar-dark bg-dark">
                             <Link to={"/"} className="navbar-brand">
                                 OOP Form Builder
@@ -98,7 +99,7 @@ function App() {
                                         Home
                                     </Link>
                                 </li> */}
-                                {showDashBoard && (
+                                {/* {showDashBoard && (
                                     <li className="nav-item">
                                         <Link to={"/Dashboard"} className="nav-link">
                                             Dashboard
@@ -172,9 +173,9 @@ function App() {
                                     </div>
                             )}
                         </nav>
-                        <div className="container mt-3">         
+                        <div className="container mt-3">          */} 
                             <Routes>
-                                <Route exact path="/Home" element={<Home />} />
+                                <Route exact path="/Dashboard" element={<Dashboard />} />
                                 <Route exact path="/" element={<Home />} />
                                 <Route path="/LogIn" element={<LogIn />} />
                                 <Route path="/AccountManagement" element={<AccountManagementPage />}  />
@@ -182,7 +183,6 @@ function App() {
                                 <Route path="/Project" element={<Project/>}/>
                                 <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                                 <Route path="/Settings" element={<Settings />} />
-                                <Route path="/Dashboard" element={<Dashboard />} />
                                 <Route path='/FormTemplates' element={<FormTemplateIndex />} />
                                 <Route path='/FormResponses' element={<FormResponseIndex />} />
                                 <Route path="/FormBuilder" element={<FormBuilder />} />
@@ -190,9 +190,9 @@ function App() {
                                 <Route path="/FormResponse" element={<FormResponse />} />
                                 <Route path="/ClientVendorProfile" element = {<ClientVendorProfile/>}/>
                             </Routes>
-                        </div>  
-                        {/* </MiniDrawer> */}
-                    </div>
+                        {/* </div>   */}
+                        </MiniDrawer>
+                    {/* </div> */}
                 </Router>
             </ThemeProvider>
         </>
