@@ -27,15 +27,15 @@ const columns: GridColDef[] = [
     // },
 
     {
-      field: 'vendor',
-      headerName: 'Vendor',
+      field: 'project',
+      headerName: 'Project',
       flex: 2,
       editable: false,
     },
 
     {
-      field: 'project',
-      headerName: 'Project',
+      field: 'vendor',
+      headerName: 'Vendor',
       flex: 2,
       editable: false,
     },
