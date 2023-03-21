@@ -20,6 +20,7 @@ const FormView = (props) => {
             getFormResponseById(formResponseId) 
                 .then(response => {
                     setFormResponse(response);
+                    console.log(response)
                     let formTemplateId = response.formTemplateId
                     getFormTemplateById(formTemplateId)
                         .then(response => { 
