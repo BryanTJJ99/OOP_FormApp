@@ -5,8 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 //TO DO add delete function for section
 const Section = (props) => {
-    const [sectionTitle, setSectionTitle] = useState(props.getSectionValues('Section' + props.sectionNum, 'name'));
-    const [assignedTo, setAssignedTo] = useState(props.getSectionValues('Section' + props.sectionNum, 'assignedTo')); 
+    const [sectionTitle, setSectionTitle] = useState("");
+    const [assignedTo, setAssignedTo] = useState('vendor'); 
 
     function handleChangeAssignedTo(value) {
         setAssignedTo(value);

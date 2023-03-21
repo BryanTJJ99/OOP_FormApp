@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { palette, spacing } from '@mui/system';
 import { TextField, Radio, IconButton, Checkbox, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle'; 
 
 const Choice = (props, handleDeleteChoice) => {
     const [icon, setIcon] = useState(null);
@@ -13,9 +14,10 @@ const Choice = (props, handleDeleteChoice) => {
         } else if (props.type === 'checkbox') { 
             setIcon(<Checkbox disabled />);
         } else { 
-            setIcon(<Typography sx={{pr: 2, my: 'auto'}}>{props.choiceNum+1}.</Typography>);
+            setIcon(<Checkbox disabled icon={<ArrowDropDownCircleIcon />} />);
         }
-    }, [])
+    }, [props.type])
+
     return (
         <div id={props.choiceId} className="input-group d-flex mb-3 choice" >
             {icon}

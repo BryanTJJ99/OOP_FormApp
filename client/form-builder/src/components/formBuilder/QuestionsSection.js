@@ -27,9 +27,10 @@ const QuestionsSection = (props) => {
 
     function handleAddSection() {
         let newSectionNumber = sectionNumber + 1;
+        let newQuestionNumber = questionNumber + 1; 
         setSectionNumber(newSectionNumber);
-        console.log(sectionNumber);
-        handleSectionInputChange('Section' + sectionNumber)
+        setQuestionNumber(newQuestionNumber); 
+        // handleSectionInputChange('Section' + sectionNumber)
         let newQuestionArea = [...questionArea, sectionElement, questionElement];
         setQuestionArea(newQuestionArea);
     }
@@ -177,15 +178,25 @@ const QuestionsSection = (props) => {
                     {(provided) => (
                         <div className="w-100 ms-3" {...provided.droppableProps} ref={provided.innerRef}>
                             {questionArea.map((quesSec, index) => {
-                                return (
-                                    <Draggable key={index} draggableId={index.toString()} index={index} onDrop={e => { e.preventDefault(); }}>
-                                    {(provided1) => (
-                                        <div ref={provided1.innerRef} {...provided1.draggableProps} {...provided1.dragHandleProps}> 
+                                console.log(quesSec)
+                                if (quesSec.key.includes("Question")) { 
+                                    return (
+                                        <Draggable key={index} draggableId={index.toString()} index={index} onDrop={e => { e.preventDefault(); }}>
+                                        {(provided1) => (
+                                            <div ref={provided1.innerRef} {...provided1.draggableProps} {...provided1.dragHandleProps}> 
+                                                {quesSec}
+                                            </div>
+                                        )}
+                                        </Draggable>
+                                    )
+                                } else { 
+                                    return (
+                                        <div> 
                                             {quesSec}
                                         </div>
-                                    )}
-                                    </Draggable>
-                                )
+                                    )
+                                }
+                                
                             })}
                             {provided.placeholder}
                         </div>
