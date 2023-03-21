@@ -6,7 +6,7 @@ import { createFormResponse, updateFilesInFormAnswer } from '../services/FormRes
 import StatusChip from '../components/Dashboard/StatusChip.js';
 
 const FormResponse = (props) => {
-    const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0)); 
+    const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
     const [fileMap, setFileMap] = useState({});
@@ -29,33 +29,36 @@ const FormResponse = (props) => {
         setOpenPopUp(true);
     }
 
-    async function handleFormResponseSubmit(e) { 
+    async function handleFormResponseSubmit(e) {
         e.preventDefault();
-        const data = new FormData(e.currentTarget); 
+        const data = new FormData(e.currentTarget);
         let numOfQuestions = formTemplate.questions.length;
-        let listOfMultiSelect = []; 
-        for (let ques of formTemplate.questions) { 
-            if (ques.questionType === 'checkbox') { 
-                listOfMultiSelect.push(ques.questionOrder); 
+        let listOfMultiSelect = [];
+        for (let ques of formTemplate.questions) {
+            if (ques.questionType === 'checkbox') {
+                listOfMultiSelect.push(ques.questionOrder);
             }
         }
-        let formAnswer = {}; 
-        for (let i=1; i<numOfQuestions; i++) { 
-            let dataToStore = data.get(i.toString()); 
-            if (listOfMultiSelect.includes(i)) { 
+        let formAnswer = {};
+        for (let i = 1; i <= numOfQuestions; i++) {
+            let dataToStore = data.get(i.toString());
+            if (listOfMultiSelect.includes(i)) {
                 dataToStore = data.get(i.toString()).split(',');
             }
             console.log(i)
-            if (i+1 in fileMap) { 
-                let fileToStore = fileMap[(i+1).toString()];
+            if (i in fileMap) {
+                let fileToStore = fileMap[(i).toString()];
+                let file_type = fileToStore.type;
                 const reader = new FileReader();
                 // reader.readAsDataURL(fileToStore);
                 await readFileAsync(fileToStore, reader)
-                    .then(result => { 
+                    .then(result => {
                         // console.log(result)
-                        dataToStore = result;
+
+                        dataToStore = [result, file_type];
+
                     })
-                    .catch(error => { 
+                    .catch(error => {
                         console.log(error.message);
                     })
                 // let base64String; 
@@ -67,7 +70,7 @@ const FormResponse = (props) => {
             }
             formAnswer[i] = dataToStore;
         }
-        let formResponseData = { 
+        let formResponseData = {
             formTemplateId: "6414f557b713704fd25c1b34",
             vendorId: "6409dc37e3139a5d267579b3",
             reviewedBy: "6411538f436af646394c3fe4",
@@ -87,14 +90,14 @@ const FormResponse = (props) => {
         // for (var pair of formData.entries()) {
         //     console.log(pair[0]+ ', ' + pair[1]); 
         // }
-        createFormResponse(formResponseData) 
-            .then(response => { 
-                console.log(response); 
+        createFormResponse(formResponseData)
+            .then(response => {
+                console.log(response);
             })
             .catch(error => {
                 console.log(error.message);
             })
-        
+
         // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e") 
         //     .then(response => { 
         //         console.log(response); 
@@ -106,33 +109,34 @@ const FormResponse = (props) => {
 
     async function readFileAsync(file, reader) {
         return new Promise((resolve, reject) => {
-          reader.onload = () => {
-            let base64String = reader.result.split(',')[1];
-            resolve(base64String);
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
+            reader.onload = () => {
+                let base64String = reader.result.split(',')[1];
+                console.log(reader.result.split(','))
+                resolve(base64String);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
         });
-      }
-
-    function handleFileUpload(questionOrder, fileToUpload) { 
-        let newFileMap = {...fileMap}; 
-        newFileMap[questionOrder] = fileToUpload; 
-        setFileMap(newFileMap); 
     }
 
-    useEffect(() => { 
+    function handleFileUpload(questionOrder, fileToUpload) {
+        let newFileMap = { ...fileMap };
+        newFileMap[questionOrder] = fileToUpload;
+        setFileMap(newFileMap);
+    }
+
+    useEffect(() => {
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
         // setQuestionsSectionArea(newQuestionsSectionArea); 
         getFormTemplateById('6414f557b713704fd25c1b34')
-            .then(response => { 
+            .then(response => {
                 // console.log(response);
                 setFormTemplate(response);
             })
-            .catch(error => { 
+            .catch(error => {
                 console.log(error.message);
             })
-    }, []) 
+    }, [])
 
     function toTitleCase(str) {
         return str.toLowerCase().split(' ').map(function (word) {
@@ -162,21 +166,21 @@ const FormResponse = (props) => {
                             </Box>)
             let questionSectionDict = {}; 
             console.log(formTemplate); // give an Axios error
-            for (let section of formTemplate.sections) { 
+            for (let section of formTemplate.sections) {
                 questionSectionDict[section.sectionOrder] = [];
             }
-            for (let question of formTemplate.questions) { 
+            for (let question of formTemplate.questions) {
                 questionSectionDict[question.belongsToSection].push(question);
             }
             let newQuestionsSectionArea = []
-            for (let sectionOrderKey in questionSectionDict) { 
-                for (let section of formTemplate.sections) { 
-                    if (section.sectionOrder === parseInt(sectionOrderKey)) { 
-                        newQuestionsSectionArea.push(section); 
+            for (let sectionOrderKey in questionSectionDict) {
+                for (let section of formTemplate.sections) {
+                    if (section.sectionOrder === parseInt(sectionOrderKey)) {
+                        newQuestionsSectionArea.push(section);
                         break;
                     }
                 }
-                for (let question of questionSectionDict[sectionOrderKey]) { 
+                for (let question of questionSectionDict[sectionOrderKey]) {
                     newQuestionsSectionArea.push(question);
                 }
             }
@@ -191,11 +195,11 @@ const FormResponse = (props) => {
             {formInfo}
             {statusSection}
             <Box component='form' onSubmit={handleFormResponseSubmit}>
-                {questionsSectionArea.map((item) => { 
-                    if (item.hasOwnProperty('sectionId')) { 
+                {questionsSectionArea.map((item) => {
+                    if (item.hasOwnProperty('sectionId')) {
                         return (<SectionView section={item} key={"Section" + item.sectionOrder}></SectionView>)
-                    } else { 
-                        return ( 
+                    } else {
+                        return (
                             <QuestionView question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload}></QuestionView>
                         )
                     }
