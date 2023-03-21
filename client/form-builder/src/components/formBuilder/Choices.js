@@ -49,6 +49,10 @@ const Choices = (props) => {
         setChoicesList(copyChoicesList);
     }, [choiceToDelete])
 
+    useEffect(() => { 
+        setChoicesList(Array(0))
+    }, [])
+
     // function getChoiceOrder(choiceKey) { 
     //     let order = 1; 
     //     for (let choice of choicesList) { 

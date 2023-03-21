@@ -29,13 +29,20 @@ const columns: GridColDef[] = [
       headerName: 'Last Updated',
       flex: 1,
       editable: false, 
-      valueFormatter: (params) => {
-        // new Date(params.value).format('DD/MM/YYYY')
-        // moment(params.value).format("DD/MM/YYYY")
-        (params.value).toString() 
+      renderCell: (params) => {
+        return dateConverter(params.value)
       }
     }, 
   ];
+
+function dateConverter(jsonDate) { 
+  let jsonDateArray = jsonDate.split('-'); 
+  let day = jsonDateArray[2].substr(0,2);
+  let year = jsonDateArray[0];
+  let month = jsonDateArray[1];
+  let dateString = day + '/' + month + '/' + year; 
+  return dateString;
+}
 
 
   
@@ -93,6 +100,13 @@ const FormTable = () => {
                   paginationModel: {
                     pageSize: 10,
                   },
+                },
+              }}
+              sx={{
+                '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+                  backgroundColor: "secondary.main",
+                  color:"white",
+                  fontWeight: 'bold',
                 },
               }}
               pageSizeOptions={[10]}
