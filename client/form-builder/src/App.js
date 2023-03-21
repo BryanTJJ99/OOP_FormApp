@@ -12,7 +12,7 @@ import FormBuilder from "./pages/formBuilder";
 import FormView from "./pages/formView";
 import FormResponse from "./pages/formResponse";
 import MiniDrawer from './components/Navbar/MiniDrawer'
-import ClientVendorProfile from "./pages/clientVendorProfile";
+import ClientProject from "./pages/clientProject";
 
 
 import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
@@ -43,7 +43,7 @@ function App() {
                     <Route path="/FormResponse" element={<FormResponse />} />
                     <Route path="/AccountManagement" element={<AccountManagementPage />}/>
                     <Route path="/AccountCreation" element={<AccountCreationPage />}/>
-                    <Route path="/ClientVendorProfile" element = {<ClientVendorProfile/>}/>
+                    <Route path="/ClientProject" element = {<ClientProject/>}/>
                 </Routes>
                 </MiniDrawer>
             </Router>
