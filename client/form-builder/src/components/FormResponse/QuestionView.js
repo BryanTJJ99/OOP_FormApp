@@ -8,6 +8,7 @@ const QuestionView = (props) => {
     const [dropdownVal, setDropdownVal] = useState("default");
     const [file, setFile] = useState(null);
     const [checkboxValue, setCheckboxValue] = useState([]);
+    const [ratingValue, setRatingValue] = useState(null);
 
     const handleCheckboxChange = (event) => {
         let newCheckboxValue = [...checkboxValue];
@@ -17,6 +18,10 @@ const QuestionView = (props) => {
             newCheckboxValue.push(event.target.value);
         }
         setCheckboxValue(newCheckboxValue);
+    }
+
+    const handleRatingChange = (event) => { 
+        setRatingValue(event.target.value)
     }
 
     const handleDropdownChange = (event) => {
@@ -110,7 +115,6 @@ const QuestionView = (props) => {
                     <Box width={'70%'}>
                         <StyledRating
                             name={props.question.questionOrder.toString()}
-                            defaultValue={null}
                             getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                             precision={1}
                             // use max to set the number of circles
@@ -118,7 +122,8 @@ const QuestionView = (props) => {
                             icon={<CircleIcon fontSize="inherit" sx={{ margin: '0.8rem' }} />}
                             emptyIcon={<RadioButtonUncheckedIcon fontSize="inherit" sx={{ margin: '0.8rem' }} />}
                             width='70%'
-
+                            value={ratingValue}
+                            onChange={handleRatingChange}
                         />
                     </Box>
                     <Box width='15%' marginY={'auto'}>

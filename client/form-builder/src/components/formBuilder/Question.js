@@ -19,7 +19,7 @@ const Question = (props) => {
     function updateSpecialQues() { 
         if (questionType === "radio" || questionType === "checkbox" || questionType === "dropdown") {
             // this.setState({specialQuesSection: <Choices/>})
-            to_update = <Choices questionType={questionType} questionNum={questionNum} questionId={"Question" + props.questionNum} choicesList={Array(0)}/>;
+            to_update = <Choices key={"Question" + props.questionNum + questionType} questionType={questionType} questionNum={questionNum} questionId={"Question" + props.questionNum} choicesList={Array(0)}/>;
         } else if (questionType === "file") {
             to_update = <FileUpload />;
         } else if (questionType === "scale") {
