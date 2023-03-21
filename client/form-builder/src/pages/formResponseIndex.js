@@ -9,8 +9,8 @@ const FormSummary = (props) => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
 
             <div className="text-center my-5">
-                <Typography variant='h4'>View the Form Responses</Typography>
-                <Typography variant='p'>Check the status of the forms that have been assigned to a vendor-project pair.</Typography>
+                <Typography variant='h4'>View Projects</Typography>
+                <Typography variant='p'>Check the status of all the vendor-project pairs</Typography>
             </div>
             <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}}>
                 <Button variant="contained" color="primary" component="a" href="/ProjectCreation">Create New Project</Button>
