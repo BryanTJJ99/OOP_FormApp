@@ -6,8 +6,26 @@ import axios from "axios";
 
 const SubmitAccountCreation = (props) => {
     async function handleSubmit() {
+        let accountDetails = props.accountDetails;
+        switch (accountDetails["role"]) {
+            case "VENDOR":
+                accountDetails["role"] = "ROLE_VENDOR";
+                break;
+            case "ADMIN":
+                accountDetails["role"] = "ROLE_ADMIN";
+                break;
+            case "APPROVER":
+                accountDetails["role"] = "ROLE_APPROVER";
+                break;
+            default:
+                break;
+        }
+
+        props.setAccountDetails(accountDetails);
+
         await axios.post(
-            "http://localhost:8080/api/auth/createUser",
+            "http://localhost:8080/api/admin/user/create",
+            // "http://localhost:8080/api/auth/createUser",
             props.accountDetails,
             {
                 headers: {
@@ -17,7 +35,7 @@ const SubmitAccountCreation = (props) => {
         );
         // console.log(props.accountDetails);
         // console.log("submitted");
-        props.setCreatedAccount(true);
+        // props.setCreatedAccount(true);
     }
     return (
         <Button

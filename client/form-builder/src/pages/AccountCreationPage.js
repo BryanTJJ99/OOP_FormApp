@@ -26,6 +26,7 @@ const AccountCreationPage = (props) => {
             />
             <SubmitAccountCreation
                 accountDetails={accountDetails}
+                setAccountDetails={setAccountDetails}
                 setCreatedAccount={props.setCreatedAccount}
             />
         </Box>
