@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+// import jakarta.validation.constraints.Email;
+// import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.Size;
 
 @Document(collection = "User")
 public class User {
@@ -19,17 +19,19 @@ public class User {
     // never be changed? can we do this with lombok? will there be risk of
     // accidentlly changing the id? idk. something to think about
 
-    @NotBlank
-    @Size(max = 20)
+    // @NotBlank
+    // @Size(max = 20)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    private String name;
+
+    // @NotBlank
+    // @Size(max = 50)
+    // @Email
     private String email;
 
-    @NotBlank
-    @Size(max = 120)
+    // @NotBlank
+    // @Size(max = 120)
     private String password;
 
     private String role;
@@ -37,56 +39,65 @@ public class User {
     private String country;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date created_at;
+    private Date createdAt;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date deleted_at;
+    private Date deletedAt;
     // store timestamp when user is created in the ISO format
     @DocumentReference(lazy = true)
-    private User created_by;
+    private User createdBy;
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    // public User(String id, String username, String email, String role, String password, Date created_at,
-    //         User created_by) {
+    
+
+    // public User(String id, String username, String email, String role, String password, Date created_at) {
     //     this.id = id;
     //     this.username = username;
     //     this.email = email;
     //     this.password = password;
     //     this.role = role;
     //     this.created_at = created_at;
-    //     this.created_by = created_by;
     // }
 
-    public User(String username, String email, String password, String role) {
+    // public User(String username, String email, String password, String role) {
+    //     this.username = username;
+    //     this.email = email;
+    //     this.password = password;
+    //     this.role = role;
+    // }
+
+    public String getId() {
+        return id;
+    }
+
+    public User(String username, String email, String password, String role, String country, Date createdAt) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public String getId() {
-        return id;
+        this.country = country;
+        this.createdAt = createdAt;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public User getCreated_by() {
-        return created_by;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreated_by(User created_by) {
-        this.created_by = created_by;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getUsername() {
@@ -95,6 +106,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -121,12 +140,12 @@ public class User {
         this.role = role;
     }
 
-    public Date getDeleted_at() {
-        return deleted_at;
+    public Date getDeletedAt() {
+        return deletedAt;
     }
 
-    public void setDeleted_at(Date deleted_at) {
-        this.deleted_at = deleted_at;
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public String getCountry() {
@@ -140,7 +159,7 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", role="
-                + role + ", created_at=" + created_at + ", created_by=" + created_by + "]";
+                + role + ", created_at=" + createdAt + ", created_by=" + createdBy + "]";
     }
 
 }
