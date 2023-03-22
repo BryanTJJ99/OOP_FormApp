@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AuthService from '../services/authService';
 
 
@@ -35,6 +35,9 @@ const theme = createTheme();
 function LogIn() {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const to = location.state?.from || "/Home";
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -70,7 +73,7 @@ function LogIn() {
                         // navigate to the home page
                         // navigate(from, { replace: true });
                         // navigate to settings page
-                        navigate('/dashboard', { replace: true });
+                        navigate(to, { replace: true });
 
                         // reload the page to update the state
                         window.location.reload();

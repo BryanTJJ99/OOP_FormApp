@@ -25,4 +25,8 @@ public interface AdminRepository extends MongoRepository<User, String> {
 
     User findUserById(String id);
 
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmail(String email);
+
 }

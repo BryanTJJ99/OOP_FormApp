@@ -137,13 +137,13 @@ public class AuthController {
 
 		// reassign user role string to enum as per the database Roles enum
 		switch (strRole) {
-			case "admin":
+			case "ADMIN":
 				user.setRole(Roles.ROLE_ADMIN.toString());
 				break;
-			case "approver":
+			case "APPROVER":
 				user.setRole(Roles.ROLE_APPROVER.toString());
 				break;
-			case "vendor":
+			case "VENDOR":
 				user.setRole(Roles.ROLE_VENDOR.toString());
 				break;
 			default:

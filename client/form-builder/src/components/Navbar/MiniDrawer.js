@@ -1,37 +1,33 @@
-import React,{ useState, useEffect, useNavigate } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import DescriptionIcon from '@mui/icons-material/Description';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import MenuIcon from '@mui/icons-material/Menu';
+import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
+import MuiAppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import MuiDrawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import CottageIcon from '@mui/icons-material/Cottage';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import { styled, useTheme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Login, LoginOutlined } from '@mui/icons-material';
-import { Person2Outlined, Person3Outlined, Person4Outlined } from '@mui/icons-material';
 
-import AuthService from "../../services/authService";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import EventBus from "../../common/EventBus";
-import ClientVendorProfile from '../../pages/clientVendorProfile';
+import AuthService from "../../services/authService";
+import { LoginOutlined } from '@mui/icons-material';
 
 
 // sample code from mui 
@@ -113,13 +109,13 @@ export default function MiniDrawer({children}) {
   // const iconsSecondary = [
   //   <LogoutIcon />,
   //   <LoginOutlined />
-  const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
-  const widgets = ['Account','Logout']
-  const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
-  const iconsSecondary = [
-    <AccountCircleIcon/>,
-    <LogoutIcon/>,
-  ]
+  // const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
+  // const widgets = ['Account','Logout']
+  // const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
+  // const iconsSecondary = [
+  //   <AccountCircleIcon/>,
+  //   <LogoutIcon/>,
+  // ]
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -170,8 +166,8 @@ export default function MiniDrawer({children}) {
     setShowFormTemplates(false);
     setShowProject(false);
     setShowClientVendorProfile(false);
+    setCurrentUser(undefined);
   };
-
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -325,13 +321,51 @@ export default function MiniDrawer({children}) {
               </Link>
             </ListItem>
           ))} */}
+            
+
+          {/* if currentUser, redirect user back to root login page when user clicks logout button
+          else, if not currentUser then direct user to login landing page */}
+
+            {/* {currentUser ? (
+              <ListItem key="Logout" disabledPadding sx={{ display: 'block' }}
+                onClick={() => {
+                  logOut()
+                  setPage("Logout")
+                }}
+              >
+                <Link to='/' style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+                  <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5, }}>
+                    <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center', }}>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText secondary="Logout" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            )
+              : (
+                <ListItem key="Login" disabledPadding sx={{ display: 'block' }}
+                  onClick={() => setPage("Login")}
+                >
+                  <Link to='/' style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5, }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center', }}>
+                        <LoginOutlined />
+                      </ListItemIcon>
+                      <ListItemText secondary="Login" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+                    </ListItemButton>
+                  </Link>
+                </ListItem>
+              )          
+          } */}
+            
           <ListItem key="Logout" disabledPadding sx={{display:'block'}} 
             onClick={() => {
               logOut()
               setPage("Logout")
             }}
             >
-            <Link to='/LogIn' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+            <Link to='/' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
               <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
                   <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
                     <LogoutIcon/>

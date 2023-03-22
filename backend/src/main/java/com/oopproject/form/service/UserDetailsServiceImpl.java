@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oopproject.form.models.User.User;
-import com.oopproject.form.repositories.UserRepository;
+import com.oopproject.form.repositories.AdminRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	UserRepository userRepository;
+	AdminRepository adminRepository;
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
+		User user = adminRepository.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("User Not Found with username: " + username);
 		}
