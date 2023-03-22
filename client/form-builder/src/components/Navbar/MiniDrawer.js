@@ -25,6 +25,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 // sample code from mui 
 const drawerWidth = 240;
@@ -97,10 +98,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [page, setPage] = React.useState("Home")
+  const [page, setPage] = React.useState("Dashboard")
   const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
   const widgets = ['Account','Logout']
-  const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
+  const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
   const iconsSecondary = [
     <AccountCircleIcon/>,
     <LogoutIcon/>,
@@ -159,6 +160,7 @@ export default function MiniDrawer({children}) {
                     px: 2.5,
                   }}
                 >
+                  <Tooltip title={text} placement="right-start">
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -168,6 +170,7 @@ export default function MiniDrawer({children}) {
                   >
                     {iconsPrimary[index]}
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText secondary={text} disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
                 </ListItemButton>
               </Link>

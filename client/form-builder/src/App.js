@@ -34,6 +34,7 @@ function App() {
                 <MiniDrawer>
                 <Routes>
                     <Route exact path="/Dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />} />
                     <Route path="/ProjectOutdated" element={<Project/>}/>
                     <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
                     <Route path='/FormTemplates' element={<FormTemplateIndex />} />
