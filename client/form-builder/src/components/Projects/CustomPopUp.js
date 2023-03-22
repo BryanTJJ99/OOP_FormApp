@@ -74,12 +74,12 @@ export default function FullScreenDialog(props) {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Create Custom Form
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
-       <FormBuilder></FormBuilder>
+       <FormBuilder popup={true} handleClose={handleClose}></FormBuilder>
       </Dialog>
     </div>
   );

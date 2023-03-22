@@ -27,15 +27,15 @@ const columns: GridColDef[] = [
     // },
 
     {
-      field: 'vendor',
-      headerName: 'Vendor',
+      field: 'project',
+      headerName: 'Project',
       flex: 2,
       editable: false,
     },
 
     {
-      field: 'project',
-      headerName: 'Project',
+      field: 'vendor',
+      headerName: 'Vendor',
       flex: 2,
       editable: false,
     },
@@ -49,6 +49,13 @@ const columns: GridColDef[] = [
       },
       editable: false,
       flex: 5,
+    }, 
+
+    {
+      field: 'status',
+      headerName: 'Status',
+      editable: false,
+      flex: 1,
     }, 
     
     // {
@@ -68,20 +75,21 @@ const columns: GridColDef[] = [
   
 const FormTable = () => {
     const rows = [
-      { id: 1, vendor: 'Ken Company', project: 'Wack Stuff', forms: [{name: 'Reflection', status: 'partial', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}]},
-      { id: 2, vendor: 'Bryan Company', project: 'Good Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'partial', link: '/FormResponse'}]},
-      { id: 3, vendor: 'ZX Company', project: 'Smart Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormResponse'}]},
-      { id: 4, vendor: 'HM Company', project: 'Quick Stuff', forms: [{name: 'Customer Service Form', status: 'complete', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}]},
-      { id: 5, vendor: 'Ber Company', project: 'Amazing Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'partial', link: '/FormResponse'}, {name: 'Customer Service Form', status: 'unfilled', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'complete', link: '/FormResponse'}]},
-      { id: 6, vendor: 'KM Company', project: 'Wow Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormResponse'}]},
-      { id: 7, vendor: 'Elt Company', project: 'Great Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormResponse'}, {name: 'Reflection', status: 'unfilled', link: '/FormResponse'}]},
+      { id: 1, vendor: 'Ken Company', project: 'Wack Stuff', forms: [{name: 'Reflection', status: 'partial', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}], status: '3 / 5'},
+      { id: 2, vendor: 'Bryan Company', project: 'Good Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'partial', link: '/FormResponse'}], status: '3 / 5'},
+      { id: 3, vendor: 'ZX Company', project: 'Smart Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormResponse'}], status: '3 / 5'},
+      { id: 4, vendor: 'HM Company', project: 'Quick Stuff', forms: [{name: 'Customer Service Form', status: 'complete', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}], status: '3 / 5'},
+      { id: 5, vendor: 'Ber Company', project: 'Amazing Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'partial', link: '/FormResponse'}, {name: 'Customer Service Form', status: 'unfilled', link: '/FormResponse'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'complete', link: '/FormResponse'}], status: '3 / 5'},
+      { id: 6, vendor: 'KM Company', project: 'Wow Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormResponse'}], status: '3 / 5'},
+      { id: 7, vendor: 'Elt Company', project: 'Great Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormResponse'}, {name: 'Reflection', status: 'unfilled', link: '/FormResponse'}], status: '3 / 5'},
     ];
 
     return (
-      <Box sx={{ width: '80%', }}
+      <Box sx={{ width: '80%',overflowX:'auto', }}
         display={"flex"}
         justifyContent={"center"}
         marginX={"auto"}
+
       >
         <DataGrid
           autoHeight
@@ -97,6 +105,14 @@ const FormTable = () => {
           pageSizeOptions={[10]}
           checkboxSelection={false}
           disableRowSelectionOnClick
+          sx={{
+            '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+              backgroundColor: "secondary.main",
+              color:"white",
+              fontWeight: 'bold',
+            },
+          }}
+          
         />
     </Box>
     )

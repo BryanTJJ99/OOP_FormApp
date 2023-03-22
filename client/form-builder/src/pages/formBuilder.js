@@ -72,6 +72,9 @@ const FormBuilder = (props) => {
             .catch(error => { 
                 console.log(error.message);
             })
+        if (props.popup) { 
+            props.handleClose();
+        }
     }
 
     function handleQuestionSectionArea(newQuestionSectionArea) { 

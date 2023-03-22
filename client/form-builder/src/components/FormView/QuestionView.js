@@ -127,8 +127,7 @@ const QuestionView = (props) => {
                 </div>
             )
         } else if (questionType === 'file') {
-            let fileBase64String = props.response.formAnswer[props.question.questionOrder];
-            console.log(fileBase64String)
+            let fileBase64Array = props.response.formAnswer[props.question.questionOrder];
             // var base64String = document.getElementById("Base64StringTxtBox").value;
             let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" disabled value={file}/>)
             console.log(Object.keys(props.response.formAnswer), props.question.questionOrder)
@@ -137,7 +136,7 @@ const QuestionView = (props) => {
                 // downloadLink.href = fileBase64String;
                 // downloadLink.download = "convertedPDFFile.pdf";
                 // downloadLink.click();
-                fileElement = (<Button component="a" href={"data:application/pdf;base64," + fileBase64String} download="userInputFile" variant="outlined" sx={{padding:2}}><AttachFileIcon sx={{marginRight:1}}/>Download Submitted File</Button>)
+                fileElement = (<Button component="a" href={"data:"+fileBase64Array[1]+";base64," + fileBase64Array[0]} download="userInputFile" variant="outlined" sx={{padding:2}}><AttachFileIcon sx={{marginRight:1}}/>Download Submitted File</Button>)
             }
             return (
                 <div className='d-flex'>

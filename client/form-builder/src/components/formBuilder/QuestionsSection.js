@@ -12,23 +12,109 @@ const QuestionsSection = (props) => {
     const [sectionNumber, setSectionNumber] = useState(1);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [quesSecDelete, setQuesSecDelete] = useState(null); 
+    const [quesSecInput, setQuesSecInput] = useState({
+        Section1: {name: "", assignedTo: "vendor"}
+    });
+
+    const sectionElement = <Section 
+                                sectionNum={sectionNumber} 
+                                key={'Section' + sectionNumber} 
+                                handleDeleteSection={handleDeleteQuesSec}
+                                handleSectionInputChange={handleSectionInputChange} 
+                                getSectionValues={getSectionValues}
+                            />;
+    const questionElement = <Question questionNum={questionNumber} key={'Question' + questionNumber} handleDeleteQuestion={handleDeleteQuesSec}/>;
 
     function handleAddSection() {
         let newSectionNumber = sectionNumber + 1;
+        let newQuestionNumber = questionNumber + 1; 
         setSectionNumber(newSectionNumber);
-        let newQuestionArea = [...questionArea, <Section sectionNum={sectionNumber} key={'Section' + sectionNumber} handleDeleteSection={handleDeleteQuesSec}/>];
+        setQuestionNumber(newQuestionNumber); 
+        // handleSectionInputChange('Section' + sectionNumber)
+        let newQuestionArea = [...questionArea, sectionElement, questionElement];
         setQuestionArea(newQuestionArea);
     }
 
     function handleAddQuestion() {
         let newQuestionNumber = questionNumber + 1;
         setQuestionNumber(newQuestionNumber);
-        let newQuestionArea = [...questionArea, <Question questionNum={questionNumber} key={'Question' + questionNumber} handleDeleteQuestion={handleDeleteQuesSec}/>];
+        let newQuestionArea = [...questionArea, questionElement];
         setQuestionArea(newQuestionArea);
     }
 
     function handleDeleteQuesSec(toDelete) { 
         setQuesSecDelete(toDelete); 
+    }
+
+    const quesSecInputRef = {
+        text: {title: ""}, 
+        textarea: {title: ""},
+        radio: {title: "", choices: {}},
+        checkbox: {title: "", choices: {}},
+        dropdown: {title: "", choices: {}},
+        scale: {title: "", minValue: 1, maxValue: 5, minLabel: "", maxLabel: ""},
+        file: {title: ""}
+    }
+
+    // function handleDragDropUpdateQuesSec(e) { 
+    //     // e.preventDefault();
+    //     const data = new FormData(e.currentTarget);
+    //     console.log(data)
+    //     console.log(questionArea);
+    //     console.log(quesSecInput);
+    //     let quesSecList = {}; 
+    //     for (let item of questionArea) { 
+    //         let itemId = item.key; 
+    //         if (itemId.includes("Section")) { 
+    //             console.log(document.getElementById(itemId + 'sectionName').placeholder)
+    //             console.log(document.getElementById(itemId + 'assignedTo'))
+    //             quesSecList[itemId] = ({
+    //                 sectionName: data.get(itemId + 'sectionName'),
+    //                 assignedTo: data.get(itemId + 'assignedTo'),
+    //             })
+    //         } else { 
+    //             let questionType = data.get(itemId + 'questionType');
+    //             let questionObj = {
+    //                 questionTitle: data.get(itemId + 'questionTitle'),
+    //                 questionType: questionType,
+    //                 isRequired: (data.get(itemId + 'isRequired') ? true : false),
+    //             }; 
+    //             if (questionType === 'radio' || questionType === 'dropdown' || questionType === 'checkbox') { 
+    //                 questionObj['choices'] = data.get(itemId + 'choices').split(',');
+    //             } else if (questionType === 'scale') { 
+    //                 questionObj['minValue'] = parseInt(data.get(itemId + 'minValue'));
+    //                 questionObj['maxValue'] = parseInt(data.get(itemId + 'maxValue'));
+    //                 questionObj['minLabel'] = data.get(itemId + 'minLabel');
+    //                 questionObj['maxLabel'] = data.get(itemId + 'maxLabel');
+    //             }
+    //             quesSecList[itemId] = (questionObj);
+    //         }
+    //     }
+    //     console.log(quesSecList)
+    //     setQuesSecInput(quesSecList);
+    // }
+
+    function handleInputQuestionTypeChange(questionId, newQuesType) { 
+        let newQuesSecInput = {...quesSecInput}; 
+        newQuesSecInput[questionId] = {type: newQuesType, content: quesSecInputRef[newQuesType]};
+        setQuesSecInput(newQuesSecInput);
+    }
+
+    function handleSectionInputChange(sectionId, newSectionName="", newAssignedTo="vendor") { 
+        let newQuesSecInput = {...quesSecInput}; 
+        console.log(newQuesSecInput)
+        newQuesSecInput[sectionId] = {name: newSectionName, assignedTo: newAssignedTo}; 
+        // if (newQuesSecInput.includes(sectionId)) { 
+        //     newQuesSecInput[sectionId].
+        // } else { 
+        //     newQuesSecInput[sectionId] = {name: newSectionName, assignedTo: "vendor"}; 
+        // }
+        setQuesSecInput(newQuesSecInput);
+    }
+
+    function getSectionValues(sectionId, key) { 
+        console.log(quesSecInput[sectionId][key])
+        return quesSecInput[sectionId][key];
     }
 
     useEffect(() => { 
@@ -37,6 +123,7 @@ const QuestionsSection = (props) => {
     }, [quesSecDelete])
 
     function handleOnDragEnd(result) {
+        // handleDragDropUpdateQuesSec(result)
         const items = Array.from(questionArea);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
@@ -45,13 +132,27 @@ const QuestionsSection = (props) => {
     }
 
     useEffect(() => {
-        let newQuestionArea = [<Section sectionNum={sectionNumber} key={'Section' + sectionNumber}  handleDeleteSection={handleDeleteQuesSec}/>, 
-                                <Question questionNum={questionNumber} key={'Question' + questionNumber}  handleDeleteQuestion={handleDeleteQuesSec}/>];
-        let newSectionNumber = sectionNumber + 1;
-        setSectionNumber(newSectionNumber);
-        let newQuestionNumber = questionNumber + 1;
-        setQuestionNumber(newQuestionNumber);
-        setQuestionArea(newQuestionArea);
+        handleSectionInputChange('Section' + sectionNumber)
+        console.log(quesSecInput)
+        handleAddSection()
+        // handleAddQuestion()
+        // let newQuestionArea = [<Section 
+        //                             sectionNum={sectionNumber} 
+        //                             key={'Section' + sectionNumber}  
+        //                             handleDeleteSection={handleDeleteQuesSec} 
+        //                             handleSectionInputChange={handleSectionInputChange} 
+        //                             getSectionValues={getSectionValues}
+        //                         />, 
+        //                         <Question 
+        //                             questionNum={questionNumber} 
+        //                             key={'Question' + questionNumber}  
+        //                             handleDeleteQuestion={handleDeleteQuesSec}
+        //                         />];
+        // let newSectionNumber = sectionNumber + 1;
+        // setSectionNumber(newSectionNumber);
+        // let newQuestionNumber = questionNumber + 1;
+        // setQuestionNumber(newQuestionNumber);
+        // setQuestionArea(newQuestionArea);
     }, [])
 
     useEffect(() => { 
@@ -77,15 +178,25 @@ const QuestionsSection = (props) => {
                     {(provided) => (
                         <div className="w-100 ms-3" {...provided.droppableProps} ref={provided.innerRef}>
                             {questionArea.map((quesSec, index) => {
-                                return (
-                                    <Draggable key={index} draggableId={index.toString()} index={index} onDrop={e => { e.preventDefault(); }}>
-                                    {(provided) => (
-                                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}> 
+                                console.log(quesSec)
+                                if (quesSec.key.includes("Question")) { 
+                                    return (
+                                        <Draggable key={index} draggableId={index.toString()} index={index} onDrop={e => { e.preventDefault(); }}>
+                                        {(provided1) => (
+                                            <div ref={provided1.innerRef} {...provided1.draggableProps} {...provided1.dragHandleProps}> 
+                                                {quesSec}
+                                            </div>
+                                        )}
+                                        </Draggable>
+                                    )
+                                } else { 
+                                    return (
+                                        <div> 
                                             {quesSec}
                                         </div>
-                                    )}
-                                    </Draggable>
-                                )
+                                    )
+                                }
+                                
                             })}
                             {provided.placeholder}
                         </div>
