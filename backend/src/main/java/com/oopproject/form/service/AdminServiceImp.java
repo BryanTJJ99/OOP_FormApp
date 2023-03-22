@@ -60,8 +60,10 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
         User updatedUser = adminRepository.findById(userToEditID).get();
         if (updatedUser != null) {
             updatedUser.setUsername(userToUpdate.getUsername());
+            updatedUser.setName(userToUpdate.getName());
             updatedUser.setEmail(userToUpdate.getEmail());
             updatedUser.setRole(userToUpdate.getRole());
+            updatedUser.setCountry(userToUpdate.getCountry());
             return adminRepository.save(updatedUser);
         }
         return null;
