@@ -7,24 +7,46 @@ import LoopIcon from '@mui/icons-material/Loop';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { useState, useEffect } from 'react';
-import { getAllVendors , getAllProjects , getAllFormResponses } from '../services/DashboardAPI';
+import {getAllProjects} from '../services/ClientProject.js';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import ArchiveIcon from '@mui/icons-material/Archive';
 const CompletedProjectsWidget = () => {
+  
   // defining state variables
   const [totalCompletedProjects,setTotalCompletedProjects] = useState(0)
-
+  const [vendorId,setVendorId] = useState(1)// need to check how we storing the vedor id in session token
+  const [totalProjectsByVendorId,setTotalProjectsByVendorId] = useState(0)
   // to be dynamic getallFormResponses
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
     const fetchData = async () => {
-      let FormResponseData = await getAllFormResponses()
+      let TotalCompletedProjects = 0
+      let AllProjectsData = await getAllProjects() 
       //do handling here or create new query to get total completed projects
-      
-      setTotalCompletedProjects(4)
+      for(project of AllProjectsData){
+        if (project.username ==vendorId){
+          
+          setTotalProjectsByVendorId(totalProjectsByVendorId+1)
+        }
+        
+      }
+      TotalCompletedProjects = totalProjectsByVendorId
+      for(project of AllProjectsData){
+        if (project.username ==vendorId){
+          for(form of project.forms){
+            if (form.status != "approved"){
+              break
+            }
+          }
+          TotalCompletedProjects-=1
+          
+        }
+
+      }
+      setTotalCompletedProjects(TotalCompletedProjects)
     }
     fetchData()
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -43,18 +65,28 @@ const CompletedProjectsWidget = () => {
 }
 
 const CurrentProjectsWidget = () => {
+  
   // defining state variables
   const [currentProjects,setCurrentProjects] = useState(0)
-
+  const [vendorId,setVendorId] = useState(1)// need to check how we storing the vedor id in session token
   // to be dynamic getallFormResponses
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
     const fetchData = async () => {
-      let FormResponseData = await getAllFormResponses()
-      //do handling here or create new query to get current projects
+      let AllProjectsData = await getAllProjects() 
+      //do handling here or create new query to get total completed projects
+      for(project of AllProjectsData){
+        if (project.username ==vendorId){
+          for(form of project.forms){
+            if (form.status != "approved"){
+              setCurrentProjects(currentProjects+1)
+              break
+            }
+          } 
+        }
+      }
       
-      setCurrentProjects(2)
     }
     fetchData()
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -73,18 +105,27 @@ const CurrentProjectsWidget = () => {
 }
 
 const PendingFormsWidget = () => {
+  
   // defining state variables
   const [pendingForms,setPendingForms] = useState(0)
-
+  const [vendorId,setVendorId] = useState(1)// need to check how we storing the vedor id in session token
   // to be dynamic getallFormResponses
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
     const fetchData = async () => {
-      let FormResponseData = await getAllFormResponses()
-      //do handling here or create new query to get Pending Forms
+      let AllProjectsData = await getAllProjects() 
+      //do handling here or create new query to get total completed projects
+      for(project of AllProjectsData){
+        if (project.username ==vendorId){
+          for(form of project.forms){
+            if (form.status == "unfilled"){
+              setPendingForms(pendingForms+1)
+            }
+          } 
+        }
+      }
       
-      setPendingForms(3)
     }
     fetchData()
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
