@@ -14,6 +14,8 @@ public interface AdminService {
 
     public User findByUsername(String username);
 
+    public User findByEmail(String email);
+
     public User updateUser(User userToUpdate);
 
     public User deleteUser(User userToDelete);

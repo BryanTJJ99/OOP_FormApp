@@ -7,7 +7,7 @@ import axios from "axios";
 const SubmitAccountCreation = (props) => {
     async function handleSubmit() {
         await axios.post(
-            "http://localhost:8080/api/admin/user/create",
+            "http://localhost:8080/api/auth/createUser",
             props.accountDetails,
             {
                 headers: {
@@ -15,8 +15,9 @@ const SubmitAccountCreation = (props) => {
                 },
             }
         );
+        // console.log(props.accountDetails);
+        // console.log("submitted");
         props.setCreatedAccount(true);
-        console.log("submitted");
     }
     return (
         <Button
