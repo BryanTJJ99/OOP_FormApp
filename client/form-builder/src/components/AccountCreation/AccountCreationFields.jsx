@@ -5,7 +5,7 @@ import CountrySelect from "./CountrySelect";
 import { Box } from "@mui/material";
 
 const AccountCreationFields = (props) => {
-    const fields = ["Username", "Email"];
+    const fields = ["Username", "Email", "Password"];
 
     let textFields = fields.map((field) => {
         return (

@@ -39,6 +39,11 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
+
+    @Override
     public User updateUser(User userToUpdate) {
         String userToEditID = userToUpdate.getId();
         User updatedUser = adminRepository.findById(userToEditID).get();
@@ -68,4 +73,5 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
         // user.setCreated_by(createdbyUser);
         return adminRepository.save(user);
     }
+
 }
