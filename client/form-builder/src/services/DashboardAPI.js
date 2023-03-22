@@ -35,3 +35,16 @@ export async function getAllFormResponses(){
         console.log(error.message);
     }
 }
+
+export async function getRecentVendors(limit){
+    const api_url = "http://localhost:8080/api/admin/lastNUsers/"+limit.toString()
+    try {
+        const response = await axios.get(api_url)
+        return response.data;
+    }
+    
+    catch (error) {
+        console.log('error is: '+error.message);
+    }
+}
+

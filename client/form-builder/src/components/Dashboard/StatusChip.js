@@ -12,6 +12,9 @@ import { jsx as _jsx } from "react/jsx-runtime";
 const StatusChip = ({status}) => {
     let color;
     let icon;
+    if (status==null || status==''){
+      status = 'open'
+    }
     switch(status) {
         case "approved":
         case "Filled":
@@ -37,8 +40,6 @@ const StatusChip = ({status}) => {
             color = "error"
             icon = <ReportProblemIcon/>
             break
-        case "open":
-        case "Open":
         case "admin":
             color = "info"
             icon = <InfoIcon/>

@@ -2,6 +2,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import NameAvatar from '../components/Dashboard/NameAvatar';
+import RecentUsersWidget from '../components/Dashboard/RecentUsersWidget';
+import FormStatusWidget from '../components/Dashboard/FormStatusWidget';
 import StatusChip from '../components/Dashboard/StatusChip';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
@@ -14,9 +16,13 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import { getAllVendors , getAllProjects , getAllFormResponses } from '../services/DashboardAPI';
+import { getAllVendors , getAllProjects , getAllFormResponses,} from '../services/DashboardAPI';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+
 
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
@@ -184,84 +190,6 @@ const ProjectWidget = () => {
   )
 }
 
-
-const RecentUsersWidget = () => {
-  return (
-    <Box sx={{height: 300}} variant="outlined">
-      <Typography variant="h6" sx={{p:0 ,m:0}}>
-        Recently Added Users
-      </Typography>
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', my: 0, py:0}}>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <NameAvatar name="Remy Sharp"/>
-          </ListItemAvatar>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <NameAvatar name="Travis Howard" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Summer BBQ"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  to Scott, Alex, Jennifer
-                </Typography>
-                {" — Wish I could come, but I'm out of town this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <NameAvatar name="Cindy Baker"/>
-          </ListItemAvatar>
-          <ListItemText
-            primary="Oui Oui"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Sandra Adams
-                </Typography>
-                {' — Do you have Paris recommendations? Have you ever…'}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-      </List>
-    </Box>
-  )
-}
-
 const Dashboard = () => {
   // set state for form data
   const [forms,setForms] = useState({})
@@ -285,6 +213,51 @@ const Dashboard = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }))
+  
+  const data = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: 'Page D',
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: 'Page E',
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: 'Page F',
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: 'Page G',
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ];
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
@@ -297,6 +270,32 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={4}>
           <Item><RecentUsersWidget/></Item>
+        </Grid>
+        <Grid item xs={8}>
+          <Item>
+          <AreaChart
+            width={700}
+            height={300}
+            data={data}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip wrapperStyle={{ width: 100, fontSize: "12px", backgroundColor: '#ccc', outline: "none" }} />
+            <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+            <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
+          </AreaChart>
+          </Item>
+        </Grid>
+        <Grid item xs={4}>
+          <Item><FormStatusWidget/></Item>
         </Grid>
         <Grid item xs={12}>
           <Item>
