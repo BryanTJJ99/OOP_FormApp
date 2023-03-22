@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.oopproject.form.models.User.User;
@@ -30,6 +31,16 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
     @Override
     public List<User> findAllActiveVendors() {
         return adminRepository.findAllActiveVendors();
+    }
+
+    @Override
+    public List<User> findTopNVendors(int userNum) {
+        List<User> allActiveVendors = adminRepository
+                .findAllActiveVendorsByCreatedAt(Sort.by(Sort.Direction.DESC, "createdAt"));
+        if (userNum >= allActiveVendors.size()) {
+            return allActiveVendors;
+        }
+        return allActiveVendors.subList(0, userNum);
     }
 
     @Override
@@ -61,7 +72,7 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
         String userToDeleteID = userToDelete.getId();
         User deletedUser = adminRepository.findById(userToDeleteID).get();
         if (deletedUser != null) {
-            deletedUser.setDeleted_at(new Date());
+            deletedUser.setDeletedAt(new Date());
         }
         return adminRepository.save(deletedUser);
     }
@@ -70,7 +81,7 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
     public User addUser(User user) {
         // User createdbyUser = adminRepository.findByUsername("testAdmin1");
         // hardcoded to test. must change
-        // user.setCreated_by(createdbyUser);
+        // user.setCreatedBy(createdbyUser);
         return adminRepository.save(user);
     }
 

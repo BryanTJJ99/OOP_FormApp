@@ -96,7 +96,7 @@ package com.oopproject.form.controllers;
 // user.setEmail(signUpRequest.getEmail());
 // user.setPassword(encoder.encode(signUpRequest.getPassword()));
 // user.setCountry(signUpRequest.getCountry());
-// user.setCreated_at(new Date());
+// user.setCreatedAt(new Date());
 
 // String strRole = signUpRequest.getRole().toLowerCase();
 // if (strRole == null) {
