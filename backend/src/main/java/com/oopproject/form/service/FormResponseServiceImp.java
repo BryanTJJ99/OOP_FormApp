@@ -1,5 +1,7 @@
 package com.oopproject.form.service;
 
+import java.util.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,21 @@ public class FormResponseServiceImp implements FormResponseService {
     public void addFormResponse(FormResponse formResponse) {
         formResponseRepository.save(formResponse);
     }
+
+    @Override
+    public FormResponse updateFormAnswer(FormResponse formResponseToUpdate) {
+        String formResponseToEditID = formResponseToUpdate.getFormResponseId();
+        FormResponse updatedFormResponse = formResponseRepository.findById(formResponseToEditID).get();
+        if (updatedFormResponse != null) {
+            updatedFormResponse.setFormAnswer(formResponseToUpdate.getFormAnswer());
+            updatedFormResponse.setUpdatedAt(formResponseToUpdate.getUpdatedAt());
+            updatedFormResponse.setDeletedAt(formResponseToUpdate.getDeletedAt());
+            return formResponseRepository.save(updatedFormResponse);
+        }
+        return null;
+        
+    }
+
 
     // @Override 
     // public void updateFormAnswerValue(String id, String key, Object value) { 

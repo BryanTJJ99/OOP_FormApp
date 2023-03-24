@@ -64,6 +64,13 @@ public class FormResponseController {
         formResponseService.addFormResponse(formResponse);
     }
 
+    @PostMapping("/edit")
+    @CrossOrigin
+    public FormResponse updateFormAnswer(@RequestBody FormResponse formResponse) {
+        return formResponseService.updateFormAnswer(formResponse);
+    }
+
+    
     // @PostMapping("/create")
     // @CrossOrigin
     // public void createForm(@RequestPart("formResponse") String formResponseData, @RequestPart("fileMap") Map<String, Object> fileMap) throws JsonProcessingException {
