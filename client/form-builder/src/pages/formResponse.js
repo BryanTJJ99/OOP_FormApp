@@ -128,7 +128,10 @@ const FormResponse = (props) => {
     useEffect(() => {
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
         // setQuestionsSectionArea(newQuestionsSectionArea); 
-        getFormTemplateById('6414f557b713704fd25c1b34')
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const formTemplateId = urlParams.get('formTemplateId')
+        getFormTemplateById(formTemplateId)
             .then(response => {
                 // console.log(response);
                 setFormTemplate(response);
@@ -154,7 +157,7 @@ const FormResponse = (props) => {
         if (formTemplate !== null) { 
             setFormInfo(<FormInfo formTemplate={formTemplate}/>);
             // bernice ken the currStatus is hardcoded
-            let currStatus = 'approver'; 
+            let currStatus = 'vendor'; 
             setCurrStage(currStatus);
             setStatusSection(<Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'> 
                                 <Box display='flex'> 
