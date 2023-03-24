@@ -5,14 +5,19 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import PersonIcon from '@mui/icons-material/Person';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import { jsx as _jsx } from "react/jsx-runtime";
 
-const StatusChip = ({status}) => {
+const StatusChip = (props) => {
     let color;
     let icon;
-    if (status==null || status==''){
+    let status = props.status;
+    console.log(status)
+    if (status === null || status === ''){
       status = 'open'
     }
     switch(status) {
@@ -24,12 +29,12 @@ const StatusChip = ({status}) => {
         case "Reviewed":
         case "vendor":
             color = "cyan"
-            icon = <DoneAllIcon/>
+            icon = <PersonIcon/>
             break;
         case "Approved":
         case "approver":
             color = "indigo"
-            icon = <HowToRegIcon/>
+            icon = <BeenhereIcon/>
             break;
         case "PartiallyFilled":
             color = "warning"
@@ -42,12 +47,19 @@ const StatusChip = ({status}) => {
             break
         case "admin":
             color = "info"
-            icon = <InfoIcon/>
+            icon = <ContentPasteSearchIcon/>
             break
         default:
             color = "info"
             icon = <InfoIcon/>
       }
+    
+    let actualChip; 
+    if (props.projPill) { 
+      actualChip = <Chip icon={icon} label={props.name} variant="outlined" color={color} component="a" href={props.link} sx={{mr:1}}/>
+    } else { 
+      actualChip = <Chip icon={icon} label={toTitleCase(status)} variant="outlined" color={color}/>
+    }
 
     function toTitleCase(str) {
       return str.toLowerCase().split(' ').map(function (word) {
@@ -57,7 +69,7 @@ const StatusChip = ({status}) => {
     
     return (
         <>
-         <Chip icon={icon} label={toTitleCase(status)} variant="outlined" color={color}/>
+         {actualChip}
         </>
     )
 }
