@@ -11,6 +11,8 @@ import {
     Button,
     Alert,
     Link,
+    Autocomplete,
+    TextField,
 } from "@mui/material";
 
 import {
@@ -21,6 +23,8 @@ import {
 } from "@mui/icons-material";
 
 import { GridRowModes, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+
+import countries from "../components/AccountCreation/Countries";
 
 import axios from "axios";
 
@@ -37,11 +41,39 @@ const AccountManagementPage = () => {
             .get("http://localhost:8080/api/admin/allUsers")
             .then((response) => {
                 let users = response.data;
-                // console.log(users);
+                for (const user of users) {
+                    switch (user.role) {
+                        case "ROLE_VENDOR":
+                            user.role = "VENDOR";
+                            break;
+                        case "ROLE_ADMIN":
+                            user.role = "ADMIN";
+                            break;
+                        case "ROLE_APPROVER":
+                            user.role = "APPROVER";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                console.log(users);
                 setRows(users);
                 setCreatedAccount(false);
             });
     }, [createdAccount]);
+
+    function sortByCountryName(countriesArr) {
+        let newCountriesArr = countriesArr.sort((a, b) => {
+            let country1 = a.label;
+            let country2 = b.label;
+            return country1.localeCompare(country2);
+        });
+        let countryNames = [];
+        for (const country of newCountriesArr) {
+            countryNames.push(country.label);
+        }
+        return countryNames;
+    }
 
     const handleCloseSnackbar = () => setSnackbar(null);
 
@@ -124,12 +156,26 @@ const AccountManagementPage = () => {
 
         const handleYes = async () => {
             const { newRow, oldRow, reject, resolve } = promiseArguments;
+            let userToUpdate = JSON.parse(JSON.stringify(newRow));
+            switch (newRow.role) {
+                case "VENDOR":
+                    userToUpdate.role = "ROLE_VENDOR";
+                    break;
+                case "ADMIN":
+                    userToUpdate.role = "ROLE_ADMIN";
+                    break;
+                case "APPROVER":
+                    userToUpdate.role = "ROLE_APPROVER";
+                    break;
+                default:
+                    break;
+            }
 
             try {
                 // Make the HTTP request to save in the backend
                 await axios.patch(
                     "http://localhost:8080/api/admin/user/edit",
-                    newRow,
+                    userToUpdate,
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -179,12 +225,25 @@ const AccountManagementPage = () => {
 
         const handleConfirmDelete = async () => {
             const userToDelete = rows.filter((row) => row.id === deleteRow)[0];
-
+            let userToUpdateCopy = JSON.parse(JSON.stringify(userToDelete));
+            switch (userToDelete.role) {
+                case "VENDOR":
+                    userToUpdateCopy.role = "ROLE_VENDOR";
+                    break;
+                case "ADMIN":
+                    userToUpdateCopy.role = "ROLE_ADMIN";
+                    break;
+                case "APPROVER":
+                    userToUpdateCopy.role = "ROLE_APPROVER";
+                    break;
+                default:
+                    break;
+            }
             try {
                 // Make the HTTP request to save in the backend
                 await axios.patch(
                     "http://localhost:8080/api/admin/user/delete",
-                    userToDelete,
+                    userToUpdateCopy,
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -235,6 +294,13 @@ const AccountManagementPage = () => {
             minWidth: 150,
         },
         {
+            field: "name",
+            headerName: "Name",
+            editable: true,
+            flex: 1,
+            minWidth: 150,
+        },
+        {
             field: "email",
             headerName: "Email",
             editable: true,
@@ -245,7 +311,7 @@ const AccountManagementPage = () => {
             field: "role",
             headerName: "Role",
             type: "singleSelect",
-            valueOptions: ["ROLE_VENDOR", "ROLE_ADMIN", "ROLE_APPROVER"],
+            valueOptions: ["VENDOR", "ADMIN", "APPROVER"],
             editable: true,
             flex: 1,
             minWidth: 100,
@@ -253,10 +319,30 @@ const AccountManagementPage = () => {
         {
             field: "country",
             headerName: "Country",
+            type: "singleSelect",
+            valueOptions: sortByCountryName(countries),
             editable: true,
             flex: 1,
-            minWidth: 200,
+            minWidth: 100,
         },
+        // {
+        //     field: "country",
+        //     headerName: "Country",
+        //     editable: true,
+        //     flex: 1,
+        //     minWidth: 200,
+        //     renderCell: (params) => (
+        //         <Autocomplete
+        //             disabled={GridRowModes == "Edit" ? true : false}
+        //             disablePortal
+        //             id="countrySelect"
+        //             options={sortByCountryName(countries)}
+        //             sx={{ width: "100%" }}
+        //             autoHighlight
+        //             renderInput={(params) => <TextField {...params} />}
+        //         />
+        //     ),
+        // },
         {
             field: "actions",
             type: "actions",
@@ -304,7 +390,7 @@ const AccountManagementPage = () => {
     ];
 
     return (
-        <Box sx={{ width: "70%", margin: "50px auto" }}>
+        <Box sx={{ width: "90%", margin: "50px auto" }}>
             <Link
                 to={"/AccountCreation"}
                 component={RouterLink}

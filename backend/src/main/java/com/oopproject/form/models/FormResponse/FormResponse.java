@@ -27,6 +27,7 @@ public class FormResponse {
     private String reviewedBy; 
     private String approvedBy; 
     private String status; 
+    private Date vendorDeadline; 
     private Map<String, Object> formAnswer; 
 
     // public FormResponse(String formResponseId, String formTemplateId, String vendorProjectId, String vendorId, String projectId, User reviewedBy, User approvedBy, String status, JSONObject formAnswer) {

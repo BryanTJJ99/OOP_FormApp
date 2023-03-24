@@ -12,7 +12,11 @@ public interface AdminService {
 
     public List<User> findAllActiveVendors();
 
+    public List<User> findTopNVendors(int userNum);
+
     public User findByUsername(String username);
+
+    public User findByEmail(String email);
 
     public User updateUser(User userToUpdate);
 

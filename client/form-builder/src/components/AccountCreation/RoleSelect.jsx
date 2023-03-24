@@ -2,17 +2,17 @@ import { MenuItem, TextField } from "@mui/material";
 import React from "react";
 
 const RoleSelect = (props) => {
-    const roles = ["ROLE_VENDOR", "ROLE_ADMIN", "ROLE_APPROVER"];
+    const roles = ["VENDOR", "ADMIN", "APPROVER"];
 
     let accountDetails = props.accountDetails;
-    accountDetails["role"] = "ROLE_VENDOR";
+    accountDetails["role"] = "VENDOR";
 
     return (
         <TextField
             id="role"
             select
             label="Role"
-            defaultValue="ROLE_VENDOR"
+            defaultValue="VENDOR"
             sx={{ margin: "0 10px 10px 0", width: "50%" }}
             onChange={(e) => {
                 accountDetails["role"] = e.target.value;

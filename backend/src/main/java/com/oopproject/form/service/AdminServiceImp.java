@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.oopproject.form.models.User.User;
@@ -33,9 +34,24 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
     }
 
     @Override
+    public List<User> findTopNVendors(int userNum) {
+        List<User> allActiveVendors = adminRepository
+                .findAllActiveVendorsByCreatedAt(Sort.by(Sort.Direction.DESC, "createdAt"));
+        if (userNum >= allActiveVendors.size()) {
+            return allActiveVendors;
+        }
+        return allActiveVendors.subList(0, userNum);
+    }
+
+    @Override
     public User findByUsername(String username) {
         // System.out.println("admin service imp: " + username);
         return adminRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return adminRepository.findByEmail(email);
     }
 
     @Override
@@ -44,8 +60,10 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
         User updatedUser = adminRepository.findById(userToEditID).get();
         if (updatedUser != null) {
             updatedUser.setUsername(userToUpdate.getUsername());
+            updatedUser.setName(userToUpdate.getName());
             updatedUser.setEmail(userToUpdate.getEmail());
             updatedUser.setRole(userToUpdate.getRole());
+            updatedUser.setCountry(userToUpdate.getCountry());
             return adminRepository.save(updatedUser);
         }
         return null;
@@ -56,7 +74,7 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
         String userToDeleteID = userToDelete.getId();
         User deletedUser = adminRepository.findById(userToDeleteID).get();
         if (deletedUser != null) {
-            deletedUser.setDeleted_at(new Date());
+            deletedUser.setDeletedAt(new Date());
         }
         return adminRepository.save(deletedUser);
     }
@@ -65,7 +83,8 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
     public User addUser(User user) {
         // User createdbyUser = adminRepository.findByUsername("testAdmin1");
         // hardcoded to test. must change
-        // user.setCreated_by(createdbyUser);
+        // user.setCreatedBy(createdbyUser);
         return adminRepository.save(user);
     }
+
 }

@@ -32,6 +32,12 @@ public class AdminController extends UserController {
         return adminService.findAllActiveVendors();
     }
 
+    @GetMapping("/lastNUsers/{userNum}")
+    @CrossOrigin
+    public List<User> getLastNUsers(@PathVariable int userNum) {
+        return adminService.findTopNVendors(userNum);
+    }
+
     @GetMapping("/user/{username}")
     @CrossOrigin
     public User getUser(@PathVariable String username) {
@@ -41,7 +47,7 @@ public class AdminController extends UserController {
     @PostMapping("user/create")
     @CrossOrigin
     public User addUser(@RequestBody User user) {
-        user.setCreated_at(new Date());
+        user.setCreatedAt(new Date());
         return adminService.addUser(user);
     }
 

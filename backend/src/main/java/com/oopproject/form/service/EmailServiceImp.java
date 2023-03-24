@@ -28,7 +28,7 @@ public class EmailServiceImp implements EmailService {
     }
 
     @Override
-    public void sendCustomEmail(String vendorEmail, String formName, String customSubject, String customMessage) {
+    public void sendCustomEmail(String vendorEmail, String customSubject, String customMessage) {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -39,5 +39,20 @@ public class EmailServiceImp implements EmailService {
 
         javaMailSender.send(mailMessage);
 
+    }
+
+    @Override
+    public void sendAccountCreationEmail(String userEmail, String username, String password) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        mailMessage.setTo(userEmail);
+        mailMessage.setFrom("oopG1T3formproject@outlook.com");
+        mailMessage.setSubject("Quantum Leap Account Creation");
+        mailMessage.setText(
+                "Your Quantum Leap Account has been created. Please access your account using the following credentials:\nUsername: "
+                        + username + "\nPassword: " + password);
+
+        javaMailSender.send(mailMessage);
     }
 }
