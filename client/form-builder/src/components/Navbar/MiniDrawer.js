@@ -1,13 +1,6 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import MenuIcon from '@mui/icons-material/Menu';
-import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -22,12 +15,21 @@ import { styled, useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import EventBus from "../../common/EventBus";
 import AuthService from "../../services/authService";
-import { LoginOutlined } from '@mui/icons-material';
 
 
 // sample code from mui 
@@ -101,17 +103,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [page, setPage] = React.useState("Home")
 
-  // const pages = ['Dashboard', 'Account Management', 'Form Responses', 'Form Templates','Project']
-  // const widgets = ['Account','Logout']
-  // const iconsPrimary = [<DashboardIcon/>,<PeopleAltIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<LibraryAddIcon/>]
-  // const iconsSecondary = [
-  //   <LogoutIcon />,
-  //   <LoginOutlined />
+  const [page, setPage] = React.useState("Dashboard")
   // const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
   // const widgets = ['Account','Logout']
-  // const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
+  // const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
   // const iconsSecondary = [
   //   <AccountCircleIcon/>,
   //   <LogoutIcon/>,
@@ -215,6 +211,7 @@ export default function MiniDrawer({children}) {
                     px: 2.5,
                   }}
                 >
+                  <Tooltip title={text} placement="right-start">
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -224,6 +221,7 @@ export default function MiniDrawer({children}) {
                   >
                     {iconsPrimary[index]}
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText secondary={text} disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
                 </ListItemButton>
               </Link>

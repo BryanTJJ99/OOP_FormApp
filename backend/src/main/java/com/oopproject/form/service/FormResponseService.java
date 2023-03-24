@@ -1,5 +1,6 @@
 package com.oopproject.form.service;
 
+import java.util.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,9 @@ public interface FormResponseService {
     public void addFormResponse(FormResponse form);
 
     // public void updateFormAnswerValue(String id, String key, Object value);
+
+    public FormResponse updateFormAnswer(FormResponse formResponseToUpdate);
+
+    
+
 }

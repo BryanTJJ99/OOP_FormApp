@@ -3,19 +3,9 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/authService";
 
-import axios from "axios";
+// import axios from "axios";
 
 const SubmitAccountCreation = (props) => {
-    // async function handleSubmit() {
-    //     await axios.post(
-    //         "http://localhost:8080/api/auth/createUser",
-    //         props.accountDetails,
-    //         {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         }
-    //     );
 
     function handleSubmit() {
         const registrationData = {
@@ -33,14 +23,41 @@ const SubmitAccountCreation = (props) => {
             })
             .catch((error) => { 
                 console.log(error);
-                const resmessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-                console.log(resmessage);
+                const errorMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                console.log(errorMessage);
             });
 
+    // async function handleSubmit() {
+    //     let accountDetails = props.accountDetails;
+    //     switch (accountDetails["role"]) {
+    //         case "VENDOR":
+    //             accountDetails["role"] = "ROLE_VENDOR";
+    //             break;
+    //         case "ADMIN":
+    //             accountDetails["role"] = "ROLE_ADMIN";
+    //             break;
+    //         case "APPROVER":
+    //             accountDetails["role"] = "ROLE_APPROVER";
+    //             break;
+    //         default:
+    //             break;
+    //     }
 
-        // console.log(props.accountDetails);
-        // console.log("submitted");
-        
+    //     props.setAccountDetails(accountDetails);
+
+    //     await axios.post(
+    //         "http://localhost:8080/api/admin/user/create",
+    //         // "http://localhost:8080/api/auth/createUser",
+    //         props.accountDetails,
+    //         {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         }
+    //     );
+    //     // console.log(props.accountDetails);
+    //     // console.log("submitted");
+    //     // props.setCreatedAccount(true);
     }
     return (
         <Button
@@ -55,4 +72,5 @@ const SubmitAccountCreation = (props) => {
     );
 };
 
-export default SubmitAccountCreation;
+export default SubmitAccountCreation; 
+

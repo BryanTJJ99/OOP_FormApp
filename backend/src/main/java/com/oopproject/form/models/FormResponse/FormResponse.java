@@ -27,7 +27,11 @@ public class FormResponse {
     private String reviewedBy; 
     private String approvedBy; 
     private String status; 
-    private Map<String, Object> formAnswer; 
+    private Date vendorDeadline; 
+    private Map<String, Object> formAnswer;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
     // public FormResponse(String formResponseId, String formTemplateId, String vendorProjectId, String vendorId, String projectId, User reviewedBy, User approvedBy, String status, JSONObject formAnswer) {
     //     this.formResponseId = formResponseId; 

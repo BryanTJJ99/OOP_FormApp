@@ -15,13 +15,16 @@ import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormView from "./pages/formView";
 import Home from "./pages/index";
 import LogIn from "./pages/LogIn";
+import Settings from "./pages/Settings";
+import ClientProject from "./pages/clientProject";
+
+
+import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
+
+
 import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Project from "./pages/ProjectPage";
-import Settings from "./pages/Settings";
-import Unauthorized from "./components/Unauthorized";
-
-
-import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
+// import Unauthorized from "./components/Unauthorized";
 
 const ROLES = {
     VENDOR: "ROLE_VENDOR",
@@ -60,7 +63,7 @@ function App() {
                                 <Route path="Settings" element={<Settings />} />
                                 <Route path="Home" element={<Home />} />
                                 <Route path="FormView" element={<FormView />} />
-                                <Route path="Unauthorized" element={<Unauthorized />} />
+                                {/* <Route path="Unauthorized" element={<Unauthorized />} /> */}
 
                             </Route>
 
@@ -86,6 +89,33 @@ function App() {
                     </MiniDrawer>
                 </Router>
             </ThemeProvider>
+
+        {/* Sample routing structure for easier reference for above codes */}
+        {/* <div>
+            <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"></link>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"></link>
+        </div>
+        <ThemeProvider theme={theme}>
+            <Router>
+                <MiniDrawer>
+                <Routes>
+                    <Route exact path="/Dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/ProjectOutdated" element={<Project/>}/>
+                    <Route path="/ProjectCreation" element={<ProjectCreationPage/>}/>
+                    <Route path='/FormTemplates' element={<FormTemplateIndex />} />
+                    <Route path='/Project' element={<FormResponseIndex />} />
+                    <Route path="/FormBuilder" element={<FormBuilder />} />
+                    <Route path="/FormView" element={<FormView />} />
+                    <Route path="/FormResponse" element={<FormResponse />} />
+                    <Route path="/AccountManagement" element={<AccountManagementPage />}/>
+                    <Route path="/AccountCreation" element={<AccountCreationPage />}/>
+                    <Route path="/ClientProject" element = {<ClientProject/>}/>
+                </Routes>
+                </MiniDrawer>
+            </Router>
+        </ThemeProvider> */}
         </>
     );
 }
