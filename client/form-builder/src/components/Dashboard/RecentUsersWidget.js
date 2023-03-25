@@ -18,7 +18,6 @@ export default function RecentUsersWidget(){
     useEffect(()=>{
       const fetchData = async () => {
         let recentVendorData = await getRecentVendors(3)
-        console.log(recentVendors[0])
         setRecentVendors(recentVendorData)
       }
       fetchData()
@@ -42,7 +41,6 @@ export default function RecentUsersWidget(){
         } else {
             display = 'seconds ago'
         }
-        console.log(display)
         return display
     }
     // {

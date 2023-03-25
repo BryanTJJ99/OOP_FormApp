@@ -97,7 +97,7 @@ const ProjectCreationPage1 = (props) => {
           <TextField
             id="ProjectName"
             label="Project Name"
-            style={{ margin: 20, width: '300px' }}
+            style={{ marginRight: 20, width: '300px' }}
             onChange={handleProjectNameChange}
             value={projectData.projectName}
           />
@@ -130,21 +130,21 @@ const ProjectCreationPage1 = (props) => {
               multiple
               id="vendor-company-name"
               options={vendorData}
-              getOptionLabel={(option) => option.username}
-              value={vendorData.filter((option) => projectData.vendorCompanyName.includes(option.username))}
+              getOptionLabel={(option) => option.name}
+              value={vendorData.filter((option) => projectData.vendorCompanyName.includes(option.name))}
               onChange={(event, newValue) => {
-                handleProjectDataChange('vendorCompanyName', newValue.map((option) => option.username));
+                handleProjectDataChange('vendorCompanyName', newValue.map((option) => option.name));
               }}
               renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
-                  <Chip variant="outlined" label={option.username} {...getTagProps({ index })} style={{ display: 'inline-flex', margin: '2px' }}/>
+                  <Chip variant="outlined" label={option.name} {...getTagProps({ index })} style={{ display: 'inline-flex', margin: '2px' }}/>
                 ))
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
-                  label="Vendor Company Name"
+                  label="Vendor Name"
                   placeholder="Select vendor companies"
                   value={projectData.vendorCompanyName.length > 0 ? "" : params.inputProps.value}
                   onChange={params.onChange}
@@ -181,7 +181,7 @@ const ProjectCreationPage1 = (props) => {
 
         {/* Ken Ming */}
         {!projectNameEntered && <h3>Please Enter Project Name</h3>}
-        {!vendorCompanyNameEntered && <h3>Please Enter Vendor Company Name</h3>}
+        {!vendorCompanyNameEntered && <h3>Please Enter Vendor Name</h3>}
 
     </div>
 

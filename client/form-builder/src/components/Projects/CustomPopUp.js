@@ -47,9 +47,9 @@ export default function FullScreenDialog(props) {
             Open full-screen dialog
         </Button> */}
 
-        <Button style={{ backgroundColor: '#A5DEB8', height:50, width:250 }} onClick={handleClickOpen}>
-            <Typography variant="h10" style={{ fontFamily: 'Arial', color:'black' }}>
-            <AddIcon></AddIcon>
+        <Button style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:250,m:4, }} onClick={handleClickOpen}>
+            <AddIcon/>
+            <Typography sx={{fontSize:"14px", m:1}}>
             Create Custom Form
             </Typography>
         </Button>

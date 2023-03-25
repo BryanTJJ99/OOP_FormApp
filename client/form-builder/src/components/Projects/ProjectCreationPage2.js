@@ -1,5 +1,5 @@
 import { React  , useState, Fragment, useEffect } from 'react' //rafce 
-import { Button, Typography, TextField } from '@mui/material'
+import { Button, Typography, TextField , InputAdornment } from '@mui/material'
 import FormTemplate from "./FormTemplate";
 import Carousel from "react-multi-carousel";
 // import "react-multi-carousel/lib/styles.css";
@@ -85,49 +85,63 @@ const ProjectCreationPage2 = (props) => {
   return (
     
     <>
-        <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
-            Add Form For Vendor
-        </Typography>
-        
+      <Box sx={{height:50}}></Box>
+      
 
+      <Typography variant="h4" component="div" style={{ flexGrow: 1, margin: 30 }}>
+          Select Forms To Be Filled By Vendor(s)
+      </Typography>
+        
+    
 
       {/* For container showing forms that are selected */}
       <Fragment>
         <CssBaseline />
-          <Container maxWidth="sm" style={{ backgroundColor:"#cfe8fc", borderRadius:"20px"}}>
-            Selected Form(s)<br/>
+          <Container maxWidth="sm" sx={{ backgroundColor:"#1F87BC",color:"#FFFFFF", borderRadius:"20px", padding: 1}}>
+            <Typography variant="h6">Selected Form(s)</Typography>
             {props.projectData.selectedForm.map((item) => (
-              <Chip label={item.name} />
+              <Chip label={item.name} sx={{m:1,color:"#FFFFFF",backgroundColor:"#7F7F7F"}}/>
             ))}
           </Container>
       </Fragment>
 
+      <br/>
+      <br/>
 
-        <br/>
-        <br/>
 
-
-        <Grid container spacing={2} justifyContent="center">
+        <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12}>
-            <Grid container spacing={2} justifyContent="space-between" alignItems="center">
+            <Grid container spacing={1} justifyContent="space-between" alignItems="center">
               <Grid item>
                 <FullScreenDialog projectData={props.projectData} handleProjectDataChange={props.handleProjectDataChange} />
               </Grid>
-              <Grid item>
-                <Grid container spacing={2} alignItems="center">
+              <Grid item>        
+                  <TextField id="standard-basic" 
+                  label="Filter by name" 
+                  variant="filled" 
+                  sx= {{height:30,m:3}}
+                  value={filterValue} 
+                  onChange={filter}  
+                  InputProps={{
+                  endAdornment: 
+                  <InputAdornment position="end">
+                    <FilterAltIcon />
+                  </InputAdornment>,
+                  }}/>
+                {/* <Grid container spacing={2} alignItems="center">
                   <Grid item>
                     <FilterAltIcon />
                   </Grid>
                   <Grid item>
                     <TextField id="standard-basic" label="Filter" variant="standard" value={filterValue} onChange={filter} />
                   </Grid>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <div style={{ height: '90%', overflowY:'auto' }}>
-              <Grid container spacing={2} justifyContent="center" style={{ height: '100%' }}>
+          <Grid item xs={12} >
+            <div >
+              <Grid container spacing={2} justifyContent="center" style={{ height: '100%' }} overflow="auto">
                 {formTemplate.map((item) => (
                   <Grid key={item._id} item xs={12} sm={6} md={4}>
                     <FormTemplate
@@ -150,12 +164,19 @@ const ProjectCreationPage2 = (props) => {
 
         <br/>
         <br/>
-        
-        <Button onClick={() => props.setActivePage('1')} style={{ backgroundColor: '#a8c7f7', color: 'inherit', margin: 100, height:50, width:150 }}>Back</Button>
-
-        <Button onClick={() => props.setActivePage('3')} style={{ backgroundColor: '#a8c7f7', color: 'inherit', margin: 100,  height:50, width:150 }}>Next</Button>
-
-
+        <Box display="flex" width="300px;" marginX="auto" marginY="50px" justifyContent="space-between">
+          <Button onClick={() => props.setActivePage('1')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }}>
+            <Typography sx={{fontSize:"14px", m:1}}>
+              Back
+            </Typography>
+          </Button>
+          
+          <Button onClick={() => props.setActivePage('3')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }}>
+            <Typography sx={{fontSize:"14px", m:1}}>
+              Next
+            </Typography>
+          </Button>
+        </Box>
     </>
 
 

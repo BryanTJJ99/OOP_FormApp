@@ -33,7 +33,7 @@ export default function FormTemplate(props) {
   
   const isInSelectedForm = props.projectData.selectedForm.some(form => form.id === props.id);
   const buttonName = isInSelectedForm ? "Selected" : "Select Form";
-  const buttonStyle = isInSelectedForm ? { margin: "auto", width: 300, backgroundColor: "#cfe8fc", color:"blue" } : { margin: "auto", width: 300, color:"blue"};
+  const buttonStyle = isInSelectedForm ? { margin: "auto", width: 150, backgroundColor: "#cfe8fc", color:"#1F87BC" } : { margin: "auto", width: 150, color:"#1F87BC"};
 
 
   return (
