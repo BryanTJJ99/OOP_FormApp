@@ -1,4 +1,4 @@
-import { React , useEffect, useState } from 'react';
+import { React , useEffect, useState,  } from 'react';
 
 // import {
 //     Chip, Table,
@@ -19,7 +19,8 @@ import { Button,
     TableHead,
     TableRow,
     Paper,
-    Box
+    Link,
+    Box,
   } from "@mui/material";
 
   import axios from "axios";
@@ -183,7 +184,7 @@ const ProjectCreationPage3 = (props) => {
     <Box display="flex" width="300px;" marginX="auto" marginY="50px" justifyContent="space-between">
         <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Back</Button>
 
-        <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Submit</Button>
+        <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} href="/Project" >Submit</Button>
     </Box>                      
     </>
 

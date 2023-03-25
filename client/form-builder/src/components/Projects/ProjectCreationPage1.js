@@ -173,7 +173,7 @@ const ProjectCreationPage1 = (props) => {
 
 
         <Button onClick={handleNextButtonClick} 
-                style={{ backgroundColor: '#a8c7f7', color: 'inherit', height:50, width:150 }}
+                style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }}
         >
         Next
         </Button>

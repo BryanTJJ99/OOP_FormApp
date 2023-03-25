@@ -40,15 +40,17 @@ export default function FormStatusWidget(){
         return dict
     }
     return (
-        <Box sx={{height: 300 ,padding:5}} variant="outlined">
-          <Typography variant="h6">
+        <Box sx={{height: 300 ,py:1,px:2}} variant="outlined">
+          <Typography variant="h6" sx={{m:0}}>
             Forms in Status
           </Typography>
           <List>
             {Object.keys(statuses).map((stat,idx)=>(
                 <ListItem key={idx} sx={{ m:0,p:0 }}>
+                  <Box display="flex" width="80%" marginX="auto" justifyContent="center">
                     <ListItemText><StatusChip status={stat}/></ListItemText>
                     <ListItemText>{statuses[stat]}</ListItemText>
+                  </Box>
                 </ListItem>
             ))
             }

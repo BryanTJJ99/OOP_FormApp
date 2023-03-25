@@ -21,17 +21,14 @@ const StatusChip = (props) => {
       status = 'open'
     }
     switch(status) {
-        case "approved":
-        case "Filled":
+        case "Approved":
             color = "success"
             icon = <DoneIcon/>
             break;
-        case "Reviewed":
         case "vendor":
             color = "cyan"
             icon = <PersonIcon/>
             break;
-        case "Approved":
         case "approver":
             color = "indigo"
             icon = <BeenhereIcon/>
@@ -40,7 +37,6 @@ const StatusChip = (props) => {
             color = "warning"
             icon = <AutorenewIcon/>
             break;
-        case "Rejected":
         case "rejected":
             color = "error"
             icon = <ReportProblemIcon/>

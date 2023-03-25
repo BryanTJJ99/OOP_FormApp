@@ -1,6 +1,7 @@
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box, Button, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { FormTable } from '../components/FormIndex/index.js';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const FormSummary = (props) => {
     return (
@@ -12,8 +13,8 @@ const FormSummary = (props) => {
                 <Typography variant='h4'>View Projects</Typography>
                 <Typography variant='p'>Check the status of all the vendor-project pairs</Typography>
             </div>
-            <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}}>
-                <Button variant="contained" color="primary" component="a" href="/ProjectCreation">Create New Project</Button>
+            <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
+                <Button backgroundColor="primary" variant="contained" href="/ProjectCreation" sx={{textDecoration:"none","&:hover": {color: "#FFF"}}}><AddCircleIcon sx={{mr:1}}/>Create New Project</Button>
             </Box>
             <div>
                 <FormTable sx={{mx: 'auto'}}/>
