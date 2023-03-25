@@ -131,7 +131,7 @@ const FormTable = () => {
               let templateId = formResponse.formTemplateId; 
               let templateName = formTemplates[templateId]; 
               let formStatus = formResponse.status; 
-              let formData = {name: templateName, status: formStatus, link: '/FormResponse?formTemplateId='+templateId}
+              let formData = {name: templateName, status: formStatus, link: '/FormResponse?formResponseId='+formResponse.formResponseId}
               if (index in formResByVendorProject) { 
                 formResByVendorProject[index].push(formData); 
               } else { 

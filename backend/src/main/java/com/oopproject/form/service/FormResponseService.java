@@ -17,7 +17,7 @@ public interface FormResponseService {
 
     // public void updateFormAnswerValue(String id, String key, Object value);
 
-    public FormResponse updateFormAnswer(FormResponse formResponseToUpdate);
+    public FormResponse updateFormResponse(FormResponse formResponseToUpdate);
 
     
 

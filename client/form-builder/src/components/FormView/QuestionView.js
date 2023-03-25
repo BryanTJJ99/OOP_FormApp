@@ -145,10 +145,6 @@ const QuestionView = (props) => {
         }
     }
 
-    function controlFileElement() { 
-
-    }
-
     return (
         <Card variant="outlined" className="mx-5 mb-3">
             <div className='card-header text-left'>

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Box, Button, Typography, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import { FormInfo, QuestionView, SectionView } from '../components/FormResponse/index.js';
 import { getFormTemplateById } from '../services/FormTemplate.js';
-import { createFormResponse, updateFilesInFormAnswer } from '../services/FormResponse.js';
+import { updateFormResponse, getFormResponseById, updateFilesInFormAnswer } from '../services/FormResponse.js';
 import StatusChip from '../components/Dashboard/StatusChip.js';
 
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
+    const [formResponse, setFormResponse] = useState(null);
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
     const [fileMap, setFileMap] = useState({});
@@ -15,6 +16,11 @@ const FormResponse = (props) => {
     const [openPopUp, setOpenPopUp] = useState(false);
     const [currStage, setCurrStage] = useState(null);
     const [emailMessage, setEmailMessage] = useState(null);
+
+    const nextStageRef = { 
+        'vendor': 'admin', 
+        'admin': 'approver', 
+    }
 
     const handleNextStageChange = (event) => {
         console.log(event.target.value)
@@ -70,13 +76,18 @@ const FormResponse = (props) => {
             }
             formAnswer[i] = dataToStore;
         }
+        let today = new Date().toJSON(); 
+        let statusUpdated; 
+        if (currStage !== 'approver') { 
+            statusUpdated = nextStageRef[currStage]; 
+        } else { 
+            statusUpdated = nextStage; 
+        }
         let formResponseData = {
-            formTemplateId: "6414f557b713704fd25c1b34",
-            vendorId: "6409dc37e3139a5d267579b3",
-            reviewedBy: "6411538f436af646394c3fe4",
-            approvedBy: "6409dc0be3139a5d267579b2",
-            status: 'vendor', 
-            formAnswer: formAnswer
+            formResponseId: formResponse.formResponseId,
+            status: statusUpdated, 
+            formAnswer: formAnswer, 
+            updatedAt: today,
         }
         console.log(formResponseData);
         // console.log(fileMap);
@@ -90,7 +101,7 @@ const FormResponse = (props) => {
         // for (var pair of formData.entries()) {
         //     console.log(pair[0]+ ', ' + pair[1]); 
         // }
-        createFormResponse(formResponseData)
+        updateFormResponse(formResponseData)
             .then(response => {
                 console.log(response);
             })
@@ -125,20 +136,31 @@ const FormResponse = (props) => {
         setFileMap(newFileMap);
     }
 
+    function submitForm() { 
+        
+    }
+
     useEffect(() => {
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
         // setQuestionsSectionArea(newQuestionsSectionArea); 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const formTemplateId = urlParams.get('formTemplateId')
-        getFormTemplateById(formTemplateId)
-            .then(response => {
-                // console.log(response);
-                setFormTemplate(response);
+        const formResponseId = urlParams.get('formResponseId');
+        getFormResponseById(formResponseId) 
+            .then(response => { 
+                setFormResponse(response); 
+                console.log(response); 
+                let formTemplateId = response.formTemplateId; 
+                getFormTemplateById(formTemplateId)
+                    .then(response => {
+                        // console.log(response);
+                        setFormTemplate(response);
+                    })
+                    .catch(error => {
+                        console.log(error.message);
+                    })
             })
-            .catch(error => {
-                console.log(error.message);
-            })
+
     }, [])
 
     function toTitleCase(str) {
@@ -157,7 +179,7 @@ const FormResponse = (props) => {
         if (formTemplate !== null) { 
             setFormInfo(<FormInfo formTemplate={formTemplate}/>);
             // bernice ken the currStatus is hardcoded
-            let currStatus = 'vendor'; 
+            let currStatus = formResponse.status; 
             setCurrStage(currStatus);
             setStatusSection(<Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'> 
                                 <Box display='flex'> 
@@ -203,7 +225,7 @@ const FormResponse = (props) => {
                         return (<SectionView section={item} key={"Section" + item.sectionOrder}></SectionView>)
                     } else {
                         return (
-                            <QuestionView question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload}></QuestionView>
+                            <QuestionView question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload} response={formResponse}></QuestionView>
                         )
                     }
                 })}
@@ -212,12 +234,11 @@ const FormResponse = (props) => {
                         <Button variant='contained'>Save</Button>
                     </Box>
                     <Box>
-                        <Button variant='contained' onClick={handlePopUpOpen}>Submit Form</Button>
+                        <Button type="submit" variant='contained' onClick={handlePopUpOpen}>Submit Form</Button>
                     </Box>
                 </Box>
-                
-
             </Box>
+                
             <Dialog
                 open={openPopUp}
                 onClose={handlePopUpClose}
@@ -243,7 +264,7 @@ const FormResponse = (props) => {
                 </Box>}
                 <DialogActions>
                     <Button onClick={handlePopUpClose}>Cancel</Button>
-                    <Button type='submit'>Submit</Button>
+                    <Button onClick={submitForm}>Submit</Button>
                 </DialogActions>
             </Dialog>
         </div>

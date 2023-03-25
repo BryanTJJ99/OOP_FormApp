@@ -61,6 +61,17 @@ export async function initialiseFormResponse(formData) {
       return error;
     }
   }
+
+export async function updateFormResponse(formResponse) { 
+  let api_url = 'http://localhost:8080/formResponse/edit';
+  try { 
+    const response = await axios.patch(api_url, formResponse); 
+    console.log('response', response); 
+    return response.data; 
+  } catch(error) { 
+    return error; 
+  }
+}
   
 
 
