@@ -1,64 +1,51 @@
 package com.oopproject.form.models.FormResponse;
 
 import java.util.List;
+import java.util.Date;
+import java.util.Map;
 import org.json.simple.JSONObject;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Getter;
+import lombok.Setter;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.oopproject.form.models.Section.Section;
 import com.oopproject.form.models.User.User;
 
+@Getter @Setter
 @Document(collection = "FormResponse")
 public class FormResponse {
     @Id 
     private String formResponseId; 
-    @DocumentReference
     private String formTemplateId; 
-    @DocumentReference
     private String vendorProjectId; 
-    @DocumentReference
-    private User reviewedBy; 
-    @DocumentReference
-    private User approvedBy; 
+    private String vendorId; 
+    private String projectId;
+    private String reviewedBy; 
+    private String approvedBy; 
     private String status; 
-    private JSONObject formAnswer; 
+    private Date vendorDeadline; 
+    private Map<String, Object> formAnswer;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
-    public FormResponse(String formResponseId, String formTemplateId, String vendorProjectId, User reviewedBy, User approvedBy, String status, JSONObject formAnswer) {
-        this.formResponseId = formResponseId; 
-        this.formTemplateId = formTemplateId; 
-        this.vendorProjectId = vendorProjectId; 
-        this.reviewedBy = reviewedBy; 
-        this.approvedBy = approvedBy; 
-        this.status = status; 
-        this.formAnswer = formAnswer;
-    }
+    // public FormResponse(String formResponseId, String formTemplateId, String vendorProjectId, String vendorId, String projectId, User reviewedBy, User approvedBy, String status, JSONObject formAnswer) {
+    //     this.formResponseId = formResponseId; 
+    //     this.formTemplateId = formTemplateId; 
+    //     this.vendorProjectId = vendorProjectId; 
+    //     this.vendorId = vendorId; 
+    //     this.projectId = projectId;
+    //     this.reviewedBy = reviewedBy; 
+    //     this.approvedBy = approvedBy; 
+    //     this.status = status; 
+    //     this.formAnswer = formAnswer;
+    // }
 
-    public User getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(User vendor) {
-        this.vendor = vendor;
-    }
-
-    public User getReviewedBy() {
-        return reviewedBy;
-    }
-
-    public void setReviewedBy(User reviewedBy) {
-        this.reviewedBy = reviewedBy;
-    }
-
-    public User getApprovedBy() {
-        return approvedBy;
-    }
-
-    public void setApprovedBy(User approvedBy) {
-        this.approvedBy = approvedBy;
-    }
-
-    public void makePDF(Form form) {
+    public void makePDF(FormResponse formRespons) {
         //
     }
 }

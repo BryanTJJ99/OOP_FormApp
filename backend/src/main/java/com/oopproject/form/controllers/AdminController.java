@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import com.oopproject.form.models.User.User;
@@ -12,42 +13,54 @@ import com.oopproject.form.service.AdminService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController extends UserController {
 
     @Autowired
+    @Qualifier("admin")
     private AdminService adminService;
 
     @GetMapping("/allUsers")
     @CrossOrigin
     public List<User> getAllUsers() {
-        return adminService.findAllUsers();
+        return adminService.findNotDeleted();
     }
 
-    // @GetMapping("/user/{username}")
-    // @CrossOrigin
-    // public User getUser(@PathVariable String username) {
-    // return adminService.findByUsername(username);
-    // }
+    @GetMapping("/allVendors")
+    @CrossOrigin
+    public List<User> getAllVendors() {
+        return adminService.findAllActiveVendors();
+    }
 
-    @PostMapping("/create-user")
+    @GetMapping("/lastNUsers/{userNum}")
+    @CrossOrigin
+    public List<User> getLastNUsers(@PathVariable int userNum) {
+        return adminService.findTopNVendors(userNum);
+    }
+
+    @GetMapping("/user/{username}")
+    @CrossOrigin
+    public User getUser(@PathVariable String username) {
+        return adminService.findByUsername(username);
+    }
+
+    @PostMapping("user/create")
     @CrossOrigin
     public User addUser(@RequestBody User user) {
-        user.setCreated_at(new Date());
+        user.setCreatedAt(new Date());
         return adminService.addUser(user);
     }
 
-    // @PostMapping("/create-admin")
-    // @CrossOrigin
-    // public User addAdmin(@RequestBody Admin admin) {
-    // admin.setCreated_at(new Date());
-    // return adminService.addUser(admin);
-    // }
+    @PatchMapping("user/edit")
+    @CrossOrigin
+    public User updateUser(@RequestBody User updatedUser) {
+        return adminService.updateUser(updatedUser);
+    }
 
-    // @PatchMapping("/user/{username}/update")
-    // public User updateUser(@PathVariable String username, @RequestBody User
-    // updatedUser) {
-    // return adminService.updateUser(username, updatedUser);
-    // }
+    @PatchMapping("user/delete")
+    @CrossOrigin
+    public User deleteUser(@RequestBody User deletedUser) {
+        return adminService.deleteUser(deletedUser);
+    }
 
 }

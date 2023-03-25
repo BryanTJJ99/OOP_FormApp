@@ -1,0 +1,98 @@
+{
+    "formName": "Test Form 2", 
+    "formDescription": "This is a test form description created by Bernice", 
+    "createdBy": "6411538f436af646394c3fe4",
+    "createdAt": "2023-03-15T05:22:33.934+00:00", 
+    "updatedAt": "2023-03-15T05:22:33.934+00:00", 
+    "sections": [
+        {
+            "sectionName": "Test Section 1", 
+            "sectionOrder": 1,
+            "sectionDescription": "This is a test section description created by Bernice", 
+            "assignedTo": "6409dc37e3139a5d267579b3",
+            "createdAt": "2023-03-15T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-15T05:22:33.934+00:00"
+        },
+        {
+            "sectionName": "Test Section 2", 
+            "sectionOrder": 2,
+            "sectionDescription": "This is a test section description created by Bernice", 
+            "assignedTo": "6409dc37e3139a5d267579b3",
+            "createdAt": "2023-03-15T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-15T05:22:33.934+00:00"
+        }
+    ],
+    "questions": [
+        { 
+            "questionType": "textarea", 
+            "questionOrder": 1, 
+            "belongsToSection": 1,
+            "questionTitle": "Test Question 1", 
+            "isRequired": true, 
+            "createdAt": "2023-03-15T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-15T05:22:33.934+00:00"
+        },
+        { 
+            "questionType": "text", 
+            "questionOrder": 2, 
+            "belongsToSection": 1,
+            "questionTitle": "Test Question 2", 
+            "isRequired": true, 
+            "createdAt": "2023-03-16T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-16T05:22:33.934+00:00"
+        },
+        { 
+            "questionType": "radio", 
+            "questionOrder": 3, 
+            "belongsToSection": 2,
+            "questionTitle": "Test Question 3", 
+            "isRequired": true, 
+            "choices": ["Female", "Male"],
+            "createdAt": "2023-03-16T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-16T05:22:33.934+00:00"
+        },
+        { 
+            "questionType": "dropdown", 
+            "questionOrder": 4, 
+            "belongsToSection": 2,
+            "questionTitle": "Test Question 4", 
+            "isRequired": true, 
+            "choices": ["Orange", "Apple", "Pear"],
+            "createdAt": "2023-03-16T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-16T05:22:33.934+00:00"
+        },
+        { 
+            "questionType": "checkbox", 
+            "questionOrder": 5, 
+            "belongsToSection": 2,
+            "questionTitle": "Test Question 5", 
+            "isRequired": true, 
+            "choices": ["Yellow", "Pink", "Grey"],
+            "createdAt": "2023-03-16T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-16T05:22:33.934+00:00"
+        },
+        { 
+            "questionType": "scale", 
+            "questionOrder": 6, 
+            "belongsToSection": 2,
+            "questionTitle": "Test Question 6", 
+            "isRequired": true, 
+            "minValue": 1, 
+            "maxValue": 5, 
+            "minLabel": "Super Bad", 
+            "maxLabel": "Super Good",
+            "createdAt": "2023-03-16T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-16T05:22:33.934+00:00"
+        },
+        { 
+            "questionType": "file", 
+            "questionOrder": 7, 
+            "belongsToSection": 2,
+            "questionTitle": "Test Question 7", 
+            "isRequired": true, 
+            "fileName": "bro.txt",
+            "createdAt": "2023-03-16T05:22:33.934+00:00", 
+            "updatedAt": "2023-03-16T05:22:33.934+00:00"
+        }
+    ]
+}

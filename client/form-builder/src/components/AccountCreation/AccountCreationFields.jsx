@@ -1,9 +1,11 @@
 import React from "react";
 import AccountCreationField from "./AccountCreationField";
 import RoleSelect from "./RoleSelect";
+import CountrySelect from "./CountrySelect";
+import { Box } from "@mui/material";
 
 const AccountCreationFields = (props) => {
-    const fields = ["Name", "Email", "Project"];
+    const fields = ["Username", "Name", "Email", "Password"];
 
     let textFields = fields.map((field) => {
         return (
@@ -19,7 +21,16 @@ const AccountCreationFields = (props) => {
     return (
         <>
             {textFields}
-            <RoleSelect setRole={props.setRole} />
+            <Box sx={{ display: "flex" }}>
+                <RoleSelect
+                    accountDetails={props.accountDetails}
+                    setAccountDetails={props.setAccountDetails}
+                />
+                <CountrySelect
+                    accountDetails={props.accountDetails}
+                    setAccountDetails={props.setAccountDetails}
+                />
+            </Box>
         </>
     );
 };
