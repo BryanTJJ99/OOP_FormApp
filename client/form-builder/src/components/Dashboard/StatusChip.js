@@ -21,7 +21,7 @@ const StatusChip = (props) => {
       status = 'open'
     }
     switch(status) {
-        case "Approved":
+        case "approved":
             color = "success"
             icon = <DoneIcon/>
             break;
@@ -41,7 +41,7 @@ const StatusChip = (props) => {
             color = "error"
             icon = <ReportProblemIcon/>
             break
-        case "admin":
+        case "Admin":
             color = "info"
             icon = <ContentPasteSearchIcon/>
             break

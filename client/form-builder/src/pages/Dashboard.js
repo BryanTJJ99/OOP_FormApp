@@ -154,12 +154,12 @@ const UserWidget = () => {
   }, []);  
   
   return (
-    <Box sx={{height: 300 ,padding:5}} 
+    <Box sx={{height: 200 ,padding:3}} 
     variant="outlined">
-      <Typography variant="h4">
+      <Typography variant="h5">
         Total Vendors
       </Typography>
-      <PeopleAltIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
+      <PeopleAltIcon sx={{height:80, width: 80, mx: 1, my:2, color:"#63676e"}}/>
       <span style={{fontSize: "24px"}}>{totalVendors}</span>
     </Box>
   )
@@ -179,12 +179,12 @@ const ProjectWidget = () => {
   }, [])
 
   return (
-    <Box sx={{height: 300 ,padding:5}} 
+    <Box sx={{height: 350 ,padding:5}} 
     variant="outlined">
-      <Typography variant="h4">
+      <Typography variant="h4" marginTop="30px">
         Total Projects
       </Typography>
-      <FolderCopyIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
+      <FolderCopyIcon sx={{height:150, width: 150, mx: 1, my:2, color:"#63676e"}}/>
       <span style={{fontSize: "24px"}}>{totalProjects}</span>
     </Box>
   )
@@ -266,15 +266,16 @@ const Dashboard = () => {
     <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Grid container spacing={2} style={{height:"100%"}}>
         <Grid item xs={4}>
-          <Item><UserWidget/></Item>
-        </Grid>
-        <Grid item xs={4}>
           <Item><ProjectWidget/></Item>
         </Grid>
         <Grid item xs={4}>
           <Item><RecentUsersWidget/></Item>
+          {/* <Item><UserWidget/></Item> */}
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={4}>
+          <Item><FormStatusWidget/></Item>
+        </Grid>
+        {/* <Grid item xs={8}>
           <Item>
           <AreaChart
             width={700}
@@ -296,24 +297,30 @@ const Dashboard = () => {
             <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
           </AreaChart>
           </Item>
-        </Grid>
-        <Grid item xs={4}>
-          <Item><FormStatusWidget/></Item>
+        </Grid> */}
+        <Grid item xs={12}>
+          <Item  sx={{p:2}}>
+            <Typography variant="h4">
+              Filter or Sort by form name<br/>
+              or status 
+              below
+            </Typography>
+          </Item>
         </Grid>
         <Grid item xs={12}>
-          <Item>
-            <Box sx={{ height: 631,width:1100, boxShadow:2}}>
+          <Item sx={{m:0,p:0}}>
+            <Box sx={{ height: 528,width:"100%", boxShadow:0}}>
             <DataGrid
               rows={rows}
               columns={columns}
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 10,
+                    pageSize: 8,
                   },
                 },
               }}
-              pageSizeOptions={[10]}
+              pageSizeOptions={[8]}
               checkboxSelection={false}
               disableRowSelectionOnClick
             />

@@ -67,8 +67,8 @@ export default function RecentUsersWidget(){
     //     }
     // },
     return (
-      <Stack sx={{height: 300}} alignItems="center" justifyContent="center" direction="column" variant="outlined">
-        <Typography variant="h5" sx={{p:0 ,mb:1}}>
+      <Stack sx={{height: 350}} alignItems="center" justifyContent="center" direction="column" variant="outlined">
+        <Typography variant="h4" sx={{p:0 ,mb:2}}>
           Recently Added Vendors
         </Typography>
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', my: 0, py:0}}>

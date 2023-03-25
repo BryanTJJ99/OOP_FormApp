@@ -39,7 +39,7 @@ function stringAvatar(name) {
 export default function NameAvatar({name}) {
   return (
     <>
-      <Avatar {...stringAvatar(name)} />
+      <Avatar sx={{width:5,height:5}} {...stringAvatar(name)} />
     </>
   );
 }
