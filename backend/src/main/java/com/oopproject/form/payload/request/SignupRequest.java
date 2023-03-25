@@ -1,53 +1,59 @@
 package com.oopproject.form.payload.request;
 
-// public class SignupRequest {
-// private String username;
+public class SignupRequest {
 
-// private String email;
+    private String username;
+    private String name;
+    private String email;
+    private String role;
+    private String password;
+    private String country;
 
-// private String role;
+    public String getUsername() {
+        return username;
+    }
 
-// private String password;
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-// private String country
+    public String getName() {
+        return name;
+    }
 
-// public String getUsername() {
-// return username;
-// }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-// public void setUsername(String username) {
-// this.username = username;
-// }
+    public String getEmail() {
+        return email;
+    }
 
-// public String getEmail() {
-// return email;
-// }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-// public void setEmail(String email) {
-// this.email = email;
-// }
+    public String getPassword() {
+        return password;
+    }
 
-// public String getPassword() {
-// return password;
-// }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-// public void setPassword(String password) {
-// this.password = password;
-// }
+    public String getRole() {
+        return this.role;
+    }
 
-// public String getRole() {
-// return this.role;
-// }
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-// public void setRole(String role) {
-// this.role = role;
-// }
+    public String getCountry() {
+        return this.country;
+    }
 
-// public String getCountry() {
-// return this.country;
-// }
-
-// public void setCountry(String country) {
-// this.country = country;
-// }
-// }
+    public void setCountry(String country) {
+        this.country = country;
+    }
+}

@@ -7,10 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
-// import jakarta.validation.constraints.Email;
-// import jakarta.validation.constraints.NotBlank;
-// import jakarta.validation.constraints.Size;
-
 @Document(collection = "User")
 public class User {
     @Id
@@ -19,22 +15,15 @@ public class User {
     // never be changed? can we do this with lombok? will there be risk of
     // accidentlly changing the id? idk. something to think about
 
-    // @NotBlank
-    // @Size(max = 20)
     private String username;
 
     private String name;
 
-    // @NotBlank
-    // @Size(max = 50)
-    // @Email
     private String email;
 
-    // @NotBlank
-    // @Size(max = 120)
     private String password;
 
-    private Roles role;
+    private String role;
 
     private String country;
 
@@ -49,7 +38,15 @@ public class User {
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    public User() {
+    public User(String username, String name, String email, String password, String role, String country,
+            Date createdAt) {
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.country = country;
+        this.createdAt = createdAt;
     }
 
     public String getId() {
@@ -108,11 +105,11 @@ public class User {
         this.password = password;
     }
 
-    public Roles getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
