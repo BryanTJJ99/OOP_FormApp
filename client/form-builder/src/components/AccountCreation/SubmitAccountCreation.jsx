@@ -1,50 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthService from "../../services/AuthService";
 
-import axios from "axios";
+// import axios from "axios";
 
 const SubmitAccountCreation = (props) => {
-    async function handleSubmit() {
-        let accountDetails = props.accountDetails;
-        switch (accountDetails["role"]) {
-            case "VENDOR":
-                accountDetails["role"] = "ROLE_VENDOR";
-                break;
-            case "ADMIN":
-                accountDetails["role"] = "ROLE_ADMIN";
-                break;
-            case "APPROVER":
-                accountDetails["role"] = "ROLE_APPROVER";
-                break;
-            default:
-                break;
+    const navigate = useNavigate();
+    let accountDetails = props.accountDetails;
+
+    function handleSubmit() {
+        let accountDetailsKeys = Object.keys(accountDetails);
+        if (accountDetailsKeys.length < 6) {
+            props.setSnackbar({
+                children: "Please fill in all the fields",
+                severity: "error",
+            });
+            return;
         }
+        props.setSnackbar(null);
 
-        props.setAccountDetails(accountDetails);
+        const registrationData = {
+            username: accountDetails.username,
+            name: accountDetails.name,
+            email: accountDetails.email,
+            password: accountDetails.password,
+            role: accountDetails.role,
+            country: accountDetails.country,
+        };
 
-        await axios.post(
-            "http://localhost:8080/api/admin/user/create",
-            // "http://localhost:8080/api/auth/createUser",
-            props.accountDetails,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        // console.log(props.accountDetails);
-        // console.log("submitted");
-        // props.setCreatedAccount(true);
+        console.log(registrationData);
+
+        AuthService.register(
+            registrationData.username,
+            registrationData.name,
+            registrationData.email,
+            registrationData.password,
+            registrationData.role,
+            registrationData.country
+        )
+            .then((response) => {
+                console.log(response.data);
+                props.setCreatedAccount("true");
+                navigate("/AccountManagement");
+            })
+            .catch((error) => {
+                console.log(error);
+                const errorMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                console.log(errorMessage);
+            });
     }
     return (
-        <Button
-            component={Link}
-            to={"/AccountManagement"}
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-        >
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
             Submit
         </Button>
     );
