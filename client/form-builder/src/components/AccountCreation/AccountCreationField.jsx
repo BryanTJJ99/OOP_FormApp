@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { TextField } from "@mui/material";
 
@@ -26,6 +26,7 @@ const AccountCreationField = (props) => {
 
     return (
         <TextField
+            required
             id={props.field}
             label={props.field}
             variant="outlined"

@@ -28,7 +28,7 @@ import countries from "../components/AccountCreation/Countries";
 
 import axios from "axios";
 
-const AccountManagementPage = () => {
+const AccountManagementPage = (props) => {
     const [snackbar, setSnackbar] = useState(null);
     const [rows, setRows] = useState([]);
     const [rowModesModel, setRowModesModel] = useState({});
@@ -58,9 +58,9 @@ const AccountManagementPage = () => {
                 }
                 console.log(users);
                 setRows(users);
-                setCreatedAccount(false);
+                props.setCreatedAccount("false");
             });
-    }, [createdAccount]);
+    }, [props.createdAccount]);
 
     function sortByCountryName(countriesArr) {
         let newCountriesArr = countriesArr.sort((a, b) => {
