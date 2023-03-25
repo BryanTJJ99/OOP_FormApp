@@ -198,7 +198,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       let formData = await getAllFormResponses()
+      console.log('here is form data---------')
       console.log(formData)
+      console.log('end of form data---------')
+
       setForms(formData)
     }
     fetchData()

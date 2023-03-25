@@ -18,7 +18,8 @@ import { Button,
     TableContainer,
     TableHead,
     TableRow,
-    Paper
+    Paper,
+    Box
   } from "@mui/material";
 
   import axios from "axios";
@@ -144,30 +145,30 @@ const ProjectCreationPage3 = (props) => {
     <br></br>
     <br></br>
 
-    <TableContainer style={{ maxHeight: 800, backgroundColor:'#edeae1' }}>
-        <Table>
-            <TableHead>
+    <TableContainer style={{ width:"100%",  }}>
+        <Table sx={{p:3,width:"70%", backgroundColor:'#edeae1',mx:"auto",borderRadius:"15px",}}>
+            <TableHead >
                 <TableRow>
                     <TableCell align='center' colSpan={2} style={{fontSize:'25px', fontWeight:'bold'}}>Summary</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
                 <TableRow>
-                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Project Name</TableCell>
+                    <TableCell align='center' style={{fontSize:'15px',width:"400px", fontWeight:'bold'}}>Project Name:</TableCell>
                     <TableCell align='center'>{props.projectData.projectName}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Vendor Company Name</TableCell>
+                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Vendor Name(s):</TableCell>
                     <TableCell align='center'>{props.projectData.vendorCompanyName.map((item) => (
                             <Chip label={item} />
                         ))}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Project Description</TableCell>
+                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Project Description:</TableCell>
                     <TableCell align='center'>{props.projectData.projectDescription}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Selected forms to fill</TableCell>
+                    <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Selected forms to fill:</TableCell>
                     <TableCell align='center'>
                         {props.projectData.selectedForm.map((item) => (
                             <Chip label={item.name} />
@@ -179,11 +180,11 @@ const ProjectCreationPage3 = (props) => {
         </Table>
     </TableContainer>
 
+    <Box display="flex" width="300px;" marginX="auto" marginY="50px" justifyContent="space-between">
+        <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Back</Button>
 
-    <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#a8c7f7', color: 'inherit', height:50, width:150, margin: 100 }} >Back</Button>
-
-    <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#a8c7f7', color: 'inherit',  height:50, width:150, margin: 100 }} >Submit</Button>
-
+        <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Submit</Button>
+    </Box>                      
     </>
 
   )
