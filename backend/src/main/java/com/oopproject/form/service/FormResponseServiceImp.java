@@ -37,10 +37,11 @@ public class FormResponseServiceImp implements FormResponseService {
     }
 
     @Override
-    public FormResponse updateFormAnswer(FormResponse formResponseToUpdate) {
+    public FormResponse updateFormResponse(FormResponse formResponseToUpdate) {
         String formResponseToEditID = formResponseToUpdate.getFormResponseId();
         FormResponse updatedFormResponse = formResponseRepository.findById(formResponseToEditID).get();
         if (updatedFormResponse != null) {
+            updatedFormResponse.setStatus(formResponseToUpdate.getStatus());
             updatedFormResponse.setFormAnswer(formResponseToUpdate.getFormAnswer());
             updatedFormResponse.setUpdatedAt(formResponseToUpdate.getUpdatedAt());
             updatedFormResponse.setDeletedAt(formResponseToUpdate.getDeletedAt());

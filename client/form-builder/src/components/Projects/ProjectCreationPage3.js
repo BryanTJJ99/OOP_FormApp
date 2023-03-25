@@ -78,6 +78,7 @@ const ProjectCreationPage3 = (props) => {
                             approvedBy: "6409dc0be3139a5d267579b2",
                             status: 'vendor',
                             vendorDeadline: '2023-04-15T05:22:33.934+00:00',
+                            formAnswer: {}, 
                             createdAt: today,
                             updatedAt: today,
                           };
