@@ -66,48 +66,6 @@ public class AuthController {
 				roles));
 	}
 
-	// @PostMapping("/signup")
-	// public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-	// 	if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-	// 		return ResponseEntity
-	// 				.badRequest()
-	// 				.body(new MessageResponse("Error: Username is already taken!"));
-	// 	}
-
-	// 	if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-	// 		return ResponseEntity
-	// 				.badRequest()
-	// 				.body(new MessageResponse("Error: Email is already in use!"));
-	// 	}
-
-	// 	// Create new user's account
-	// 	User user = new User(signUpRequest.getUsername(),
-	// 			signUpRequest.getEmail(),
-	// 			encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
-
-	// 	String strRole = signUpRequest.getRole();
-
-	// 	// reassign user role string to enum as per the database Roles enum
-	// 	switch (strRole) {
-	// 		case "admin":
-	// 			user.setRole(Roles.ROLE_ADMIN.toString());
-	// 			break;
-	// 		case "approver":
-	// 			user.setRole(Roles.ROLE_APPROVER.toString());
-	// 			break;
-	// 		case "vendor":
-	// 			user.setRole(Roles.ROLE_VENDOR.toString());
-	// 			break;
-	// 		default:
-	// 			throw new RuntimeException("Error: Role is not found.");
-	// 	}
-		
-	// 	userRepository.save(user);
-
-	// 	return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-	// }
-
-
 	@PostMapping("/createUser")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (adminRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -123,15 +81,9 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(),
+		User user = new User(signUpRequest.getUsername(), signUpRequest.getName(),
 				signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole(), signUpRequest.getCountry(), new Date());
-
-		// user.setUsername(signUpRequest.getUsername());
-		// user.setEmail(signUpRequest.getEmail());
-		// user.setPassword(encoder.encode(signUpRequest.getPassword()));
-		// user.setCountry(signUpRequest.getCountry());
-		// user.setCreatedAt(new Date());
 
 		String strRole = signUpRequest.getRole();
 

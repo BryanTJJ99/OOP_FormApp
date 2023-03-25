@@ -1,24 +1,11 @@
-// import React from 'react';
-
-// const Settings = () => {
-//     return (
-//         <div>
-//             <h1>Settings</h1>
-//         </div>
-//     );
-// };
-
-// export default Settings;
-
 import React from "react";
 import { styled, useTheme, ThemeProvider } from "@mui/material/styles";
-import { Container, Grid, Paper, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import AuthService from "../services/authService";
+import { Container, Grid, Paper, Typography } from "@mui/material";
+import AuthService from "../services/AuthService";
 
 const Settings = () => {
     const currentUser = AuthService.getCurrentUser();
-    console.log(currentUser);
+    // console.log(currentUser);
     const theme = useTheme();
     const Item = styled(Paper)(({ theme }) => ({
         ...theme.typography.body2,

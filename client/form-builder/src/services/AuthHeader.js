@@ -1,4 +1,4 @@
-export default function authheader() {
+export default function AuthHeader() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user && user.accessToken) {
@@ -7,3 +7,5 @@ export default function authheader() {
         return {};
     }
 }
+
+// this will be used later time to test out the JWT Access Token to the respective pages assigned to the user

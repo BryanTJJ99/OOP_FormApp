@@ -29,7 +29,8 @@ import { Link } from 'react-router-dom';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import EventBus from "../../common/EventBus";
-import AuthService from "../../services/authService";
+import AuthService from "../../services/AuthService";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 // sample code from mui 
@@ -104,7 +105,7 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const [page, setPage] = React.useState("Dashboard")
+  const [page, setPage] = React.useState("OOP Form Builder")
   // const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
   // const widgets = ['Account','Logout']
   // const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
@@ -128,7 +129,8 @@ export default function MiniDrawer({children}) {
   const [showFormResponses, setShowFormResponses] = useState(false);
   const [showFormTemplates, setShowFormTemplates] = useState(false);
   const [showProject, setShowProject] = useState(false);
-  const [showClientVendorProfile, setShowClientVendorProfile] = useState(false);
+  const [showVendorProfilePage, setShowVendorProfilePage] = useState(false);
+  const [showSettingsPage, setShowSettingsPage] = useState(false);
 
   useEffect(() => {
     // retrieving user authentication data from backend
@@ -138,12 +140,13 @@ export default function MiniDrawer({children}) {
         setCurrentUser(user);
 
         // checks for and displays if either values satisfies using.some() method
+        setShowSettingsPage(["ROLE_VENDOR","ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
         setShowDashBoard(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
         setShowAccountManagement(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
         setShowFormResponses(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
         setShowFormTemplates(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
         setShowProject(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-        setShowClientVendorProfile(user.roles.includes("ROLE_VENDOR"));
+        setShowVendorProfilePage(user.roles.includes("ROLE_VENDOR"));
     }  
     EventBus.on("logout", () => {
         logOut();
@@ -161,7 +164,7 @@ export default function MiniDrawer({children}) {
     setShowFormResponses(false);
     setShowFormTemplates(false);
     setShowProject(false);
-    setShowClientVendorProfile(false);
+    setShowVendorProfilePage(false);
     setCurrentUser(undefined);
   };
 
@@ -277,16 +280,16 @@ export default function MiniDrawer({children}) {
                 </ListItemButton>
             </Link>
           </ListItem>}
-          { showClientVendorProfile && <ListItem key="ClientVendorProfile" disabledPadding sx={{display:'block'}} onClick={() => setPage("ClientVendorProfile")} >
-            <Link to='/ClientVendorProfile' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+          { showVendorProfilePage && <ListItem key="VendorProfilePage" disabledPadding sx={{display:'block'}} onClick={() => setPage("VendorProfilePage")} >
+            <Link to='/VendorProfilePage' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
               <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
                   <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
                     <AccountCircleIcon/>
                   </ListItemIcon>
-                  <ListItemText secondary="ClientVendorProfile" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                  <ListItemText secondary="VendorProfilePage" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
                 </ListItemButton>
             </Link>
-          </ListItem>}
+            </ListItem>}
         </List>
         <Divider />
         <List>
@@ -357,6 +360,19 @@ export default function MiniDrawer({children}) {
               )          
           } */}
             
+
+            {/* ListItem for Settings page */}
+          {showSettingsPage && <ListItem key="Settings" disabledPadding sx={{ display: 'block' }} onClick={() => setPage("Settings")} >
+            <Link to='/Settings' style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5, }}>
+                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center', }}>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText secondary="Settings" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+              </ListItemButton>
+            </Link>
+            </ListItem>}
+
           <ListItem key="Logout" disabledPadding sx={{display:'block'}} 
             onClick={() => {
               logOut()

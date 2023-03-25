@@ -49,35 +49,18 @@ public class User {
     // store ObjectId of user that creates the user. must be able to get the current
     // user object first then pass that into the userService
 
-    
-
-    // public User(String id, String username, String email, String role, String password, Date created_at) {
-    //     this.id = id;
-    //     this.username = username;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.role = role;
-    //     this.created_at = created_at;
-    // }
-
-    // public User(String username, String email, String password, String role) {
-    //     this.username = username;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.role = role;
-    // }
-
-    public String getId() {
-        return id;
-    }
-
-    public User(String username, String email, String password, String role, String country, Date createdAt) {
+    public User(String username, String name, String email, String password, String role, String country, Date createdAt) {
         this.username = username;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.country = country;
         this.createdAt = createdAt;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {

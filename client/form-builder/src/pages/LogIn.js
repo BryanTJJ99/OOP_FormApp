@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import AuthService from '../services/authService';
+import AuthService from '../services/AuthService';
 
 
 function Copyright(props) {
@@ -37,7 +37,7 @@ function LogIn() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const to = location.state?.from || "/Home";
+    const to = location.state?.from?.pathname || "/Settings";
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

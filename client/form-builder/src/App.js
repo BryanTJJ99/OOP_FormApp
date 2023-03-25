@@ -1,35 +1,34 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-// import MiniDrawer from './components/Navbar/MiniDrawer';
 import MiniDrawer from "./components/Navbar/MiniDrawer";
-import RequireAuth from "./components/RequireAuth";
+import RequireAuth from "./components/AuthenticationFilter/AuthenticationFilter";
 import AccountCreationPage from "./pages/AccountCreationPage";
 import AccountManagementPage from "./pages/AccountManagementPage";
-import ClientVendorProfile from "./pages/clientVendorProfile";
+import VendorProfilePage from "./pages/VendorProfilePage";
 import Dashboard from "./pages/Dashboard";
 import FormBuilder from "./pages/formBuilder";
 import FormResponse from "./pages/formResponse";
 import FormResponseIndex from "./pages/formResponseIndex";
 import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormView from "./pages/formView";
-import Home from "./pages/index";
 import LogIn from "./pages/LogIn";
 import Settings from "./pages/Settings";
-import ClientProject from "./pages/clientProject";
+import ProjectCreationPage from "./pages/ProjectCreationPage";
+import Project from "./pages/ProjectPage";
+import Unauthorized from "./components/AuthenticationFilter/UnauthorizedFilter";
 
+// Empty pages for the time being to be edited and integrated with the RBAC routing structure on App.js
+// import ClientProject from "./pages/clientProject";
+// import ResponsePage from "./pages/ResponsesPage";
 
 import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 
-
-import ProjectCreationPage from "./pages/ProjectCreationPage";
-import Project from "./pages/ProjectPage";
-// import Unauthorized from "./components/Unauthorized";
-
+// Mapping of assigned roles
 const ROLES = {
     VENDOR: "ROLE_VENDOR",
     ADMIN: "ROLE_ADMIN",
-    APPROVER: "ROLE_CLIENT",
+    APPROVER: "ROLE_APPROVER",
 }
 
 function App() {
@@ -52,22 +51,19 @@ function App() {
                 <Router>
                     <MiniDrawer>
                         <Routes>
-                            {/* Routes for unauthenticated users */}
+                            {/* Public Routes regardless Authenticated or Unauthenticated */}
                             <Route exact path="/" element={<LogIn />} />
-                            {/* public routes */}
-                            <Route path="Home" element={<Home />} />
+                            <Route path="LogIn" element={<LogIn />} />
+                            <Route path="Unauthorized" element={<Unauthorized />} />
 
-
-                            {/* Protected routes all authenticated users */}
+                            {/* Protected routes for all Authenticated users */}
                             <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.APPROVER, ROLES.VENDOR]} />}>
                                 <Route path="Settings" element={<Settings />} />
-                                <Route path="Home" element={<Home />} />
                                 <Route path="FormView" element={<FormView />} />
-                                {/* <Route path="Unauthorized" element={<Unauthorized />} /> */}
-
                             </Route>
 
-                            {/* Protected routes ADMIN and Approver */}
+                            {/* Protected routes for Admin and Approver, to be updated with additional routes if needed, 
+                            if have MiniDrawer also need to reflect the same changes */}
                             <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.APPROVER]} />}>
                                 <Route path="Dashboard" element={<Dashboard />} />
                                 <Route path="AccountManagement" element={<AccountManagementPage />}  />
@@ -80,17 +76,18 @@ function App() {
                                 <Route path="FormResponse" element={<FormResponse />} />
                             </Route>
 
-                            {/* Routes for Vendor */}
+                            {/* Protected routes for Vendor to be updated with additional routes if needed, 
+                            if have MiniDrawer also need to reflect the same changes */}
                             <Route element={<RequireAuth allowedRoles={[ROLES.VENDOR]} />}>
-                                <Route path="ClientVendorProfile" element={<ClientVendorProfile />} />
+                                <Route path="VendorProfilePage" element={<VendorProfilePage />} />
                             </Route>
-                        
+
                         </Routes>
                     </MiniDrawer>
                 </Router>
             </ThemeProvider>
 
-        {/* Sample routing structure for easier reference for above codes */}
+        {/* Sample routing structure for easier reference for above codes and for final standardisation */}
         {/* <div>
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"></link>

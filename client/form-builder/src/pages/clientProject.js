@@ -16,7 +16,7 @@
   
 //   // defining state variables
 //   const [totalCompletedProjects,setTotalCompletedProjects] = useState(0)
-//   const [vendorId,setVendorId] = useState(1)// need to check how we storing the vedor id in session token
+//   const [vendorId,setVendorId] = useState(1)// need to check how we storing the vendor id in session token
 //   const [totalProjectsByVendorId,setTotalProjectsByVendorId] = useState(0)
 //   // to be dynamic getallFormResponses
 
