@@ -15,8 +15,7 @@ import { jsx as _jsx } from "react/jsx-runtime";
 const StatusChip = (props) => {
     let color;
     let icon;
-    let status = props.status;
-    console.log(status)
+    let status = props.status.toLowerCase();
     if (status === null || status === ''){
       status = 'open'
     }
@@ -33,21 +32,14 @@ const StatusChip = (props) => {
             color = "indigo"
             icon = <BeenhereIcon/>
             break;
-        case "PartiallyFilled":
-            color = "warning"
-            icon = <AutorenewIcon/>
-            break;
         case "rejected":
             color = "error"
             icon = <ReportProblemIcon/>
             break
-        case "Admin":
+        case "admin":
             color = "info"
             icon = <ContentPasteSearchIcon/>
             break
-        default:
-            color = "info"
-            icon = <InfoIcon/>
       }
     
     let actualChip; 
