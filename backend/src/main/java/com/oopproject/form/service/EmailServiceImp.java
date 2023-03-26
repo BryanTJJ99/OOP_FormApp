@@ -13,16 +13,17 @@ public class EmailServiceImp implements EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmailReminder(String vendorEmail, String formName, Date deadline) {
+    public void sendEmailReminder(String vendorEmail, String formName, String projectName, Date deadline) {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
         mailMessage.setTo(vendorEmail);
         mailMessage.setFrom("oopG1T3formproject@outlook.com");
         mailMessage.setSubject("Reminder: Form " + formName + " Deadline Approaching");
-        mailMessage.setText("Hi there,\n\nThis is a friendly reminder that the deadline for completing Form " + formName
-                + " is approaching. The deadline is " + deadline
-                + ". Please complete the form before the deadline.\n\nThanks!");
+        mailMessage
+                .setText("Hi there,\n\nThis is a friendly reminder that the deadline for completing Form: " + formName
+                        + " for Project: " + projectName + " is approaching. The deadline is " + deadline
+                        + ". Please complete the form before the deadline.\n\nThanks!");
 
         javaMailSender.send(mailMessage);
     }

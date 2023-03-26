@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -28,16 +29,19 @@ public class EmailReminderService {
     private EmailService emailService;
 
     @Autowired
+    @Qualifier("admin")
     private AdminService adminService;
 
     @Autowired
     private FormTemplateService formTemplateService;
 
-    // @Autowired
-    // private ProjectService projectService;
+    @Autowired
+    private ProjectService projectService;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    // @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(fixedRate = 60000)
     public void sendEmailReminders() {
+
         Date today = new Date();
         Calendar reminder = Calendar.getInstance();
         reminder.setTime(today);
@@ -48,6 +52,7 @@ public class EmailReminderService {
 
         for (FormResponse formResponse : formsDueSoon) {
             Date vendorDeadline = formResponse.getVendorDeadline();
+
             long dateDiffMilli = vendorDeadline.getTime() - reminderDate.getTime();
             long dateDiff = TimeUnit.DAYS.convert(dateDiffMilli, TimeUnit.MILLISECONDS);
 
@@ -73,16 +78,11 @@ public class EmailReminderService {
                     formName = formTemplate.getFormName();
                 }
 
-                // might want to add project name
-                // String projectId = formResponse.getProjectId();
-                // Optional<Project> projectOptional = projectService.getProjectById(projectId);
-                // String projectName = "";
-                // if (projectOptional.isPresent()) {
-                // Project project = projectOptional.get();
-                // projectName = project.getProjectName();
-                // }
+                String projectId = formResponse.getProjectId();
+                Project project = projectService.getProjectById(projectId);
+                String projectName = project.getProjectName();
 
-                emailService.sendEmailReminder(vendorEmail, formName, vendorDeadline);
+                emailService.sendEmailReminder(vendorEmail, formName, projectName, vendorDeadline);
             }
 
         }
