@@ -1,6 +1,7 @@
 package com.oopproject.form.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +25,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project addProject(Project project) {
         return projectRepository.save(project);
+    }
+
+
+    @Override
+    public Optional<Project> getProjectById(String id) {
+        return projectRepository.findById(id);
     }
 
 }
