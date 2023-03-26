@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,6 +65,14 @@ public class FormResponseController {
         formResponseService.addFormResponse(formResponse);
     }
 
+    @PatchMapping("/edit")
+    @CrossOrigin
+    public FormResponse updateFormResponse(@RequestBody FormResponse formResponse) {
+        System.out.println("oiwdjoijd");
+        return formResponseService.updateFormResponse(formResponse);
+    }
+
+    
     // @PostMapping("/create")
     // @CrossOrigin
     // public void createForm(@RequestPart("formResponse") String formResponseData, @RequestPart("fileMap") Map<String, Object> fileMap) throws JsonProcessingException {

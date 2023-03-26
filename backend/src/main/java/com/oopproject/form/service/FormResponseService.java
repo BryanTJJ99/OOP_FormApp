@@ -1,5 +1,6 @@
 package com.oopproject.form.service;
 
+import java.util.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +11,15 @@ public interface FormResponseService {
 
     public Optional<FormResponse> getFormResponseById(String id);
 
-    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId, String vendorProjectId);
+    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
+            String vendorProjectId);
 
     public void addFormResponse(FormResponse form);
 
     // public void updateFormAnswerValue(String id, String key, Object value);
+
+    public FormResponse updateFormResponse(FormResponse formResponseToUpdate);
+
+    public List<FormResponse> getFormsWithinDateRange(Date start, Date end);
+
 }

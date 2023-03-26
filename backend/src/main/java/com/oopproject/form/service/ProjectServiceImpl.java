@@ -27,10 +27,10 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.save(project);
     }
 
-
     @Override
-    public Optional<Project> getProjectById(String id) {
-        return projectRepository.findById(id);
+    public Project getProjectById(String projectId) {
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+        return optionalProject.isPresent() ? optionalProject.get() : null;
     }
 
 }

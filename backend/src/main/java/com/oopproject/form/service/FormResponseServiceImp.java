@@ -1,5 +1,7 @@
 package com.oopproject.form.service;
 
+import java.util.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,8 @@ public class FormResponseServiceImp implements FormResponseService {
     }
 
     @Override
-    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId, String vendorProjectId) {
+    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
+            String vendorProjectId) {
         return formResponseRepository.findByFormTemplateIdAndVendorProjectId(formTemplateId, vendorProjectId);
     }
 
@@ -35,8 +38,29 @@ public class FormResponseServiceImp implements FormResponseService {
         formResponseRepository.save(formResponse);
     }
 
-    // @Override 
-    // public void updateFormAnswerValue(String id, String key, Object value) { 
-    //     formResponseRepository.updateFormAnswerValue(id, key, value);
+    @Override
+    public FormResponse updateFormResponse(FormResponse formResponseToUpdate) {
+        String formResponseToEditID = formResponseToUpdate.getFormResponseId();
+        FormResponse updatedFormResponse = formResponseRepository.findById(formResponseToEditID).get();
+        if (updatedFormResponse != null) {
+            updatedFormResponse.setStatus(formResponseToUpdate.getStatus());
+            updatedFormResponse.setFormAnswer(formResponseToUpdate.getFormAnswer());
+            updatedFormResponse.setUpdatedAt(formResponseToUpdate.getUpdatedAt());
+            updatedFormResponse.setDeletedAt(formResponseToUpdate.getDeletedAt());
+            return formResponseRepository.save(updatedFormResponse);
+        }
+        return null;
+
+    }
+
+    // @Override
+    // public void updateFormAnswerValue(String id, String key, Object value) {
+    // formResponseRepository.updateFormAnswerValue(id, key, value);
     // }
+
+    @Override
+    public List<FormResponse> getFormsWithinDateRange(Date start, Date end) {
+        return formResponseRepository.findFormsWithinDateRange(start, end);
+    }
+
 }

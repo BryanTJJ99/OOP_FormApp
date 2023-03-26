@@ -1,5 +1,5 @@
 import { Transition } from '@headlessui/react';
-import { Button } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom"
 import { React, useState } from "react";
 import ProjectCreationPage1 from "../components/Projects/ProjectCreationPage1";
@@ -56,16 +56,15 @@ const ProjectCreationPage = (props) => {
 
     return (
         <div>
-
-
-        <Link to="/Project" style={{ textDecoration : "none" }}>
-            <Button             
-            style={{ backgroundColor: '#a8c7f7', color: 'inherit', height:50, width:150 }} 
-            // onClick = {}
-            >
-                Back to Projects 
+    
+        
+        {/* <Link to="/Project" style={{ textDecoration : "none", }}>
+            <Button style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:180, }}>
+                <Typography sx={{fontSize:"14px", m:1}}>
+                Back to Projects
+                </Typography>
             </Button>
-        </Link>
+        </Link> */}
 
         {activePage === '1' && (
             <Transition

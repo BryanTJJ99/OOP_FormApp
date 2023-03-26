@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Alert, Box, Button, Snackbar } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -8,6 +8,9 @@ import SubmitAccountCreation from "../components/AccountCreation/SubmitAccountCr
 
 const AccountCreationPage = (props) => {
     const [accountDetails, setAccountDetails] = useState({});
+    const [snackbar, setSnackbar] = useState(null);
+
+    console.log(props);
 
     return (
         <Box
@@ -26,8 +29,20 @@ const AccountCreationPage = (props) => {
             />
             <SubmitAccountCreation
                 accountDetails={accountDetails}
+                setAccountDetails={setAccountDetails}
                 setCreatedAccount={props.setCreatedAccount}
+                setSnackbar={setSnackbar}
+                snackbar={snackbar}
             />
+            {!!snackbar && (
+                <Snackbar
+                    open
+                    onClose={() => setSnackbar(null)}
+                    autoHideDuration={6000}
+                >
+                    <Alert {...snackbar} onClose={() => setSnackbar(null)} />
+                </Snackbar>
+            )}
         </Box>
     );
 };

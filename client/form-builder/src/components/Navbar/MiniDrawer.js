@@ -25,7 +25,15 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
+
+// imports for controlling the drawer according to the user authencation
+import AuthService from "../../services/AuthService";
+import EventBus from "../../common/EventBus";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+
+
 // sample code from mui 
 const drawerWidth = 240;
 
@@ -97,14 +105,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [page, setPage] = React.useState("Home")
-  const pages = ['Dashboard','Project', 'Form Templates','Account Management',]
-  const widgets = ['Account','Logout']
-  const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<SpeakerNotesIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
-  const iconsSecondary = [
-    <AccountCircleIcon/>,
-    <LogoutIcon/>,
-  ]
+  // const [page, setPage] = React.useState("Dashboard")
+  const [page, setPage] = React.useState("OOP Form Builder"); // setting the login landing page nav bar title header
+
+  // Template for the pages and widgets for easier reference
+
+  // const pages = ['Dashboard','Project', 'Form Templates','Account Management']
+  // const widgets = ['Account','Logout']
+  // const iconsPrimary = [<DashboardIcon/>,<LibraryAddIcon/>,<DescriptionIcon/>,<ManageAccountsIcon/>]
+  // const iconsSecondary = [
+  //   <AccountCircleIcon/>,
+  //   <LogoutIcon/>,
+  // ]
+
+  // Template for the pages and widgets for easier reference
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -114,8 +128,52 @@ export default function MiniDrawer({children}) {
     setOpen(false);
   };
 
+  // codes for controlling the drawer according to the user authencation
+
+  const [currentUser, setCurrentUser] = React.useState(undefined);
+  const [showDashBoard, setShowDashBoard] = React.useState(false);
+  const [showProject, setShowProject] = React.useState(false);
+  const [showFormTemplates, setShowFormTemplates] = React.useState(false);
+  const [showAccountManagement, setShowAccountManagement] = React.useState(false);
+  const [showAccount, setShowAccount] = React.useState(false);
+  const [showVendorProfilePage, setShowVendorProfilePage] = React.useState(false);
+
+  React.useEffect(() => {
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      // checks for and displays if either values satisfies using.some() method
+      setShowDashBoard(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+      setShowAccountManagement(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+      setShowFormTemplates(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+      setShowProject(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+      setShowAccount(["ROLE_VENDOR", "ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
+      setShowVendorProfilePage(["ROLE_VENDOR"].some(role => user.roles.includes(role)));
+    }
+
+    EventBus.on("logout", () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove("logout");
+    };
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+    setShowDashBoard(false);
+    setShowAccountManagement(false);
+    setShowFormTemplates(false);
+    setShowProject(false);
+    setShowAccount(false);
+    setShowVendorProfilePage(false);
+    setCurrentUser(undefined);
+  };
+
+
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       {/* Appbar to be present in all pages */}
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -126,7 +184,7 @@ export default function MiniDrawer({children}) {
             edge="start"
             sx={{
               marginRight: 5,
-              ...(open && { display: 'none' }),
+              ...(open && { display: "none" }),
             }}
           >
             <MenuIcon />
@@ -140,75 +198,181 @@ export default function MiniDrawer({children}) {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {pages.map((text, index) => (
-            <ListItem 
-              key={text} 
-              disablePadding sx={{ display: 'block' }}
+          {/* {pages.map((text, index) => (
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
               onClick={() => setPage(text)}
             >
-            <Link to={`/${text.replace(/\s/g,'')}`} style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <Link
+                to={`/${text.replace(/\s/g, "")}`}
+                style={{
+                  textDecoration: "none",
+                  textTransform: "lowercase",
+                  color: "#636466",
+                }}
+              >
                 <ListItemButton
                   sx={{
                     minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <Tooltip title={text} placement="right-start">
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {iconsPrimary[index]}
+                    </ListItemIcon>
+                  </Tooltip>
+                  <ListItemText
+                    secondary={text}
+                    disableTypography={true}
+                    sx={{ opacity: open ? 1 : 0, fontSize: 16 }}
+                  />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))} */}
+          {showDashBoard && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Dashboard")}>
+            <Link to={`/Dashboard`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                <ListItemText secondary="Dashboard" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+              </ListItemButton>
+            </Link>
+          </ListItem>}
+          {showProject && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Project")}>
+            <Link to={`/Project`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <LibraryAddIcon/>
+                  </ListItemIcon>
+                <ListItemText secondary="Project" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+              </ListItemButton>
+            </Link>
+          </ListItem>}
+          {showFormTemplates && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Form Templates")}>
+            <Link to={`/FormTemplates`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <DescriptionIcon />
+                  </ListItemIcon>
+                <ListItemText secondary="Form Templates" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+              </ListItemButton>
+            </Link>
+          </ListItem>}
+          {showAccountManagement && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Account Management")}>
+            <Link to={`/AccountManagement`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <ManageAccountsIcon/>
+                  </ListItemIcon>
+                <ListItemText secondary="Account Management" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+              </ListItemButton>
+            </Link>
+          </ListItem>}
+          {showVendorProfilePage && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Vendor Profile")}>
+            <Link to={`/VendorProfilePage`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                <ListItemText secondary="Vendor Profile" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+              </ListItemButton>
+            </Link>
+          </ListItem>}
+        </List>
+        <Divider />
+        <List>
+          {/* {widgets.map((text, index) => (
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
+              onClick={() => setPage(text)}
+            >
+              <Link
+                to={`/${text}`}
+                style={{
+                  textDecoration: "none",
+                  textTransform: "lowercase",
+                  color: "#636466",
+                }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
                     }}
                   >
-                    {iconsPrimary[index]}
+                    {iconsSecondary[index]}
                   </ListItemIcon>
-                  <ListItemText secondary={text} disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                  <ListItemText
+                    secondary={text}
+                    disableTypography={true}
+                    sx={{ opacity: open ? 1 : 0, fontSize: 16 }}
+                  />
                 </ListItemButton>
               </Link>
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {widgets.map((text, index) => (
-            <ListItem 
-              key={text} 
-              disablePadding 
-              sx={{ display: 'block' }}
-              onClick={()=>setPage(text)}
-            >
-            <Link to={`/${text}`} style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {iconsSecondary[index]}
-                </ListItemIcon>
-                <ListItemText secondary={text} disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+          ))} */}
+
+          {showAccount && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Account")}>
+            <Link to={`/Account`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <AccountCircleIcon/>
+                  </ListItemIcon>
+                <ListItemText secondary="Account" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
               </ListItemButton>
-              </Link>
-            </ListItem>
-          ))}
+            </Link>
+          </ListItem>}
+
+          {currentUser && <ListItem key="Logout" disabledPadding sx={{display:'block'}} 
+            onClick={() => {
+              logOut()
+              setPage("Logout")
+            }}
+            >
+            <Link to='/' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+              <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
+                  <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
+                    <LogoutIcon/>
+                  </ListItemIcon>
+                  <ListItemText secondary="Logout" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize:16 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>}        
         </List>
       </Drawer>
       {/* box component here is supposed to store the page content to be displayed via routing */}
-      <Box component="main" sx={{ flexGrow: 1, my: '40px', }}>
+      <Box component="main" sx={{ flexGrow: 1, my: "40px" }}>
         {/* <DrawerHeader /> */}
         {children}
       </Box>

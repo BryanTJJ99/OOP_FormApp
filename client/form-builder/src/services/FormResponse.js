@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+export async function getAllFormResponses() { 
+  let api_url = 'http://localhost:8080/formResponse/all'; 
+  try { 
+    const response = await axios.get(api_url); 
+    console.log('response ', response); 
+    return response.data
+  } catch(error) { 
+    return error; 
+  }
+}
+
 export async function getFormResponseById(id) {
     let api_url = 'http://localhost:8080/formResponse/' + id; 
     try { 
@@ -50,6 +61,17 @@ export async function initialiseFormResponse(formData) {
       return error;
     }
   }
+
+export async function updateFormResponse(formResponse) { 
+  let api_url = 'http://localhost:8080/formResponse/edit';
+  try { 
+    const response = await axios.patch(api_url, formResponse); 
+    console.log('response', response); 
+    return response.data; 
+  } catch(error) { 
+    return error; 
+  }
+}
   
 
 

@@ -1,12 +1,10 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import NameAvatar from '../components/Dashboard/NameAvatar';
+import RecentUsersWidget from '../components/Dashboard/RecentUsersWidget';
+import FormStatusWidget from '../components/Dashboard/FormStatusWidget';
 import StatusChip from '../components/Dashboard/StatusChip';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import { Typography, Button, Grid, Paper, Box, Link, Tooltip } from '@mui/material';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -14,23 +12,29 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import { getAllVendors , getAllProjects , getAllFormResponses } from '../services/DashboardAPI';
+import { getAllVendors , getAllProjects , getAllFormResponses,} from '../services/DashboardAPI';
+import { getAllFormTemplate } from '../services/FormTemplate.js';
+import { getAllUsers } from '../services/User.js';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+
+
 
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
-const STATUS_OPTIONS = ["Filled","Approved","Reviewed","Rejected","PartiallyFilled","Approved"]
+const STATUS_OPTIONS = ["vendor","approved","admin","rejected","approved"]
 const columns = [
     {
       field: 'projectName',
-      headerName: 'Project name',
-      width: 150,
+      headerName: 'Project',
+      width: 200,
       editable: false,
     },
     {
       field: 'vendorName',
-      headerName: 'Vendor name',
+      headerName: 'Vendor',
       width: 150,
       editable: true,
     },
@@ -48,36 +52,33 @@ const columns = [
       disableExport: true
     },
     {
-      field: 'vendorEmail',
+      field: 'email',
       headerName: 'Email',
       renderCell: (params) => {
         return(
-          <Link underline="hover" >
-            {params.row.vendorEmail}
+          <Tooltip title="send an email" sx={{cursor: 'pointer'}}>
+          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)}>
+              {params.row.email}
           </Link>
-          // <Link to='javascript:void(0)'
-          //       // onClick={() => window.location.href = `mailto:${params.row.vendorEmail}`}
-          // >
-          //   {params.row.vendorEmail}
-          // </Link>
+          </Tooltip>
         )
       },
-      width: 150,
+      width: 200,
       editable: true,
     },
     {
-      field: 'form',
+      field: 'name',
       headerName: 'Form',
       description: 'This column has a value getter and is not sortable.',
       renderCell: (params) => {
         return (
-          <Link underline="none" sx={{cursor: 'pointer'}}>
-            {params.row.form}
-          </Link>
+          <Button underline="none" href={params.row.link} sx={{cursor: 'pointer'}}>
+            {params.row.name}
+          </Button>
         )
       },
       editable: false,
-      width: 250,
+      width: 300,
     }, {
       field: 'status',
       headerName: 'Status',
@@ -91,45 +92,8 @@ const columns = [
       width: 150,
       editable: false,
     },
-    // {
-    //   field: 'vendorStatus',
-    //   headerName: 'Vendor',
-    //   description: 'This column contains a boolean is not sortable.',
-    //   width: 110,
-    //   editable: true,
-    // },{
-    //   field: 'adminStatus',
-    //   headerName: 'Admin',
-    //   description: 'This column contains a boolean is not sortable.',
-    //   width: 110,
-    //   editable: true,
-    // },{
-    //   field: 'approverStatus',
-    //   headerName: 'Approver',
-    //   description: 'This column contains a boolean is not sortable.',
-    //   width: 110,
-    //   editable: true,
-    // },
-
-    
+   
   ];
-
-// to getAllFormResponses using findAll() in FormResponseRepository
-
-const rows = [
-    { id: 1, projectName: 'Cloud', vendorName: 'Kong Leong', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
-    { id: 2, projectName: 'Cloud', vendorName: 'Justin', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Rejected'},
-    { id: 3, projectName: 'DigiX', vendorName: 'Accenture', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'PartiallyFilled'},
-    { id: 4, projectName: 'DigiX', vendorName: 'Tata', vendorEmail: 'abc@gmail.com' ,form: 'Safety Assessment', status: 'Open'},
-    { id: 5, projectName: 'SmartNation', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Optional Sub-Contractor survey', status: 'Reviewed'},
-    { id: 6, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
-    { id: 7, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
-    { id: 8, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
-    { id: 9, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
-    { id: 10, projectName: '5G', vendorName: 'NCS', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Approved'},
-    { id: 11, projectName: '5G', vendorName: 'Bitch Ass', vendorEmail: 'abc@gmail.com' ,form: 'Pre Evaluation Assessment', status: 'Filled'},
-  ];
- 
 
 const UserWidget = () => {
   // defining state variables
@@ -148,12 +112,12 @@ const UserWidget = () => {
   }, []);  
   
   return (
-    <Box sx={{height: 300 ,padding:5}} 
+    <Box sx={{height: 200 ,padding:3}} 
     variant="outlined">
-      <Typography variant="h4">
+      <Typography variant="h5">
         Total Vendors
       </Typography>
-      <PeopleAltIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
+      <PeopleAltIcon sx={{height:80, width: 80, mx: 1, my:2, color:"#63676e"}}/>
       <span style={{fontSize: "24px"}}>{totalVendors}</span>
     </Box>
   )
@@ -173,109 +137,130 @@ const ProjectWidget = () => {
   }, [])
 
   return (
-    <Box sx={{height: 300 ,padding:5}} 
+    <Box sx={{height: 350 ,padding:5}} 
     variant="outlined">
-      <Typography variant="h4">
+      <Typography variant="h4" marginTop="30px">
         Total Projects
       </Typography>
-      <FolderCopyIcon sx={{height:150, width: 150, mx: 1, color:"#63676e"}}/>
+      <FolderCopyIcon sx={{height:150, width: 150, mx: 1, my:2, color:"#63676e"}}/>
       <span style={{fontSize: "24px"}}>{totalProjects}</span>
-    </Box>
-  )
-}
-
-
-const RecentUsersWidget = () => {
-  return (
-    <Box sx={{height: 300}} variant="outlined">
-      <Typography variant="h6" sx={{p:0 ,m:0}}>
-        Recently Added Users
-      </Typography>
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', my: 0, py:0}}>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <NameAvatar name="Remy Sharp"/>
-          </ListItemAvatar>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <NameAvatar name="Travis Howard" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Summer BBQ"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  to Scott, Alex, Jennifer
-                </Typography>
-                {" — Wish I could come, but I'm out of town this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <NameAvatar name="Cindy Baker"/>
-          </ListItemAvatar>
-          <ListItemText
-            primary="Oui Oui"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Sandra Adams
-                </Typography>
-                {' — Do you have Paris recommendations? Have you ever…'}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-      </List>
     </Box>
   )
 }
 
 const Dashboard = () => {
   // set state for form data
-  const [forms,setForms] = useState({})
-
-  // obtaining the form data
+  const [formData,setFormData] = useState([])
+  const [formResponses,setFormResponses] = useState([])
+  const [formTemplates, setFormTemplates] = useState({}); 
+  const [users, setUsers] = useState({}); 
+  const [projects, setProjects] = useState({}); 
+  // obtaining the form response data
   useEffect(() => {
-    const fetchData = async () => {
-      let formData = await getAllFormResponses()
-      console.log(formData)
-      setForms(formData)
+    const fetchFormResponses = async () => {
+      let formResponses = await getAllFormResponses()
+      // array of objects that look like
+      // formResponseId
+      // vendorId
+      // projectId
+      // status
+      // deadline
+      setFormResponses(formResponses)
+      return formResponses
     }
-    fetchData()
+    // obtain formTemplate data
+    const fetchFormTemplates = async() => {
+      let formTemplates = await getAllFormTemplate() 
+        let newFormTemplateDict = {} 
+        for (let form of formTemplates) { 
+          newFormTemplateDict[form.formTemplateId] = form.formName; 
+        }
+
+        setFormTemplates(newFormTemplateDict);
+        return newFormTemplateDict
+      }
+    // obtain user data
+    const fetchUserData = async() => {
+      let userData = await getAllUsers()
+      let newUserDict = {}; 
+      for (let user of userData) { 
+        newUserDict[user.id] = [user.name,user.email]; 
+      }
+      setUsers(newUserDict);
+      return newUserDict
+    }
+    // obtain project data
+    const fetchProjectData = async() => {
+      let projectData = await getAllProjects() 
+      let newProjectDict = {};
+      for (let proj of projectData) { 
+        newProjectDict[proj.projectID] = proj.projectName; 
+      }
+      setProjects(newProjectDict);
+      return newProjectDict
+    }
+    // function calls
+    // chain to promiseAll and formatData
+    Promise.allSettled([fetchFormResponses(),fetchFormTemplates(),fetchUserData(),fetchProjectData()]).then((response) => {
+      // buggy, if console log not running then formatData wont run properly
+      console.log('promiseAll reponse',response)
+      console.log(response[0])
+      console.log(response[1])
+      console.log(response[2])
+      console.log(response[3])
+      formatData(formResponses)
+
+    }
+    )
   }
   ,[])
+
+  const formatData = (formResponses) => {
+    let formData = []
+    // let formResponses = promiseResponse[0].value
+    // let formTemplateDict = promiseResponse[1].value
+    // console.log('form template dict',formTemplateDict)
+    // let userDataDict = promiseResponse[2].value
+    // console.log('user data dict',userDataDict)
+    // let projectDataDict = promiseResponse[3].value
+    // console.log('proj data dict',projectDataDict)
+    let counter = 1
+    for (let formResponse of formResponses){
+      let templateId = formResponse.formTemplateId; 
+      // let templateName = formTemplateDict[templateId]; 
+      let templateName = formTemplates[templateId]; 
+      // let vendor = userDataDict[formResponse.vendorId]
+      if(formResponse.Id in users){
+        var vendor = users[formResponse.vendorId]
+      } else{
+        console.log('vendor error')
+        var vendor = ['dummy1','dummy@gmail.com']
+      }
+      // let project = projectDataDict[formResponse.projectId]
+      if (formResponse.projectId in projects){
+        var project = projects[formResponse.projectId]
+      } else {
+        // if projectid deleted from db
+        var project = "Project test"
+      }
+
+      let formStatus = formResponse.status; 
+      let formEntry = {
+        id: counter,
+        name: templateName, 
+        status: formStatus, 
+        // vendor is buggy atm
+        vendorName: vendor[0],
+        email: vendor[1],
+        projectName: project,
+        link: '/FormResponse?formResponseId='+formResponse.formResponseId
+      }
+      formData.push(formEntry)
+      counter++
+    } setFormData(formData)
+    console.log('form Data',formData)
+
+  }
 
   // styling dashboard
   const Item = styled(Paper)(({ theme }) => ({
@@ -285,24 +270,102 @@ const Dashboard = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }))
+  
+  const data = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: 'Page D',
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: 'Page E',
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: 'Page F',
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: 'Page G',
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ];
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Grid container spacing={2} style={{height:"100%"}}>
         <Grid item xs={4}>
-          <Item><UserWidget/></Item>
-        </Grid>
-        <Grid item xs={4}>
           <Item><ProjectWidget/></Item>
         </Grid>
         <Grid item xs={4}>
           <Item><RecentUsersWidget/></Item>
+          {/* <Item><UserWidget/></Item> */}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={4}>
+          <Item><FormStatusWidget/></Item>
+        </Grid>
+        {/* <Grid item xs={8}>
           <Item>
-            <Box sx={{ height: 631,width:1100, boxShadow:2}}>
+          <AreaChart
+            width={700}
+            height={300}
+            data={data}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip wrapperStyle={{ width: 100, fontSize: "12px", backgroundColor: '#ccc', outline: "none" }} />
+            <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+            <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
+          </AreaChart>
+          </Item>
+        </Grid> */}
+        <Grid item xs={12}>
+          <Item  sx={{p:2}}>
+            <Typography variant="h4">
+              Try filtering and sorting by form status<br/>
+              or form name below
+            </Typography>
+          </Item>
+        </Grid>
+        
+        <Grid item xs={12}>
+          <Item sx={{m:0,p:0}}>
+            <Box sx={{ height: 632,width:"100%", boxShadow:0}}>
             <DataGrid
-              rows={rows}
+              rows={formData}
               columns={columns}
               initialState={{
                 pagination: {

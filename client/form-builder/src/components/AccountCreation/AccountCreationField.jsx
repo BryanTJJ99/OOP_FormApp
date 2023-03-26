@@ -26,6 +26,7 @@ const AccountCreationField = (props) => {
 
     return (
         <TextField
+            required
             id={props.field}
             label={props.field}
             variant="outlined"
