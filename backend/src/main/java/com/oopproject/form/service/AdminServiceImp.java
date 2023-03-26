@@ -2,6 +2,7 @@ package com.oopproject.form.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +42,12 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
             return allActiveVendors;
         }
         return allActiveVendors.subList(0, userNum);
+    }
+
+    @Override
+    public User findById(String id) {
+        Optional<User> optionalUser = adminRepository.findById(id);
+        return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
     @Override

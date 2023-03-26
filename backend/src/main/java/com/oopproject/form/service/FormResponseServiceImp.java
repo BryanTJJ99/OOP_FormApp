@@ -27,7 +27,8 @@ public class FormResponseServiceImp implements FormResponseService {
     }
 
     @Override
-    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId, String vendorProjectId) {
+    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
+            String vendorProjectId) {
         return formResponseRepository.findByFormTemplateIdAndVendorProjectId(formTemplateId, vendorProjectId);
     }
 
@@ -48,12 +49,17 @@ public class FormResponseServiceImp implements FormResponseService {
             return formResponseRepository.save(updatedFormResponse);
         }
         return null;
-        
+
     }
 
-
-    // @Override 
-    // public void updateFormAnswerValue(String id, String key, Object value) { 
-    //     formResponseRepository.updateFormAnswerValue(id, key, value);
+    // @Override
+    // public void updateFormAnswerValue(String id, String key, Object value) {
+    // formResponseRepository.updateFormAnswerValue(id, key, value);
     // }
+
+    @Override
+    public List<FormResponse> getFormsWithinDateRange(Date start, Date end) {
+        return formResponseRepository.findFormsWithinDateRange(start, end);
+    }
+
 }
