@@ -22,4 +22,6 @@ public interface FormResponseService {
 
     public List<FormResponse> getFormsWithinDateRange(Date start, Date end);
 
+    public FormResponse deleteFormResponse(FormResponse formResponseToDelete);
+
 }

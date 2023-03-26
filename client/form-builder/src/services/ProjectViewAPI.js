@@ -10,3 +10,15 @@ export async function getProjectById(id) {
         return error; 
     }
 }
+
+
+export async function updateProject(project) {
+    let api_url = 'http://localhost:8080/project/updateProject';
+    try {
+        const response = await axios.put(api_url, project);
+        console.log('response  ', response);
+        return response.data;
+    } catch(error) {
+        return error; 
+    }
+}

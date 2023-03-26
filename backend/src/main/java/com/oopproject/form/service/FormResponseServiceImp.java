@@ -21,7 +21,6 @@ public class FormResponseServiceImp implements FormResponseService {
         return formResponseRepository.findAll();
     }
 
-    
     @Override
     public Optional<FormResponse> getFormResponseById(String id) {
         return formResponseRepository.findById(id);
@@ -61,6 +60,16 @@ public class FormResponseServiceImp implements FormResponseService {
     @Override
     public List<FormResponse> getFormsWithinDateRange(Date start, Date end) {
         return formResponseRepository.findFormsWithinDateRange(start, end);
+    }
+
+    @Override
+    public FormResponse deleteFormResponse(FormResponse formResponseToDelete) {
+        String formResponseID = formResponseToDelete.getFormResponseId();
+        FormResponse deletedFormResponse = formResponseRepository.findById(formResponseID).get();
+        if (deletedFormResponse != null) {
+            deletedFormResponse.setDeletedAt(new Date());
+        }
+        return formResponseRepository.save(deletedFormResponse);
     }
 
 }

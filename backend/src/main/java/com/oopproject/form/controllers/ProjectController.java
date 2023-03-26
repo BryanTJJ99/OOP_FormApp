@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -39,13 +41,11 @@ public class ProjectController {
         return projectService.getAllProjects();
     }
 
-
     @GetMapping("/{id}")
     @CrossOrigin
     public Project getProjectById(@PathVariable String id) {
         return projectService.getProjectById(id);
     }
-
 
     @PostMapping("/create")
     @CrossOrigin
@@ -54,5 +54,10 @@ public class ProjectController {
         return projectService.addProject(project);
     }
 
+    @PutMapping("/updateProject")
+    @CrossOrigin
+    public Project updateProject(@RequestBody Project updatedProject) {
+        return projectService.updateProject(updatedProject);
+    }
 
 }

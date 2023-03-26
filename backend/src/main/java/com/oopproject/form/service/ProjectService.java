@@ -12,4 +12,6 @@ public interface ProjectService {
 
     public Project getProjectById(String projectId);
 
+    public Project updateProject(Project projectToUpdate);
+
 }

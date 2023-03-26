@@ -33,4 +33,16 @@ public class ProjectServiceImpl implements ProjectService {
         return optionalProject.isPresent() ? optionalProject.get() : null;
     }
 
+    @Override
+    public Project updateProject(Project projectToUpdate) {
+        String projectToEditID = projectToUpdate.getProjectID();
+        Project updatedProject = projectRepository.findById(projectToEditID).get();
+        if (updatedProject != null) {
+            updatedProject.setProjectName(projectToUpdate.getProjectName());
+            updatedProject.setProjectDescription(projectToUpdate.getProjectDescription());
+            return projectRepository.save(updatedProject);
+        }
+        return null;
+    }
+
 }
