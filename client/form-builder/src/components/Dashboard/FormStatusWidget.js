@@ -41,7 +41,7 @@ export default function FormStatusWidget(){
     }
     return (
         <Box sx={{height: 350 ,pt:1,px:2}} variant="outlined">
-          <Typography variant="h4" sx={{}}>
+          <Typography variant="h4" sx={{my:2}}>
             Forms in Status
           </Typography>
           <List>
@@ -53,7 +53,7 @@ export default function FormStatusWidget(){
                     <ListItemText>{statuses[stat]}</ListItemText>
                   </Box>
                 </ListItem>
-                {idx!=6 && <Divider/>}
+                {idx!=5 && <Divider/>}
                 </>
             ))
             }

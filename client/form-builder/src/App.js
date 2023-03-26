@@ -81,7 +81,7 @@ function App() {
                             {/* Protected routes for Admin and Approver, to be updated with additional routes if needed, 
                             if have MiniDrawer also need to reflect the same changes */}
                             <Route element={ <RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.APPROVER]} />} >
-                                <Route path="Dashboard" element={<Dashboard />} />
+                                <Route exact path="Dashboard" element={<Dashboard />} />
                                 <Route
                                     path="AccountManagement"
                                     element={
