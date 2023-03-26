@@ -42,7 +42,7 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     @CrossOrigin
-    public Optional<Project> getProjectById(@PathVariable String id) {
+    public Project getProjectById(@PathVariable String id) {
         return projectService.getProjectById(id);
     }
 
