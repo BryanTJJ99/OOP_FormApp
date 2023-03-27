@@ -40,4 +40,10 @@ public class FormTemplateController {
         formTemplateService.addFormTemplate(formTemplate);
     }
 
+    @PostMapping("/delete")
+    @CrossOrigin
+    public FormTemplate deleteFormTemplate(@RequestBody String formTemplateId) { 
+        return formTemplateService.deleteFormTemplate(formTemplateId);
+    }
+
 }

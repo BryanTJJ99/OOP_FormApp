@@ -83,6 +83,7 @@ const ProjectCreationPage3 = (props) => {
                             updatedAt: today,
                           };
                           await initialiseFormResponse(formResponseData);
+                          window.location.href = "/Project";
                         });
                       });
                       
@@ -185,7 +186,7 @@ const ProjectCreationPage3 = (props) => {
     <Box display="flex" width="300px;" marginX="auto" marginY="50px" justifyContent="space-between">
         <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Back</Button>
 
-        <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} href="/Project" >Submit</Button>
+        <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Submit</Button>
     </Box>                      
     </>
 

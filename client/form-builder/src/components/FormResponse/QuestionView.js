@@ -8,9 +8,20 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 const QuestionView = (props) => {
     const [dropdownVal, setDropdownVal] = useState(props.response.formAnswer[props.question.questionOrder]);
     const [file, setFile] = useState(null);
-    const [checkboxValue, setCheckboxValue] = useState([]);
+    const [radioValue, setRadioValue] = useState(props.response.formAnswer[props.question.questionOrder]);
+    const [checkboxValue, setCheckboxValue] = useState(props.response.formAnswer[props.question.questionOrder]);
     const [ratingValue, setRatingValue] = useState(parseInt(props.response.formAnswer[props.question.questionOrder]));
     const [textValue, setTextValue] = useState(props.response.formAnswer[props.question.questionOrder]); 
+
+    useEffect(() => { 
+        if (props.question.questionOrder in props.response.formAnswer) { 
+            setFile(props.response.formAnswer[props.question.questionOrder][0]); 
+        } 
+    }, [])
+
+    const handleRadioChange = (event) => { 
+        setRadioValue(event.target.value);
+    }
 
     const handleCheckboxChange = (event) => {
         let newCheckboxValue = [...checkboxValue];
@@ -54,11 +65,7 @@ const QuestionView = (props) => {
         } else if (questionType === 'radio') {
             let choices = Array(0);
             for (let i = 0; i < props.question.choices.length; i++) {
-                let checked = false; 
-                if (props.response.formAnswer[props.question.questionOrder] === i.toString()) { 
-                    checked = true; 
-                }
-                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} checked={checked}/>)
+                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} onClick={handleRadioChange}/>)
             }
             return (
                 <FormControl sx={{ width: '100%' }}>
@@ -66,7 +73,7 @@ const QuestionView = (props) => {
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue="female"
                         name={props.question.questionOrder.toString()}
-
+                        value={radioValue}
                     >
                         {choices}
                     </RadioGroup>
@@ -82,7 +89,7 @@ const QuestionView = (props) => {
                         checked = true; 
                     }
                 }
-                choices.push(<FormControlLabel value={i} control={<Checkbox />} label={props.question.choices[i]} checked={checked} onChange={handleCheckboxChange} />)
+                choices.push(<FormControlLabel value={i} control={<Checkbox defaultChecked={checked}/>} label={props.question.choices[i]} onChange={handleCheckboxChange} />)
             }
             return (
                 <FormControl sx={{ width: '100%' }}>
@@ -148,7 +155,7 @@ const QuestionView = (props) => {
         } else if (questionType === 'file') {
             let fileBase64Array = props.response.formAnswer[props.question.questionOrder];
             // var base64String = document.getElementById("Base64StringTxtBox").value;
-            let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file}/>)
+            let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file} name={props.question.questionOrder.toString()}/>)
             console.log(Object.keys(props.response.formAnswer), props.question.questionOrder)
             if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) { 
                 // const downloadLink = document.createElement("a");
@@ -156,8 +163,8 @@ const QuestionView = (props) => {
                 // downloadLink.download = "convertedPDFFile.pdf";
                 // downloadLink.click();
                 fileElement = (<div className='d-block'>
-                                <Button component="a" href={"data:"+fileBase64Array[1]+";base64," + fileBase64Array[0]} download="userInputFile" variant="contained" sx={{padding:2, display:'block', marginBottom:2}}><AttachFileIcon sx={{marginRight:1}}/>Download Submitted File</Button>
-                                <MuiFileInput onChange={handleFileChange} placeholder="Select a new file" value={file} sx={{display:'block'}}/>
+                                <MuiFileInput onChange={handleFileChange} label="Select a new file" value={file} sx={{display:'block', marginBottom:2}}/>
+                                <Button component="a" href={"data:"+fileBase64Array[1]+";base64," + fileBase64Array[0]} download="userInputFile" variant="contained" sx={{padding:2, display:'block'}}><AttachFileIcon sx={{marginRight:1}}/>Download Submitted File</Button>
                             </div>)
             }
             return (

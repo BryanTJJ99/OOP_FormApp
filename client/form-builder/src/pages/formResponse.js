@@ -11,7 +11,7 @@ const FormResponse = (props) => {
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
     const [fileMap, setFileMap] = useState({});
-    const [nextStage, setNextStage] = useState('default');
+    const [nextStage, setNextStage] = useState('approved');
     const [statusSection, setStatusSection] = useState(null);
     const [openPopUp, setOpenPopUp] = useState(false);
     const [currStage, setCurrStage] = useState(null);
@@ -36,6 +36,9 @@ const FormResponse = (props) => {
     }
 
     async function handleFormResponseSubmit(e) {
+        // let form = document.getElementById('form');
+        // handleFormResponseSubmit();
+        // form.submit(); 
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         let numOfQuestions = formTemplate.questions.length;
@@ -137,7 +140,11 @@ const FormResponse = (props) => {
     }
 
     function submitForm() { 
-        
+        // let form = document.getElementById('form');
+        // handleFormResponseSubmit();
+        // form.submit(); 
+        let submitButton = document.getElementById('submitButton'); 
+        submitButton.click();
     }
 
     useEffect(() => {
@@ -219,7 +226,7 @@ const FormResponse = (props) => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             {formInfo}
             {statusSection}
-            <Box component='form' onSubmit={handleFormResponseSubmit}>
+            <Box component='form' onSubmit={handleFormResponseSubmit} id="form">
                 {questionsSectionArea.map((item) => {
                     if (item.hasOwnProperty('sectionId')) {
                         return (<SectionView section={item} key={"Section" + item.sectionOrder}></SectionView>)
@@ -234,7 +241,8 @@ const FormResponse = (props) => {
                         <Button variant='contained'>Save</Button>
                     </Box>
                     <Box>
-                        <Button type="submit" variant='contained' onClick={handlePopUpOpen}>Submit Form</Button>
+                        <Button variant='contained' onClick={handlePopUpOpen}>Submit Form</Button>
+                        <button type='submit' className='d-none' id='submitButton'></button>
                     </Box>
                 </Box>
             </Box>
