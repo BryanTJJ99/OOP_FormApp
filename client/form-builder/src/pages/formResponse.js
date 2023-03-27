@@ -4,6 +4,7 @@ import { FormInfo, QuestionView, SectionView } from '../components/FormResponse/
 import { getFormTemplateById } from '../services/FormTemplate.js';
 import { updateFormResponse, getFormResponseById, updateFilesInFormAnswer } from '../services/FormResponse.js';
 import StatusChip from '../components/Dashboard/StatusChip.js';
+import { getCurrentUserRole } from '../services/AuthService.js';
 
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
@@ -16,6 +17,7 @@ const FormResponse = (props) => {
     const [openPopUp, setOpenPopUp] = useState(false);
     const [currStage, setCurrStage] = useState(null);
     const [emailMessage, setEmailMessage] = useState(null);
+    const [userRole, setUserRole] = useState(null); 
 
     const nextStageRef = { 
         'vendor': 'admin', 
@@ -167,6 +169,7 @@ const FormResponse = (props) => {
                         console.log(error.message);
                     })
             })
+        console.log(getCurrentUserRole())
 
     }, [])
 
