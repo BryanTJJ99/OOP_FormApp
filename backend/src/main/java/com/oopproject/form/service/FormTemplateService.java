@@ -11,4 +11,6 @@ public interface FormTemplateService {
     public Optional<FormTemplate> getFormTemplateById(String id);
 
     public void addFormTemplate(FormTemplate formTemplate);
+
+    public FormTemplate deleteFormTemplate(String formTemplateId);
 }

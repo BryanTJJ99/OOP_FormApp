@@ -32,3 +32,19 @@ export async function getAllFormTemplate() {
         return error; 
     }
 }
+
+export async function deleteFormTemplate(formTemplateId) {
+    let api_url = 'http://localhost:8080/formTemplate/delete';
+    var config = {
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    };    
+    try {
+        const response = await axios.post(api_url, formTemplateId, config);
+        console.log('response  ', response);
+        return response.data;
+    } catch(error) {
+        return error; 
+    }
+}
