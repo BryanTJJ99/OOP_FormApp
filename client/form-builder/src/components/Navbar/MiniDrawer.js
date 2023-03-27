@@ -29,7 +29,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 
 // imports for controlling the drawer according to the user authencation
-import AuthService from "../../services/AuthService";
+import { getCurrentUser, authLogOut } from "../../services/AuthService";
 import EventBus from "../../common/EventBus";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
@@ -139,7 +139,7 @@ export default function MiniDrawer({children}) {
   const [showVendorProfilePage, setShowVendorProfilePage] = React.useState(false);
 
   React.useEffect(() => {
-    const user = AuthService.getCurrentUser();
+    const user = getCurrentUser();
     if (user) {
       setCurrentUser(user);
       // checks for and displays if either values satisfies using.some() method
@@ -161,7 +161,7 @@ export default function MiniDrawer({children}) {
   }, []);
 
   const logOut = () => {
-    AuthService.logout();
+    authLogOut();
     setShowDashBoard(false);
     setShowAccountManagement(false);
     setShowFormTemplates(false);

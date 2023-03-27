@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import AuthService from '../services/AuthService';
+import { authLogIn} from '../services/AuthService';
 
 
 function Copyright(props) {
@@ -64,7 +64,7 @@ function LogIn() {
         };
 
         if (data) {
-            AuthService.login(username, password)
+            authLogIn(username, password)
                 .then(
                     () => {
                         navigate(to, { replace: true });
@@ -104,7 +104,7 @@ function LogIn() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Login In
+                        Login to access your account
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} validate='true' sx={{ mt: 1 }}>
                         <TextField
