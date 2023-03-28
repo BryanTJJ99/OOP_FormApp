@@ -10,7 +10,6 @@ const AccountCreationPage = (props) => {
     const [accountDetails, setAccountDetails] = useState({});
     const [snackbar, setSnackbar] = useState(null);
 
-    console.log(props);
 
     return (
         <Box

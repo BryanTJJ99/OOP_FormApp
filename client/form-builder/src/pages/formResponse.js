@@ -25,7 +25,6 @@ const FormResponse = (props) => {
     }
 
     const handleNextStageChange = (event) => {
-        console.log(event.target.value)
         setNextStage(event.target.value);
     };
 
@@ -57,22 +56,16 @@ const FormResponse = (props) => {
             if (listOfMultiSelect.includes(i)) {
                 dataToStore = data.get(i.toString()).split(',');
             }
-            console.log(i)
             if (i in fileMap) {
-                console.log("oiefhoeif", i)
                 let fileToStore = fileMap[(i).toString()];
-                console.log("elikfw", typeof fileToStore)
                 if (!(fileToStore instanceof File)) {
-                    console.log("is not file", fileToStore)
                     dataToStore = [fileToStore[1], fileToStore[2]];
                 } else {
-                    console.log("is file")
                     let file_type = fileToStore.type;
                     const reader = new FileReader();
                     // reader.readAsDataURL(fileToStore);
                     await readFileAsync(fileToStore, reader)
                         .then(result => {
-                            // console.log(result)
 
                             dataToStore = [result, file_type];
 
@@ -103,7 +96,6 @@ const FormResponse = (props) => {
             formAnswer: formAnswer,
             updatedAt: today,
         }
-        console.log(formResponseData);
         // console.log(fileMap);
         // let formData = new FormData(); 
         // formData.append("formResponse", JSON.stringify(formResponseData)); 
@@ -117,7 +109,7 @@ const FormResponse = (props) => {
         // }
         updateFormResponse(formResponseData)
             .then(response => {
-                console.log(response);
+                // console.log(response);
             })
             .catch(error => {
                 console.log(error.message);
@@ -136,7 +128,6 @@ const FormResponse = (props) => {
         return new Promise((resolve, reject) => {
             reader.onload = () => {
                 let base64String = reader.result.split(',')[1];
-                console.log(reader.result.split(','))
                 resolve(base64String);
             };
             reader.onerror = reject;
@@ -167,18 +158,15 @@ const FormResponse = (props) => {
         getFormResponseById(formResponseId)
             .then(response => {
                 setFormResponse(response);
-                console.log(response);
                 let formTemplateId = response.formTemplateId;
                 getFormTemplateById(formTemplateId)
                     .then(response => {
-                        // console.log(response);
                         setFormTemplate(response);
                     })
                     .catch(error => {
                         console.log(error.message);
                     })
             })
-        console.log(getCurrentUserRole())
 
     }, [])
 
@@ -197,7 +185,6 @@ const FormResponse = (props) => {
     useEffect(() => {
         if (formTemplate !== null) {
             setFormInfo(<FormInfo formTemplate={formTemplate} />);
-            // bernice ken the currStatus is hardcoded
             let currStatus = formResponse.status;
             setCurrStage(currStatus);
             setStatusSection(<Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'>

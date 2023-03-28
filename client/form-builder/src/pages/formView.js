@@ -22,11 +22,9 @@ const FormView = (props) => {
             getFormResponseById(formResponseId) 
                 .then(response => {
                     setFormResponse(response);
-                    console.log(response)
                     let formTemplateId = response.formTemplateId
                     getFormTemplateById(formTemplateId)
                         .then(response => { 
-                            // console.log(response);
                             setFormTemplate(response);
                         })
                         .catch(error => { 
@@ -40,7 +38,6 @@ const FormView = (props) => {
             let formTemplateId = urlParams.get('formTemplateId')
             getFormTemplateById(formTemplateId)
                 .then(response => { 
-                    // console.log(response);
                     setFormTemplate(response);
                 })
                 .catch(error => { 
@@ -98,7 +95,6 @@ const FormView = (props) => {
                 } else { 
                     deleteFormTemplate(formTemplate.formTemplateId) 
                     .then(response => {
-                        console.log(response);
                         window.location.href = "/FormTemplates"
                     })
                     .catch(error => {

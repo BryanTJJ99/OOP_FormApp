@@ -56,7 +56,6 @@ const AccountManagementPage = (props) => {
                             break;
                     }
                 }
-                console.log(users);
                 setRows(users);
                 props.setCreatedAccount("false");
             });
