@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import AuthService from "../../services/AuthService";
+import { authRegister } from "../../services/AuthService";
 
 // import axios from "axios";
 
@@ -31,7 +31,7 @@ const SubmitAccountCreation = (props) => {
 
         console.log(registrationData);
 
-        AuthService.register(
+        authRegister(
             registrationData.username,
             registrationData.name,
             registrationData.email,

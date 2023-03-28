@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.oopproject.form.models.FormResponse.FormResponse;
 import com.oopproject.form.repositories.FormResponseRepository;
+import com.oopproject.form.repositories.FormTemplateRepository;
 
 @Service
 public class FormResponseServiceImp implements FormResponseService {
@@ -44,7 +45,7 @@ public class FormResponseServiceImp implements FormResponseService {
         if (updatedFormResponse != null) {
             updatedFormResponse.setStatus(formResponseToUpdate.getStatus());
             updatedFormResponse.setFormAnswer(formResponseToUpdate.getFormAnswer());
-            updatedFormResponse.setUpdatedAt(formResponseToUpdate.getUpdatedAt());
+            updatedFormResponse.setUpdatedAt(new Date());
             updatedFormResponse.setDeletedAt(formResponseToUpdate.getDeletedAt());
             return formResponseRepository.save(updatedFormResponse);
         }

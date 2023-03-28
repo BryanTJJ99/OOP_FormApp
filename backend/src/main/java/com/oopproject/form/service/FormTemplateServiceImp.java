@@ -1,5 +1,6 @@
 package com.oopproject.form.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public class FormTemplateServiceImp implements FormTemplateService {
 
     @Override
     public List<FormTemplate> getAllFormTemplates() {
-        return formTemplateRepository.findAll();
+        return formTemplateRepository.findAllActiveFormTemplate();
     }
 
     @Override
@@ -27,5 +28,30 @@ public class FormTemplateServiceImp implements FormTemplateService {
     @Override
     public void addFormTemplate(FormTemplate formTemplate) {
         formTemplateRepository.save(formTemplate);
+    }
+
+    @Override
+    public FormTemplate deleteFormTemplate(String formTemplateId) { 
+        FormTemplate formTemplateToDelete = formTemplateRepository.findById(formTemplateId).get(); 
+        if (formTemplateToDelete != null) { 
+            formTemplateToDelete.setDeletedAt(new Date());
+        }
+        return formTemplateRepository.save(formTemplateToDelete);
+    }
+
+    @Override
+    public FormTemplate updateFormTemplate(FormTemplate formTemplateToUpdate) {
+        String formTemplateToEditID = formTemplateToUpdate.getFormTemplateId();
+        FormTemplate updatedFormTemplate = formTemplateRepository.findById(formTemplateToEditID).get();
+        if (updatedFormTemplate != null) {
+            updatedFormTemplate.setFormName(formTemplateToUpdate.getFormName());
+            updatedFormTemplate.setFormDescription(formTemplateToUpdate.getFormDescription());
+            updatedFormTemplate.setUpdatedAt(new Date());
+            updatedFormTemplate.setSections(formTemplateToUpdate.getSections());
+            updatedFormTemplate.setQuestions(formTemplateToUpdate.getQuestions());
+            return formTemplateRepository.save(updatedFormTemplate);
+        }
+        return null;
+
     }
 }
