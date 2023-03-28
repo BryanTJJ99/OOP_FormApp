@@ -26,7 +26,7 @@ const Section = (props) => {
     return (
 
         <Box id={'Section' + props.sectionNum} className='mb-2 mt-4 pb-3' bgcolor='primary.main' borderRadius={1}>
-
+            <input type='hidden' name={'Section' + props.sectionNum + 'sectionId'} value={props.sectionInput.sectionId}></input>
             <Box className="me-0 d-flex justify-content-between align-items-center pe-3" sx={{ borderRadius: '8px', display: 'flex',height:'60px'}}>
                 <div className='d-flex w-75'> 
                     <TextField id={'Section' + props.sectionNum + 'sectionName'} value={sectionTitle} name={'Section' + props.sectionNum + 'sectionName'} variant='standard' className=" bg-transparent text-white ms-3 my-auto" placeholder={`Section ${props.sectionNum} Title`} onChange={(event) => setSectionTitle(event.target.value)} fullWidth required></TextField>

@@ -10,8 +10,9 @@ const FormView = (props) => {
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
     const [allFormResponseId, setAllFormResponseId] = useState(null);
-    const [deleteFail, setDeleteFail] = useState(false);
+    const [deleteEditFail, setDeleteEditFail] = useState(false);
     const [editButton, setEditButton] = useState(null);
+    const [failKeyword, setFailKeyword] = useState('deleted');
 
     useEffect(() => { 
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
@@ -70,7 +71,7 @@ const FormView = (props) => {
                 }
             }
             setQuestionsSectionArea(newQuestionsSectionArea);
-            setEditButton(<Button variant="contained" className="ms-3" href={"/FormBuilderEdit?formTemplateId=" + formTemplate.formTemplateId} color='cyan'>Edit</Button>)
+            setEditButton(<Button variant="contained" className="ms-3" color='cyan' onClick={editForm}>Edit</Button>)
         }
     }, [formTemplate])
 
@@ -79,10 +80,7 @@ const FormView = (props) => {
     }
 
     function editForm() { 
-        
-    }
-
-    function deleteForm() { 
+        setFailKeyword('edited');
         getAllFormResponses()
             .then(response => { 
                 let formResExist = false; 
@@ -93,7 +91,29 @@ const FormView = (props) => {
                     }
                 }
                 if (formResExist) { 
-                    setDeleteFail(true);
+                    setDeleteEditFail(true);
+                } else { 
+                    window.location.href="/FormBuilderEdit?formTemplateId=" + formTemplate.formTemplateId; 
+                }
+            })
+            .catch (error => { 
+                console.log(error.message);
+            })
+    }
+
+    function deleteForm() { 
+        setFailKeyword('deleted');
+        getAllFormResponses()
+            .then(response => { 
+                let formResExist = false; 
+                for (let formRes of response) { 
+                    if (formRes.formTemplateId === formTemplate.formTemplateId) { 
+                        formResExist = true; 
+                        break; 
+                    }
+                }
+                if (formResExist) { 
+                    setDeleteEditFail(true);
                 } else { 
                     deleteFormTemplate(formTemplate.formTemplateId) 
                     .then(response => {
@@ -109,8 +129,8 @@ const FormView = (props) => {
             })
     }
 
-    const handleDeleteClose = () => {
-        setDeleteFail(false);
+    const handleFailClose = () => {
+        setDeleteEditFail(false);
     };
     
 
@@ -134,13 +154,13 @@ const FormView = (props) => {
                 }
             })}
             <Dialog
-                open={deleteFail}
-                onClose={handleDeleteClose}
+                open={deleteEditFail}
+                onClose={handleFailClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                {"Form template cannot be deleted"}
+                {"Form template cannot be " + failKeyword}
                 </DialogTitle>
                 <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -150,7 +170,7 @@ const FormView = (props) => {
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleDeleteClose}>Noted</Button>
+                <Button onClick={handleFailClose}>Noted</Button>
                 </DialogActions>
             </Dialog>
         </div>

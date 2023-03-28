@@ -14,7 +14,15 @@ const LinearScale = (props) => {
             setMinLabel(props.scaleInput.minLabel);
             setMaxLabel(props.scaleInput.maxLabel);
         }
-    })
+    }, [])
+
+    function handleMinLabelChange(e) { 
+        setMinLabel(e.target.value); 
+    } 
+
+    function handleMaxLabelChange(e) { 
+        setMaxLabel(e.target.value); 
+    } 
 
     return (
         <div className="d-block">
@@ -45,7 +53,7 @@ const LinearScale = (props) => {
                 <Box sx={{ display: 'flex', mt:3 }}>
                         <Box sx={{mt:1, mr:2}}>{minVal}</Box>
                         <div className='d-block'>
-                            <TextField name={props.questionId + 'minLabel'} value={minLabel} variant='standard' placeholder="Min value label" required></TextField>
+                            <TextField name={props.questionId + 'minLabel'} value={minLabel} onChange={handleMinLabelChange} variant='standard' placeholder="Min value label" required></TextField>
                         </div>
                     </Box>
                 </div>
@@ -54,7 +62,7 @@ const LinearScale = (props) => {
                     <Box sx={{ display: 'flex', mt:3 }}>
                         <Box sx={{mt:1, mr:2}}>{maxVal}</Box>
                         <div className='d-block'>
-                            <TextField name={props.questionId + 'maxLabel'} value={maxLabel} variant='standard' placeholder="Max value label" required></TextField>
+                            <TextField name={props.questionId + 'maxLabel'} value={maxLabel} onChange={handleMaxLabelChange} variant='standard' placeholder="Max value label" required></TextField>
                         </div>
                     </Box>
                 </div>
