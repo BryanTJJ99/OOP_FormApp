@@ -17,11 +17,11 @@ const FormResponse = (props) => {
     const [openPopUp, setOpenPopUp] = useState(false);
     const [currStage, setCurrStage] = useState(null);
     const [emailMessage, setEmailMessage] = useState(null);
-    const [userRole, setUserRole] = useState(null); 
+    const [userRole, setUserRole] = useState(null);
 
-    const nextStageRef = { 
-        'vendor': 'admin', 
-        'admin': 'approver', 
+    const nextStageRef = {
+        'vendor': 'admin',
+        'admin': 'approver',
     }
 
     const handleNextStageChange = (event) => {
@@ -29,11 +29,11 @@ const FormResponse = (props) => {
         setNextStage(event.target.value);
     };
 
-    function handlePopUpClose() { 
+    function handlePopUpClose() {
         setOpenPopUp(false);
     }
 
-    function handlePopUpOpen() { 
+    function handlePopUpOpen() {
         setOpenPopUp(true);
     }
 
@@ -51,6 +51,7 @@ const FormResponse = (props) => {
             }
         }
         let formAnswer = {};
+        console.log("fileMap", fileMap)
         for (let i = 1; i <= numOfQuestions; i++) {
             let dataToStore = data.get(i.toString());
             if (listOfMultiSelect.includes(i)) {
@@ -58,40 +59,48 @@ const FormResponse = (props) => {
             }
             console.log(i)
             if (i in fileMap) {
+                console.log("oiefhoeif", i)
                 let fileToStore = fileMap[(i).toString()];
-                let file_type = fileToStore.type;
-                const reader = new FileReader();
-                // reader.readAsDataURL(fileToStore);
-                await readFileAsync(fileToStore, reader)
-                    .then(result => {
-                        // console.log(result)
+                console.log("elikfw", typeof fileToStore)
+                if (!(fileToStore instanceof File)) {
+                    console.log("is not file", fileToStore)
+                    dataToStore = [fileToStore[1], fileToStore[2]];
+                } else {
+                    console.log("is file")
+                    let file_type = fileToStore.type;
+                    const reader = new FileReader();
+                    // reader.readAsDataURL(fileToStore);
+                    await readFileAsync(fileToStore, reader)
+                        .then(result => {
+                            // console.log(result)
 
-                        dataToStore = [result, file_type];
+                            dataToStore = [result, file_type];
 
-                    })
-                    .catch(error => {
-                        console.log(error.message);
-                    })
-                // let base64String; 
-                // reader.onload = function () {
-                //     console.log(reader, reader.result)
-                //     base64String = reader.result.split(',')[1];
-                //     dataToStore = base64String;
-                // };
+                        })
+                        .catch(error => {
+                            console.log(error.message);
+                        })
+                    // let base64String; 
+                    // reader.onload = function () {
+                    //     console.log(reader, reader.result)
+                    //     base64String = reader.result.split(',')[1];
+                    //     dataToStore = base64String;
+                    // };
+                }
             }
             formAnswer[i] = dataToStore;
         }
-        let today = new Date().toJSON(); 
-        let statusUpdated; 
-        if (currStage !== 'approver') { 
-            statusUpdated = nextStageRef[currStage]; 
-        } else { 
-            statusUpdated = nextStage; 
+        let today = new Date().toJSON();
+        let statusUpdated;
+        if (currStage !== 'approver') {
+            statusUpdated = nextStageRef[currStage];
+        } else {
+            statusUpdated = nextStage;
         }
         let formResponseData = {
             formResponseId: formResponse.formResponseId,
-            status: statusUpdated, 
-            formAnswer: formAnswer, 
+            status: statusUpdated,
+            formAnswer: formAnswer,
             updatedAt: today,
         }
         console.log(formResponseData);
@@ -141,11 +150,11 @@ const FormResponse = (props) => {
         setFileMap(newFileMap);
     }
 
-    function submitForm() { 
+    function submitForm() {
         // let form = document.getElementById('form');
         // handleFormResponseSubmit();
         // form.submit(); 
-        let submitButton = document.getElementById('submitButton'); 
+        let submitButton = document.getElementById('submitButton');
         submitButton.click();
     }
 
@@ -155,11 +164,11 @@ const FormResponse = (props) => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const formResponseId = urlParams.get('formResponseId');
-        getFormResponseById(formResponseId) 
-            .then(response => { 
-                setFormResponse(response); 
-                console.log(response); 
-                let formTemplateId = response.formTemplateId; 
+        getFormResponseById(formResponseId)
+            .then(response => {
+                setFormResponse(response);
+                console.log(response);
+                let formTemplateId = response.formTemplateId;
                 getFormTemplateById(formTemplateId)
                     .then(response => {
                         // console.log(response);
@@ -175,7 +184,7 @@ const FormResponse = (props) => {
 
     function toTitleCase(str) {
         return str.toLowerCase().split(' ').map(function (word) {
-          return (word.charAt(0).toUpperCase() + word.slice(1));
+            return (word.charAt(0).toUpperCase() + word.slice(1));
         }).join(' ');
     }
 
@@ -185,21 +194,21 @@ const FormResponse = (props) => {
         approver: 'Vendor and Admin'
     }
 
-    useEffect(() => { 
-        if (formTemplate !== null) { 
-            setFormInfo(<FormInfo formTemplate={formTemplate}/>);
+    useEffect(() => {
+        if (formTemplate !== null) {
+            setFormInfo(<FormInfo formTemplate={formTemplate} />);
             // bernice ken the currStatus is hardcoded
-            let currStatus = formResponse.status; 
+            let currStatus = formResponse.status;
             setCurrStage(currStatus);
-            setStatusSection(<Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'> 
-                                <Box display='flex'> 
-                                    <Typography marginY={'auto'} marginRight={1}>Status:</Typography>
-                                    <Box marginY='auto'> 
-                                        <StatusChip status={currStatus}></StatusChip>
-                                    </Box>
-                                </Box>
-                            </Box>)
-            let questionSectionDict = {}; 
+            setStatusSection(<Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'>
+                <Box display='flex'>
+                    <Typography marginY={'auto'} marginRight={1}>Status:</Typography>
+                    <Box marginY='auto'>
+                        <StatusChip status={currStatus}></StatusChip>
+                    </Box>
+                </Box>
+            </Box>)
+            let questionSectionDict = {};
             console.log(formTemplate); // give an Axios error
             for (let section of formTemplate.sections) {
                 questionSectionDict[section.sectionOrder] = [];
@@ -239,7 +248,7 @@ const FormResponse = (props) => {
                         )
                     }
                 })}
-                <Box display={'flex'} sx={{float:'right'}} className='me-5'>
+                <Box display={'flex'} sx={{ float: 'right' }} className='me-5'>
                     <Box marginRight={2}>
                         <Button variant='contained'>Save</Button>
                     </Box>
@@ -249,7 +258,7 @@ const FormResponse = (props) => {
                     </Box>
                 </Box>
             </Box>
-                
+
             <Dialog
                 open={openPopUp}
                 onClose={handlePopUpClose}
@@ -258,11 +267,11 @@ const FormResponse = (props) => {
                 fullWidth
             >
                 <DialogTitle id="alert-dialog-title">
-                {`Write an email to ${emailRecipient[currStage]}:`}
+                    {`Write an email to ${emailRecipient[currStage]}:`}
                 </DialogTitle>
-                <TextField value={emailMessage} placeholder="Your email message" multiline rows={3} sx={{marginX:3}}></TextField>
+                <TextField value={emailMessage} placeholder="Your email message" multiline rows={3} sx={{ marginX: 3 }}></TextField>
                 {/* {nextStageElem} */}
-                {currStage === 'approver' && <Box display='flex' margin={3}> 
+                {currStage === 'approver' && <Box display='flex' margin={3}>
                     <Typography marginY={'auto'} marginRight={1}>Assign:</Typography>
                     <FormControl size="small" fullWidth>
                         <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange}>
