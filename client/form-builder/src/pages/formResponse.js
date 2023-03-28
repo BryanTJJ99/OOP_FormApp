@@ -17,11 +17,18 @@ const FormResponse = (props) => {
     const [openPopUp, setOpenPopUp] = useState(false);
     const [currStage, setCurrStage] = useState(null);
     const [emailMessage, setEmailMessage] = useState(null);
+    const [submitButton, setSubmitButton] = useState(null);
     const [userRole, setUserRole] = useState(null);
 
     const nextStageRef = {
         'vendor': 'admin',
         'admin': 'approver',
+    }
+
+    const userRoleRef = { 
+        'ROLE_VENDOR': 'vendor', 
+        'ROLE_ADMIN': 'admin', 
+        'ROLE_APPROVER': 'approver'
     }
 
     const handleNextStageChange = (event) => {
@@ -81,7 +88,9 @@ const FormResponse = (props) => {
                     // };
                 }
             }
-            formAnswer[i] = dataToStore;
+            if (dataToStore !== null) { 
+                formAnswer[i] = dataToStore;
+            }
         }
         let today = new Date().toJSON();
         let statusUpdated;
@@ -158,6 +167,18 @@ const FormResponse = (props) => {
         getFormResponseById(formResponseId)
             .then(response => {
                 setFormResponse(response);
+                let copyUserRole = getCurrentUserRole(); 
+                let disabled = userRoleRef[copyUserRole] !== response.status
+                setSubmitButton(<Box display={'flex'} sx={{ float: 'right' }} className='me-5'>
+                                    <Box marginRight={2}>
+                                        <Button variant='contained' disabled={disabled}>Save</Button>
+                                    </Box>
+                                    <Box>
+                                        <Button variant='contained' onClick={handlePopUpOpen} disabled={disabled}>Submit Form</Button>
+                                        <button type='submit' className='d-none' id='submitButton'></button>
+                                    </Box>
+                                </Box>)
+                setUserRole(copyUserRole);
                 let formTemplateId = response.formTemplateId;
                 getFormTemplateById(formTemplateId)
                     .then(response => {
@@ -167,14 +188,7 @@ const FormResponse = (props) => {
                         console.log(error.message);
                     })
             })
-        setUserRole(getCurrentUserRole());
     }, [])
-
-    function toTitleCase(str) {
-        return str.toLowerCase().split(' ').map(function (word) {
-            return (word.charAt(0).toUpperCase() + word.slice(1));
-        }).join(' ');
-    }
 
     const emailRecipient = {
         vendor: 'Admin',
@@ -219,6 +233,8 @@ const FormResponse = (props) => {
         }
     }, [formTemplate])
 
+    let access; 
+
     return (
         <div>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
@@ -228,22 +244,26 @@ const FormResponse = (props) => {
             <Box component='form' onSubmit={handleFormResponseSubmit} id="form">
                 {questionsSectionArea.map((item) => {
                     if (item.hasOwnProperty('sectionId')) {
-                        return (<SectionView section={item} key={"Section" + item.sectionOrder}></SectionView>)
+                        if (userRoleRef[userRole] === formResponse.status && userRoleRef[userRole] === item.assignedTo) { 
+                            access = true; 
+                        } else { 
+                            access = false; 
+                        }
+                        // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
+                        return (<SectionView section={item} key={"Section" + item.sectionOrder} disabled={!access}></SectionView>)
                     } else {
+                        let required = false; 
+                        if (access && item.isRequired) { 
+                            required = true; 
+                        }
                         return (
-                            <QuestionView question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload} response={formResponse}></QuestionView>
+                            <QuestionView question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload} response={formResponse} disabled={!access} required={required}></QuestionView>
                         )
                     }
                 })}
-                <Box display={'flex'} sx={{ float: 'right' }} className='me-5'>
-                    <Box marginRight={2}>
-                        <Button variant='contained'>Save</Button>
-                    </Box>
-                    <Box>
-                        <Button variant='contained' onClick={handlePopUpOpen}>Submit Form</Button>
-                        <button type='submit' className='d-none' id='submitButton'></button>
-                    </Box>
-                </Box>
+
+                {submitButton}
+
             </Box>
 
             <Dialog
