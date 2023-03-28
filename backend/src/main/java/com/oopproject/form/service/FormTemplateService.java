@@ -13,4 +13,6 @@ public interface FormTemplateService {
     public void addFormTemplate(FormTemplate formTemplate);
 
     public FormTemplate deleteFormTemplate(String formTemplateId);
+
+    public FormTemplate updateFormTemplate(FormTemplate formTemplateToUpdate);
 }
