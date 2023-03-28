@@ -151,6 +151,7 @@ const ProjectWidget = () => {
 const Dashboard = () => {
   // set state for form data
   const [formData,setFormData] = useState([])
+  const [formsDueToday,setFormsDueToday] = useState([])
   const [formResponses,setFormResponses] = useState([])
   const [formTemplates, setFormTemplates] = useState({}); 
   const [users, setUsers] = useState({}); 
@@ -167,7 +168,7 @@ const Dashboard = () => {
       // status
       // deadline
       setFormResponses(formResponses)
-      console.log(formResponses,'setState for formresponses triggerd')
+      console.log(formResponses,'formResponses')
       return formResponses
     }
     // obtain formTemplate data
@@ -205,7 +206,7 @@ const Dashboard = () => {
     // chain to promiseAll and formatData
     Promise.allSettled([fetchFormResponses(),fetchFormTemplates(),fetchUserData(),fetchProjectData()]).then((response) => {
       // buggy, if console log not running then formatData wont run properly
-      console.log('promiseAll reponse',response)
+      // console.log('promiseAll reponse',response)
       // console.log(response[0])
       // console.log(response[1])
       // console.log(response[2])
@@ -219,25 +220,26 @@ const Dashboard = () => {
 
   const formatData = (formResponses) => {
     let formData = []
-    // let formResponses = promiseResponse[0].value
-    // let formTemplateDict = promiseResponse[1].value
-    // console.log('form template dict',formTemplateDict)
-    // let userDataDict = promiseResponse[2].value
-    // console.log('user data dict',userDataDict)
-    // let projectDataDict = promiseResponse[3].value
-    // console.log('proj data dict',projectDataDict)
+    let formsDue = []
+    const today = new Date()
+    let tomorrow  = new Date()
+    let following = new Date()
+    tomorrow.setDate(today.getDate()+1)
+    following.setDate(today.getDate()+2)
+    const upcoming = [today,tomorrow,following]
     let counter = 1
-    console.log(formResponses)
-    console.log(' form responses')
+
     for (let formResponse of formResponses){
       let templateId = formResponse.formTemplateId; 
       // let templateName = formTemplateDict[templateId]; 
       let templateName = formTemplates[templateId]; 
       // let vendor = userDataDict[formResponse.vendorId]
+      let deadline = formResponse.vendorDeadLine;
+      console.log(formResponse.deadline,'deadline')
       if(formResponse.Id in users){
         var vendor = users[formResponse.vendorId]
       } else{
-        console.log('vendor error')
+        // console.log('vendor error')
         var vendor = ['dummy1','dummy@gmail.com']
       }
       // let project = projectDataDict[formResponse.projectId]
@@ -257,12 +259,20 @@ const Dashboard = () => {
         vendorName: vendor[0],
         email: vendor[1],
         projectName: project,
-        link: '/FormResponse?formResponseId='+formResponse.formResponseId
+        link: '/FormResponse?formResponseId='+formResponse.formResponseId,
+        dueDate: deadline,
+      }
+      console.log(deadline,'deadline')
+      if (upcoming.includes(deadline)){
+        formsDue.push(formEntry)
       }
       formData.push(formEntry)
       counter++
-    } setFormData(formData)
-    console.log('form Data',formData)
+    } 
+    setFormData(formData)
+    setFormsDueToday(formsDue)
+    console.log(formsDue,'forms due')
+    // console.log('form Data',formData)
 
   }
 
