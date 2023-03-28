@@ -15,7 +15,6 @@ const QuestionView = (props) => {
 
     useEffect(() => {
         if (props.question.questionOrder in props.response.formAnswer) {
-            console.log(props.response.formAnswer[props.question.questionOrder][0])
             setFile(props.response.formAnswer[props.question.questionOrder][0]);
             props.handleFileUpload(props.question.questionOrder, ['current', props.response.formAnswer[props.question.questionOrder][0], props.response.formAnswer[props.question.questionOrder][1]]);
         }

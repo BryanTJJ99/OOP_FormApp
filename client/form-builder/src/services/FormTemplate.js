@@ -48,3 +48,14 @@ export async function deleteFormTemplate(formTemplateId) {
         return error; 
     }
 }
+
+export async function updateFormTemplate(formTemplate) { 
+    let api_url = 'http://localhost:8080/formTemplate/edit'; 
+    try { 
+        const response = await axios.patch(api_url, formTemplate); 
+        console.log('response ', response); 
+        return response.data; 
+    } catch(error) { 
+        return error; 
+    }
+}

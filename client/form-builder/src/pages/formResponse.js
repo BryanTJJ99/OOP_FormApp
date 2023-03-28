@@ -167,7 +167,7 @@ const FormResponse = (props) => {
                         console.log(error.message);
                     })
             })
-
+        setUserRole(getCurrentUserRole());
     }, [])
 
     function toTitleCase(str) {
