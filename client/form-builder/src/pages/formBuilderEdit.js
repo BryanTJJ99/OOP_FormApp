@@ -3,16 +3,15 @@ import { Box } from '@mui/material';
 import { FormDetails, QuestionsSection, SubmitBtn } from '../components/formBuilder/index.js';
 import { Today } from '@mui/icons-material';
 import { createFormTemplate } from '../services/FormTemplate.js';
+import { getCurrentUser } from "../services/AuthService.js";
 
 const FormBuilder = (props) => {
     const [questionSectionArea, setQuestionSectionArea] = useState(null); 
+    const [user, setUser] = useState(null);
 
     function handleFormBuilderSubmit(e) { 
-        // ken remove the preventDefault once you are done checking. what it does is to prevent the page from reloading upon form submission.
-        e.preventDefault();
         const data = new FormData(e.currentTarget);
         let today = new Date().toJSON(); 
-        console.log(questionSectionArea);
         let sectionList = []; 
         let questionList = []; 
         let sectionOrder = 1; 
@@ -53,18 +52,16 @@ const FormBuilder = (props) => {
                 questionOrder++;
             }
         }
-        console.log(sectionList)
         let formTemplateData = {
             formName: data.get('formName'),
             formDescription: data.get('formDescription'),
             // bernice ken softcode createdBy once the GET params flow is set up
-            createdBy: "6413082b2c8abc263c9eecbf",
+            createdBy: user.id,
             createdAt: today,
             updatedAt: today,
             sections: sectionList,
             questions: questionList
         };
-        console.log(formTemplateData);
         createFormTemplate(formTemplateData)
             .then(response => {
                 console.log(response);
@@ -80,6 +77,11 @@ const FormBuilder = (props) => {
     function handleQuestionSectionArea(newQuestionSectionArea) { 
         setQuestionSectionArea(newQuestionSectionArea);
     }
+
+    useEffect(() => {
+        const user = getCurrentUser();
+        setUser(user);
+    }, []);
 
     return (
         <>
