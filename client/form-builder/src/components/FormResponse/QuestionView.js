@@ -11,15 +11,17 @@ const QuestionView = (props) => {
     const [radioValue, setRadioValue] = useState(props.response.formAnswer[props.question.questionOrder]);
     const [checkboxValue, setCheckboxValue] = useState(props.response.formAnswer[props.question.questionOrder]);
     const [ratingValue, setRatingValue] = useState(parseInt(props.response.formAnswer[props.question.questionOrder]));
-    const [textValue, setTextValue] = useState(props.response.formAnswer[props.question.questionOrder]); 
+    const [textValue, setTextValue] = useState(props.response.formAnswer[props.question.questionOrder]);
 
-    useEffect(() => { 
-        if (props.question.questionOrder in props.response.formAnswer) { 
-            setFile(props.response.formAnswer[props.question.questionOrder][0]); 
-        } 
+    useEffect(() => {
+        if (props.question.questionOrder in props.response.formAnswer) {
+            console.log(props.response.formAnswer[props.question.questionOrder][0])
+            setFile(props.response.formAnswer[props.question.questionOrder][0]);
+            props.handleFileUpload(props.question.questionOrder, ['current', props.response.formAnswer[props.question.questionOrder][0], props.response.formAnswer[props.question.questionOrder][1]]);
+        }
     }, [])
 
-    const handleRadioChange = (event) => { 
+    const handleRadioChange = (event) => {
         setRadioValue(event.target.value);
     }
 
@@ -33,7 +35,7 @@ const QuestionView = (props) => {
         setCheckboxValue(newCheckboxValue);
     }
 
-    const handleRatingChange = (event) => { 
+    const handleRatingChange = (event) => {
         setRatingValue(event.target.value)
     }
 
@@ -59,13 +61,13 @@ const QuestionView = (props) => {
 
     function specialQuestionType(questionType) {
         if (questionType === 'text') {
-            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => {setTextValue(e.target.value)}} sx={{ width: '100%' }} ></TextField>
+            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => { setTextValue(e.target.value) }} sx={{ width: '100%' }} ></TextField>
         } else if (questionType === 'textarea') {
-            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => {setTextValue(e.target.value)}} sx={{ width: '100%' }} multiline rows={4} ></TextField>
+            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => { setTextValue(e.target.value) }} sx={{ width: '100%' }} multiline rows={4} ></TextField>
         } else if (questionType === 'radio') {
             let choices = Array(0);
             for (let i = 0; i < props.question.choices.length; i++) {
-                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} onClick={handleRadioChange}/>)
+                choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} onClick={handleRadioChange} />)
             }
             return (
                 <FormControl sx={{ width: '100%' }}>
@@ -83,13 +85,13 @@ const QuestionView = (props) => {
             let choices = Array(0);
             for (let i = 0; i < props.question.choices.length; i++) {
                 let checked = false;
-                console.log(Object.keys(props.response.formAnswer), )
-                if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) { 
-                    if (Object.values(props.response.formAnswer[props.question.questionOrder]).includes(i.toString())) { 
-                        checked = true; 
+                console.log(Object.keys(props.response.formAnswer),)
+                if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
+                    if (Object.values(props.response.formAnswer[props.question.questionOrder]).includes(i.toString())) {
+                        checked = true;
                     }
                 }
-                choices.push(<FormControlLabel value={i} control={<Checkbox defaultChecked={checked}/>} label={props.question.choices[i]} onChange={handleCheckboxChange} />)
+                choices.push(<FormControlLabel value={i} control={<Checkbox defaultChecked={checked} />} label={props.question.choices[i]} onChange={handleCheckboxChange} />)
             }
             return (
                 <FormControl sx={{ width: '100%' }}>
@@ -155,17 +157,17 @@ const QuestionView = (props) => {
         } else if (questionType === 'file') {
             let fileBase64Array = props.response.formAnswer[props.question.questionOrder];
             // var base64String = document.getElementById("Base64StringTxtBox").value;
-            let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file} name={props.question.questionOrder.toString()}/>)
+            let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file} name={props.question.questionOrder.toString()} />)
             console.log(Object.keys(props.response.formAnswer), props.question.questionOrder)
-            if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) { 
+            if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                 // const downloadLink = document.createElement("a");
                 // downloadLink.href = fileBase64String;
                 // downloadLink.download = "convertedPDFFile.pdf";
                 // downloadLink.click();
                 fileElement = (<div className='d-block'>
-                                <MuiFileInput onChange={handleFileChange} label="Select a new file" value={file} sx={{display:'block', marginBottom:2}}/>
-                                <Button component="a" href={"data:"+fileBase64Array[1]+";base64," + fileBase64Array[0]} download="userInputFile" variant="contained" sx={{padding:2, display:'block'}}><AttachFileIcon sx={{marginRight:1}}/>Download Submitted File</Button>
-                            </div>)
+                    <MuiFileInput onChange={handleFileChange} label="Select a new file" value={file} sx={{ display: 'block', marginBottom: 2 }} />
+                    <Button component="a" href={"data:" + fileBase64Array[1] + ";base64," + fileBase64Array[0]} download="userInputFile" variant="contained" sx={{ padding: 2, display: 'block' }}><AttachFileIcon sx={{ marginRight: 1 }} />Download Submitted File</Button>
+                </div>)
             }
             return (
                 <div className='d-flex'>

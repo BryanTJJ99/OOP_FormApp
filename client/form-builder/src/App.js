@@ -140,10 +140,10 @@ function App() {
                                     path="VendorProfilePage"
                                     element={<VendorProfilePage />}
                                 />
-                                {/* <Route
+                                <Route
                                     path="ClientProject"
                                     element={<ClientProject />}
-                                /> */}
+                                />
 
                             </Route>
                         </Routes>
