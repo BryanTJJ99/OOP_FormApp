@@ -73,10 +73,12 @@ const Choices = (props) => {
 
     useEffect(() => {
         let finalChoiceList = []; 
+        console.log(choicesList)
         for (let ch of choicesList) { 
             finalChoiceList.push(choicesLabels[ch.key])
         }
         setHiddenInput(<input type='hidden' name={props.questionId + 'choices'} value={finalChoiceList}></input>)
+        console.log(finalChoiceList)
     }, [choicesLabels, choicesList])
 
     return (

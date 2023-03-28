@@ -5,7 +5,7 @@ import { Today } from '@mui/icons-material';
 import { updateFormTemplate, getFormTemplateById } from '../services/FormTemplate.js';
 import { getCurrentUser } from "../services/AuthService.js";
 
-const FormBuilder = (props) => {
+const FormBuilderEdit = (props) => {
     const [questionSectionArea, setQuestionSectionArea] = useState(null); 
     const [user, setUser] = useState(null);
     const [formTemplateId, setFormTemplateId] = useState(null); 
@@ -13,6 +13,7 @@ const FormBuilder = (props) => {
     const [formContent, setFormContent] = useState(null);
 
     function handleFormBuilderSubmit(e) { 
+        e.preventDefault();
         const data = new FormData(e.currentTarget);
         let today = new Date().toJSON(); 
         let sectionList = []; 
@@ -20,11 +21,17 @@ const FormBuilder = (props) => {
         let sectionOrder = 1; 
         let questionOrder = 1; 
         let sectionInFocus; 
+        console.log(questionSectionArea)
         for (let item of questionSectionArea) { 
             let itemId = item.key; 
             if (itemId.includes("Section")) { 
                 sectionInFocus = sectionOrder; 
+                let currSectionId = null; 
+                if (data.get(itemId + 'sectionId')) { 
+                    currSectionId = data.get(itemId + 'sectionId'); 
+                }
                 sectionList.push({
+                    sectionId: currSectionId, 
                     sectionName: data.get(itemId + 'sectionName'),
                     sectionOrder: sectionOrder,
                     assignedTo: data.get(itemId + 'assignedTo'),
@@ -34,7 +41,12 @@ const FormBuilder = (props) => {
                 sectionOrder++; 
             } else { 
                 let questionType = data.get(itemId + 'questionType');
+                let currQuestionId = null; 
+                if (data.get(itemId + 'questionId')) { 
+                    currQuestionId = data.get(itemId + 'questionId'); 
+                }
                 let questionObj = {
+                    questionId: currQuestionId, 
                     questionTitle: data.get(itemId + 'questionTitle'),
                     questionOrder: questionOrder,
                     belongsToSection: sectionInFocus,
@@ -56,6 +68,7 @@ const FormBuilder = (props) => {
             }
         }
         let formTemplateData = {
+            formTemplateId: formTemplateId,
             formName: data.get('formName'),
             formDescription: data.get('formDescription'),
             createdBy: user.id,
@@ -78,6 +91,7 @@ const FormBuilder = (props) => {
     }
 
     function handleQuestionSectionArea(newQuestionSectionArea) { 
+        console.log(newQuestionSectionArea);
         setQuestionSectionArea(newQuestionSectionArea);
     }
 
@@ -91,11 +105,11 @@ const FormBuilder = (props) => {
         getFormTemplateById(formTemplateId)
             .then(response => { 
                 setFormTemplate(response); 
-                setFormContent(<Box component="form" onSubmit={handleFormBuilderSubmit}>
+                setFormContent(<div>
                                     <FormDetails formTemplate={response} />
                                     <QuestionsSection handleQuesSecUpdate={handleQuestionSectionArea} formTemplate={response} />
                                     <SubmitBtn />
-                                </Box>);
+                                </div>);
             })
             .catch(error => { 
                 console.log(error.message);
@@ -103,18 +117,20 @@ const FormBuilder = (props) => {
     }, [])
 
     useEffect(() => { 
-        
-    }, [formTemplate])
+        console.log(questionSectionArea)
+    }, [questionSectionArea])
 
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
-            {formContent}
+            <Box component="form" onSubmit={handleFormBuilderSubmit}>
+                {formContent}
+            </Box>
         </>
     );
 };
 
-export default FormBuilder;
+export default FormBuilderEdit;
 //const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<FormBuilder />);

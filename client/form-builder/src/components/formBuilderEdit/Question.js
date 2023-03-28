@@ -54,6 +54,7 @@ const Question = (props) => {
     return (
         
         <Card id={"Question" + props.questionNum} className='mb-2'>
+            <input type='hidden' name={"Question" + props.questionNum + 'questionId'} value={props.questionInput.questionId}></input>
             <div className="card-header d-flex justify-content-between align-items-center">
                 <div className="d-flex w-75">
                     <TextField name={"Question" + props.questionNum + 'questionTitle'} variant='standard' placeholder={`Question ${props.questionNum} Title`} onChange={(event) => setQuestionTitle(event.target.value)} value={questionTitle} fullWidth required></TextField>
