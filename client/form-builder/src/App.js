@@ -19,6 +19,7 @@ import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Project from "./pages/ProjectPage";
 import RequireAuth from "./components/Authentication/AuthenticationFilter";
 import VendorProfilePage from "./pages/VendorProfilePage";
+import ProjectView from "./pages/ProjectView";
 
 // Incomplete pages for the time being to be edited and integrated with the RBAC routing structure on App.js
 // import ClientProject from "./pages/clientProject";
@@ -130,7 +131,12 @@ function App() {
                                     path="FormResponse"
                                     element={<FormResponse />}
                                 />
+                                <Route
+                                    path="ProjectView"
+                                    element={<ProjectView/>}
+                                />
                             </Route>
+                    
 
                             {/* Protected routes for Vendor to be updated with additional routes if needed, 
                             if have MiniDrawer also need to reflect the same changes */}

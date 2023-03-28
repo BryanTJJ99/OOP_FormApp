@@ -31,18 +31,19 @@
 // }
 
 
-// export async function getUserByUsername(username) {
-//     const api_url = 'http://localhost:8080/api/admin/user/' + username;
-//     try {
-//         const response = await axios.get(api_url);
-//         const forms = response.data;
-//         return forms
-//     }
+
+export async function getUserByUsername(username) {
+    const api_url = 'http://localhost:8080/api/admin/user/' + encodeURIComponent(username);
+    try {
+        const response = await axios.get(api_url);
+        const forms = response.data;
+        return forms
+    }
     
-//     catch (error) {
-//         console.log(error.message);
-//     }
-// }
+    catch (error) {
+      console.log(error.message);
+    }
+}
 
 
 // // export async function createProject(data) { 

@@ -63,4 +63,14 @@ public class FormResponseServiceImp implements FormResponseService {
         return formResponseRepository.findFormsWithinDateRange(start, end);
     }
 
+    @Override
+    public FormResponse deleteFormResponse(FormResponse formResponseToDelete) {
+        String formResponseID = formResponseToDelete.getFormResponseId();
+        FormResponse deletedFormResponse = formResponseRepository.findById(formResponseID).get();
+        if (deletedFormResponse != null) {
+            deletedFormResponse.setDeletedAt(new Date());
+        }
+        return formResponseRepository.save(deletedFormResponse);
+    }
+
 }

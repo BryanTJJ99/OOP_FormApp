@@ -48,12 +48,15 @@ public class FormResponseController {
 
     @GetMapping("/{formTemplateId}/{vendorProjectId}")
     @CrossOrigin
-    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(@PathVariable("formTemplateId") String formTemplateId, @PathVariable("vendorProjectId") String vendorProjectId) {
+    public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(
+            @PathVariable("formTemplateId") String formTemplateId,
+            @PathVariable("vendorProjectId") String vendorProjectId) {
         return formResponseService.getFormResponsebyFormTemplateAndVendorProject(formTemplateId, vendorProjectId);
     }
 
     @PostMapping("/initialise")
-    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = { RequestMethod.GET,
+            RequestMethod.POST })
     @ResponseStatus(HttpStatus.CREATED)
     public void initialiseForm(@RequestBody FormResponse formResponse) {
         formResponseService.addFormResponse(formResponse);
@@ -72,29 +75,38 @@ public class FormResponseController {
         return formResponseService.updateFormResponse(formResponse);
     }
 
-    
+    @PatchMapping("/delete")
+    @CrossOrigin
+    public FormResponse deletFormResponse(@RequestBody FormResponse formResponse) {
+        return formResponseService.deleteFormResponse(formResponse);
+    }
+
     // @PostMapping("/create")
     // @CrossOrigin
-    // public void createForm(@RequestPart("formResponse") String formResponseData, @RequestPart("fileMap") Map<String, Object> fileMap) throws JsonProcessingException {
-    //     System.out.println("--------woeifowejfioe--------");
-    //     ObjectMapper mapper = new ObjectMapper();
-    //     FormResponse formResponse = mapper.readValue(formResponseData, FormResponse.class);
-    //     System.out.println(fileMap);
-    //     formResponseService.addFormResponse(formResponse);
+    // public void createForm(@RequestPart("formResponse") String formResponseData,
+    // @RequestPart("fileMap") Map<String, Object> fileMap) throws
+    // JsonProcessingException {
+    // System.out.println("--------woeifowejfioe--------");
+    // ObjectMapper mapper = new ObjectMapper();
+    // FormResponse formResponse = mapper.readValue(formResponseData,
+    // FormResponse.class);
+    // System.out.println(fileMap);
+    // formResponseService.addFormResponse(formResponse);
     // }
 
     // @PostMapping("/updateFiles/{id}")
     // @CrossOrigin
-    // public void updateFiles(@RequestBody Map<String, MultipartFile> fileMap, @PathVariable String id) throws IOException { 
-    //     for (Map.Entry<String, MultipartFile> entry : fileMap.entrySet()) { 
-    //         String key = entry.getKey();
-    //         MultipartFile file = entry.getValue();
+    // public void updateFiles(@RequestBody Map<String, MultipartFile> fileMap,
+    // @PathVariable String id) throws IOException {
+    // for (Map.Entry<String, MultipartFile> entry : fileMap.entrySet()) {
+    // String key = entry.getKey();
+    // MultipartFile file = entry.getValue();
 
-    //         byte[] bytes = file.getBytes();
-    //         String base64 = Base64.getEncoder().encodeToString(bytes);
+    // byte[] bytes = file.getBytes();
+    // String base64 = Base64.getEncoder().encodeToString(bytes);
 
-    //         formResponseService.updateFormAnswerValue(id, key, base64);
-    //     }
+    // formResponseService.updateFormAnswerValue(id, key, base64);
+    // }
     // }
 
 }
