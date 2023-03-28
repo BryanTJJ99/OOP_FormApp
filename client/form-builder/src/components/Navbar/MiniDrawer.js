@@ -354,7 +354,7 @@ export default function MiniDrawer({children}) {
             </Link>
           </ListItem>}
 
-          {currentUser && <ListItem key="Logout" disabledPadding sx={{display:'block'}} 
+          {currentUser && <ListItem key="Logout" sx={{display:'block'}} 
             onClick={() => {
               logOut()
               setPage("Logout")
