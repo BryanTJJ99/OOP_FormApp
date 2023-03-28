@@ -38,4 +38,20 @@ public class FormTemplateServiceImp implements FormTemplateService {
         }
         return formTemplateRepository.save(formTemplateToDelete);
     }
+
+    @Override
+    public FormTemplate updateFormTemplate(FormTemplate formTemplateToUpdate) {
+        String formTemplateToEditID = formTemplateToUpdate.getFormTemplateId();
+        FormTemplate updatedFormTemplate = formTemplateRepository.findById(formTemplateToEditID).get();
+        if (updatedFormTemplate != null) {
+            updatedFormTemplate.setFormName(formTemplateToUpdate.getFormName());
+            updatedFormTemplate.setFormDescription(formTemplateToUpdate.getFormDescription());
+            updatedFormTemplate.setUpdatedAt(new Date());
+            updatedFormTemplate.setSections(formTemplateToUpdate.getSections());
+            updatedFormTemplate.setQuestions(formTemplateToUpdate.getQuestions());
+            return formTemplateRepository.save(updatedFormTemplate);
+        }
+        return null;
+
+    }
 }

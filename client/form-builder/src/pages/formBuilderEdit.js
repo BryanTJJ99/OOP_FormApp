@@ -3,19 +3,18 @@ import { Box } from '@mui/material';
 import { FormDetails, QuestionsSection, SubmitBtn } from '../components/formBuilderEdit/index.js';
 import { Today } from '@mui/icons-material';
 import { updateFormTemplate, getFormTemplateById } from '../services/FormTemplate.js';
+import { getCurrentUser } from "../services/AuthService.js";
 
 const FormBuilder = (props) => {
     const [questionSectionArea, setQuestionSectionArea] = useState(null); 
+    const [user, setUser] = useState(null);
     const [formTemplateId, setFormTemplateId] = useState(null); 
     const [formTemplate, setFormTemplate] = useState(null); 
     const [formContent, setFormContent] = useState(null);
 
     function handleFormBuilderSubmit(e) { 
-        // ken remove the preventDefault once you are done checking. what it does is to prevent the page from reloading upon form submission.
-        e.preventDefault();
         const data = new FormData(e.currentTarget);
         let today = new Date().toJSON(); 
-        console.log(questionSectionArea);
         let sectionList = []; 
         let questionList = []; 
         let sectionOrder = 1; 
@@ -56,10 +55,11 @@ const FormBuilder = (props) => {
                 questionOrder++;
             }
         }
-        console.log(sectionList)
         let formTemplateData = {
             formName: data.get('formName'),
             formDescription: data.get('formDescription'),
+            createdBy: user.id,
+            createdAt: today,
             updatedAt: today,
             sections: sectionList,
             questions: questionList
@@ -82,6 +82,8 @@ const FormBuilder = (props) => {
     }
 
     useEffect(() => {
+        const user = getCurrentUser();
+        setUser(user);
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const formTemplateId = urlParams.get('formTemplateId');
