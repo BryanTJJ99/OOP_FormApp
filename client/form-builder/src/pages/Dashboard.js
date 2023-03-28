@@ -2,6 +2,7 @@ import React from 'react';
 import NameAvatar from '../components/Dashboard/NameAvatar';
 import RecentUsersWidget from '../components/Dashboard/RecentUsersWidget';
 import FormStatusWidget from '../components/Dashboard/FormStatusWidget';
+import CircularLoading from '../components/Dashboard/CircularLoading';
 import StatusChip from '../components/Dashboard/StatusChip';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Typography, Button, Grid, Paper, Box, Link, Tooltip } from '@mui/material';
@@ -18,7 +19,6 @@ import { useState, useEffect } from 'react';
 import { getAllVendors , getAllProjects , getAllFormResponses,} from '../services/DashboardAPI';
 import { getAllFormTemplate } from '../services/FormTemplate.js';
 import { getAllUsers } from '../services/User.js';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 
 
@@ -155,6 +155,7 @@ const Dashboard = () => {
   const [formTemplates, setFormTemplates] = useState({}); 
   const [users, setUsers] = useState({}); 
   const [projects, setProjects] = useState({}); 
+  const [isLoading, setIsLoading] = useState(true);
   // obtaining the form response data
   useEffect(() => {
     const fetchFormResponses = async () => {
@@ -166,6 +167,7 @@ const Dashboard = () => {
       // status
       // deadline
       setFormResponses(formResponses)
+      console.log(formResponses,'setState for formresponses triggerd')
       return formResponses
     }
     // obtain formTemplate data
@@ -204,12 +206,12 @@ const Dashboard = () => {
     Promise.allSettled([fetchFormResponses(),fetchFormTemplates(),fetchUserData(),fetchProjectData()]).then((response) => {
       // buggy, if console log not running then formatData wont run properly
       console.log('promiseAll reponse',response)
-      console.log(response[0])
-      console.log(response[1])
-      console.log(response[2])
-      console.log(response[3])
-      formatData(formResponses)
-
+      // console.log(response[0])
+      // console.log(response[1])
+      // console.log(response[2])
+      // console.log(response[3])
+      formatData(response[0].value)
+      setIsLoading(false);
     }
     )
   }
@@ -225,6 +227,8 @@ const Dashboard = () => {
     // let projectDataDict = promiseResponse[3].value
     // console.log('proj data dict',projectDataDict)
     let counter = 1
+    console.log(formResponses)
+    console.log(' form responses')
     for (let formResponse of formResponses){
       let templateId = formResponse.formTemplateId; 
       // let templateName = formTemplateDict[templateId]; 
@@ -318,6 +322,7 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
+      {isLoading && <CircularLoading/>}
       <Grid container spacing={2} style={{height:"100%"}}>
         <Grid item xs={4}>
           <Item><ProjectWidget/></Item>
@@ -327,7 +332,9 @@ const Dashboard = () => {
           {/* <Item><UserWidget/></Item> */}
         </Grid>
         <Grid item xs={4}>
-          <Item><FormStatusWidget/></Item>
+          <Item>
+            <FormStatusWidget/>
+          </Item>
         </Grid>
         {/* <Grid item xs={8}>
           <Item>
