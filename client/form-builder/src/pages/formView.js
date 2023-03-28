@@ -11,6 +11,7 @@ const FormView = (props) => {
     const [formInfo, setFormInfo] = useState(null);
     const [allFormResponseId, setAllFormResponseId] = useState(null);
     const [deleteFail, setDeleteFail] = useState(false);
+    const [editButton, setEditButton] = useState(null);
 
     useEffect(() => { 
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
@@ -72,6 +73,7 @@ const FormView = (props) => {
                 }
             }
             setQuestionsSectionArea(newQuestionsSectionArea);
+            setEditButton(<Button variant="contained" className="ms-3" href={"/FormBuilderEdit?formTemplateId=" + formTemplate.formTemplateId} color='cyan'>Edit</Button>)
         }
     }, [formTemplate])
 
@@ -123,7 +125,7 @@ const FormView = (props) => {
             {formInfo}
             <div className='d-flex mt-4 justify-content-end'>
                 <Button variant="contained" onClick={printPage} color='grey'>Print</Button>
-                <Button variant="contained" className="ms-3" onClick={editForm} color='cyan'>Edit</Button>
+                {editButton}
                 <Button variant="contained" className="me-5 ms-3" onClick={deleteForm} color='error' >Delete</Button>
             </div>
             {questionsSectionArea.map((item) => { 

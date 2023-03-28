@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
+import FormBuilderEdit from "./pages/formBuilderEdit";
 import FormView from "./pages/formView";
 import FormResponse from "./pages/formResponse";
 import MiniDrawer from './components/Navbar/MiniDrawer'
@@ -120,6 +121,10 @@ function App() {
                                 <Route
                                     path="FormBuilder"
                                     element={<FormBuilder />}
+                                />
+                                <Route
+                                    path="FormBuilderEdit"
+                                    element={<FormBuilderEdit />}
                                 />
                                 <Route
                                     path="FormResponse"

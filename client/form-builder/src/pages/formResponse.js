@@ -59,14 +59,10 @@ const FormResponse = (props) => {
             }
             console.log(i)
             if (i in fileMap) {
-                console.log("oiefhoeif", i)
                 let fileToStore = fileMap[(i).toString()];
-                console.log("elikfw", typeof fileToStore)
                 if (!(fileToStore instanceof File)) {
-                    console.log("is not file", fileToStore)
                     dataToStore = [fileToStore[1], fileToStore[2]];
                 } else {
-                    console.log("is file")
                     let file_type = fileToStore.type;
                     const reader = new FileReader();
                     // reader.readAsDataURL(fileToStore);
@@ -178,8 +174,7 @@ const FormResponse = (props) => {
                         console.log(error.message);
                     })
             })
-        console.log(getCurrentUserRole())
-
+        setUserRole(getCurrentUserRole());
     }, [])
 
     function toTitleCase(str) {
