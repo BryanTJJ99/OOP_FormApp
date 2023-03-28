@@ -1,7 +1,7 @@
 import React from "react";
 import { styled, useTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, Grid, Paper, Typography } from "@mui/material";
-import { getCurrentUser} from "../services/AuthService";
+import { getCurrentUser } from "../services/AuthService";
 
 const Settings = () => {
     const currentUser = getCurrentUser();

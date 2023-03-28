@@ -32,9 +32,17 @@ export function authLogOut() {
 }
 
 export function getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        return user;
+    }
+    return null;
 }
 
 export function getCurrentUserRole() {
-    return JSON.parse(localStorage.getItem('user')).role;
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        return user.roles[0];
+    }
+    return null;
 }
