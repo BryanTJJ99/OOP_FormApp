@@ -133,12 +133,12 @@ const ProjectCreationPage1 = (props) => {
                     options={vendorData}
                     getOptionLabel={(option) => option.name}
                     value={vendorData.filter((option) =>
-                        projectData.vendorCompanyName.includes(option.name)
+                        projectData.vendorCompanyName.includes(option.username)
                     )}
                     onChange={(event, newValue) => {
                         handleProjectDataChange(
                             "vendorCompanyName",
-                            newValue.map((option) => option.name)
+                            newValue.map((option) => option.username)
                         );
                     }}
                     renderTags={(value, getTagProps) =>
@@ -146,7 +146,7 @@ const ProjectCreationPage1 = (props) => {
                             <Chip
                                 variant="outlined"
                                 label={option.name}
-                                key={option.name}
+                                key={option.username}
                                 {...getTagProps({ index })}
                                 style={{
                                     display: "inline-flex",

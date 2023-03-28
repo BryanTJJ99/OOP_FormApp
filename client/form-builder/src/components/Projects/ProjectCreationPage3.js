@@ -193,11 +193,9 @@ const ProjectCreationPage3 = (props) => {
                                 Vendor Name(s):
                             </TableCell>
                             <TableCell align="center">
-                                {props.projectData.vendorCompanyName.map(
-                                    (item) => (
-                                        <Chip label={item} key={item} />
-                                    )
-                                )}
+                                {vendors.map((vendor)=>{
+                                    return <Chip label={vendor.name} key={vendor.name} />
+                                })}
                             </TableCell>
                         </TableRow>
                         <TableRow>

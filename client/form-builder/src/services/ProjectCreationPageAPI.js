@@ -32,7 +32,7 @@ export async function getFormTemplateData() {
 
 
 export async function getUserByUsername(username) {
-    const api_url = 'http://localhost:8080/api/admin/user/' + username;
+    const api_url = 'http://localhost:8080/api/admin/user/' + encodeURIComponent(username);
     try {
         const response = await axios.get(api_url);
         const forms = response.data;
