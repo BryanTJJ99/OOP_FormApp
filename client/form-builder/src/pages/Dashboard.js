@@ -1,7 +1,8 @@
 import React from 'react';
 import NameAvatar from '../components/Dashboard/NameAvatar';
-import RecentUsersWidget from '../components/Dashboard/RecentUsersWidget';
 import FormStatusWidget from '../components/Dashboard/FormStatusWidget';
+import RecentUsersWidget from '../components/Dashboard/RecentUsersWidget';
+import FormsDueWidget from '../components/Dashboard/FormsDueWidget';
 import CircularLoading from '../components/Dashboard/CircularLoading';
 import StatusChip from '../components/Dashboard/StatusChip';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
@@ -16,7 +17,7 @@ import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import { getAllVendors , getAllProjects , getAllFormResponses,} from '../services/DashboardAPI';
+import { getAllVendors , getAllProjects , getAllFormResponses } from '../services/DashboardAPI';
 import { getAllFormTemplate } from '../services/FormTemplate.js';
 import { getAllUsers } from '../services/User.js';
 
@@ -167,7 +168,7 @@ const Dashboard = () => {
       // status
       // deadline
       setFormResponses(formResponses)
-      console.log(formResponses,'setState for formresponses triggerd')
+      console.log(formResponses,'formResponses')
       return formResponses
     }
     // obtain formTemplate data
@@ -201,11 +202,13 @@ const Dashboard = () => {
       setProjects(newProjectDict);
       return newProjectDict
     }
+    // obtain forms due 
+   
     // function calls
     // chain to promiseAll and formatData
     Promise.allSettled([fetchFormResponses(),fetchFormTemplates(),fetchUserData(),fetchProjectData()]).then((response) => {
       // buggy, if console log not running then formatData wont run properly
-      console.log('promiseAll reponse',response)
+      // console.log('promiseAll reponse',response)
       // console.log(response[0])
       // console.log(response[1])
       // console.log(response[2])
@@ -219,25 +222,26 @@ const Dashboard = () => {
 
   const formatData = (formResponses) => {
     let formData = []
-    // let formResponses = promiseResponse[0].value
-    // let formTemplateDict = promiseResponse[1].value
-    // console.log('form template dict',formTemplateDict)
-    // let userDataDict = promiseResponse[2].value
-    // console.log('user data dict',userDataDict)
-    // let projectDataDict = promiseResponse[3].value
-    // console.log('proj data dict',projectDataDict)
+    // let formsDue = []
+    // const today = new Date()
+    // let tomorrow  = new Date()
+    // let following = new Date()
+    // tomorrow.setDate(today.getDate()+1)
+    // following.setDate(today.getDate()+2)
+    // const upcoming = [today,tomorrow,following]
     let counter = 1
-    console.log(formResponses)
-    console.log(' form responses')
+
     for (let formResponse of formResponses){
       let templateId = formResponse.formTemplateId; 
       // let templateName = formTemplateDict[templateId]; 
       let templateName = formTemplates[templateId]; 
       // let vendor = userDataDict[formResponse.vendorId]
+      let deadline = formResponse.vendorDeadLine;
+      // console.log(formResponse.deadline,'deadline')
       if(formResponse.Id in users){
         var vendor = users[formResponse.vendorId]
       } else{
-        console.log('vendor error')
+        // console.log('vendor error')
         var vendor = ['dummy1','dummy@gmail.com']
       }
       // let project = projectDataDict[formResponse.projectId]
@@ -257,12 +261,20 @@ const Dashboard = () => {
         vendorName: vendor[0],
         email: vendor[1],
         projectName: project,
-        link: '/FormResponse?formResponseId='+formResponse.formResponseId
+        link: '/FormResponse?formResponseId='+formResponse.formResponseId,
+        dueDate: deadline,
       }
+      // console.log(deadline,'deadline')
+      // if (upcoming.includes(deadline)){
+      //   formsDue.push(formEntry)
+      // }
       formData.push(formEntry)
       counter++
-    } setFormData(formData)
-    console.log('form Data',formData)
+    } 
+    setFormData(formData)
+    // setFormsDueToday(formsDue)
+    // console.log(formsDue,'forms due')
+    // console.log('form Data',formData)
 
   }
 
@@ -336,6 +348,11 @@ const Dashboard = () => {
             <FormStatusWidget/>
           </Item>
         </Grid>
+        <Grid item xs={12}>
+          <Item>
+            <FormsDueWidget/>
+          </Item>
+        </Grid>
         {/* <Grid item xs={8}>
           <Item>
           <AreaChart
@@ -358,26 +375,18 @@ const Dashboard = () => {
             <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
           </AreaChart>
           </Item>
-        </Grid> */}
-        <Grid item xs={12}>
-          <Item  sx={{p:2}}>
-            <Typography variant="h4">
-              Try filtering and sorting by form status<br/>
-              or form name below
-            </Typography>
-          </Item>
-        </Grid>
-        
+        </Grid> */}     
         <Grid item xs={12}>
           <Item sx={{m:0,p:0}}>
-            <Box sx={{ height: 632,width:"100%", boxShadow:0}}>
+            <Tooltip title="Switch to toggle filter and sort " placement="top-end">
+            <Box sx={{ height: 423,width:"100%", boxShadow:0}}>
             <DataGrid
               rows={formData}
               columns={columns}
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 10,
+                    pageSize: 6,
                   },
                 },
               }}
@@ -386,6 +395,7 @@ const Dashboard = () => {
               disableRowSelectionOnClick
             />
             </Box>
+            </Tooltip>
           </Item>
         </Grid>
       </Grid>

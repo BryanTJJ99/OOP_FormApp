@@ -13,6 +13,12 @@ import { ListItemIcon, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState, useEffect, Fragment } from 'react';
 import { getAllFormResponses } from '../../services/DashboardAPI';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 export default function FormStatusWidget(){
     const [statuses,setStatuses] = useState({})
@@ -41,23 +47,27 @@ export default function FormStatusWidget(){
     }
     return (
         <Box sx={{height: 350 ,pt:1,px:2}} variant="outlined">
-          <Typography variant="h4" sx={{mt:2}}>
+          <Typography variant="h4" sx={{my:1}}>
             Forms in Status
           </Typography>
-          <List>
+          <Table sx={{ width: 350, overflow: "scroll", width: '100%', [`& .${tableCellClasses.root}`]: {borderBottom: "none" } }}>
+            <TableBody>
             {Object.keys(statuses).map((stat,idx)=>(
-                <Fragment  key={idx}>
-                <ListItem sx={{ m:0,p:1 }}>
-                  <Box display="flex" width="80%" marginX="auto" justifyContent="center">
-                    <ListItemText><StatusChip status={stat}/></ListItemText>
-                    <ListItemText>{statuses[stat]}</ListItemText>
-                  </Box>
-                </ListItem>
-                {idx!=5 && <Divider/>}
-                </Fragment>
+                <>
+                <TableRow
+                key={idx}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }, p:0, m:0 }}
+                >
+                <TableCell component="th" scope="row" sx={{p:0,m:0}}>
+                  <StatusChip status={stat}/>
+                </TableCell>
+                <TableCell align="center"><Typography sx={{p:0,m:0,}}>{statuses[stat]}</Typography></TableCell>
+                </TableRow>
+                </>  
             ))
             }
-          </List>
+            </TableBody>
+          </Table>
         </Box>
     );
 }
