@@ -11,7 +11,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import StatusChip from './StatusChip'
 import { ListItemIcon, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { getAllFormResponses } from '../../services/DashboardAPI';
 
 export default function FormStatusWidget(){
@@ -41,20 +41,20 @@ export default function FormStatusWidget(){
     }
     return (
         <Box sx={{height: 350 ,pt:1,px:2}} variant="outlined">
-          <Typography variant="h4" sx={{my:2}}>
+          <Typography variant="h4" sx={{mt:2}}>
             Forms in Status
           </Typography>
           <List>
             {Object.keys(statuses).map((stat,idx)=>(
-                <>
-                <ListItem key={idx} sx={{ m:0,p:0 }}>
+                <Fragment  key={idx}>
+                <ListItem sx={{ m:0,p:1 }}>
                   <Box display="flex" width="80%" marginX="auto" justifyContent="center">
                     <ListItemText><StatusChip status={stat}/></ListItemText>
                     <ListItemText>{statuses[stat]}</ListItemText>
                   </Box>
                 </ListItem>
                 {idx!=5 && <Divider/>}
-                </>
+                </Fragment>
             ))
             }
           </List>
