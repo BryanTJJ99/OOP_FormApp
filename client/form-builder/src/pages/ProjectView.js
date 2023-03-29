@@ -82,22 +82,20 @@ const ProjectView = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        // const queryString = window.location.search;
-        // const urlParams = new URLSearchParams(queryString);
-        // const projectId = urlParams.get('projectId')
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const projectId = urlParams.get('projectId')
+        console.log(projectId);
         async function getAllDataForProjectView() {
-            let foundProject = await getProjectById("64232a433e2ea00149171965");
+            let foundProject = await getProjectById(projectId);
 
             setProject(foundProject);
             setProjectName(foundProject.projectName);
             setProjectDescription(foundProject.projectDescription);
             setVendorIds(foundProject.vendorId);
 
-            for (const vendorId of foundProject.vendorId) {
-                let vendorResponse = await getUserById(vendorId);
-                vendors.push(vendorResponse);
-                setVendors(vendors);
-            }
+            const fetchedVendors = await Promise.all(foundProject.vendorId.map((vendorId) => getUserById(vendorId)));
+            setVendors(fetchedVendors);
 
             console.log(vendors);
             const newRows = await Promise.allSettled(
