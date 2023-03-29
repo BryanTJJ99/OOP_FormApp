@@ -11,6 +11,8 @@ public interface FormResponseService {
 
     public Optional<FormResponse> getFormResponseById(String id);
 
+    public List<FormResponse> getByVendorIdAndProjectId(String vendorId, String projectId);
+
     public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
             String vendorProjectId);
 
