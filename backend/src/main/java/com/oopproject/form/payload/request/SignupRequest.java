@@ -1,5 +1,7 @@
 package com.oopproject.form.payload.request;
 
+import com.oopproject.form.models.User.User;
+
 public class SignupRequest {
 
     private String username;
@@ -8,6 +10,7 @@ public class SignupRequest {
     private String role;
     private String password;
     private String country;
+    private User createdBy;
 
     public String getUsername() {
         return username;
@@ -55,5 +58,13 @@ public class SignupRequest {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 }

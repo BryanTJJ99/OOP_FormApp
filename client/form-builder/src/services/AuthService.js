@@ -1,26 +1,36 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:8080/api/auth/';
+const API_URL = "http://localhost:8080/api/auth/";
 
-export function authRegister(username, name, email, password, role, country) {
-    return axios.post(API_URL + 'createUser', {
+export function authRegister(
+    username,
+    name,
+    email,
+    password,
+    role,
+    country,
+    createdBy
+) {
+    return axios.post(API_URL + "createUser", {
         username,
         name,
         email,
         password,
-        role, 
-        country
+        role,
+        country,
+        createdBy,
     });
 }
 
 export function authLogIn(username, password) {
-    return axios.post(API_URL + 'signin', {
+    return axios
+        .post(API_URL + "signin", {
             username,
-            password
+            password,
         })
-        .then(response => {
+        .then((response) => {
             if (response.data.accessToken) {
-                localStorage.setItem('user', JSON.stringify(response.data));
+                localStorage.setItem("user", JSON.stringify(response.data));
             }
 
             return response.data;
@@ -28,11 +38,11 @@ export function authLogIn(username, password) {
 }
 
 export function authLogOut() {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
 }
 
 export function getCurrentUser() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
         return user;
     }
@@ -40,7 +50,7 @@ export function getCurrentUser() {
 }
 
 export function getCurrentUserRole() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
         return user.roles[0];
     }

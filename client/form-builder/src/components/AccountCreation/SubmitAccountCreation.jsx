@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { authRegister } from "../../services/AuthService";
+import { authRegister, getCurrentUser } from "../../services/AuthService";
 
 // import axios from "axios";
 
@@ -31,13 +31,16 @@ const SubmitAccountCreation = (props) => {
 
         console.log(registrationData);
 
+        const currentUser = getCurrentUser();
+
         authRegister(
             registrationData.username,
             registrationData.name,
             registrationData.email,
             registrationData.password,
             registrationData.role,
-            registrationData.country
+            registrationData.country,
+            currentUser
         )
             .then((response) => {
                 console.log(response.data);
