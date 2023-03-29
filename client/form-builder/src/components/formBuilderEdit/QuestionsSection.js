@@ -16,28 +16,43 @@ const QuestionsSection = (props) => {
         Section1: {name: "", assignedTo: "vendor"}
     });
 
-    const sectionElement = <Section 
-                                sectionNum={sectionNumber} 
-                                key={'Section' + sectionNumber} 
-                                handleDeleteSection={handleDeleteQuesSec}
-                                handleSectionInputChange={handleSectionInputChange} 
-                            />;
-    const questionElement = <Question questionNum={questionNumber} key={'Question' + questionNumber} handleDeleteQuestion={handleDeleteQuesSec}/>;
+    function sectionElement(sectionInput, sectionNum=sectionNumber) { 
+        // let newSectionNumber = sectionNumber + 1;
+        // setSectionNumber(newSectionNumber);
+        return (<Section 
+                    sectionNum={sectionNum} 
+                    key={'Section' + sectionNum} 
+                    handleDeleteSection={handleDeleteQuesSec}
+                    handleSectionInputChange={handleSectionInputChange} 
+                    sectionInput={sectionInput}
+                />)
+    } 
+
+    function questionElement(questionInput, questionNum=questionNumber) { 
+        // let newQuestionNumber = questionNumber + 1; 
+        // setQuestionNumber(newQuestionNumber); 
+        return (<Question 
+                    questionNum={questionNum} 
+                    key={'Question' + questionNum} 
+                    handleDeleteQuestion={handleDeleteQuesSec}
+                    questionInput={questionInput}
+                />);
+    }
 
     function handleAddSection() {
-        let newSectionNumber = sectionNumber + 1;
-        let newQuestionNumber = questionNumber + 1; 
-        setSectionNumber(newSectionNumber);
-        setQuestionNumber(newQuestionNumber); 
+        // let newSectionNumber = sectionNumber + 1;
+        // let newQuestionNumber = questionNumber + 1; 
+        // setSectionNumber(newSectionNumber);
+        // setQuestionNumber(newQuestionNumber); 
         // handleSectionInputChange('Section' + sectionNumber)
-        let newQuestionArea = [...questionArea, sectionElement, questionElement];
+        let newQuestionArea = [...questionArea, sectionElement(''), questionElement('')];
         setQuestionArea(newQuestionArea);
     }
 
     function handleAddQuestion() {
-        let newQuestionNumber = questionNumber + 1;
-        setQuestionNumber(newQuestionNumber);
-        let newQuestionArea = [...questionArea, questionElement];
+        // let newQuestionNumber = questionNumber + 1;
+        // setQuestionNumber(newQuestionNumber);
+        let newQuestionArea = [...questionArea, questionElement('')];
         setQuestionArea(newQuestionArea);
     }
 
@@ -128,7 +143,43 @@ const QuestionsSection = (props) => {
     useEffect(() => {
         handleSectionInputChange('Section' + sectionNumber)
         console.log(quesSecInput)
-        handleAddSection()
+        console.log(props.formTemplate)
+        let questionSectionDict = {}; 
+        // let newSectionNumber = sectionNumber;
+        // let newQuestionNumber = questionNumber; 
+        for (let section of props.formTemplate.sections) { 
+            questionSectionDict[section.sectionOrder] = [];
+            // newSectionNumber++; 
+        }
+        for (let question of props.formTemplate.questions) { 
+            questionSectionDict[question.belongsToSection].push(question);
+            // newQuestionNumber++; 
+        }
+        let newQuestionsSectionArea = [];
+        let newSectionNumber = sectionNumber;
+        let newQuestionNumber = questionNumber; 
+        for (let sectionOrderKey in questionSectionDict) { 
+            for (let section of props.formTemplate.sections) { 
+                if (section.sectionOrder === parseInt(sectionOrderKey)) { 
+                    // setSectionNumber(newSectionNumber, newSectionNumber);
+                    newQuestionsSectionArea.push(sectionElement(section, newSectionNumber)); 
+                    newSectionNumber++;
+                    break;
+                }
+            }
+            for (let question of questionSectionDict[sectionOrderKey]) { 
+                // let newQuestionNumber = questionNumber+1; 
+                // setQuestionNumber(newQuestionNumber); 
+                newQuestionsSectionArea.push(questionElement(question, newQuestionNumber));
+                newQuestionNumber++; 
+            }
+        }
+        setQuestionArea(newQuestionsSectionArea);
+        setSectionNumber(newSectionNumber); 
+        setQuestionNumber(newQuestionNumber)
+        // setSectionNumber(newSectionNumber);
+        // setQuestionNumber(newQuestionNumber); 
+        // handleAddSection()
         // handleAddQuestion()
         // let newQuestionArea = [<Section 
         //                             sectionNum={sectionNumber} 
@@ -150,6 +201,7 @@ const QuestionsSection = (props) => {
     }, [])
 
     useEffect(() => { 
+        console.log("oeifjw", questionArea)
         props.handleQuesSecUpdate(questionArea);
     }, [questionArea])
 
@@ -172,7 +224,6 @@ const QuestionsSection = (props) => {
                     {(provided) => (
                         <div className="w-100 ms-3" {...provided.droppableProps} ref={provided.innerRef}>
                             {questionArea.map((quesSec, index) => {
-                                console.log(quesSec)
                                 if (quesSec.key.includes("Question")) { 
                                     return (
                                         <Draggable key={index} draggableId={index.toString()} index={index} onDrop={e => { e.preventDefault(); }}>

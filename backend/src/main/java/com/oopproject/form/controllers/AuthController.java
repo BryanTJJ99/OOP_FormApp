@@ -84,7 +84,7 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), signUpRequest.getName(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole(), signUpRequest.getCountry(),
-                new Date());
+                new Date(), signUpRequest.getCreatedBy());
 
         String strRole = signUpRequest.getRole();
 

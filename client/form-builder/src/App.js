@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import FormTemplateIndex from "./pages/formTemplateIndex";
 import FormResponseIndex from "./pages/formResponseIndex";
 import FormBuilder from "./pages/formBuilder";
+import FormBuilderEdit from "./pages/formBuilderEdit";
 import FormView from "./pages/formView";
 import FormResponse from "./pages/formResponse";
 import MiniDrawer from './components/Navbar/MiniDrawer'
@@ -18,6 +19,7 @@ import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Project from "./pages/ProjectPage";
 import RequireAuth from "./components/Authentication/AuthenticationFilter";
 import VendorProfilePage from "./pages/VendorProfilePage";
+import ProjectView from "./pages/ProjectView";
 
 // Incomplete pages for the time being to be edited and integrated with the RBAC routing structure on App.js
 // import ClientProject from "./pages/clientProject";
@@ -122,10 +124,19 @@ function App() {
                                     element={<FormBuilder />}
                                 />
                                 <Route
+                                    path="FormBuilderEdit"
+                                    element={<FormBuilderEdit />}
+                                />
+                                <Route
                                     path="FormResponse"
                                     element={<FormResponse />}
                                 />
+                                <Route
+                                    path="ProjectView"
+                                    element={<ProjectView/>}
+                                />
                             </Route>
+                    
 
                             {/* Protected routes for Vendor to be updated with additional routes if needed, 
                             if have MiniDrawer also need to reflect the same changes */}

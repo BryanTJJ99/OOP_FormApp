@@ -39,7 +39,7 @@ public class User {
     // user object first then pass that into the userService
 
     public User(String username, String name, String email, String password, String role, String country,
-            Date createdAt) {
+            Date createdAt, User createdBy) {
         this.username = username;
         this.name = name;
         this.email = email;
@@ -47,6 +47,7 @@ public class User {
         this.role = role;
         this.country = country;
         this.createdAt = createdAt;
+        this.createdBy = createdBy;
     }
 
     public String getId() {

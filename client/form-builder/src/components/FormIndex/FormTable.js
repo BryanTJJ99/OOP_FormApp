@@ -10,6 +10,7 @@ import { lineHeight } from '@mui/system';
 import { getAllFormResponses } from '../../services/FormResponse.js';
 import { getAllFormTemplate } from '../../services/FormTemplate.js';
 import { getAllUsers } from '../../services/User.js';
+import { Link } from "react-router-dom"
 import { getAllProjects } from '../../services/DashboardAPI.js';
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
@@ -36,6 +37,9 @@ const columns: GridColDef[] = [
       headerName: 'Project',
       flex: 2,
       editable: false,
+      renderCell: (params) => {
+        return <Link to={`/projectView?projectId=${params.row.projectId}`}>{params.row.project}</Link>
+      }
     },
 
     {
@@ -140,12 +144,34 @@ const FormTable = () => {
             }
             let newRows = []; 
             let ind = 1; 
+            // KEN MING REPLACED THIS WITH THE THING BELOW
+            // for (let index in formResByVendorProject) { 
+            //   let formResData = {}; 
+            //   formResData.id = ind; 
+            //   let indexData = index.split(',');
+            //   console.log(indexData)
+            //   formResData.vendor = users[indexData[0]]; 
+            //   formResData.project = projects[indexData[1]]; 
+            //   formResData.forms = formResByVendorProject[index]
+            //   let totalNumOfForms = formResByVendorProject[index].length; 
+            //   let numCompletedForms = 0; 
+            //   for (let form of formResByVendorProject[index]) { 
+            //     if (form.status === 'approved') { 
+            //       numCompletedForms++; 
+            //     }
+            //   }
+            //   formResData.status = numCompletedForms + ' / ' + totalNumOfForms; 
+            //   newRows.push(formResData)
+            //   ind++; 
+            // }
             for (let index in formResByVendorProject) { 
               let formResData = {}; 
               formResData.id = ind; 
               let indexData = index.split(',');
+              console.log(indexData)
               formResData.vendor = users[indexData[0]]; 
               formResData.project = projects[indexData[1]]; 
+              formResData.projectId = indexData[1];
               formResData.forms = formResByVendorProject[index]
               let totalNumOfForms = formResByVendorProject[index].length; 
               let numCompletedForms = 0; 

@@ -11,6 +11,8 @@ public interface FormResponseService {
 
     public Optional<FormResponse> getFormResponseById(String id);
 
+    public List<FormResponse> getByVendorIdAndProjectId(String vendorId, String projectId);
+
     public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
             String vendorProjectId);
 
@@ -21,5 +23,7 @@ public interface FormResponseService {
     public FormResponse updateFormResponse(FormResponse formResponseToUpdate);
 
     public List<FormResponse> getFormsWithinDateRange(Date start, Date end);
+
+    public FormResponse deleteFormResponse(FormResponse formResponseToDelete);
 
 }

@@ -28,6 +28,11 @@ public class FormResponseServiceImp implements FormResponseService {
     }
 
     @Override
+    public List<FormResponse> getByVendorIdAndProjectId(String vendorId, String projectId) {
+        return formResponseRepository.findByVendorIdAndProjectId(vendorId, projectId);
+    };
+
+    @Override
     public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
             String vendorProjectId) {
         return formResponseRepository.findByFormTemplateIdAndVendorProjectId(formTemplateId, vendorProjectId);
@@ -61,6 +66,16 @@ public class FormResponseServiceImp implements FormResponseService {
     @Override
     public List<FormResponse> getFormsWithinDateRange(Date start, Date end) {
         return formResponseRepository.findFormsWithinDateRange(start, end);
+    }
+
+    @Override
+    public FormResponse deleteFormResponse(FormResponse formResponseToDelete) {
+        String formResponseID = formResponseToDelete.getFormResponseId();
+        FormResponse deletedFormResponse = formResponseRepository.findById(formResponseID).get();
+        if (deletedFormResponse != null) {
+            deletedFormResponse.setDeletedAt(new Date());
+        }
+        return formResponseRepository.save(deletedFormResponse);
     }
 
 }

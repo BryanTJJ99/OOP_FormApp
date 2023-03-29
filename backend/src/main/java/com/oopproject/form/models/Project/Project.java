@@ -25,28 +25,32 @@ public class Project {
 
     // Do we need to instantiate forms cause a project may not have forms associated
     // with it
-    public Project(String projectName, String projectDescription, ArrayList<String> vendorId) {
-        // this.projectID = projectID;
-        this.projectName = projectName;
-        this.projectDescription = projectDescription;
-        this.vendorId = vendorId;
-        // this.formResponses = new ArrayList<FormResponse>();
+    // public Project(String projectName, String projectDescription,
+    // ArrayList<String> vendorId) {
+    // this.projectID = projectID;
+    // this.projectName = projectName;
+    // this.projectDescription = projectDescription;
+    // this.vendorId = vendorId;
+    // this.formResponses = new ArrayList<FormResponse>();
+    // }
+    public Project() {
+
     }
 
-    public String getProjectID() {
-        return projectID;
-    }
+    // public String getProjectID() {
+    // return projectID;
+    // }
 
-    public void setProjectID(String projectID) {
-        this.projectID = projectID;
-    }
+    // public void setProjectID(String projectID) {
+    // this.projectID = projectID;
+    // }
 
-    public String getProjectName() {
-        return projectName;
-    }
+    // public String getProjectName() {
+    // return projectName;
+    // }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
+    // public void setProjectName(String projectName) {
+    // this.projectName = projectName;
+    // }
 
 }

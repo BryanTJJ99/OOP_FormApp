@@ -38,18 +38,24 @@ public class AdminController extends UserController {
         return adminService.findTopNVendors(userNum);
     }
 
+    @GetMapping("/user/id")
+    @CrossOrigin
+    public User getUserById(@RequestParam String id) {
+        return adminService.findById(id);
+    }
+
     @GetMapping("/user/{username}")
     @CrossOrigin
     public User getUser(@PathVariable String username) {
         return adminService.findByUsername(username);
     }
 
-    @PostMapping("user/create")
-    @CrossOrigin
-    public User addUser(@RequestBody User user) {
-        user.setCreatedAt(new Date());
-        return adminService.addUser(user);
-    }
+    // @PostMapping("user/create")
+    // @CrossOrigin
+    // public User addUser(@RequestBody User user) {
+    // user.setCreatedAt(new Date());
+    // return adminService.addUser(user);
+    // }
 
     @PatchMapping("user/edit")
     @CrossOrigin
@@ -62,5 +68,4 @@ public class AdminController extends UserController {
     public User deleteUser(@RequestBody User deletedUser) {
         return adminService.deleteUser(deletedUser);
     }
-
 }

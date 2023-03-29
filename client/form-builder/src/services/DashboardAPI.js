@@ -48,3 +48,15 @@ export async function getRecentVendors(limit){
     }
 }
 
+export async function getFormsDue(start,end){
+    const api_url = "http://localhost:8080/formResponse/"+start.toString()+"/"+end.toString()+"/date"
+    try {
+        const response = await axios.get(api_url)
+        return response.data;
+    }
+    
+    catch (error) {
+        console.log('error is: '+error.message);
+    }
+}
+

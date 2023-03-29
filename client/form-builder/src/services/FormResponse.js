@@ -72,7 +72,18 @@ export async function updateFormResponse(formResponse) {
     return error; 
   }
 }
-  
+
+
+export async function deleteFormResponse(formResponse) { 
+  let api_url = 'http://localhost:8080/formResponse/delete';
+  try { 
+    const response = await axios.patch(api_url, formResponse); 
+    console.log('response', response); 
+    return response.data; 
+  } catch(error) { 
+    return error; 
+  }
+}
 
 
 // export async function updateFilesInFormAnswer(fileMap, id) { 
