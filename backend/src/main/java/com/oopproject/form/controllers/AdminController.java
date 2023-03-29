@@ -50,12 +50,12 @@ public class AdminController extends UserController {
         return adminService.findByUsername(username);
     }
 
-    @PostMapping("user/create")
-    @CrossOrigin
-    public User addUser(@RequestBody User user) {
-        user.setCreatedAt(new Date());
-        return adminService.addUser(user);
-    }
+    // @PostMapping("user/create")
+    // @CrossOrigin
+    // public User addUser(@RequestBody User user) {
+    // user.setCreatedAt(new Date());
+    // return adminService.addUser(user);
+    // }
 
     @PatchMapping("user/edit")
     @CrossOrigin
