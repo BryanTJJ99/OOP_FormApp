@@ -1,8 +1,8 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import AuthService from "../../services/AuthService";
+import { getCurrentUser } from "../../services/AuthService";
 
 const RequireAuth = ({ allowedRoles }) => {
-    const user = AuthService.getCurrentUser();
+    const user = getCurrentUser();
     console.log(user);
     const location = useLocation();
     

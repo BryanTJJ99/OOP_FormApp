@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { FormInfo, QuestionView, SectionView } from '../components/FormView/index.js';
-import { getFormTemplateById } from '../services/FormTemplate.js';
-import { getFormResponseById } from '../services/FormResponse.js';
+import { getFormTemplateById, deleteFormTemplate } from '../services/FormTemplate.js';
+import { getFormResponseById, getAllFormResponses } from '../services/FormResponse.js';
 
 const FormView = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0)); 
     const [formResponse, setFormResponse] = useState({formAnswer: {}});
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
+    const [allFormResponseId, setAllFormResponseId] = useState(null);
+    const [deleteEditFail, setDeleteEditFail] = useState(false);
+    const [editButton, setEditButton] = useState(null);
+    const [failKeyword, setFailKeyword] = useState('deleted');
 
     useEffect(() => { 
         // let newQuestionsSectionArea = [...questionsSectionArea, <QuestionView />]; 
@@ -20,11 +24,9 @@ const FormView = (props) => {
             getFormResponseById(formResponseId) 
                 .then(response => {
                     setFormResponse(response);
-                    console.log(response)
                     let formTemplateId = response.formTemplateId
                     getFormTemplateById(formTemplateId)
                         .then(response => { 
-                            // console.log(response);
                             setFormTemplate(response);
                         })
                         .catch(error => { 
@@ -38,7 +40,6 @@ const FormView = (props) => {
             let formTemplateId = urlParams.get('formTemplateId')
             getFormTemplateById(formTemplateId)
                 .then(response => { 
-                    // console.log(response);
                     setFormTemplate(response);
                 })
                 .catch(error => { 
@@ -70,14 +71,79 @@ const FormView = (props) => {
                 }
             }
             setQuestionsSectionArea(newQuestionsSectionArea);
+            setEditButton(<Button variant="contained" className="ms-3" color='cyan' onClick={editForm}>Edit</Button>)
         }
     }, [formTemplate])
+
+    function printPage() { 
+        window.print(); 
+    }
+
+    function editForm() { 
+        setFailKeyword('edited');
+        getAllFormResponses()
+            .then(response => { 
+                let formResExist = false; 
+                for (let formRes of response) { 
+                    if (formRes.formTemplateId === formTemplate.formTemplateId) { 
+                        formResExist = true; 
+                        break; 
+                    }
+                }
+                if (formResExist) { 
+                    setDeleteEditFail(true);
+                } else { 
+                    window.location.href="/FormBuilderEdit?formTemplateId=" + formTemplate.formTemplateId; 
+                }
+            })
+            .catch (error => { 
+                console.log(error.message);
+            })
+    }
+
+    function deleteForm() { 
+        setFailKeyword('deleted');
+        getAllFormResponses()
+            .then(response => { 
+                let formResExist = false; 
+                for (let formRes of response) { 
+                    if (formRes.formTemplateId === formTemplate.formTemplateId) { 
+                        formResExist = true; 
+                        break; 
+                    }
+                }
+                if (formResExist) { 
+                    setDeleteEditFail(true);
+                } else { 
+                    deleteFormTemplate(formTemplate.formTemplateId) 
+                    .then(response => {
+                        window.location.href = "/FormTemplates"
+                    })
+                    .catch(error => {
+                        console.log(error.message);
+                    })
+                }
+            })
+            .catch (error => { 
+                console.log(error.message);
+            })
+    }
+
+    const handleFailClose = () => {
+        setDeleteEditFail(false);
+    };
+    
 
     return (
         <div>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             {formInfo}
+            <div className='d-flex mt-4 justify-content-end'>
+                <Button variant="contained" onClick={printPage} color='grey'>Print</Button>
+                {editButton}
+                <Button variant="contained" className="me-5 ms-3" onClick={deleteForm} color='error' >Delete</Button>
+            </div>
             {questionsSectionArea.map((item) => { 
                 if (item.hasOwnProperty('sectionId')) { 
                     return (<SectionView section={item} key={"Section" + item.sectionOrder}></SectionView>)
@@ -87,6 +153,26 @@ const FormView = (props) => {
                     )
                 }
             })}
+            <Dialog
+                open={deleteEditFail}
+                onClose={handleFailClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                {"Form template cannot be " + failKeyword}
+                </DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    This form template has already been published to vendors. You may not delete or edit this form template. 
+                    <br></br><br></br>
+                    Please create a new form template if changes are required.
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleFailClose}>Noted</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

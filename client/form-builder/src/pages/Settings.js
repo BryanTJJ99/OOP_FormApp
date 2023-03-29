@@ -1,10 +1,10 @@
 import React from "react";
 import { styled, useTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, Grid, Paper, Typography } from "@mui/material";
-import AuthService from "../services/AuthService";
+import { getCurrentUser } from "../services/AuthService";
 
 const Settings = () => {
-    const currentUser = AuthService.getCurrentUser();
+    const currentUser = getCurrentUser();
     const theme = useTheme();
     const Item = styled(Paper)(({ theme }) => ({
         ...theme.typography.body2,

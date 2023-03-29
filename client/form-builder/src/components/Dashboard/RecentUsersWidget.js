@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { getRecentVendors} from '../../services/DashboardAPI';
 
 export default function RecentUsersWidget(){
@@ -73,8 +73,8 @@ export default function RecentUsersWidget(){
         </Typography>
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', my: 0, py:0}}>
         {recentVendors.map( (vendorObj,idx) => (
-            <>
-            <ListItem alignItems="flex-start" key={vendorObj.id}>
+            <Fragment key={idx}>
+            <ListItem alignItems="flex-start" key={idx}>
                 <ListItemAvatar>
                 <NameAvatar name={vendorObj.username}/>
                 </ListItemAvatar>
@@ -94,7 +94,7 @@ export default function RecentUsersWidget(){
                 }/>
             </ListItem>
             { idx != (recentVendors.length-1) && <Divider variant="inset" component="li" />}
-            </>
+            </Fragment>
             )
         )} 
         </List>

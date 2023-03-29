@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.oopproject.form.models.FormTemplate.FormTemplate;
 import com.oopproject.form.service.FormTemplateService;
@@ -38,6 +39,18 @@ public class FormTemplateController {
     @CrossOrigin
     public void createFormTemplate(@RequestBody FormTemplate formTemplate) {
         formTemplateService.addFormTemplate(formTemplate);
+    }
+
+    @PostMapping("/delete")
+    @CrossOrigin
+    public FormTemplate deleteFormTemplate(@RequestBody String formTemplateId) { 
+        return formTemplateService.deleteFormTemplate(formTemplateId);
+    }
+
+    @PatchMapping("/edit")
+    @CrossOrigin
+    public FormTemplate updateFormTemplate(@RequestBody FormTemplate formTemplate) {
+        return formTemplateService.updateFormTemplate(formTemplate);
     }
 
 }

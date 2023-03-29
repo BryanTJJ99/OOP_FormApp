@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/auth/';
 
-const register = (username, name, email, password, role, country) => {
-    return axios.post(API_URL + "createUser", {
+export function authRegister(username, name, email, password, role, country) {
+    return axios.post(API_URL + 'createUser', {
         username,
         name,
         email,
@@ -11,11 +11,10 @@ const register = (username, name, email, password, role, country) => {
         role, 
         country
     });
-};
+}
 
-const login = (username, password) => {
-    return axios
-        .post(API_URL + 'signin', {
+export function authLogIn(username, password) {
+    return axios.post(API_URL + 'signin', {
             username,
             password
         })
@@ -26,21 +25,24 @@ const login = (username, password) => {
 
             return response.data;
         });
-};
+}
 
-const logout = () => {
+export function authLogOut() {
     localStorage.removeItem('user');
-};
+}
 
-const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));
-};
+export function getCurrentUser() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        return user;
+    }
+    return null;
+}
 
-const AuthService = {
-    register,
-    login,
-    logout,
-    getCurrentUser
-};
-
-export default AuthService;
+export function getCurrentUserRole() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        return user.roles[0];
+    }
+    return null;
+}

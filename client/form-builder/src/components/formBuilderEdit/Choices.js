@@ -10,18 +10,22 @@ const Choices = (props) => {
     const [choicesLabels, setChoicesLabels] = useState({}); 
     const [hiddenInput, setHiddenInput] = useState(null);
 
-    function renderChoice() { 
-        setChoiceNum(choiceNum + 1); 
+    let choiceInd = -1; 
+
+    function renderChoice(choiceNo=choiceNum) { 
+        setChoiceNum(choiceNo + 1); 
+        choiceInd++; 
         return (
             <Choice
-                choiceNum={choiceNum}
+                choiceNum={choiceNo}
                 // choiceOrder={getChoiceOrder(choiceNum)}
                 questionNum={props.questionNum}
                 type={props.questionType}
                 handleDeleteChoice={handleDeleteChoice}
-                key={props.questionId + '_' + choiceNum}
-                choiceId={props.questionId + '_' + choiceNum}
+                key={props.questionId + '_' + choiceNo}
+                choiceId={props.questionId + '_' + choiceNo}
                 updateChoiceLabel={updateChoicesLabel}
+                choiceInput={props.choicesList[choiceInd]}
             />
         )
     }
@@ -39,7 +43,9 @@ const Choices = (props) => {
     }
 
     function updateChoicesLabel(choiceId, valueToUpdate) { 
+        console.log(choicesLabels);
         let newChoicesLabels = {...choicesLabels}; 
+        console.log(newChoicesLabels);
         newChoicesLabels[choiceId] = valueToUpdate; 
         setChoicesLabels(newChoicesLabels); 
     }
@@ -51,6 +57,10 @@ const Choices = (props) => {
 
     useEffect(() => { 
         setChoicesList(Array(0))
+        if (props.choicesList) { 
+            setChoicesList(props.choicesList)
+            console.log(props.choicesList)
+        }
     }, [])
 
     // function getChoiceOrder(choiceKey) { 
@@ -67,18 +77,35 @@ const Choices = (props) => {
     // }
 
     useEffect(() => { 
-        let firstChoice = renderChoice();
-        setChoicesList(choicesList => [firstChoice]);
+        if (props.choicesList.length > 0) { 
+            let choices = [] 
+            let newChoicesLabels = {...choicesLabels}; 
+            let newChoiceNum = choiceNum; 
+            for (let i=0; i<props.choicesList.length; i++) { 
+                choices.push(renderChoice(newChoiceNum));
+                newChoicesLabels[props.questionId + '_' + newChoiceNum] = props.choicesList[i]; 
+                newChoiceNum++
+            }
+            console.log(choices)
+            setChoicesList(choicesList => choices);
+            setChoiceNum(newChoiceNum);
+            setChoicesLabels(newChoicesLabels); 
+        } else { 
+            let firstChoice = renderChoice();
+            setChoicesList(choicesList => [firstChoice]);
+        }
     }, [])
 
     useEffect(() => {
         let finalChoiceList = []; 
-        console.log(choicesList)
+        console.log(choicesList, choicesLabels)
         for (let ch of choicesList) { 
+            console.log(ch.key)
             finalChoiceList.push(choicesLabels[ch.key])
         }
         setHiddenInput(<input type='hidden' name={props.questionId + 'choices'} value={finalChoiceList}></input>)
         console.log(finalChoiceList)
+        console.log(choicesList, choicesLabels)
     }, [choicesLabels, choicesList])
 
     return (

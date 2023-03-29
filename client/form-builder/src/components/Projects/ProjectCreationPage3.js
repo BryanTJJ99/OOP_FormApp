@@ -72,19 +72,21 @@ const ProjectCreationPage3 = (props) => {
                         let formID = form.id;
                         let today = new Date().toJSON();
                         return vid.map(async (vendorID) => {
-                            const formResponseData = {
-                                formTemplateId: formID,
-                                vendorId: vendorID,
-                                projectId: projectID,
-                                reviewedBy: "6411538f436af646394c3fe4",
-                                approvedBy: "6409dc0be3139a5d267579b2",
-                                status: "vendor",
-                                vendorDeadline: "2023-04-15T05:22:33.934+00:00",
-                                formAnswer: {},
-                                createdAt: today,
-                                updatedAt: today,
-                            };
-                            await initialiseFormResponse(formResponseData);
+
+                          const formResponseData = {
+                            formTemplateId: formID,
+                            vendorId: vendorID,
+                            projectId: projectID,
+                            reviewedBy: "6411538f436af646394c3fe4",
+                            approvedBy: "6409dc0be3139a5d267579b2",
+                            status: 'vendor',
+                            vendorDeadline: '2023-04-15T05:22:33.934+00:00',
+                            formAnswer: {}, 
+                            createdAt: today,
+                            updatedAt: today,
+                          };
+                          await initialiseFormResponse(formResponseData);
+                          window.location.href = "/Project";
                         });
                     }
                 );
@@ -193,11 +195,9 @@ const ProjectCreationPage3 = (props) => {
                                 Vendor Name(s):
                             </TableCell>
                             <TableCell align="center">
-                                {props.projectData.vendorCompanyName.map(
-                                    (item) => (
-                                        <Chip label={item} key={item} />
-                                    )
-                                )}
+                                {vendors.map((vendor)=>{
+                                    return <Chip label={vendor.name} key={vendor.name} />
+                                })}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -265,4 +265,59 @@ const ProjectCreationPage3 = (props) => {
     );
 };
 
-export default ProjectCreationPage3;
+
+//   return (
+//     <>
+//     <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
+//         View Summary
+//     </Typography>
+//     <br></br>
+//     <br></br>
+//     <br></br>
+
+//     <TableContainer style={{ width:"100%",  }}>
+//         <Table sx={{p:3,width:"70%", backgroundColor:'#edeae1',mx:"auto",borderRadius:"15px",}}>
+//             <TableHead >
+//                 <TableRow>
+//                     <TableCell align='center' colSpan={2} style={{fontSize:'25px', fontWeight:'bold'}}>Summary</TableCell>
+//                 </TableRow>
+//             </TableHead>
+//             <TableBody>
+//                 <TableRow>
+//                     <TableCell align='center' style={{fontSize:'15px',width:"400px", fontWeight:'bold'}}>Project Name:</TableCell>
+//                     <TableCell align='center'>{props.projectData.projectName}</TableCell>
+//                 </TableRow>
+//                 <TableRow>
+//                     <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Vendor Name(s):</TableCell>
+//                     <TableCell align='center'>{props.projectData.vendorCompanyName.map((item) => (
+//                             <Chip label={item} />
+//                         ))}</TableCell>
+//                 </TableRow>
+//                 <TableRow>
+//                     <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Project Description:</TableCell>
+//                     <TableCell align='center'>{props.projectData.projectDescription}</TableCell>
+//                 </TableRow>
+//                 <TableRow>
+//                     <TableCell align='center' style={{fontSize:'15px', fontWeight:'bold'}}>Selected forms to fill:</TableCell>
+//                     <TableCell align='center'>
+//                         {props.projectData.selectedForm.map((item) => (
+//                             <Chip label={item.name} />
+//                         ))}
+//                     </TableCell>
+//                 </TableRow>
+
+//             </TableBody>
+//         </Table>
+//     </TableContainer>
+
+//     <Box display="flex" width="300px;" marginX="auto" marginY="50px" justifyContent="space-between">
+//         <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Back</Button>
+
+//         <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Submit</Button>
+//     </Box>                      
+//     </>
+
+//   )
+// }
+
+export default ProjectCreationPage3
