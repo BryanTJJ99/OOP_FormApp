@@ -18,4 +18,6 @@ public interface FormResponseRepository extends MongoRepository<FormResponse, St
     @Query("{ 'vendorDeadline' : { $gte: ?0, $lte: ?1 } }")
     List<FormResponse> findFormsWithinDateRange(Date start, Date end);
 
+    List<FormResponse> findByVendorIdAndProjectId(String vendorId, String projectId);
+
 }

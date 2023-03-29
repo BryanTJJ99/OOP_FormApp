@@ -1,6 +1,10 @@
 import { React, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
-import { getProjectById, updateProject } from "../services/ProjectViewAPI.js";
+import {
+    getFormResponsesByVendorIdAndProjectId,
+    getProjectById,
+    updateProject,
+} from "../services/ProjectViewAPI.js";
 import { Link } from "react-router-dom";
 
 import {
@@ -25,14 +29,9 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon, SaveAs as SaveAsIcon } from "@mui/icons-material";
 import { getUserById } from "../services/User.js";
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-}));
+import { DataGrid } from "@mui/x-data-grid";
+import { getFormTemplateById } from "../services/FormTemplate.js";
+import FormPills from "../components/FormIndex/FormPills.js";
 
 function SimpleDialog(props) {
     const { onClose, selectedValue, open, vendors } = props;
@@ -80,31 +79,71 @@ const ProjectView = () => {
     const [selectedVendor, setSelectedVendor] = useState("");
     const [vendorIds, setVendorIds] = useState([]);
     const [vendors, setVendors] = useState([]);
+    const [rows, setRows] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
         // const queryString = window.location.search;
         // const urlParams = new URLSearchParams(queryString);
         // const projectId = urlParams.get('projectId')
-        await getProjectById("64174833f58e07308498e68a")
-            .then((response) => {
-                setProject(response);
-                setProjectName(response.projectName);
-                setProjectDescription(response.projectDescription);
-                setVendorIds(response.vendorId);
-                console.log(response);
-                // for (const vendorId of response.vendorId) {
-                //     console.log(vendorId);
-                //     getUserById(vendorId).then(
-                //     (response)=>{
-                //         console.log(response);
-                //         // vendors.push(response.name)
-                //     }
-                //     )
-                // }
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
+        async function getAllDataForProjectView() {
+            let foundProject = await getProjectById("64232a433e2ea00149171965");
+
+            setProject(foundProject);
+            setProjectName(foundProject.projectName);
+            setProjectDescription(foundProject.projectDescription);
+            setVendorIds(foundProject.vendorId);
+
+            for (const vendorId of foundProject.vendorId) {
+                let vendorResponse = await getUserById(vendorId);
+                vendors.push(vendorResponse);
+                setVendors(vendors);
+            }
+
+            console.log(vendors);
+            const newRows = await Promise.allSettled(
+                vendors.map(async (vendor) => {
+                    let vendorForms =
+                        await getFormResponsesByVendorIdAndProjectId(
+                            vendor.id,
+                            foundProject.projectID
+                        );
+                    // let formTemplateNames = await Promise.all(
+                    //     vendorForms.map(async (vendorForm) => {
+                    // let foundTemplate = await getFormTemplateById(
+                    //     vendorForm.formTemplateId
+                    // );
+                    // return foundTemplate.formName;
+                    //     })
+                    // );
+                    // console.log(formTemplateNames);
+
+                    let newVendorForms = [];
+                    for (const vendorForm of vendorForms) {
+                        let foundTemplate = await getFormTemplateById(
+                            vendorForm.formTemplateId
+                        );
+                        vendorForm["name"] = foundTemplate.formName;
+                        vendorForm["id"] = vendorForm.formResponseId;
+                        newVendorForms.push(vendorForm);
+                    }
+
+                    return {
+                        id: vendor.id,
+                        vendor: vendor.name,
+                        forms: newVendorForms,
+                    };
+                })
+            );
+
+            let rowsToAdd = [];
+            for (const newRow of newRows) {
+                rowsToAdd.push(newRow.value);
+            }
+
+            console.log(rowsToAdd);
+            setRows(rowsToAdd);
+        }
+        getAllDataForProjectView();
     }, []);
 
     const handleDialogOpen = () => {
@@ -127,6 +166,25 @@ const ProjectView = () => {
     //     return newData;
     //   });
     // };
+
+    const columns = [
+        { field: "vendor", headerName: "Vendor", width: 200 },
+        // {
+        //     field: "FormResponses",
+        //     headerName: "Forms",
+        //     width: 150,
+        //     editable: true,
+        // },
+        {
+            field: "forms",
+            headerName: "Forms",
+            renderCell: (params) => {
+                return <FormPills forms={params} />;
+            },
+            editable: false,
+            flex: 5,
+        },
+    ];
 
     return (
         <>
@@ -219,7 +277,7 @@ const ProjectView = () => {
                 }}
             />
 
-            <Button variant="outlined" onClick={handleDialogOpen}>
+            {/* <Button variant="outlined" onClick={handleDialogOpen}>
                 Open simple dialog
             </Button>
             <SimpleDialog
@@ -234,24 +292,18 @@ const ProjectView = () => {
                     pathname: "../components/Projects/ProjectCreationPage2",
                     state: { projectName, projectDescription },
                 }}
+                // vendor obj is stored in the vendors state
             >
                 <Button variant="contained">Add Form</Button>
-            </Link>
+            </Link> */}
 
             {/* {console.log(project)} */}
-            <Box sx={{ flexGrow: 1, height: 300 }}>
-                <Grid
-                    container
-                    spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 4, sm: 8, md: 12 }}
-                >
-                    {Array.from(Array(6)).map((_, index) => (
-                        <Grid item xs={2} sm={4} md={4} key={index}>
-                            <Item>xs=2</Item>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
+
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                disableRowSelectionOnClick
+            />
         </>
     );
 };

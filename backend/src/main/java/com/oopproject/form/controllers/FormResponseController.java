@@ -46,6 +46,13 @@ public class FormResponseController {
         return formResponseService.getFormResponseById(id);
     }
 
+    @GetMapping("/projectView/{vendorId}/{projectId}")
+    @CrossOrigin
+    public List<FormResponse> getByVendorIdAndProjectId(@PathVariable String vendorId,
+            @PathVariable String projectId) {
+        return formResponseService.getByVendorIdAndProjectId(vendorId, projectId);
+    }
+
     @GetMapping("/{formTemplateId}/{vendorProjectId}")
     @CrossOrigin
     public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(
@@ -77,7 +84,7 @@ public class FormResponseController {
 
     @PatchMapping("/delete")
     @CrossOrigin
-    public FormResponse deletFormResponse(@RequestBody FormResponse formResponse) {
+    public FormResponse deleteFormResponse(@RequestBody FormResponse formResponse) {
         return formResponseService.deleteFormResponse(formResponse);
     }
 

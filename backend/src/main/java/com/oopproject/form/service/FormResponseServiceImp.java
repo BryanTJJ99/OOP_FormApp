@@ -28,6 +28,11 @@ public class FormResponseServiceImp implements FormResponseService {
     }
 
     @Override
+    public List<FormResponse> getByVendorIdAndProjectId(String vendorId, String projectId) {
+        return formResponseRepository.findByVendorIdAndProjectId(vendorId, projectId);
+    };
+
+    @Override
     public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
             String vendorProjectId) {
         return formResponseRepository.findByFormTemplateIdAndVendorProjectId(formTemplateId, vendorProjectId);
