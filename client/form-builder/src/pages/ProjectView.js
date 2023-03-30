@@ -34,40 +34,60 @@ import { getFormTemplateById } from "../services/FormTemplate.js";
 import FormPills from "../components/FormIndex/FormPills.js";
 
 function SimpleDialog(props) {
-    const { onClose, selectedValue, open, vendors } = props;
+    const { onClose, selectedValue, setSelectedVendor, open, vendors } = props;
+
+    console.log(props);
 
     const handleClose = () => {
         onClose(selectedValue);
     };
 
     const handleListItemClick = (value) => {
-        onClose(value);
+        setSelectedVendor(value);
+        console.log(selectedValue);
     };
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Set backup account</DialogTitle>
+            <DialogTitle>Select vendor to add form</DialogTitle>
             <List sx={{ pt: 0 }}>
                 {vendors.map((vendor) => (
-                    <ListItem disableGutters>
+                    <ListItem disableGutters sx={{ display: "block" }}>
                         <ListItemButton
                             onClick={() => handleListItemClick(vendor)}
-                            key={vendor}
+                            key={vendor.name}
+                            sx={
+                                selectedValue == vendor.name
+                                    ? { background: "#e5e5e5" }
+                                    : null
+                            }
                         >
-                            <ListItemText primary={vendor} />
+                            <ListItemText
+                                primary={vendor.name}
+                                sx={{ textAlign: "center" }}
+                            />
                         </ListItemButton>
                     </ListItem>
                 ))}
+                <Button
+                    component={Link}
+                    to={{
+                        pathname: "../components/Projects/ProjectCreationPage2",
+                        // state: { projectName, projectDescription },
+                    }}
+                >
+                    Add form
+                </Button>
             </List>
         </Dialog>
     );
 }
 
-//   SimpleDialog.propTypes = {
+// SimpleDialog.propTypes = {
 //     onClose: PropTypes.func.isRequired,
 //     open: PropTypes.bool.isRequired,
 //     selectedValue: PropTypes.string.isRequired,
-//   };
+// };
 
 const ProjectView = () => {
     const [project, setProject] = useState(null);
@@ -84,7 +104,7 @@ const ProjectView = () => {
     useEffect(() => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const projectId = urlParams.get('projectId')
+        const projectId = urlParams.get("projectId");
         console.log(projectId);
         async function getAllDataForProjectView() {
             let foundProject = await getProjectById(projectId);
@@ -94,8 +114,10 @@ const ProjectView = () => {
             setProjectDescription(foundProject.projectDescription);
             setVendorIds(foundProject.vendorId);
 
-            const fetchedVendors = await Promise.all(foundProject.vendorId.map((vendorId) => getUserById(vendorId)));
-            setVendors(fetchedVendors);
+            const vendors = await Promise.all(
+                foundProject.vendorId.map((vendorId) => getUserById(vendorId))
+            );
+            setVendors(vendors);
 
             console.log(vendors);
             const newRows = await Promise.allSettled(
@@ -105,15 +127,6 @@ const ProjectView = () => {
                             vendor.id,
                             foundProject.projectID
                         );
-                    // let formTemplateNames = await Promise.all(
-                    //     vendorForms.map(async (vendorForm) => {
-                    // let foundTemplate = await getFormTemplateById(
-                    //     vendorForm.formTemplateId
-                    // );
-                    // return foundTemplate.formName;
-                    //     })
-                    // );
-                    // console.log(formTemplateNames);
 
                     let newVendorForms = [];
                     for (const vendorForm of vendorForms) {
@@ -122,6 +135,9 @@ const ProjectView = () => {
                         );
                         vendorForm["name"] = foundTemplate.formName;
                         vendorForm["id"] = vendorForm.formResponseId;
+                        vendorForm[
+                            "link"
+                        ] = `/FormResponse?formResponseId=${vendorForm.formResponseId}`;
                         newVendorForms.push(vendorForm);
                     }
 
@@ -275,17 +291,18 @@ const ProjectView = () => {
                 }}
             />
 
-            {/* <Button variant="outlined" onClick={handleDialogOpen}>
+            <Button variant="outlined" onClick={handleDialogOpen}>
                 Open simple dialog
             </Button>
             <SimpleDialog
-                selectedValue={selectedVendor}
+                selectedValue={selectedVendor ? selectedVendor.name : null}
+                setSelectedVendor={setSelectedVendor}
                 open={openDialog}
                 onClose={handleDialogClose}
                 vendors={vendors}
             />
 
-            <Link
+            {/* <Link
                 to={{
                     pathname: "../components/Projects/ProjectCreationPage2",
                     state: { projectName, projectDescription },
