@@ -136,7 +136,7 @@ export default function MiniDrawer({children}) {
   const [showFormTemplates, setShowFormTemplates] = React.useState(false);
   const [showAccountManagement, setShowAccountManagement] = React.useState(false);
   const [showAccount, setShowAccount] = React.useState(false);
-  const [showVendorProfilePage, setShowVendorProfilePage] = React.useState(false);
+  const [showClientProject, setShowClientProject] = React.useState(false);
 
   React.useEffect(() => {
     const user = getCurrentUser();
@@ -148,7 +148,7 @@ export default function MiniDrawer({children}) {
       setShowFormTemplates(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
       setShowProject(["ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
       setShowAccount(["ROLE_VENDOR", "ROLE_ADMIN", "ROLE_APPROVER"].some(role => user.roles.includes(role)));
-      setShowVendorProfilePage(["ROLE_VENDOR"].some(role => user.roles.includes(role)));
+      setShowClientProject(["ROLE_VENDOR"].some(role => user.roles.includes(role)));
     }
 
     EventBus.on("logout", () => {
@@ -167,7 +167,7 @@ export default function MiniDrawer({children}) {
     setShowFormTemplates(false);
     setShowProject(false);
     setShowAccount(false);
-    setShowVendorProfilePage(false);
+    setShowClientProject(false);
     setCurrentUser(undefined);
   };
 
@@ -289,13 +289,13 @@ export default function MiniDrawer({children}) {
               </ListItemButton>
             </Link>
           </ListItem>}
-          {showVendorProfilePage && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Vendor Profile")}>
-            <Link to={`/VendorProfilePage`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+          {showClientProject && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Client Project")}>
+            <Link to={`/ClientProject`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <AccountBoxIcon />
                   </ListItemIcon>
-                <ListItemText secondary="Vendor Profile" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
+                <ListItemText secondary="Client Project" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
               </ListItemButton>
             </Link>
           </ListItem>}
