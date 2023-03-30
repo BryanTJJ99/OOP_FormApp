@@ -22,7 +22,6 @@ const FormResponse = (props) => {
 
     const nextStageRef = {
         'vendor': 'admin',
-        'admin': 'approver',
     }
 
     const userRoleRef = { 
@@ -32,6 +31,7 @@ const FormResponse = (props) => {
     }
 
     const handleNextStageChange = (event) => {
+        console.log(event.target.value)
         setNextStage(event.target.value);
     };
 
@@ -94,7 +94,7 @@ const FormResponse = (props) => {
         }
         let today = new Date().toJSON();
         let statusUpdated;
-        if (currStage !== 'approver') {
+        if (currStage === 'vendor') {
             statusUpdated = nextStageRef[currStage];
         } else {
             statusUpdated = nextStage;
@@ -278,15 +278,24 @@ const FormResponse = (props) => {
                 </DialogTitle>
                 <TextField value={emailMessage} placeholder="Your email message" multiline rows={3} sx={{ marginX: 3 }}></TextField>
                 {/* {nextStageElem} */}
-                {currStage === 'approver' && <Box display='flex' margin={3}>
+                {(currStage === 'approver' ||  currStage === 'admin') && <Box display='flex' margin={3}>
                     <Typography marginY={'auto'} marginRight={1}>Assign:</Typography>
                     <FormControl size="small" fullWidth>
-                        <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange}>
-                            <MenuItem value='default' disabled>Select next stage</MenuItem>
-                            <MenuItem value='approved'>Approved</MenuItem>
-                            <MenuItem value='vendor'>Rejected, back to Vendor</MenuItem>
-                            <MenuItem value='admin'>Rejected, back to Admin</MenuItem>
-                        </Select>
+                        {currStage === 'approver' && 
+                            <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange}>
+                                <MenuItem value='default' disabled>Select next stage</MenuItem>
+                                <MenuItem value='approved'>Approved</MenuItem>
+                                <MenuItem value='vendor'>Rejected, back to Vendor</MenuItem>
+                                <MenuItem value='admin'>Rejected, back to Admin</MenuItem>
+                            </Select>
+                        } 
+                        {currStage === 'admin' && 
+                            <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange}>
+                                <MenuItem value='default' disabled>Select next stage</MenuItem>
+                                <MenuItem value='approver'>Accepted, pass to Approver</MenuItem>
+                                <MenuItem value='vendor'>Rejected, back to Vendor</MenuItem>
+                            </Select>
+                        }
                     </FormControl>
                 </Box>}
                 <DialogActions>
