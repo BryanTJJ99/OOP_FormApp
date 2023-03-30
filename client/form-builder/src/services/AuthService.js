@@ -30,7 +30,7 @@ export function authLogIn(username, password) {
         })
         .then((response) => {
             if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+                sessionStorage.setItem("user", JSON.stringify(response.data));
             }
 
             return response.data;
@@ -38,11 +38,11 @@ export function authLogIn(username, password) {
 }
 
 export function authLogOut() {
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
 }
 
 export function getCurrentUser() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(sessionStorage.getItem("user"));
     if (user) {
         return user;
     }
@@ -50,7 +50,7 @@ export function getCurrentUser() {
 }
 
 export function getCurrentUserRole() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(sessionStorage.getItem("user"));
     if (user) {
         return user.roles[0];
     }
