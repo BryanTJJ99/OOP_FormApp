@@ -1,10 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TextField, Box, Button, Typography, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import { FormInfo, QuestionView, SectionView } from '../components/FormResponse/index.js';
+import { FormInfo, QuestionView, SectionView, QuestionViewPdf, SectionViewPdf } from '../components/FormResponse/index.js';
 import { getFormTemplateById } from '../services/FormTemplate.js';
 import { updateFormResponse, getFormResponseById, updateFilesInFormAnswer } from '../services/FormResponse.js';
 import StatusChip from '../components/Dashboard/StatusChip.js';
 import { getCurrentUserRole } from '../services/AuthService.js';
+import html2pdf from 'html2pdf.js';
+import ReactToPrint, { toPdf } from 'react-to-print';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+
+const generatePdf = () => {
+    // Code to generate your PDF here
+
+    return (<PDFDownloadLink document={FormResponse} fileName="myPdfFile.pdf">Download PDF</PDFDownloadLink>);
+  }
 
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
@@ -19,6 +28,7 @@ const FormResponse = (props) => {
     const [emailMessage, setEmailMessage] = useState(null);
     const [submitButton, setSubmitButton] = useState(null);
     const [userRole, setUserRole] = useState(null);
+    const [versHist, setVersHist] = useState('default');
 
     const nextStageRef = {
         'vendor': 'admin',
@@ -43,94 +53,100 @@ const FormResponse = (props) => {
         setOpenPopUp(true);
     }
 
+    
+
     async function handleFormResponseSubmit(e) {
         // let form = document.getElementById('form');
         // handleFormResponseSubmit();
         // form.submit(); 
         e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        let numOfQuestions = formTemplate.questions.length;
-        let listOfMultiSelect = [];
-        for (let ques of formTemplate.questions) {
-            if (ques.questionType === 'checkbox') {
-                listOfMultiSelect.push(ques.questionOrder);
-            }
-        }
-        let formAnswer = {};
-        console.log("fileMap", fileMap)
-        for (let i = 1; i <= numOfQuestions; i++) {
-            let dataToStore = data.get(i.toString());
-            if (listOfMultiSelect.includes(i)) {
-                dataToStore = data.get(i.toString()).split(',');
-            }
-            if (i in fileMap) {
-                let fileToStore = fileMap[(i).toString()];
-                if (!(fileToStore instanceof File)) {
-                    dataToStore = [fileToStore[1], fileToStore[2]];
-                } else {
-                    let file_type = fileToStore.type;
-                    const reader = new FileReader();
-                    // reader.readAsDataURL(fileToStore);
-                    await readFileAsync(fileToStore, reader)
-                        .then(result => {
+        setOpenPopUp(false);
+        console.log(document.getElementById('formToPrint').innerHTML)
 
-                            dataToStore = [result, file_type];
-
-                        })
-                        .catch(error => {
-                            console.log(error.message);
-                        })
-                    // let base64String; 
-                    // reader.onload = function () {
-                    //     console.log(reader, reader.result)
-                    //     base64String = reader.result.split(',')[1];
-                    //     dataToStore = base64String;
-                    // };
-                }
-            }
-            if (dataToStore !== null) { 
-                formAnswer[i] = dataToStore;
-            }
-        }
-        let today = new Date().toJSON();
-        let statusUpdated;
-        if (currStage === 'vendor') {
-            statusUpdated = nextStageRef[currStage];
-        } else {
-            statusUpdated = nextStage;
-        }
-        let formResponseData = {
-            formResponseId: formResponse.formResponseId,
-            status: statusUpdated,
-            formAnswer: formAnswer,
-            updatedAt: today,
-        }
-        // console.log(fileMap);
-        // let formData = new FormData(); 
-        // formData.append("formResponse", JSON.stringify(formResponseData)); 
-        // for (const [key, value] of Object.entries(fileMap)) {
-        //     formData.append(`fileMap`, value);
+        // const data = new FormData(e.currentTarget);
+        // let numOfQuestions = formTemplate.questions.length;
+        // let listOfMultiSelect = [];
+        // for (let ques of formTemplate.questions) {
+        //     if (ques.questionType === 'checkbox') {
+        //         listOfMultiSelect.push(ques.questionOrder);
+        //     }
         // }
-        // formData.append("fileMap", fileMap);
-        // formData.append("formResponse", `{"formTemplateId":"6414f557b713704fd25c1b34","vendorId":"6409dc37e3139a5d267579b3","reviewedBy":"6411538f436af646394c3fe4","approvedBy":"6409dc0be3139a5d267579b2","status":"open","formAnswer":{"1":"ken","2":"ken is sleeping","3":"0","4":["1","2"],"5":"0","6":""}}`);
-        // for (var pair of formData.entries()) {
-        //     console.log(pair[0]+ ', ' + pair[1]); 
-        // }
-        updateFormResponse(formResponseData)
-            .then(response => {
-                // console.log(response);
-            })
-            .catch(error => {
-                console.log(error.message);
-            })
+        // let formAnswer = {};
+        // console.log("fileMap", fileMap)
+        // for (let i = 1; i <= numOfQuestions; i++) {
+        //     let dataToStore = data.get(i.toString());
+        //     if (listOfMultiSelect.includes(i)) {
+        //         dataToStore = data.get(i.toString()).split(',');
+        //     }
+        //     if (i in fileMap) {
+        //         let fileToStore = fileMap[(i).toString()];
+        //         if (!(fileToStore instanceof File)) {
+        //             dataToStore = [fileToStore[1], fileToStore[2]];
+        //         } else {
+        //             let file_type = fileToStore.type;
+        //             const reader = new FileReader();
+        //             // reader.readAsDataURL(fileToStore);
+        //             await readFileAsync(fileToStore, reader)
+        //                 .then(result => {
 
-        // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e") 
-        //     .then(response => { 
-        //         console.log(response); 
+        //                     dataToStore = [result, file_type];
+
+        //                 })
+        //                 .catch(error => {
+        //                     console.log(error.message);
+        //                 })
+        //             // let base64String; 
+        //             // reader.onload = function () {
+        //             //     console.log(reader, reader.result)
+        //             //     base64String = reader.result.split(',')[1];
+        //             //     dataToStore = base64String;
+        //             // };
+        //         }
+        //     }
+        //     if (dataToStore !== null) { 
+        //         formAnswer[i] = dataToStore;
+        //     }
+        // }
+        // let today = new Date().toJSON();
+        // let statusUpdated;
+        // if (currStage === 'vendor') {
+        //     statusUpdated = nextStageRef[currStage];
+        // } else {
+        //     statusUpdated = nextStage;
+        // }
+        // let formResponseData = {
+        //     formResponseId: formResponse.formResponseId,
+        //     status: statusUpdated,
+        //     formAnswer: formAnswer,
+        //     versionHistory: {...formResponse.versionHistory, [today]: {}},
+        //     updatedAt: today,
+        // }
+        // // console.log(fileMap);
+        // // let formData = new FormData(); 
+        // // formData.append("formResponse", JSON.stringify(formResponseData)); 
+        // // for (const [key, value] of Object.entries(fileMap)) {
+        // //     formData.append(`fileMap`, value);
+        // // }
+        // // formData.append("fileMap", fileMap);
+        // // formData.append("formResponse", `{"formTemplateId":"6414f557b713704fd25c1b34","vendorId":"6409dc37e3139a5d267579b3","reviewedBy":"6411538f436af646394c3fe4","approvedBy":"6409dc0be3139a5d267579b2","status":"open","formAnswer":{"1":"ken","2":"ken is sleeping","3":"0","4":["1","2"],"5":"0","6":""}}`);
+        // // for (var pair of formData.entries()) {
+        // //     console.log(pair[0]+ ', ' + pair[1]); 
+        // // }
+        // updateFormResponse(formResponseData)
+        //     .then(response => {
+        //         // console.log(response);
         //     })
-        //     .catch(error => { 
+        //     .catch(error => {
         //         console.log(error.message);
         //     })
+
+        // // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e") 
+        // //     .then(response => { 
+        // //         console.log(response); 
+        // //     })
+        // //     .catch(error => { 
+        // //         console.log(error.message);
+        // //     })
     }
 
     async function readFileAsync(file, reader) {
@@ -196,19 +212,34 @@ const FormResponse = (props) => {
         approver: 'Vendor and Admin'
     }
 
+    const handleVersionHistChange = (event) => {
+        setVersHist(event.target.value);
+        console.log(event.target.value);
+    };
+
     useEffect(() => {
         if (formTemplate !== null) {
             setFormInfo(<FormInfo formTemplate={formTemplate} />);
             let currStatus = formResponse.status;
             setCurrStage(currStatus);
-            setStatusSection(<Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'>
-                <Box display='flex'>
-                    <Typography marginY={'auto'} marginRight={1}>Status:</Typography>
-                    <Box marginY='auto'>
-                        <StatusChip status={currStatus}></StatusChip>
+            setStatusSection(
+                <Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'>
+                    <Box display='flex'>
+                        <Typography marginY={'auto'} marginRight={1}>Status:</Typography>
+                        <Box marginY='auto'>
+                            <StatusChip status={currStatus}></StatusChip>
+                        </Box>
+                    </Box>
+                    <Box> 
+                        <Select
+                            onChange={handleVersionHistChange}
+                            value={versHist}    
+                        > 
+                            <MenuItem value={"default"} disabled>Choose a version history to print</MenuItem>
+                        </Select>
                     </Box>
                 </Box>
-            </Box>)
+            )
             let questionSectionDict = {};
             console.log(formTemplate); // give an Axios error
             for (let section of formTemplate.sections) {
@@ -232,11 +263,12 @@ const FormResponse = (props) => {
             setQuestionsSectionArea(newQuestionsSectionArea);
         }
     }, [formTemplate])
-
+      
     let access; 
 
     return (
-        <div>
+        <div >
+            {generatePdf()}
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             {formInfo}
@@ -261,9 +293,30 @@ const FormResponse = (props) => {
                         )
                     }
                 })}
-
                 {submitButton}
+            </Box>
 
+            <Box id="formToPrint" display='none'>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
+                {questionsSectionArea.map((item) => {
+                    if (item.hasOwnProperty('sectionId')) {
+                        if (userRoleRef[userRole] === formResponse.status && userRoleRef[userRole] === item.assignedTo) { 
+                            access = true; 
+                        } else { 
+                            access = false; 
+                        }
+                        // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
+                        return (<SectionViewPdf section={item} key={"Section" + item.sectionOrder} disabled={!access}></SectionViewPdf>)
+                    } else {
+                        let required = false; 
+                        if (access && item.isRequired) { 
+                            required = true; 
+                        }
+                        return (
+                            <QuestionViewPdf question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload} response={formResponse} disabled={!access} required={required}></QuestionViewPdf>
+                        )
+                    }
+                })}
             </Box>
 
             <Dialog
