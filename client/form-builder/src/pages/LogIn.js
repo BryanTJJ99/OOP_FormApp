@@ -1,8 +1,6 @@
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { authLogIn} from '../services/AuthService';
+import { authLogIn, getCurrentUserRole } from '../services/AuthService';
 
 
 function Copyright(props) {
@@ -35,7 +33,9 @@ function LogIn() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const to = location.state?.from?.pathname || "/Account";
+    // arbitrary location to redirect to after login
+    let to = location.state?.from?.pathname || "/ClientProject";
+
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -67,6 +67,12 @@ function LogIn() {
             authLogIn(username, password)
                 .then(
                     () => {
+
+                        const userRole = getCurrentUserRole();
+                        if (userRole === "ROLE_ADMIN" || userRole === "ROLE_APPROVER") {
+                            to = "/Dashboard";
+                        }
+                        
                         navigate(to, { replace: true });
                         window.location.reload();
                     },
@@ -131,17 +137,12 @@ function LogIn() {
                             value={password}
                             onChange={onChangePassword}
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                             disabled={loading}
-
                         >
                             Sign In
                         </Button>
