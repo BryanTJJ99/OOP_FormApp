@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TextField, Box, Button, Typography, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import { FormInfo, QuestionView, SectionView } from '../components/FormResponse/index.js';
 import { getFormTemplateById } from '../services/FormTemplate.js';
@@ -19,14 +19,18 @@ const FormResponse = (props) => {
     const [emailMessage, setEmailMessage] = useState(null);
     const [submitButton, setSubmitButton] = useState(null);
     const [userRole, setUserRole] = useState(null);
+    const [saveState, setSaveState] = useState(false);
+    const formRef = useRef(null);
+
+
 
     const nextStageRef = {
         'vendor': 'admin',
     }
 
-    const userRoleRef = { 
-        'ROLE_VENDOR': 'vendor', 
-        'ROLE_ADMIN': 'admin', 
+    const userRoleRef = {
+        'ROLE_VENDOR': 'vendor',
+        'ROLE_ADMIN': 'admin',
         'ROLE_APPROVER': 'approver'
     }
 
@@ -35,12 +39,28 @@ const FormResponse = (props) => {
         setNextStage(event.target.value);
     };
 
+    const handleEmailMessageChange = (event) => {
+        console.log(event.target.value)
+        setEmailMessage(event.target.value);
+    };
+
     function handlePopUpClose() {
         setOpenPopUp(false);
     }
 
     function handlePopUpOpen() {
         setOpenPopUp(true);
+    }
+
+    async function handleIgnoreRequiredFields(event) {
+        event.preventDefault();
+        const form = formRef.current;
+        const fields = form.querySelectorAll('[required]');
+        fields.forEach(field => {
+            field.required = false;
+        });
+        await setSaveState(true);
+        submitForm();
     }
 
     async function handleFormResponseSubmit(e) {
@@ -88,13 +108,16 @@ const FormResponse = (props) => {
                     // };
                 }
             }
-            if (dataToStore !== null) { 
+            if (dataToStore !== null) {
                 formAnswer[i] = dataToStore;
             }
         }
         let today = new Date().toJSON();
         let statusUpdated;
-        if (currStage === 'vendor') {
+        if (saveState) {
+            statusUpdated = currStage;
+        }
+        else if (currStage === 'vendor') {
             statusUpdated = nextStageRef[currStage];
         } else {
             statusUpdated = nextStage;
@@ -116,9 +139,11 @@ const FormResponse = (props) => {
         // for (var pair of formData.entries()) {
         //     console.log(pair[0]+ ', ' + pair[1]); 
         // }
+
         updateFormResponse(formResponseData)
             .then(response => {
-                // console.log(response);
+                console.log(formResponseData);
+
             })
             .catch(error => {
                 console.log(error.message);
@@ -153,9 +178,12 @@ const FormResponse = (props) => {
     function submitForm() {
         // let form = document.getElementById('form');
         // handleFormResponseSubmit();
-        // form.submit(); 
+        // form.submit();
+        setOpenPopUp(false);
+        console.log(saveState);
         let submitButton = document.getElementById('submitButton');
         submitButton.click();
+        console.log(formInfo)
     }
 
     useEffect(() => {
@@ -167,17 +195,17 @@ const FormResponse = (props) => {
         getFormResponseById(formResponseId)
             .then(response => {
                 setFormResponse(response);
-                let copyUserRole = getCurrentUserRole(); 
+                let copyUserRole = getCurrentUserRole();
                 let disabled = userRoleRef[copyUserRole] !== response.status
                 setSubmitButton(<Box display={'flex'} sx={{ float: 'right' }} className='me-5'>
-                                    <Box marginRight={2}>
-                                        <Button variant='contained' disabled={disabled}>Save</Button>
-                                    </Box>
-                                    <Box>
-                                        <Button variant='contained' onClick={handlePopUpOpen} disabled={disabled}>Submit Form</Button>
-                                        <button type='submit' className='d-none' id='submitButton'></button>
-                                    </Box>
-                                </Box>)
+                    <Box marginRight={2}>
+                        <Button variant='contained' onClick={handleIgnoreRequiredFields} disabled={disabled}>Save</Button>
+                    </Box>
+                    <Box>
+                        <Button variant='contained' onClick={handlePopUpOpen} disabled={disabled}>Submit Form</Button>
+                        <button type='submit' className='d-none' id='submitButton'></button>
+                    </Box>
+                </Box>)
                 setUserRole(copyUserRole);
                 let formTemplateId = response.formTemplateId;
                 getFormTemplateById(formTemplateId)
@@ -233,7 +261,7 @@ const FormResponse = (props) => {
         }
     }, [formTemplate])
 
-    let access; 
+    let access;
 
     return (
         <div>
@@ -241,20 +269,20 @@ const FormResponse = (props) => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             {formInfo}
             {statusSection}
-            <Box component='form' onSubmit={handleFormResponseSubmit} id="form">
+            <Box component='form' onSubmit={handleFormResponseSubmit} id="form" ref={formRef}>
                 {questionsSectionArea.map((item) => {
                     if (item.hasOwnProperty('sectionId')) {
-                        if (userRoleRef[userRole] === formResponse.status && userRoleRef[userRole] === item.assignedTo) { 
-                            access = true; 
-                        } else { 
-                            access = false; 
+                        if (userRoleRef[userRole] === formResponse.status && userRoleRef[userRole] === item.assignedTo) {
+                            access = true;
+                        } else {
+                            access = false;
                         }
                         // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
                         return (<SectionView section={item} key={"Section" + item.sectionOrder} disabled={!access}></SectionView>)
                     } else {
-                        let required = false; 
-                        if (access && item.isRequired) { 
-                            required = true; 
+                        let required = false;
+                        if (access && item.isRequired) {
+                            required = true;
                         }
                         return (
                             <QuestionView question={item} key={"Question" + item.questionOrder} handleFileUpload={handleFileUpload} response={formResponse} disabled={!access} required={required}></QuestionView>
@@ -276,22 +304,22 @@ const FormResponse = (props) => {
                 <DialogTitle id="alert-dialog-title">
                     {`Write an email to ${emailRecipient[currStage]}:`}
                 </DialogTitle>
-                <TextField value={emailMessage} placeholder="Your email message" multiline rows={3} sx={{ marginX: 3 }}></TextField>
+                <TextField value={emailMessage} placeholder="Your email message" multiline rows={3} sx={{ marginX: 3 }}  onChange={handleEmailMessageChange}></TextField>
                 {/* {nextStageElem} */}
-                {(currStage === 'approver' ||  currStage === 'admin') && <Box display='flex' margin={3}>
+                {(currStage === 'approver' || currStage === 'admin') && <Box display='flex' margin={3}>
                     <Typography marginY={'auto'} marginRight={1}>Assign:</Typography>
-                    <FormControl size="small" fullWidth>
-                        {currStage === 'approver' && 
-                            <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange}>
-                                <MenuItem value='default' disabled>Select next stage</MenuItem>
+                    <FormControl size="small" fullWidth required={true}>
+                        {currStage === 'approver' &&
+                            <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange} >
+                                <MenuItem value='' disabled>Select next stage</MenuItem>
                                 <MenuItem value='approved'>Approved</MenuItem>
                                 <MenuItem value='vendor'>Rejected, back to Vendor</MenuItem>
                                 <MenuItem value='admin'>Rejected, back to Admin</MenuItem>
                             </Select>
-                        } 
-                        {currStage === 'admin' && 
-                            <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange}>
-                                <MenuItem value='default' disabled>Select next stage</MenuItem>
+                        }
+                        {currStage === 'admin' &&
+                            <Select id="demo-select-small" value={nextStage} onChange={handleNextStageChange} >
+                                <MenuItem value='' disabled>Select next stage</MenuItem>
                                 <MenuItem value='approver'>Accepted, pass to Approver</MenuItem>
                                 <MenuItem value='vendor'>Rejected, back to Vendor</MenuItem>
                             </Select>
@@ -300,7 +328,7 @@ const FormResponse = (props) => {
                 </Box>}
                 <DialogActions>
                     <Button onClick={handlePopUpClose}>Cancel</Button>
-                    <Button onClick={submitForm}>Submit</Button>
+                    <Button onClick={submitForm} >Submit</Button>
                 </DialogActions>
             </Dialog>
         </div>
