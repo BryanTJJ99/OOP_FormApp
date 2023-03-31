@@ -79,31 +79,33 @@ const FormResponse = (props) => {
         setOpenPopUp(false);
         console.log(document.getElementById('formToPrint').innerHTML)
 
-        // const data = new FormData(e.currentTarget);
-        // let numOfQuestions = formTemplate.questions.length;
-        // let listOfMultiSelect = [];
-        // for (let ques of formTemplate.questions) {
-        //     if (ques.questionType === 'checkbox') {
-        //         listOfMultiSelect.push(ques.questionOrder);
-        //     }
-        // }
-        // let formAnswer = {};
-        // console.log("fileMap", fileMap)
-        // for (let i = 1; i <= numOfQuestions; i++) {
-        //     let dataToStore = data.get(i.toString());
-        //     if (listOfMultiSelect.includes(i)) {
-        //         dataToStore = data.get(i.toString()).split(',');
-        //     }
-        //     if (i in fileMap) {
-        //         let fileToStore = fileMap[(i).toString()];
-        //         if (!(fileToStore instanceof File)) {
-        //             dataToStore = [fileToStore[1], fileToStore[2]];
-        //         } else {
-        //             let file_type = fileToStore.type;
-        //             const reader = new FileReader();
-        //             // reader.readAsDataURL(fileToStore);
-        //             await readFileAsync(fileToStore, reader)
-        //                 .then(result => {
+        const data = new FormData(e.currentTarget);
+        let numOfQuestions = formTemplate.questions.length;
+        let listOfMultiSelect = [];
+        for (let ques of formTemplate.questions) {
+            if (ques.questionType === 'checkbox') {
+                listOfMultiSelect.push(ques.questionOrder);
+            }
+        }
+        let formAnswer = {};
+        console.log("fileMap", fileMap)
+        for (let i = 1; i <= numOfQuestions; i++) {
+            let dataToStore = data.get(i.toString());
+            if (listOfMultiSelect.includes(i)) {
+                dataToStore = data.get(i.toString()).split(',');
+            }
+            if (i in fileMap) {
+                let fileToStore = fileMap[(i).toString()];
+                if (!(fileToStore instanceof File)) {
+                    dataToStore = [fileToStore[1], fileToStore[2]];
+                } else {
+                    let file_type = fileToStore.type;
+                    const reader = new FileReader();
+                    // reader.readAsDataURL(fileToStore);
+                    await readFileAsync(fileToStore, reader)
+                        .then(result => {
+
+                            dataToStore = [result, file_type];
 
                         })
                         .catch(error => {
@@ -143,12 +145,10 @@ const FormResponse = (props) => {
         // for (const [key, value] of Object.entries(fileMap)) {
         //     formData.append(`fileMap`, value);
         // }
-        // let today = new Date().toJSON();
-        // let statusUpdated;
-        // if (currStage === 'vendor') {
-        //     statusUpdated = nextStageRef[currStage];
-        // } else {
-        //     statusUpdated = nextStage;
+        // formData.append("fileMap", fileMap);
+        // formData.append("formResponse", `{"formTemplateId":"6414f557b713704fd25c1b34","vendorId":"6409dc37e3139a5d267579b3","reviewedBy":"6411538f436af646394c3fe4","approvedBy":"6409dc0be3139a5d267579b2","status":"open","formAnswer":{"1":"ken","2":"ken is sleeping","3":"0","4":["1","2"],"5":"0","6":""}}`);
+        // for (var pair of formData.entries()) {
+        //     console.log(pair[0]+ ', ' + pair[1]); 
         // }
 
         updateFormResponse(formResponseData)
@@ -164,17 +164,9 @@ const FormResponse = (props) => {
         //     .then(response => { 
         //         console.log(response); 
         //     })
-        //     .catch(error => {
+        //     .catch(error => { 
         //         console.log(error.message);
         //     })
-
-        // // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e") 
-        // //     .then(response => { 
-        // //         console.log(response); 
-        // //     })
-        // //     .catch(error => { 
-        // //         console.log(error.message);
-        // //     })
     }
 
     async function readFileAsync(file, reader) {
