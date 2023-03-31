@@ -3,6 +3,7 @@ package com.oopproject.form.controllers;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itextpdf.text.Document;
@@ -22,14 +24,14 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 public class PdfController {
 
     @GetMapping("/generate-pdf")
-    public ResponseEntity<byte[]> generatePdf() throws Exception {
+    public ResponseEntity<byte[]> generatePdf(@RequestBody String htmlContent) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Document document = new Document(PageSize.A4);
         PdfWriter writer = PdfWriter.getInstance(document, baos);
         document.open();
 
         // MAKE THE FORM HERE AND STORE AS A HTML STRING
-        String htmlContent = "<html><body><h1>Hello World</h1><h2>OOP</h2></body></html>";
+        // String htmlContent = "<html><body><h1>Hello World</h1><h2>OOP</h2></body></html>";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(htmlContent.getBytes(Charset.forName("UTF-8")));
 
         XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream, Charset.forName("UTF-8"));
@@ -40,6 +42,7 @@ public class PdfController {
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDisposition(ContentDisposition.attachment().filename("output.pdf").build());
         headers.setContentLength(pdfBytes.length);
+        // System.out.println(Arrays.toString(pdfBytes));
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 }

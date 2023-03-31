@@ -13,6 +13,7 @@ import {
     Link,
     Autocomplete,
     TextField,
+    Typography
 } from "@mui/material";
 
 import {
@@ -390,6 +391,10 @@ const AccountManagementPage = (props) => {
 
     return (
         <Box sx={{ width: "90%", margin: "50px auto" }}>
+            <div className="text-center my-5">
+                <Typography variant='h4'>View Accounts</Typography>
+                <Typography variant='p'>Check all the accounts that your vendors have</Typography>
+            </div>
             <Link
                 to={"/AccountCreation"}
                 component={RouterLink}
@@ -427,6 +432,13 @@ const AccountManagementPage = (props) => {
                     onRowEditStart={handleRowEditStart}
                     onRowEditStop={handleRowEditStop}
                     processRowUpdate={processRowUpdate}
+                    sx={{
+                        '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+                          backgroundColor: "secondary.main",
+                          color:"white",
+                          fontWeight: 'bold',
+                        },
+                      }}
                 />
                 {!!snackbar && (
                     <Snackbar

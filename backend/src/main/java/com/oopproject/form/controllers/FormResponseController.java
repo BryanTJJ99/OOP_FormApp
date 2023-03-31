@@ -78,7 +78,6 @@ public class FormResponseController {
     @PatchMapping("/edit")
     @CrossOrigin
     public FormResponse updateFormResponse(@RequestBody FormResponse formResponse) {
-        System.out.println("oiwdjoijd");
         return formResponseService.updateFormResponse(formResponse);
     }
 
