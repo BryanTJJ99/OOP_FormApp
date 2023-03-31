@@ -18,11 +18,9 @@ import Unauthorized from "./components/Authentication/UnauthorizedFilter";
 import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Project from "./pages/ProjectPage";
 import RequireAuth from "./components/Authentication/AuthenticationFilter";
-import VendorProfilePage from "./pages/VendorProfilePage";
 import ProjectView from "./pages/ProjectView";
 
 // Incomplete pages for the time being to be edited and integrated with the RBAC routing structure on App.js
-// import ClientProject from "./pages/clientProject";
 // import ResponsePage from "./pages/ResponsesPage";
 
 import { styled, useTheme, createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
@@ -77,6 +75,7 @@ function App() {
                                 }
                             >
                                 <Route path="Account" element={<Settings />} />
+                                {/* FormView help confirm this is for which assigned role */}
                                 <Route path="FormView" element={<FormView />} />
                             </Route>
 
@@ -137,7 +136,6 @@ function App() {
                                 />
                             </Route>
                     
-
                             {/* Protected routes for Vendor to be updated with additional routes if needed, 
                             if have MiniDrawer also need to reflect the same changes */}
                             <Route
@@ -147,10 +145,6 @@ function App() {
                                     />
                                 }
                             >
-                                <Route
-                                    path="VendorProfilePage"
-                                    element={<VendorProfilePage />}
-                                />
                                 <Route
                                     path="ClientProject"
                                     element={<ClientProject />}
