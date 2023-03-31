@@ -19,6 +19,7 @@ import ProjectCreationPage from "./pages/ProjectCreationPage";
 import Project from "./pages/ProjectPage";
 import RequireAuth from "./components/Authentication/AuthenticationFilter";
 import ProjectView from "./pages/ProjectView";
+import AddFormProject from "./pages/AddFormProject";
 
 // Incomplete pages for the time being to be edited and integrated with the RBAC routing structure on App.js
 // import ResponsePage from "./pages/ResponsesPage";
@@ -133,6 +134,10 @@ function App() {
                                 <Route
                                     path="ProjectView"
                                     element={<ProjectView/>}
+                                />
+                                <Route
+                                    path="/AddFormProject"
+                                    element={<AddFormProject />}
                                 />
                             </Route>
                     
