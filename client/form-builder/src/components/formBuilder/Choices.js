@@ -42,6 +42,7 @@ const Choices = (props) => {
         let newChoicesLabels = {...choicesLabels}; 
         newChoicesLabels[choiceId] = valueToUpdate; 
         setChoicesLabels(newChoicesLabels); 
+        console.log(choicesLabels)
     }
 
     useEffect(() => {

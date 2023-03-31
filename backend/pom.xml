@@ -137,7 +137,7 @@
 		<dependency>
 			<groupId>com.itextpdf.tool</groupId>
 			<artifactId>xmlworker</artifactId>
-			<version>5.5.13.1</version>
+			<version>5.5.13.2</version>
 		</dependency>
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { styled, useTheme, ThemeProvider } from "@mui/material/styles";
-import { Container, Grid, Paper, Typography } from "@mui/material";
+import { Container, Grid, Paper, Typography, Box, TableCell, TableContainer, Table, TableBody, TableHead, TableRow } from "@mui/material";
 import { getCurrentUser } from "../services/AuthService";
 
 const Settings = () => {
@@ -13,9 +13,48 @@ const Settings = () => {
         color: theme.palette.text.secondary,
     }));
 
+    const rolesRef = { 
+        'ROLE_VENDOR': 'Vendor', 
+        'ROLE_ADMIN': 'Admin', 
+        'ROLE_APPROVER': 'Approver'
+    }
+
+    let rows = [
+        {key: 'Username', val: currentUser.username}, 
+        {key: 'Email', val: currentUser.email}, 
+        {key: 'Role', val: rolesRef[currentUser.roles]}, 
+
+    ]
+
     return (
-        <ThemeProvider theme={theme}>
-            <Container>
+        <Box >
+            <div className="text-center my-5">
+                <Typography variant='h4'>Profile</Typography>
+            </div>
+            <TableContainer component={Paper} sx={{ width: '70%', marginX:'auto' }} >
+                <Table aria-label="a dense table">
+                    <TableHead>
+                    <TableRow>
+                        <TableCell align='center' sx={{fontWeight: 'bold', bgcolor:'secondary.main', color:'white'}}>Field</TableCell>
+                        <TableCell align="center" sx={{fontWeight: 'bold', bgcolor:'secondary.main', color:'white'}}>Value</TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                        key={row.key}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row" align='center'>
+                            <Box component='span' fontWeight={'bold'}>{row.key}</Box> 
+                        </TableCell>
+                        <TableCell align="center">{row.val}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>    
+            </TableContainer>               
+            {/* <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Item>
@@ -55,8 +94,8 @@ const Settings = () => {
                         </Item>
                     </Grid>
                 </Grid>
-            </Container>
-        </ThemeProvider>
+            </Container> */}
+        </Box>
     );
 };
 
