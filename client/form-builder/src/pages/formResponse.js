@@ -9,12 +9,6 @@ import html2pdf from 'html2pdf.js';
 import ReactToPrint, { toPdf } from 'react-to-print';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
-const generatePdf = () => {
-    // Code to generate your PDF here
-
-    return (<PDFDownloadLink document={FormResponse} fileName="myPdfFile.pdf">Download PDF</PDFDownloadLink>);
-  }
-
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
     const [formResponse, setFormResponse] = useState(null);
@@ -77,7 +71,7 @@ const FormResponse = (props) => {
         // form.submit(); 
         e.preventDefault();
         setOpenPopUp(false);
-        console.log(document.getElementById('formToPrint').innerHTML)
+        // console.log(document.getElementById('formToPrint').innerHTML)
 
         const data = new FormData(e.currentTarget);
         let numOfQuestions = formTemplate.questions.length;
@@ -153,7 +147,8 @@ const FormResponse = (props) => {
 
         updateFormResponse(formResponseData)
             .then(response => {
-                console.log(formResponseData);
+                console.log(formResponseData)
+                console.log(response);
 
             })
             .catch(error => {
@@ -291,7 +286,6 @@ const FormResponse = (props) => {
 
     return (
         <div >
-            {generatePdf()}
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             {formInfo}

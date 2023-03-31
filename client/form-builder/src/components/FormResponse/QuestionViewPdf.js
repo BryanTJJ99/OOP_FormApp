@@ -42,13 +42,11 @@ const QuestionView = (props) => {
 
     const handleDropdownChange = (event) => {
         setDropdownVal(event.target.value);
-        console.log(event.target.value);
     };
 
     const handleFileChange = (newFile) => {
         setFile(newFile);
         props.handleFileUpload(props.question.questionOrder, newFile);
-        console.log(newFile);
     };
 
     const StyledRating = styled(Rating)({
@@ -94,7 +92,6 @@ const QuestionView = (props) => {
             let choices = Array(0);
             for (let i = 0; i < props.question.choices.length; i++) {
                 // let checked = false;
-                console.log(Object.keys(props.response.formAnswer),)
                 if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                     if (Object.values(props.response.formAnswer[props.question.questionOrder]).includes(i.toString())) {
                         // checked = true;
@@ -154,7 +151,6 @@ const QuestionView = (props) => {
             // var base64String = document.getElementById("Base64StringTxtBox").value;
             let fileElement = (<input type='file'></input>)
             // let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file} name={props.question.questionOrder.toString()} disabled={props.disabled} required={props.required}/>)
-            console.log(Object.keys(props.response.formAnswer), props.question.questionOrder)
             if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                 // const downloadLink = document.createElement("a");
                 // downloadLink.href = fileBase64String;
