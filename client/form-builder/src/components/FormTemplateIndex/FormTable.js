@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
       flex: 2,
       editable: false,
       renderCell: (params) => { 
-        return (<Button underline="none" href={params.value.link}  sx={{cursor: 'pointer'}}>
+        return (<Button underline="none" href={params.value.link}  sx={{marginLeft:0, cursor: 'pointer'}}>
         {params.value.name}
       </Button>)
       }
@@ -124,7 +124,7 @@ const FormTable = () => {
     //   ];
 
     return (
-      <Box sx={{ width: '80%'}} marginX={"auto"}>
+      <Box sx={{ width: '100%'}} marginX={"auto"}>
           {dataGrid}
       </Box>
     )

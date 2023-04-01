@@ -13,7 +13,7 @@ const FormSummary = (props) => {
                 <Typography variant='h4'>View Projects</Typography>
                 <Typography variant='p'>Check the status of all the vendor-project pairs</Typography>
             </div>
-            <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
+            <Box sx={{width: '100%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
                 <Button backgroundColor="primary" variant="contained" href="/ProjectCreation" sx={{textDecoration:"none","&:hover": {color: "#FFF"}}}><AddCircleIcon sx={{mr:1}}/>Create New Project</Button>
             </Box>
             <div>

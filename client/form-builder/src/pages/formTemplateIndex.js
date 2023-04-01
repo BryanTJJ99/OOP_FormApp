@@ -13,7 +13,7 @@ const FormTemplateIndex = (props) => {
                 <Typography variant='h4'>View the Form Templates</Typography>
                 <Typography variant='p'>Click on the form templates below to see the forms that you will assign to vendors.</Typography>
             </div>
-            <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
+            <Box sx={{width: '100%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
                 <Button variant="contained" color="primary" component="a" href="/FormBuilder"><AddCircleIcon sx={{mr:1}}/>Create New Template</Button>
             </Box>
             <div>

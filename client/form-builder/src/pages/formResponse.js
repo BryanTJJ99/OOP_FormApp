@@ -10,6 +10,7 @@ import ReactToPrint, { toPdf } from 'react-to-print';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import jsPDF from 'jspdf';
 import QuantumLeapLogo from '../assets/QuantumLeapLogo.png';
+import { sendCustomEmail } from '../services/EmailAPI.js';
 
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
@@ -185,6 +186,25 @@ const FormResponse = (props) => {
 
             })
             .catch(error => {
+                console.log(error.message);
+            })
+        
+        let emailData = { 
+            vendorEmail: 'bernice.teo.2021@scis.smu.edu.sg',
+            subject: formTemplate.formName + ' has been updated to ' + statusUpdated, 
+            message: emailMessage
+        }
+
+        sendCustomEmail(emailData)
+            .then(response => { 
+                console.log(response)
+                if (userRole === 'ROLE_VENDOR') {
+                    window.location.href = '/ClientProject'
+                } else { 
+                    window.location.href = '/Projects'
+                }
+            })
+            .catch(error => { 
                 console.log(error.message);
             })
 

@@ -35,10 +35,10 @@ const columns: GridColDef[] = [
     {
       field: 'project',
       headerName: 'Project',
-      flex: 2,
+      flex: 3,
       editable: false,
       renderCell: (params) => {
-        return (<Button underline="none" href={`/projectView?projectId=${params.row.projectId}`}  sx={{cursor: 'pointer'}}>
+        return (<Button underline="none" href={`/projectView?projectId=${params.row.projectId}`}  sx={{marginLeft:0, textAlign:'start', cursor: 'pointer'}}>
           {params.row.project}
         </Button>)
       }
@@ -220,7 +220,7 @@ const FormTable = () => {
   }, [formTemplates, users])
 
     return (
-      <Box sx={{ width: '80%',overflowX:'auto', }}
+      <Box sx={{ width: '100%',overflowX:'auto', }}
         display={"flex"}
         justifyContent={"center"}
         marginX={"auto"}
