@@ -18,13 +18,13 @@ import Typography from "@mui/material/Typography";
 //     </div>
 //   );
 
-export default function FormTemplate(props) {
+export default function EditProjectFormTemplateCard(props) {
     const addForm = (form) => {
         console.log(form);
-        props.handleProjectDataChange("selectedForm", form);
+        props.handleFormTemplateSelectionChange(form);
     };
 
-    const isInSelectedForm = props.projectData.selectedForm.some(
+    const isInSelectedForm = props.selectedForms.some(
         (form) => form.id === props.id
     );
     const buttonName = isInSelectedForm ? "Selected" : "Select Form";
@@ -64,7 +64,7 @@ export default function FormTemplate(props) {
                     </Button>
                 </CardActions>
             </Card>
-            {console.log(props.selectedForm)}
+            {console.log(props.selectedForms)}
         </>
     );
 }
