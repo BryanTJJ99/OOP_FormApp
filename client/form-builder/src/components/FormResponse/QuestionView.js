@@ -35,6 +35,7 @@ const QuestionView = (props) => {
         } else {
             newCheckboxValue.push(event.target.value);
         }
+        console.log(newCheckboxValue)
         setCheckboxValue(newCheckboxValue);
     }
 
@@ -92,7 +93,6 @@ const QuestionView = (props) => {
             console.log(props.question.choices.length)
             for (let i = 0; i < props.question.choices.length; i++) {
                 let checked = false;
-                console.log(Object.keys(props.response.formAnswer),)
                 if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                     if (Object.values(props.response.formAnswer[props.question.questionOrder]).includes(i.toString())) {
                         checked = true;
@@ -172,7 +172,7 @@ const QuestionView = (props) => {
             let fileBase64Array = props.response.formAnswer[props.question.questionOrder];
             // var base64String = document.getElementById("Base64StringTxtBox").value;
             let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file} name={props.question.questionOrder.toString()} disabled={props.disabled} required={file?false:true}  />)
-            console.log(file)
+            // console.log(file)
             console.log(Object.keys(props.response.formAnswer), props.question.questionOrder)
             if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                 // const downloadLink = document.createElement("a");
@@ -180,7 +180,7 @@ const QuestionView = (props) => {
                 // downloadLink.download = "convertedPDFFile.pdf";
                 // downloadLink.click();
                 fileElement = (<div className='d-block'>
-                    <MuiFileInput onChange={handleFileChange} label="Select a new file" value={file} sx={{ display: 'block', marginBottom: 2 }} hidden={props.disabled} required={props.required}/>
+                    <MuiFileInput onChange={handleFileChange} label="Select a new file" value={file} sx={{ display: 'block', marginBottom: 2 }} hidden={props.disabled}/>
                     <Button component="a" href={"data:" + fileBase64Array[1] + ";base64," + fileBase64Array[0]} download="userInputFile" variant="contained" sx={{ padding: 2, display: 'block' }}><AttachFileIcon sx={{ marginRight: 1 }} />Download Submitted File</Button>
                 </div>)
             }
