@@ -5,6 +5,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
+import {Fragment} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -27,6 +28,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
+
 
 // imports for controlling the drawer according to the user authencation
 import { getCurrentUser, authLogOut } from "../../services/AuthService";
@@ -106,7 +108,7 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   // const [page, setPage] = React.useState("Dashboard")
-  const [page, setPage] = React.useState("OOP Form Builder"); // setting the login landing page nav bar title header
+  const [page, setPage] = React.useState("Quantum Leap Form Management App"); // setting the login landing page nav bar title header
 
   // Template for the pages and widgets for easier reference
 
@@ -289,11 +291,11 @@ export default function MiniDrawer({children}) {
               </ListItemButton>
             </Link>
           </ListItem>}
-          {showClientProject && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Client Project")}>
+          {showClientProject && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("My Dashboard")}>
             <Link to={`/ClientProject`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                    <AccountBoxIcon />
+                    <DashboardIcon />
                   </ListItemIcon>
                 <ListItemText secondary="Client Project" disableTypography={true} sx={{ opacity: open ? 1 : 0, fontSize: 16 }} />
               </ListItemButton>
@@ -354,7 +356,7 @@ export default function MiniDrawer({children}) {
             </Link>
           </ListItem>}
 
-          {currentUser && <ListItem key="Logout" sx={{display:'block'}} 
+          {currentUser && <ListItem disablePadding key="Logout" sx={{display:'block'}} 
             onClick={() => {
               logOut()
               setPage("Logout")

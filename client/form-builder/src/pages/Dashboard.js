@@ -354,6 +354,13 @@ const Dashboard = () => {
                   },
                 },
               }}
+              sx={{
+                '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+                  backgroundColor: "primary.main",
+                  color:"white",
+                  fontWeight: 'bold',
+                },
+              }}
               pageSizeOptions={[10]}
               checkboxSelection={false}
               disableRowSelectionOnClick

@@ -2,6 +2,7 @@ import React from "react";
 import { styled, useTheme, ThemeProvider } from "@mui/material/styles";
 import { Container, Grid, Paper, Typography, Box, TableCell, TableContainer, Table, TableBody, TableHead, TableRow } from "@mui/material";
 import { getCurrentUser } from "../services/AuthService";
+import AccountCreationLogo from "../components/AccountCreation/AccountCreationLogo";
 
 const Settings = () => {
     const currentUser = getCurrentUser();
@@ -27,11 +28,22 @@ const Settings = () => {
     ]
 
     return (
-        <Box >
+        <Box sx={{width:'70%', marginX:'auto',}}>
+            <AccountCreationLogo/>
             <div className="text-center my-5">
-                <Typography variant='h4'>Profile</Typography>
+                <Typography variant='h4'>Your Profile</Typography>
             </div>
-            <TableContainer component={Paper} sx={{ width: '70%', marginX:'auto' }} >
+            <TableContainer 
+            component={Paper}
+            sx={{
+                marginX:'auto',
+                "& .MuiTableCell-head":{
+                  backgroundColor: "primary.main",
+                  color:"white",
+                  fontWeight: 'bold',
+                },
+              }}
+            >
                 <Table aria-label="a dense table">
                     <TableHead>
                     <TableRow>

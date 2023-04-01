@@ -167,7 +167,7 @@ const ClientFormTable = () => {
         disableRowSelectionOnClick
         sx={{
           '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
-            backgroundColor: "secondary.main",
+            backgroundColor: "primary.main",
             color: "white",
             fontWeight: 'bold',
           },
