@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
     getFormResponsesByVendorIdAndProjectId,
@@ -34,18 +34,36 @@ import { getFormTemplateById } from "../services/FormTemplate.js";
 import FormPills from "../components/FormIndex/FormPills.js";
 
 function SimpleDialog(props) {
-    const { onClose, selectedValue, setSelectedVendor, open, vendors } = props;
-
-    console.log(props);
+    const {
+        selectedVendor,
+        setSelectedVendor,
+        open,
+        onClose,
+        vendors,
+        project,
+    } = props;
 
     const handleClose = () => {
-        onClose(selectedValue);
+        onClose(selectedVendor);
     };
-
     const handleListItemClick = (value) => {
         setSelectedVendor(value);
-        console.log(selectedValue);
     };
+    // // const queryString = window.location.search;
+    // // const urlParams = new URLSearchParams(queryString);
+    // // const projectId = urlParams.get("projectId");
+    console.log(project);
+    const selectedVendorId = selectedVendor.id;
+
+    let projectId = "";
+    for (const key in project) {
+        if (key === "projectID") {
+            projectId = project["projectID"];
+            console.log(projectId);
+            console.log(project["projectID"]);
+        }
+    }
+    console.log(projectId);
 
     return (
         <Dialog onClose={handleClose} open={open}>
@@ -57,7 +75,7 @@ function SimpleDialog(props) {
                             onClick={() => handleListItemClick(vendor)}
                             key={vendor.name}
                             sx={
-                                selectedValue == vendor.name
+                                selectedVendor.name == vendor.name
                                     ? { background: "#e5e5e5" }
                                     : null
                             }
@@ -72,10 +90,15 @@ function SimpleDialog(props) {
                 <Button
                     component={Link}
                     to={{
-                        pathname: "../components/Projects/ProjectCreationPage2",
-                        // state: { projectName, projectDescription },
+                        pathname: "/AddFormProject",
+                        search:
+                            "?projectId=" +
+                            projectId +
+                            "&selectedVendorId=" +
+                            selectedVendorId,
                     }}
                 >
+                    {console.log(projectId)}
                     Add form
                 </Button>
             </List>
@@ -96,17 +119,18 @@ const ProjectView = () => {
     const [editProjectDescription, setEditProjectDescription] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
-    const [selectedVendor, setSelectedVendor] = useState("");
+    const [selectedVendor, setSelectedVendor] = useState({});
     const [vendorIds, setVendorIds] = useState([]);
     const [vendors, setVendors] = useState([]);
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const projectId = urlParams.get("projectId");
-        console.log(projectId);
-        async function getAllDataForProjectView() {
+        (async () => {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const projectId = urlParams.get("projectId");
+            console.log(projectId);
+            // async function getAllDataForProjectView() {
             let foundProject = await getProjectById(projectId);
 
             setProject(foundProject);
@@ -119,7 +143,7 @@ const ProjectView = () => {
             );
             setVendors(vendors);
 
-            console.log(vendors);
+            // console.log(vendors);
             const newRows = await Promise.allSettled(
                 vendors.map(async (vendor) => {
                     let vendorForms =
@@ -154,10 +178,10 @@ const ProjectView = () => {
                 rowsToAdd.push(newRow.value);
             }
 
-            console.log(rowsToAdd);
             setRows(rowsToAdd);
-        }
-        getAllDataForProjectView();
+            console.log("returning");
+            return;
+        })();
     }, []);
 
     const handleDialogOpen = () => {
@@ -290,29 +314,20 @@ const ProjectView = () => {
                     ),
                 }}
             />
+            {console.log(project)}
 
             <Button variant="outlined" onClick={handleDialogOpen}>
-                Open simple dialog
+                Add Forms
             </Button>
+            {console.log(project)}
             <SimpleDialog
-                selectedValue={selectedVendor ? selectedVendor.name : null}
+                selectedVendor={selectedVendor}
                 setSelectedVendor={setSelectedVendor}
                 open={openDialog}
                 onClose={handleDialogClose}
                 vendors={vendors}
+                project={project}
             />
-
-            {/* <Link
-                to={{
-                    pathname: "../components/Projects/ProjectCreationPage2",
-                    state: { projectName, projectDescription },
-                }}
-                // vendor obj is stored in the vendors state
-            >
-                <Button variant="contained">Add Form</Button>
-            </Link> */}
-
-            {/* {console.log(project)} */}
 
             <DataGrid
                 rows={rows}
