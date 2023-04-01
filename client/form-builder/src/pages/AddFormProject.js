@@ -1,21 +1,29 @@
 // this helps you add additional forms to your project for a selected vendor
 
 import React, { useState, Fragment, useEffect } from "react"; //rafce
-import { Button, Typography, TextField, InputAdornment, CssBaseline, Container, Box,
-Card,
-CardContent,
-Table,
-TableBody,
-TableCell,
-TableContainer,
-TableHead,
-TableRow,
-Paper,
-Chip,
-Grid, } from "@mui/material";
 import {
-FilterAlt as FilterAltIcon,
-Add as AddIcon
+    Button,
+    Typography,
+    TextField,
+    InputAdornment,
+    CssBaseline,
+    Container,
+    Box,
+    Card,
+    CardContent,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Chip,
+    Grid,
+} from "@mui/material";
+import {
+    FilterAlt as FilterAltIcon,
+    Add as AddIcon,
 } from "@mui/icons-material";
 import FormTemplate from "../components/Projects/FormTemplate";
 import Carousel from "react-multi-carousel";
@@ -24,65 +32,130 @@ import Carousel from "react-multi-carousel";
 import FullScreenDialog from "../components/Projects/CustomPopUp";
 
 import { getFormTemplateData } from "../services/ProjectCreationPageAPI";
-import { useLocation } from "react-router-dom";
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+    getFormResponsesByVendorIdAndProjectId,
+    getProjectById,
+} from "../services/ProjectViewAPI";
+import { getUserById } from "../services/User";
+import EditProjectFormTemplateCard from "../components/Projects/EditProjectFormTemplateCard";
+import { initialiseFormResponse } from "../services/FormResponse";
 
-
-
-function AddFormProject(props) {
+function AddFormProject() {
     const [formTemplate, setformTemplate] = useState([]);
-    const [filterValue, setFilterValue] = useState(props.filterValue);
+    const [filterValue, setFilterValue] = useState("");
     const [rawData, setRawData] = useState();
     const [vendorData, setVendorData] = useState([]);
-    const [selectedForm, setSelectedForm] = useState([]);
+    const [selectedForms, setSelectedForms] = useState([]);
     const [projectData, setProjectData] = useState({});
+    const [formResponses, setFormResponses] = useState([]);
+    const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
-
     const projectId = searchParams.get("projectId");
-    const selectedVendorId= searchParams.get("selectedVendorId");
-    console.log(projectId);
-    console.log(selectedVendorId);
+    const selectedVendorId = searchParams.get("selectedVendorId");
 
     useEffect(() => {
-        const fetchData = async () => {
+        async function fetchProjectAndVendor() {
             try {
+                const project = await getProjectById(projectId);
+                setProjectData(project);
+                console.log("Project: ");
+                console.log(project);
+                const vendor = await getUserById(selectedVendorId);
+                setVendorData(vendor);
+                console.log("Vendor:");
+                console.log(vendor);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        fetchProjectAndVendor();
+    }, []);
+
+    useEffect(() => {
+        const fetchFormData = async () => {
+            try {
+                const responses = await getFormResponsesByVendorIdAndProjectId(
+                    selectedVendorId,
+                    projectId
+                );
+                setFormResponses(responses);
+
                 let forms = await getFormTemplateData();
+
+                for (const response of responses) {
+                    console.log(response.formTemplateId);
+                    forms = forms.filter(
+                        (form) =>
+                            form.formTemplateId !== response.formTemplateId
+                    );
+                }
+
                 console.log(forms);
-                // console.log(vendorData)
-                // setformTemplate(forms);
                 setRawData(forms);
                 setformTemplate(forms);
-                // console.log(vendorData);
             } catch (error) {
                 console.log(error.message);
             }
         };
 
-        fetchData();
+        fetchFormData();
     }, []);
 
     // For building filter logic
-    function filter(event) {
-        // console.log(event.target.value)
-        let filter_value = event.target.value;
+    function filterForms(event) {
+        let newFilterValue = event.target.value;
+        setFilterValue(newFilterValue);
         let filtered_forms = [];
         for (var form of rawData) {
             let slice = form.formName
                 .toLowerCase()
-                .slice(0, filter_value.length);
-            if (slice == filter_value.toLowerCase()) {
+                .slice(0, newFilterValue.length);
+            if (slice == newFilterValue.toLowerCase()) {
                 filtered_forms.push(form);
             }
         }
         setformTemplate(filtered_forms);
     }
 
-    console.log(rawData);
-    console.log(formTemplate);
+    function handleFormTemplateSelectionChange(selectedForm) {
+        let newSelectedForms = [];
+        if (selectedForms.some((form) => form.id === selectedForm.id)) {
+            newSelectedForms = selectedForms.filter(
+                (form) => form.id !== selectedForm.id
+            );
+        } else {
+            selectedForms.push(selectedForm);
+            newSelectedForms = JSON.parse(JSON.stringify(selectedForms));
+        }
+        setSelectedForms(newSelectedForms);
+    }
+
+    async function handleSubmit() {
+        let today = new Date().toJSON();
+        for (const form of selectedForms) {
+            const formResponseData = {
+                formTemplateId: form.id,
+                vendorId: selectedVendorId,
+                projectId: projectId,
+                status: "vendor",
+                vendorDeadline: "2023-04-15T05:22:33.934+00:00",
+                formAnswer: {},
+                createdAt: today,
+                updatedAt: today,
+            };
+            await initialiseFormResponse(formResponseData);
+        }
+        navigate(`/projectView?projectId=${projectId}`);
+    }
 
     return (
         <>
+            {rawData && console.log(rawData)}
+            {formTemplate && console.log(formTemplate)}
+            {projectData && console.log(projectData)}
+            {vendorData && console.log(vendorData)}
             <Box sx={{ height: 50 }}></Box>
 
             <Typography
@@ -106,7 +179,7 @@ function AddFormProject(props) {
                     }}
                 >
                     <Typography variant="h6">Selected Form(s)</Typography>
-                    {selectedForm.map((item) => (
+                    {selectedForms.map((item) => (
                         <Chip
                             label={item.name}
                             key={item.name}
@@ -146,7 +219,7 @@ function AddFormProject(props) {
                                 variant="filled"
                                 sx={{ height: 30, m: 3 }}
                                 value={filterValue}
-                                onChange={filter}
+                                onChange={filterForms}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -167,26 +240,35 @@ function AddFormProject(props) {
                             style={{ height: "100%" }}
                             overflow="auto"
                         >
-                            {formTemplate.map((item) => (
+                            {formTemplate.map((template) => (
                                 <Grid
-                                    key={item.formTemplateId}
+                                    key={template.formTemplateId}
                                     item
                                     xs={12}
                                     sm={6}
                                     md={4}
                                 >
-                                    <FormTemplate
-                                        id={item.formTemplateId}
-                                        name={item.formName}
-                                        // url={item.imageurl}
-                                        description={item.formDescription}
-                                        projectData={selectedForm}
-                                        handleProjectDataChange={
-                                            props.handleProjectDataChange
+                                    {/* <FormTemplate
+                                        id={template.formTemplateId}
+                                        name={template.formName}
+                                        description={template.formDescription}
+                                        projectData={selectedForms}
+                                        template={template}
+                                    >
+                                        {template}
+                                    </FormTemplate> */}
+                                    <EditProjectFormTemplateCard
+                                        id={template.formTemplateId}
+                                        name={template.formName}
+                                        description={template.formDescription}
+                                        selectedForms={selectedForms}
+                                        // template={template}
+                                        handleFormTemplateSelectionChange={
+                                            handleFormTemplateSelectionChange
                                         }
                                     >
-                                        {item}
-                                    </FormTemplate>
+                                        {template}
+                                    </EditProjectFormTemplateCard>
                                 </Grid>
                             ))}
                         </Grid>
@@ -198,13 +280,13 @@ function AddFormProject(props) {
             <br />
             <Box
                 display="flex"
-                width="300px;"
+                width="80%"
                 marginX="auto"
                 marginY="50px"
-                justifyContent="space-between"
+                justifyContent="end"
             >
                 <Button
-                    onClick={() => props.setActivePage("1")}
+                    onClick={handleSubmit}
                     style={{
                         backgroundColor: "#1F87BC",
                         color: "white",
@@ -213,21 +295,7 @@ function AddFormProject(props) {
                     }}
                 >
                     <Typography sx={{ fontSize: "14px", m: 1 }}>
-                        Back
-                    </Typography>
-                </Button>
-
-                <Button
-                    onClick={() => props.setActivePage("3")}
-                    style={{
-                        backgroundColor: "#1F87BC",
-                        color: "white",
-                        height: 50,
-                        width: 100,
-                    }}
-                >
-                    <Typography sx={{ fontSize: "14px", m: 1 }}>
-                        Next
+                        Submit
                     </Typography>
                 </Button>
             </Box>
@@ -235,4 +303,4 @@ function AddFormProject(props) {
     );
 }
 
-export default AddFormProject
+export default AddFormProject;
