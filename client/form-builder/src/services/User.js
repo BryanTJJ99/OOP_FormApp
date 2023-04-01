@@ -7,6 +7,8 @@ export async function getAllUsers() {
         console.log('response ', response); 
         return response.data; 
     } catch(error) { 
+        console.error('Error fetching user data:', error);
+        // throw error;
         return error; 
     }
 }

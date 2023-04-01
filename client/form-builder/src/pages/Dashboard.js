@@ -188,17 +188,26 @@ const Dashboard = () => {
         }
 
         setFormTemplates(newFormTemplateDict);
+        console.log(newFormTemplateDict)
         return newFormTemplateDict
       }
     // obtain user data
+
+    //KEN MING ADDED THE TRY CATCH BLOCK
     const fetchUserData = async() => {
+      try{
       let userData = await getAllUsers()
       let newUserDict = {}; 
       for (let user of userData) { 
         newUserDict[user.id] = [user.name,user.email]; 
       }
+      console.log(newUserDict)
       setUsers(newUserDict);
       return newUserDict
+    }
+    catch(error){
+      console.log(error)
+    }
     }
     // obtain project data
     const fetchProjectData = async() => {
@@ -207,6 +216,7 @@ const Dashboard = () => {
       for (let proj of projectData) { 
         newProjectDict[proj.projectID] = proj.projectName; 
       }
+      console.log(newProjectDict)
       setProjects(newProjectDict);
       return newProjectDict
     }
@@ -238,7 +248,10 @@ const Dashboard = () => {
     // following.setDate(today.getDate()+2)
     // const upcoming = [today,tomorrow,following]
     let counter = 1
-
+    // console.log(formResponses)
+    console.log(users)
+    console.log(formTemplates)
+    console.log(projects)
     for (let formResponse of formResponses){
       let templateId = formResponse.formTemplateId; 
       // let templateName = formTemplateDict[templateId]; 
@@ -246,11 +259,14 @@ const Dashboard = () => {
       // let vendor = userDataDict[formResponse.vendorId]
       let deadline = formResponse.vendorDeadLine;
       // console.log(formResponse.deadline,'deadline')
-      if(formResponse.Id in users){
+
+      // KEN MING CCHANGED SOMETHING HERE
+      if(formResponse.vendorId in users){
         var vendor = users[formResponse.vendorId]
       } else{
         // console.log('vendor error')
-        var vendor = ['dummy1','dummy@gmail.com']
+        console.log("NOOOO")
+        // var vendor = ['dummy1','dummy@gmail.com']
       }
       // let project = projectDataDict[formResponse.projectId]
       if (formResponse.projectId in projects){
