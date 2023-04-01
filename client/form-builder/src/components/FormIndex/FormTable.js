@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
+import {Box, Button } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { randomColor, randomDesk, randomEmail, randomFeeRate, generateFilledQuantity, randomId, randomIncoterm, generateIsFilled, randomQuantity, randomTraderName, randomUnitPrice, randomUnitPriceCurrency, randomStatusOptions, randomPnL, randomTradeDate, randomMaturityDate, randomBrokerId, randomCompanyName, randomCountry, randomCurrency, randomAddress, randomCity, randomUpdatedDate, randomCreatedDate, randomRateType, randomContractType, randomTaxCode } from '@mui/x-data-grid-generator/services';
@@ -38,7 +38,9 @@ const columns: GridColDef[] = [
       flex: 2,
       editable: false,
       renderCell: (params) => {
-        return <Link to={`/projectView?projectId=${params.row.projectId}`}>{params.row.project}</Link>
+        return (<Button underline="none" href={`/projectView?projectId=${params.row.projectId}`}  sx={{cursor: 'pointer'}}>
+          {params.row.project}
+        </Button>)
       }
     },
 

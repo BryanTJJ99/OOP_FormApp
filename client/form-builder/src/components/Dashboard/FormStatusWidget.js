@@ -53,7 +53,7 @@ export default function FormStatusWidget(){
           <Table sx={{ width: 350, overflow: "scroll", width: '100%', [`& .${tableCellClasses.root}`]: {borderBottom: "none" } }}>
             <TableBody>
             {Object.keys(statuses).map((stat,idx)=>(
-                <>
+                <Fragment key={idx}>
                 <TableRow
                 key={idx}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }, p:0, m:0 }}
@@ -63,7 +63,7 @@ export default function FormStatusWidget(){
                 </TableCell>
                 <TableCell align="center"><Typography sx={{p:0,m:0,}}>{statuses[stat]}</Typography></TableCell>
                 </TableRow>
-                </>  
+                </Fragment>  
             ))
             }
             </TableBody>
