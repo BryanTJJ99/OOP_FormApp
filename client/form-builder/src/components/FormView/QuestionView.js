@@ -149,6 +149,7 @@ const QuestionView = (props) => {
         <Card variant="outlined" className="mx-5 mb-3">
             <div className='card-header text-left'>
                 {props.question.questionTitle}
+                <Box component='span' color='primary.main'>{props.question.isRequired ? " *" : ""}</Box>
             </div>
             <div className='card-body'>
                 {specialQuestionType(props.question.questionType)}

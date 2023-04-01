@@ -74,7 +74,7 @@ const ClientFormTable = (props) => {
                                     FormResponse.formTemplateId
                                 );
                                 let formLink =
-                                    "FormView?formResponseId=" +
+                                    "FormResponse?formResponseId=" +
                                     FormResponse.formResponseId;
                                 testcount++;
                                 let formDetails = {
