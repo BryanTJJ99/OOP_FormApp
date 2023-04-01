@@ -62,37 +62,37 @@ const ProjectCreationPage3 = (props) => {
             vendorId: vid,
         };
         try {
-            createProject(data).then((response) => {
-                const createdProject = response;
-                console.log("Project created successfully:", createdProject);
-                const projectID = createdProject.projectID;
-                console.log(createdProject, projectID);
-                const formResponsePromises = selectedFormsArr.map(
-                    async (form) => {
-                        let formID = form.id;
-                        let today = new Date().toJSON();
-                        return vid.map(async (vendorID) => {
+            const response = await createProject(data);
 
-                          const formResponseData = {
-                            formTemplateId: formID,
-                            vendorId: vendorID,
-                            projectId: projectID,
-                            reviewedBy: "6411538f436af646394c3fe4",
-                            approvedBy: "6409dc0be3139a5d267579b2",
-                            status: 'vendor',
-                            vendorDeadline: '2023-04-15T05:22:33.934+00:00',
-                            formAnswer: {}, 
-                            createdAt: today,
-                            updatedAt: today,
-                          };
-                          await initialiseFormResponse(formResponseData);
-                          window.location.href = "/Project";
-                        });
-                    }
-                );
+            const createdProject = response;
+            console.log("Project created successfully:", createdProject);
+            const projectID = createdProject.projectID;
+            console.log(createdProject, projectID);
+            let formResponsePromises = await Promise.all(
+                selectedFormsArr.map(async (form) => {
+                    let formID = form.id;
+                    let today = new Date().toJSON();
+                    let vidMap = await Promise.all(
+                        vid.map(async (vendorID) => {
+                            const formResponseData = {
+                                formTemplateId: formID,
+                                vendorId: vendorID,
+                                projectId: projectID,
+                                status: "vendor",
+                                vendorDeadline: "2023-04-15T05:22:33.934+00:00",
+                                formAnswer: {},
+                                createdAt: today,
+                                updatedAt: today,
+                            };
+                            await initialiseFormResponse(formResponseData);
+                            window.location.href = "/Project";
+                        })
+                    );
+                })
+            );
 
-                Promise.all(formResponsePromises.flat());
-            });
+            formResponsePromises.flat();
+
             // const createdProject = await createProject(data);
             // console.log('Project created successfully:', createdProject);
             // // console.log('Project ID:', createdProject._id);
@@ -195,8 +195,13 @@ const ProjectCreationPage3 = (props) => {
                                 Vendor Name(s):
                             </TableCell>
                             <TableCell align="center">
-                                {vendors.map((vendor)=>{
-                                    return <Chip label={vendor.name} key={vendor.name} />
+                                {vendors.map((vendor) => {
+                                    return (
+                                        <Chip
+                                            label={vendor.name}
+                                            key={vendor.name}
+                                        />
+                                    );
                                 })}
                             </TableCell>
                         </TableRow>
@@ -265,7 +270,6 @@ const ProjectCreationPage3 = (props) => {
     );
 };
 
-
 //   return (
 //     <>
 //     <Typography variant="h3" component="div" style={{ flexGrow: 1, margin: 30 }}>
@@ -314,10 +318,10 @@ const ProjectCreationPage3 = (props) => {
 //         <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Back</Button>
 
 //         <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Submit</Button>
-//     </Box>                      
+//     </Box>
 //     </>
 
 //   )
 // }
 
-export default ProjectCreationPage3
+export default ProjectCreationPage3;
