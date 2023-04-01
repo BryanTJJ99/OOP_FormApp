@@ -29,7 +29,7 @@ public class FormResponse {
     private String status; 
     private Date vendorDeadline; 
     private Map<String, Object> formAnswer;
-    private Map<Date, String> versionHistory;
+    private Map<String, String> versionHistory;
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;

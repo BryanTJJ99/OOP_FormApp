@@ -9,10 +9,10 @@ const SectionView = (props) => {
       }
 
     return (
-        <div variant="outlined" className="mt-5 mx-5 mb-3 card-header bg-dark">
+        <div variant="outlined" className="mt-5 mx-5 mb-3 card-header bg-dark" style={{backgroundColor: 'black', marginTop:'10px'}}>
             <div className="text-left" backgroundColor={"primary.main"} paddingX={2} paddingY={1}>
-                <h6 sx={{fontWeight: 'bold'}} className='text-white'>{toTitleCase(props.section.sectionName)}</h6>
-                <p className='text-light mb-0'>Assigned to: {toTitleCase(props.section.assignedTo)}</p>
+                <h3 sx={{fontWeight: 'bold'}} style={{color:'white', marginBottom:0, marginLeft:'10px', marginTop:'15px'}} className='text-white'>{toTitleCase(props.section.sectionName)}</h3>
+                <p className='text-light mb-0' style={{color:'white', marginBottom:'10px', marginLeft:'10px'}} >Assigned to: {toTitleCase(props.section.assignedTo)}</p>
             </div>
         </div>
     )

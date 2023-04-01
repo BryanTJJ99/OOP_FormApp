@@ -9,9 +9,11 @@ import { FormPills } from '../FormIndex/index.js';
 import { ClientFormPills } from '../ClientProject';
 import { lineHeight } from '@mui/system';
 import { getAllProjects } from '../../services/DashboardAPI';
-import { getAllFormResponses } from '../../services/FormResponse'
+// import { getAllFormResponses } from '../../services/FormResponse'
 import { getFormTemplateById } from '../../services/FormTemplate'
+import { getAllFormResponses, getFormReponseByVendorId } from '../../services/FormResponse'
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
+import { getCurrentUser } from '../../services/AuthService.js';
 
 const columns: GridColDef[] = [
   // {
@@ -70,7 +72,7 @@ const columns: GridColDef[] = [
 
 
 
-const ClientFormTable = () => {
+const ClientFormTable = (props) => {
   // const rows = [
   //   { id: 1, vendor: 'Ken Company', project: 'Wack Stuff', forms: [{name: 'Reflection', status: 'partial', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}]},
   //   { id: 2, vendor: 'Bryan Company', project: 'Good Stuff', forms: [{name: 'Pre Evaluation Assessment', status: 'unfilled', link: '/FormView?formResponseId=64174e893e557a26fc1e0d69'}, {name: 'Post Eval Report', status: 'complete', link: '/FormResponse'}, {name: 'Reflection', status: 'partial', link: '/FormResponse'}]},
@@ -80,8 +82,8 @@ const ClientFormTable = () => {
   //   { id: 6, vendor: 'KM Company', project: 'Wow Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormResponse'}]},
   //   { id: 7, vendor: 'Elt Company', project: 'Great Stuff', forms: [{name: 'Post Eval Report', status: 'partial', link: '/FormResponse'}, {name: 'Reflection', status: 'unfilled', link: '/FormResponse'}]},
   // ];
-  // const [vendorId, setVendorId] = useState(getCurrentUser().id)
-  const [vendorId, setVendorId] = useState("6409dc37e3139a5d267579b3")
+  const [vendorId, setVendorId] = useState(getCurrentUser().id)
+  // const [vendorId, setVendorId] = useState("6409dc37e3139a5d267579b3")
   const [rows, setRows] = useState([])
   useEffect(() => {
     let newrows = [];
@@ -112,7 +114,7 @@ const ClientFormTable = () => {
               let param = { id: idCounter, project: project1.projectName };
               var forms = [];
               for (let FormResponse of vendorForms) {
-                if (project1.projectID == FormResponse.projectId) {
+                if (project1.projectID === FormResponse.projectId) {
 
                   getFormTemplateById(FormResponse.formTemplateId)
                     .then(response => {
@@ -121,6 +123,9 @@ const ClientFormTable = () => {
                       let formDetails = { name: response.formName, status: FormResponse.status, link: formLink }
                       forms.push(formDetails)
                       
+                    })
+                    .catch (error => { 
+                      console.log(error.message); 
                     })
 
 

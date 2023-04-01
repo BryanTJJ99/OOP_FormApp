@@ -30,7 +30,7 @@ import {
     getUserByUsername,
     createProject,
 } from "../../services/ProjectCreationPageAPI";
-import { initialiseFormResponse } from "../../services/FormResponse";
+import { createFormResponse } from "../../services/FormResponse";
 
 const ProjectCreationPage3 = (props) => {
     const [vendors, setVendors] = useState([]);
@@ -40,6 +40,7 @@ const ProjectCreationPage3 = (props) => {
         // extract the project data from props
         let projectName = props.projectData.projectName;
         let vendorNamesArr = vendors;
+        let dueDate = props.projectData.dueDate; 
         let projectDescription = props.projectData.projectDescription;
         let selectedFormsArr = props.projectData.selectedForm;
 
@@ -77,19 +78,25 @@ const ProjectCreationPage3 = (props) => {
                             formTemplateId: formID,
                             vendorId: vendorID,
                             projectId: projectID,
-                            reviewedBy: "6411538f436af646394c3fe4",
-                            approvedBy: "6409dc0be3139a5d267579b2",
                             status: 'vendor',
-                            vendorDeadline: '2023-04-15T05:22:33.934+00:00',
+                            vendorDeadline: dueDate,
                             formAnswer: {}, 
+                            versionHistory: {}, 
                             createdAt: today,
                             updatedAt: today,
                           };
-                          await initialiseFormResponse(formResponseData);
-                          window.location.href = "/Project";
+                          console.log(formResponseData)
+                          createFormResponse(formResponseData)
+                            .then(response => { 
+                                console.log(response)
+                            })
+                            .catch(error => { 
+                                console.log(error.message);
+                            })
                         });
                     }
                 );
+                window.location.href = "/Project";
 
                 Promise.all(formResponsePromises.flat());
             });
@@ -256,7 +263,6 @@ const ProjectCreationPage3 = (props) => {
                         height: 50,
                         width: 100,
                     }}
-                    href="/Project"
                 >
                     Submit
                 </Button>

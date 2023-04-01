@@ -8,7 +8,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { useState, useEffect } from 'react';
 import { getAllProjects } from '../services/DashboardAPI';
-import { getAllFormResponses } from '../services/FormResponse'
+import { getAllFormResponses, getFormReponseByVendorId } from '../services/FormResponse'
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -20,8 +20,8 @@ const CompletedProjectsWidget = () => {
 
     // defining state variables
     const [totalCompletedProjects, setTotalCompletedProjects] = useState(0)
-    // const [vendorId, setVendorId] = useState(getCurrentUser().id)
-    const [vendorId, setVendorId] = useState("6409dc37e3139a5d267579b3")
+    const [vendorId, setVendorId] = useState(getCurrentUser().id)
+    // const [vendorId, setVendorId] = useState("6409dc37e3139a5d267579b3")
     const [totalProjectsByVendorId, setTotalProjectsByVendorId] = useState(0)
     const [vendorProjects,setVendorProjects] =useState([])
     const [vendorForms,setVendorForms] =useState([])
@@ -29,6 +29,23 @@ const CompletedProjectsWidget = () => {
     // to be dynamic getallFormResponses
 
     useEffect(() => {
+        console.log(vendorId)
+        // getFormReponseByVendorId(vendorId) 
+        //     .then(response => { 
+        //         for (let formRes of response) { 
+        //             vendorForms.push(formRes); 
+        //         }
+        //         let currProjs = 0;
+        //         for (let formRes of vendorForms) { 
+        //             if (formRes.status !== 'approved') { 
+        //                 currProjs++ 
+        //                 break 
+        //             }
+        //         }
+        //     })
+        //     .catch(error => { 
+        //         console.log(error.message); 
+        //     })
         getAllProjects()
             .then(response=>{
                 let vendorProjects = [];
@@ -174,7 +191,7 @@ const PendingFormsWidget = () => {
                 
                 let pendingForms = []
                 for (var FormResponse of response){
-                    console.log(FormResponse,'here')
+                    // console.log(FormResponse,'here')
                     if (FormResponse.vendorId==vendorId && FormResponse.status!="approved"){
                         pendingForms.push(FormResponse)
                     }

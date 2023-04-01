@@ -5,6 +5,7 @@ import {
     Typography,
     Autocomplete,
     Chip,
+    Grid
 } from "@mui/material";
 import "./ProjectCreationPage.css";
 // import axios from 'axios';
@@ -29,6 +30,12 @@ const ProjectCreationPage1 = (props) => {
     const handleProjectDescriptionChange = (e) => {
         handleProjectDataChange("projectDescription", e.target.value);
     };
+
+    const handleDateChange = (e) => { 
+        console.log(e.target.value)
+        console.log(projectData)
+        handleProjectDataChange('dueDate', e.target.value)
+    }
 
     const [vendorData, setVendorData] = useState([]);
     // const apiUrl = 'http://localhost:8080/api/admin/allUsers';
@@ -88,21 +95,17 @@ const ProjectCreationPage1 = (props) => {
                 Create a new project
             </Typography>
 
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    margin: 20,
-                }}
-            >
-                <TextField
-                    id="ProjectName"
-                    label="Project Name"
-                    style={{ marginRight: 20, width: "300px" }}
-                    onChange={handleProjectNameChange}
-                    value={projectData.projectName}
-                />
-
+            <Grid container spacing={3} sx={{marginBottom:5}}>
+                <Grid item xs={4}>
+                    <TextField
+                        id="ProjectName"
+                        label="Project Name"
+                        style={{ marginRight: 20, width: "300px" }}
+                        onChange={handleProjectNameChange}
+                        value={projectData.projectName}
+                        fullWidth
+                    />
+                </Grid>
                 {/* <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -127,59 +130,72 @@ const ProjectCreationPage1 = (props) => {
             )}
             
           /> */}
-                <Autocomplete
-                    multiple
-                    id="vendor-company-name"
-                    options={vendorData}
-                    getOptionLabel={(option) => option.name}
-                    value={vendorData.filter((option) =>
-                        projectData.vendorCompanyName.includes(option.username)
-                    )}
-                    onChange={(event, newValue) => {
-                        handleProjectDataChange(
-                            "vendorCompanyName",
-                            newValue.map((option) => option.username)
-                        );
-                    }}
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                            <Chip
+                <Grid item xs={4}>
+                    <Autocomplete
+                        multiple
+                        fullWidth
+                        id="vendor-company-name"
+                        options={vendorData}
+                        getOptionLabel={(option) => option.name}
+                        value={vendorData.filter((option) =>
+                            projectData.vendorCompanyName.includes(option.username)
+                        )}
+                        onChange={(event, newValue) => {
+                            handleProjectDataChange(
+                                "vendorCompanyName",
+                                newValue.map((option) => option.username)
+                            );
+                        }}
+                        renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                                <Chip
+                                    variant="outlined"
+                                    label={option.name}
+                                    key={option.username}
+                                    {...getTagProps({ index })}
+                                    style={{
+                                        display: "inline-flex",
+                                        margin: "2px",
+                                    }}
+                                />
+                            ))
+                        }
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
                                 variant="outlined"
-                                label={option.name}
-                                key={option.username}
-                                {...getTagProps({ index })}
-                                style={{
-                                    display: "inline-flex",
-                                    margin: "2px",
-                                }}
+                                label="Vendor Name"
+                                placeholder="Select vendor companies"
+                                value={
+                                    projectData.vendorCompanyName.length > 0
+                                        ? ""
+                                        : params.inputProps.value
+                                }
+                                onChange={params.onChange}
+                                style={{ width: 300 }}
                             />
-                        ))
-                    }
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            variant="outlined"
-                            label="Vendor Name"
-                            placeholder="Select vendor companies"
-                            value={
-                                projectData.vendorCompanyName.length > 0
-                                    ? ""
-                                    : params.inputProps.value
-                            }
-                            onChange={params.onChange}
-                            style={{ width: 300 }}
-                        />
-                    )}
-                />
-            </div>
+                        )}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField 
+                        id="dueDate" 
+                        label="Vendor Due Date" 
+                        name="dueDate" 
+                        value={projectData.dueDate} 
+                        type='date' 
+                        fullWidth 
+                        onChange={(event) => handleDateChange(event)}
+                    ></TextField>
+                </Grid>
+            </Grid>
 
             <TextField
                 id="ProjectDescription"
                 label="Project Description"
                 multiline={true}
                 rows={10}
-                fullWidth={true}
-                style={{ width: "800px" }}
+                fullWidth
                 onChange={handleProjectDescriptionChange}
                 value={projectData.projectDescription}
             />

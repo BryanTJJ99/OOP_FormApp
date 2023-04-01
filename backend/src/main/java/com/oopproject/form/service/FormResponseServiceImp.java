@@ -28,6 +28,11 @@ public class FormResponseServiceImp implements FormResponseService {
         return formResponseRepository.findByVendorIdAndProjectId(vendorId, projectId);
     };
 
+    @Override 
+    public List<FormResponse> getFormResponsebyVendorId(String vendorId) { 
+        return formResponseRepository.findByVendorId(vendorId); 
+    }
+
     @Override
     public Optional<FormResponse> getFormResponsebyFormTemplateAndVendorProject(String formTemplateId,
             String vendorProjectId) {
@@ -48,6 +53,7 @@ public class FormResponseServiceImp implements FormResponseService {
             updatedFormResponse.setFormAnswer(formResponseToUpdate.getFormAnswer());
             updatedFormResponse.setUpdatedAt(new Date());
             updatedFormResponse.setDeletedAt(formResponseToUpdate.getDeletedAt());
+            updatedFormResponse.setVersionHistory(formResponseToUpdate.getVersionHistory());
             return formResponseRepository.save(updatedFormResponse);
         }
         return null;
