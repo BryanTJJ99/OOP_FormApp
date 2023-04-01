@@ -63,7 +63,16 @@ const ProjectCreationPage3 = (props) => {
             vendorId: vid,
         };
         try {
-            const response = await createProject(data);
+            createProject(data).then((response) => {
+                const createdProject = response;
+                console.log("Project created successfully:", createdProject);
+                const projectID = createdProject.projectID;
+                console.log(createdProject, projectID);
+                const formResponsePromises = selectedFormsArr.map(
+                    async (form) => {
+                        let formID = form.id;
+                        let today = new Date().toJSON();
+                        return vid.map(async (vendorID) => {
 
                           const formResponseData = {
                             formTemplateId: formID,
@@ -89,6 +98,8 @@ const ProjectCreationPage3 = (props) => {
                 );
                 window.location.href = "/Project";
 
+                Promise.all(formResponsePromises.flat());
+            });
             // const createdProject = await createProject(data);
             // console.log('Project created successfully:', createdProject);
             // // console.log('Project ID:', createdProject._id);
