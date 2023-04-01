@@ -32,12 +32,18 @@ const columns = [
       headerName: 'Project',
       width: 200,
       editable: false,
+      renderCell: (params) => {
+        return (
+          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer'}}>
+          {params.row.projectName}
+          </Button>
+        )}
     },
     {
       field: 'vendorName',
       headerName: 'Vendor',
       width: 150,
-      editable: true,
+      editable: false,
     },
     {
       field: 'avatar',
@@ -50,7 +56,9 @@ const columns = [
       filterable: false,
       groupable: false,
       aggregable: false,
-      disableExport: true
+      disableExport: true,
+      editable: false,
+
     },
     {
       field: 'email',
@@ -65,7 +73,7 @@ const columns = [
         )
       },
       width: 200,
-      editable: true,
+      editable: false,
     },
     {
       field: 'name',
@@ -73,7 +81,7 @@ const columns = [
       description: 'This column has a value getter and is not sortable.',
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.link} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer'}}>
             {params.row.name}
           </Button>
         )
@@ -168,7 +176,7 @@ const Dashboard = () => {
       // status
       // deadline
       setFormResponses(formResponses)
-      console.log(formResponses,'formResponses')
+      // console.log(formResponses,'formResponses')
       return formResponses
     }
     // obtain formTemplate data
@@ -261,7 +269,8 @@ const Dashboard = () => {
         vendorName: vendor[0],
         email: vendor[1],
         projectName: project,
-        link: '/FormResponse?formResponseId='+formResponse.formResponseId,
+        projectLink: `/projectView?projectId=${formResponse.projectId}`,
+        formLink: '/FormResponse?formResponseId='+formResponse.formResponseId,
         dueDate: deadline,
       }
       // console.log(deadline,'deadline')
@@ -286,51 +295,6 @@ const Dashboard = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }))
-  
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>

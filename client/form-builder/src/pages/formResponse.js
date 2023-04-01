@@ -8,10 +8,7 @@ import { getCurrentUserRole } from '../services/AuthService.js';
 import html2pdf from 'html2pdf.js';
 import ReactToPrint, { toPdf } from 'react-to-print';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-<<<<<<< HEAD
 import jsPDF from 'jspdf';
-=======
->>>>>>> 421e8388d5f52f39f0d6f1c07e2fe0c5fe6412e4
 
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
@@ -75,7 +72,6 @@ const FormResponse = (props) => {
         // form.submit(); 
         e.preventDefault();
         setOpenPopUp(false);
-<<<<<<< HEAD
         console.log(document.getElementById('formToPrint').innerHTML)
         
         const data = new FormData(e.currentTarget);
@@ -104,36 +100,6 @@ const FormResponse = (props) => {
                     await readFileAsync(fileToStore, reader)
                         .then(result => {
 
-=======
-        // console.log(document.getElementById('formToPrint').innerHTML)
-
-        const data = new FormData(e.currentTarget);
-        let numOfQuestions = formTemplate.questions.length;
-        let listOfMultiSelect = [];
-        for (let ques of formTemplate.questions) {
-            if (ques.questionType === 'checkbox') {
-                listOfMultiSelect.push(ques.questionOrder);
-            }
-        }
-        let formAnswer = {};
-        console.log("fileMap", fileMap)
-        for (let i = 1; i <= numOfQuestions; i++) {
-            let dataToStore = data.get(i.toString());
-            if (listOfMultiSelect.includes(i)) {
-                dataToStore = data.get(i.toString()).split(',');
-            }
-            if (i in fileMap) {
-                let fileToStore = fileMap[(i).toString()];
-                if (!(fileToStore instanceof File)) {
-                    dataToStore = [fileToStore[1], fileToStore[2]];
-                } else {
-                    let file_type = fileToStore.type;
-                    const reader = new FileReader();
-                    // reader.readAsDataURL(fileToStore);
-                    await readFileAsync(fileToStore, reader)
-                        .then(result => {
-
->>>>>>> 421e8388d5f52f39f0d6f1c07e2fe0c5fe6412e4
                             dataToStore = [result, file_type];
 
                         })
