@@ -13,7 +13,9 @@ const columns: GridColDef[] = [
       flex: 2,
       editable: false,
       renderCell: (params) => { 
-        return <a href={params.value.link}>{params.value.name}</a>
+        return (<Button underline="none" href={params.value.link}  sx={{cursor: 'pointer'}}>
+        {params.value.name}
+      </Button>)
       }
     },
 
@@ -104,7 +106,7 @@ const FormTable = () => {
               }}
               sx={{
                 '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
-                  backgroundColor: "secondary.main",
+                  backgroundColor: "primary.main",
                   color:"white",
                   fontWeight: 'bold',
                 },

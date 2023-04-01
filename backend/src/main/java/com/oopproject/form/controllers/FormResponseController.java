@@ -3,6 +3,7 @@ package com.oopproject.form.controllers;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
+import java.util.Date;
 import java.io.IOException;
 import java.util.Base64;
 
@@ -17,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.oopproject.form.models.FormResponse.FormResponse;
 import com.oopproject.form.service.FormResponseService;
+import com.oopproject.form.service.FormResponseServiceImp;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,6 +66,15 @@ public class FormResponseController {
         return formResponseService.getFormResponsebyFormTemplateAndVendorProject(formTemplateId, vendorProjectId);
     }
 
+    @GetMapping("/{startDate}/{endDate}/date")
+    @CrossOrigin
+    public List<FormResponse> getFormsWithinDateRange(@PathVariable("startDate") 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start, @PathVariable("endDate") 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date end) {
+        return formResponseService.getFormsWithinDateRange(start, end); 
+    }
+
+
     @PostMapping("/initialise")
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = { RequestMethod.GET,
             RequestMethod.POST })
@@ -78,7 +92,6 @@ public class FormResponseController {
     @PatchMapping("/edit")
     @CrossOrigin
     public FormResponse updateFormResponse(@RequestBody FormResponse formResponse) {
-        System.out.println("oiwdjoijd");
         return formResponseService.updateFormResponse(formResponse);
     }
 

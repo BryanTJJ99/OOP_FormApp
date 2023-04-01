@@ -21,8 +21,9 @@ const AccountCreationPage = (props) => {
                 margin: "auto",
             }}
         >
-            <AccountCreationLogo />
+            <AccountCreationLogo sx={{mb:3,pb:3}} />
             <AccountCreationFields
+                sx={{mt:3,pt:3}}
                 accountDetails={accountDetails}
                 setAccountDetails={setAccountDetails}
             />

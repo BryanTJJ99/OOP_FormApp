@@ -10,24 +10,39 @@ const Choices = (props) => {
     const [choicesLabels, setChoicesLabels] = useState({}); 
     const [hiddenInput, setHiddenInput] = useState(null);
 
-    let choiceInd = -1; 
 
     function renderChoice(choiceNo=choiceNum) { 
         setChoiceNum(choiceNo + 1); 
-        choiceInd++; 
-        return (
-            <Choice
-                choiceNum={choiceNo}
-                // choiceOrder={getChoiceOrder(choiceNum)}
-                questionNum={props.questionNum}
-                type={props.questionType}
-                handleDeleteChoice={handleDeleteChoice}
-                key={props.questionId + '_' + choiceNo}
-                choiceId={props.questionId + '_' + choiceNo}
-                updateChoiceLabel={updateChoicesLabel}
-                choiceInput={props.choicesList[choiceInd]}
-            />
-        )
+        if (choiceNo <= props.choicesList.length) { 
+            return (
+                <Choice
+                    choiceNum={choiceNo}
+                    // choiceOrder={getChoiceOrder(choiceNum)}
+                    questionNum={props.questionNum}
+                    type={props.questionType}
+                    handleDeleteChoice={handleDeleteChoice}
+                    key={props.questionId + '_' + choiceNo}
+                    choiceId={props.questionId + '_' + choiceNo}
+                    updateChoiceLabel={updateChoicesLabel}
+                    choiceInput={props.choicesList[choiceNo]}
+                />
+            )
+        } else { 
+            return (
+                <Choice
+                    choiceNum={choiceNo}
+                    // choiceOrder={getChoiceOrder(choiceNum)}
+                    questionNum={props.questionNum}
+                    type={props.questionType}
+                    handleDeleteChoice={handleDeleteChoice}
+                    key={props.questionId + '_' + choiceNo}
+                    choiceId={props.questionId + '_' + choiceNo}
+                    updateChoiceLabel={updateChoicesLabel}
+                    choiceInput={''}
+                />
+            )
+        }
+        
     }
     
     const handleAddQuestionClick = (newChoice) => { 
@@ -35,7 +50,6 @@ const Choices = (props) => {
         let copyChoicesOrder = Object.assign({}, choicesOrder);
         copyChoicesOrder[choiceNum] = Object.keys(copyChoicesOrder).length;
         setChoicesOrder(copyChoicesOrder); 
-        console.log(choicesOrder)
     }
 
     function handleDeleteChoice(deleteChoiceNum) { 
@@ -43,11 +57,11 @@ const Choices = (props) => {
     }
 
     function updateChoicesLabel(choiceId, valueToUpdate) { 
-        console.log(choicesLabels);
         let newChoicesLabels = {...choicesLabels}; 
-        console.log(newChoicesLabels);
         newChoicesLabels[choiceId] = valueToUpdate; 
-        setChoicesLabels(newChoicesLabels); 
+        setChoicesLabels(prevChoicesLabels => {
+            return { ...prevChoicesLabels, ...newChoicesLabels };
+          });
     }
 
     useEffect(() => {
@@ -59,7 +73,6 @@ const Choices = (props) => {
         setChoicesList(Array(0))
         if (props.choicesList) { 
             setChoicesList(props.choicesList)
-            console.log(props.choicesList)
         }
     }, [])
 
@@ -90,6 +103,7 @@ const Choices = (props) => {
             setChoicesList(choicesList => choices);
             setChoiceNum(newChoiceNum);
             setChoicesLabels(newChoicesLabels); 
+            console.log(newChoicesLabels)
         } else { 
             let firstChoice = renderChoice();
             setChoicesList(choicesList => [firstChoice]);

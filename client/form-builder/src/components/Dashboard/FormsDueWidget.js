@@ -44,7 +44,7 @@ const FormsDueWidget = () => {
         today = today.toISOString().replace('Z','+00:00')
         // get forms due in the next 7 days 
         let formsDueSoon = await getFormsDue(today,end)
-        console.log(formsDueSoon,'forms due soon')
+        // console.log(formsDueSoon,'forms due soon')
         formsDueSoon.sort((a,b) => a.vendorDeadline - b.vendorDeadline)
         setFormsDue(formsDueSoon)
     }

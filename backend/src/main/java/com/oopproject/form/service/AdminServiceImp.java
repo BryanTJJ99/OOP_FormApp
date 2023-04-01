@@ -61,7 +61,7 @@ public class AdminServiceImp extends UserServiceImp implements AdminService {
         return adminRepository.findByEmail(email);
     }
 
-    @Override
+    @Override  
     public User updateUser(User userToUpdate) {
         String userToEditID = userToUpdate.getId();
         User updatedUser = adminRepository.findById(userToEditID).get();
