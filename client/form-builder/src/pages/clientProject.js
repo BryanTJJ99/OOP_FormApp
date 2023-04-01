@@ -222,13 +222,13 @@ const ClientProject = () => {
 
     return (
         <>
-            <Box sx={{ marginBottom: 5, display: "flex", justifyContent: "flex-start" }} >
+            {/* <Box sx={{ marginBottom: 5, display: "flex", justifyContent: "flex-start" }} >
                 <Box>
                     <Typography variant="h3" fontWeight={"bold"}  >
                         My Company
                     </Typography>
                 </Box>
-            </Box>
+            </Box> */}
             {/*
         <Box>
         <Stack 
@@ -278,7 +278,7 @@ const ClientProject = () => {
         </Stack>
         
         </Box> */}
-            <Box sx={{ flexGrow: 1, padding: 2 }}>
+            <Box sx={{ flexGrow: 1, padding: 2, my:1 }}>
                 <Grid container spacing={2} style={{ height: "100%" }}>
                     <Grid item xs={4}>
                         <Item><CompletedProjectsWidget /></Item>
