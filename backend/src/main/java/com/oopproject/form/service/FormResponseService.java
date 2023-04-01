@@ -26,4 +26,5 @@ public interface FormResponseService {
 
     public FormResponse deleteFormResponse(FormResponse formResponseToDelete);
 
+    public List<FormResponse> getFormResponsebyVendorId(String vendorId); 
 }

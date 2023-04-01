@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import AddIcon from '@mui/icons-material/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FormBuilder from '../../pages/formBuilder';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -47,8 +47,8 @@ export default function FullScreenDialog(props) {
             Open full-screen dialog
         </Button> */}
 
-        <Button style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:250,m:4, }} onClick={handleClickOpen}>
-            <AddIcon/>
+        <Button backgroundColor='primary' variant='contained' size='small' onClick={handleClickOpen}>
+            <AddCircleIcon/>
             <Typography sx={{fontSize:"14px", m:1}}>
             Create Custom Form
             </Typography>

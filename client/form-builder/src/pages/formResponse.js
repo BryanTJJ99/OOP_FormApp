@@ -2,13 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { TextField, Box, Button, Typography, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import { FormInfo, QuestionView, SectionView, QuestionViewPdf, SectionViewPdf } from '../components/FormResponse/index.js';
 import { getFormTemplateById } from '../services/FormTemplate.js';
-import { updateFormResponse, getFormResponseById, updateFilesInFormAnswer } from '../services/FormResponse.js';
+import { updateFormResponse, getFormResponseById, updateFilesInFormAnswer, generatePdf } from '../services/FormResponse.js';
 import StatusChip from '../components/Dashboard/StatusChip.js';
 import { getCurrentUserRole } from '../services/AuthService.js';
 import html2pdf from 'html2pdf.js';
 import ReactToPrint, { toPdf } from 'react-to-print';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import jsPDF from 'jspdf';
+import QuantumLeapLogo from '../assets/QuantumLeapLogo.png';
 
 const FormResponse = (props) => {
     const [questionsSectionArea, setQuestionsSectionArea] = useState(Array(0));
@@ -66,6 +67,10 @@ const FormResponse = (props) => {
         submitForm();
     }
 
+    function versionHistoryPdf(e) { 
+        
+    }
+
     async function handleFormResponseSubmit(e) {
         // let form = document.getElementById('form');
         // handleFormResponseSubmit();
@@ -73,7 +78,22 @@ const FormResponse = (props) => {
         e.preventDefault();
         setOpenPopUp(false);
         console.log(document.getElementById('formToPrint').innerHTML)
-        
+        const inputHtml = document.getElementById('formToPrint').innerHTML;
+
+        // Use a regular expression to add closing tags
+        const fixedInputHtml = inputHtml.replace(/<input.*?>/g, (match) => {
+        if (match.endsWith('/>')) {
+            return match; // Don't add closing tag if input is self-closing
+        }
+        return `${match}</input>`;
+        });
+
+        const fixedBrHtml = fixedInputHtml.replace(/<br.*?>/g, (match) => {
+            return `${match}</br>`;
+        });
+
+        console.log(fixedBrHtml)
+
         const data = new FormData(e.currentTarget);
         let numOfQuestions = formTemplate.questions.length;
         let listOfMultiSelect = [];
@@ -86,22 +106,30 @@ const FormResponse = (props) => {
         console.log("fileMap", fileMap)
         for (let i = 1; i <= numOfQuestions; i++) {
             let dataToStore = data.get(i.toString());
+            console.log(i, dataToStore)
+            if (dataToStore instanceof File) { 
+                if (dataToStore.size === 0) { 
+                    continue; 
+                }
+            }
             if (listOfMultiSelect.includes(i)) {
                 dataToStore = data.get(i.toString()).split(',');
             }
             if (i in fileMap) {
                 let fileToStore = fileMap[(i).toString()];
+                if (fileToStore[1] === null) { 
+                    continue; 
+                }
                 if (!(fileToStore instanceof File)) {
                     dataToStore = [fileToStore[1], fileToStore[2]];
                 } else {
+                    console.log(fileToStore)
                     let file_type = fileToStore.type;
                     const reader = new FileReader();
                     // reader.readAsDataURL(fileToStore);
                     await readFileAsync(fileToStore, reader)
                         .then(result => {
-
                             dataToStore = [result, file_type];
-
                         })
                         .catch(error => {
                             console.log(error.message);
@@ -118,7 +146,7 @@ const FormResponse = (props) => {
                 formAnswer[i] = dataToStore;
             }
         }
-        let today = new Date().toJSON();
+        let today = new Date();
         let statusUpdated;
         if (saveState) {
             statusUpdated = currStage;
@@ -128,11 +156,15 @@ const FormResponse = (props) => {
         } else {
             statusUpdated = nextStage;
         }
+        let newVersionHist = {...formResponse.versionHistory}
+        let todayArray = today.toString().split(' ').slice(1,5);
+        newVersionHist[todayArray[1] + ' ' + todayArray[0] + ' ' + todayArray[2] + ', ' + todayArray[3]] = fixedBrHtml; 
         let formResponseData = {
             formResponseId: formResponse.formResponseId,
             status: statusUpdated,
             formAnswer: formAnswer,
-            updatedAt: today,
+            updatedAt: today.toJSON(),
+            versionHistory: newVersionHist,
         }
         // console.log(fileMap);
         // let formData = new FormData(); 
@@ -233,7 +265,21 @@ const FormResponse = (props) => {
 
     const handleVersionHistChange = (event) => {
         setVersHist(event.target.value);
-        console.log(event.target.value);
+        console.log(event.target.value, formResponse.versionHistory)
+        console.log(formResponse.versionHistory[event.target.value])
+        generatePdf(formResponse.versionHistory[event.target.value])
+            .then(response => { 
+                console.log(response.data)
+                const link = document.createElement('a');
+                link.setAttribute('href', `${response.data}`);
+                link.setAttribute('download', event.target.value);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })
+            .catch(error => { 
+                console.log(error.message);
+            })
     };
 
     useEffect(() => {
@@ -241,6 +287,10 @@ const FormResponse = (props) => {
             setFormInfo(<FormInfo formTemplate={formTemplate} />);
             let currStatus = formResponse.status;
             setCurrStage(currStatus);
+            let versionHistoryButtons = [];
+            for (let date in formResponse.versionHistory) { 
+                versionHistoryButtons.push(<MenuItem value={date}>{date}</MenuItem>);
+            }
             setStatusSection(
                 <Box display={'flex'} justifyContent='space-between' className='mx-5 mt-5'>
                     <Box display='flex'>
@@ -255,6 +305,7 @@ const FormResponse = (props) => {
                             value={versHist}    
                         > 
                             <MenuItem value={"default"} disabled>Choose a version history to print</MenuItem>
+                            {versionHistoryButtons}
                         </Select>
                     </Box>
                 </Box>
@@ -315,7 +366,7 @@ const FormResponse = (props) => {
             </Box>
 
             <Box id="formToPrint" display='none'>
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
+                <h1>Quantum Leap Incorporation Pte Ltd</h1>
                 {questionsSectionArea.map((item) => {
                     if (item.hasOwnProperty('sectionId')) {
                         if (userRoleRef[userRole] === formResponse.status && userRoleRef[userRole] === item.assignedTo) { 

@@ -10,6 +10,7 @@ import { getAllProjects } from "../../services/DashboardAPI";
 import { getAllFormResponses } from "../../services/FormResponse";
 import { getFormTemplateById } from "../../services/FormTemplate";
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
+import { getCurrentUser } from '../../services/AuthService.js';
 
 const columns: GridColDef[] = [
     {

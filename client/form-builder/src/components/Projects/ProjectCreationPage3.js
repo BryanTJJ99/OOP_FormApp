@@ -30,7 +30,7 @@ import {
     getUserByUsername,
     createProject,
 } from "../../services/ProjectCreationPageAPI";
-import { initialiseFormResponse } from "../../services/FormResponse";
+import { createFormResponse } from "../../services/FormResponse";
 
 const ProjectCreationPage3 = (props) => {
     const [vendors, setVendors] = useState([]);
@@ -40,6 +40,7 @@ const ProjectCreationPage3 = (props) => {
         // extract the project data from props
         let projectName = props.projectData.projectName;
         let vendorNamesArr = vendors;
+        let dueDate = props.projectData.dueDate; 
         let projectDescription = props.projectData.projectDescription;
         let selectedFormsArr = props.projectData.selectedForm;
 
@@ -64,34 +65,29 @@ const ProjectCreationPage3 = (props) => {
         try {
             const response = await createProject(data);
 
-            const createdProject = response;
-            console.log("Project created successfully:", createdProject);
-            const projectID = createdProject.projectID;
-            console.log(createdProject, projectID);
-            let formResponsePromises = await Promise.all(
-                selectedFormsArr.map(async (form) => {
-                    let formID = form.id;
-                    let today = new Date().toJSON();
-                    let vidMap = await Promise.all(
-                        vid.map(async (vendorID) => {
-                            const formResponseData = {
-                                formTemplateId: formID,
-                                vendorId: vendorID,
-                                projectId: projectID,
-                                status: "vendor",
-                                vendorDeadline: "2023-04-15T05:22:33.934+00:00",
-                                formAnswer: {},
-                                createdAt: today,
-                                updatedAt: today,
-                            };
-                            await initialiseFormResponse(formResponseData);
-                            window.location.href = "/Project";
-                        })
-                    );
-                })
-            );
-
-            formResponsePromises.flat();
+                          const formResponseData = {
+                            formTemplateId: formID,
+                            vendorId: vendorID,
+                            projectId: projectID,
+                            status: 'vendor',
+                            vendorDeadline: dueDate,
+                            formAnswer: {}, 
+                            versionHistory: {}, 
+                            createdAt: today,
+                            updatedAt: today,
+                          };
+                          console.log(formResponseData)
+                          createFormResponse(formResponseData)
+                            .then(response => { 
+                                console.log(response)
+                            })
+                            .catch(error => { 
+                                console.log(error.message);
+                            })
+                        });
+                    }
+                );
+                window.location.href = "/Project";
 
             // const createdProject = await createProject(data);
             // console.log('Project created successfully:', createdProject);
@@ -261,7 +257,6 @@ const ProjectCreationPage3 = (props) => {
                         height: 50,
                         width: 100,
                     }}
-                    href="/Project"
                 >
                     Submit
                 </Button>

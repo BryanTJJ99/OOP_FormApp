@@ -28,6 +28,23 @@ const CompletedProjectsWidget = (props) => {
     const vendorId = props.vendorId;
 
     useEffect(() => {
+        console.log(vendorId)
+        // getFormReponseByVendorId(vendorId) 
+        //     .then(response => { 
+        //         for (let formRes of response) { 
+        //             vendorForms.push(formRes); 
+        //         }
+        //         let currProjs = 0;
+        //         for (let formRes of vendorForms) { 
+        //             if (formRes.status !== 'approved') { 
+        //                 currProjs++ 
+        //                 break 
+        //             }
+        //         }
+        //     })
+        //     .catch(error => { 
+        //         console.log(error.message); 
+        //     })
         getAllProjects()
             .then((response) => {
                 let vendorProjects = [];
