@@ -21,10 +21,16 @@ const QuestionView = (props) => {
         }
     }, [])
 
+    const handleTextChange = (event) => { 
+        setTextValue(event.target.value);
+        props.handleChange(prev => [...prev, event.target.value]);
+    }
+
     const handleRadioChange = (event) => {
         if (!props.disabled) { 
             setRadioValue(event.target.value);
         }
+        props.handleChange(prev => [...prev, event.target.value]);
     }
 
     const handleCheckboxChange = (event) => {
@@ -38,20 +44,24 @@ const QuestionView = (props) => {
         }
         console.log(newCheckboxValue)
         setCheckboxValue(newCheckboxValue);
+        props.handleChange(prev => [...prev, event.target.value]);
     }
 
     const handleRatingChange = (event) => {
-        setRatingValue(event.target.value)
+        setRatingValue(event.target.value);
+        props.handleChange(prev => [...prev, event.target.value]);
     }
 
     const handleDropdownChange = (event) => {
         setDropdownVal(event.target.value);
         console.log(event.target.value);
+        props.handleChange(prev => [...prev, event.target.value]);
     };
 
     const handleFileChange = (newFile) => {
         setFile(newFile);
         props.handleFileUpload(props.question.questionOrder, newFile);
+        props.handleChange(prev => [...prev, newFile]);
         //console.log(newFile);
         
         
@@ -68,9 +78,9 @@ const QuestionView = (props) => {
 
     function specialQuestionType(questionType) {
         if (questionType === 'text') {
-            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => { setTextValue(e.target.value) }} sx={{ width: '100%' }} disabled={props.disabled} required={props.required}></TextField>
+            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={handleTextChange} sx={{ width: '100%' }} disabled={props.disabled} required={props.required}></TextField>
         } else if (questionType === 'textarea') {
-            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => { setTextValue(e.target.value) }} sx={{ width: '100%' }} multiline rows={4} disabled={props.disabled} required={props.required}></TextField>
+            return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={handleTextChange} sx={{ width: '100%' }} multiline rows={4} disabled={props.disabled} required={props.required}></TextField>
         } else if (questionType === 'radio') {
             let choices = Array(0);
             for (let i = 0; i < props.question.choices.length; i++) {

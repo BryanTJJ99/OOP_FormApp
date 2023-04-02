@@ -197,7 +197,7 @@ export default function MiniDrawer({children}) {
         </Toolbar>
       </AppBar>
       {/* drawer component to replace the navbar component eventually */}
-      <Drawer variant="permanent" open={open} disableScrollLock={ true }s>
+      <Drawer variant="permanent" open={open} disableScrollLock={ true }>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (

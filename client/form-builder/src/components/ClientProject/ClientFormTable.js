@@ -243,7 +243,6 @@ const ClientFormTable = (props) => {
             initialState={{
             pagination: {
                 paginationModel: {
-                pageSize: 6,
                 },
             },
             }}

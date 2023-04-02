@@ -54,6 +54,8 @@ const FormResponse = (props) => {
     const formRef = useRef(null);
     const [versHist, setVersHist] = useState("default");
     const [formAnswer, setFormAnswer] = useState(null);
+    const [pdfElement, setPdfElement] = useState(null);
+    const [changeInput, setChangeInput] = useState([]);
 
     const nextStageRef = {
         vendor: "admin",
@@ -94,9 +96,8 @@ const FormResponse = (props) => {
         submitForm();
     }
 
-    function versionHistoryPdf(e) {}
-
     async function handleFormResponseSubmit(e) {
+        console.log('ewoifjw')
         // let form = document.getElementById('form');
         // handleFormResponseSubmit();
         // form.submit();
@@ -219,35 +220,37 @@ const FormResponse = (props) => {
                 console.log(error.message);
 
             });
-
-        let emailData = {
-            vendorEmail: "bernice.teo.2021@smu.edu.sg", // hardcoded to Bernice's email
-            subject:
-                formTemplate.formName +
-                " has been updated to " +
-                statusUpdated +
-                " status",
-            message: emailMessage,
-        };
-
-        sendCustomEmail(emailData)
-            .then((response) => {
-                console.log(response);
-                if (userRole === "ROLE_VENDOR") {
-                    window.location.href = "/ClientProject";
-                } else {
-                    window.location.href = "/Projects";
-                }
-            })
-            .catch((error) => {
-                console.log(error.message);
-
-                if (userRole === "ROLE_VENDOR") {
-                    window.location.href = "/ClientProject";
-                } else {
-                    window.location.href = "/Projects";
-                }
-            });
+        
+        if (saveState === false) { 
+            let emailData = {
+                vendorEmail: "bernice.teo.2021@smu.edu.sg", // hardcoded to Bernice's email
+                subject:
+                    formTemplate.formName +
+                    " has been updated to " +
+                    statusUpdated +
+                    " status",
+                message: emailMessage,
+            };
+    
+            sendCustomEmail(emailData)
+                .then((response) => {
+                    console.log(response);
+                    // if (userRole === "ROLE_VENDOR") {
+                    //     window.location.href = "/ClientProject";
+                    // } else {
+                    //     window.location.href = "/Projects";
+                    // }
+                })
+                .catch((error) => {
+                    console.log(error.message);
+    
+                    if (userRole === "ROLE_VENDOR") {
+                        window.location.href = "/ClientProject";
+                    } else {
+                        window.location.href = "/Projects";
+                    }
+                });
+        }
 
         // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e")
         //     .then(response => {
@@ -280,9 +283,11 @@ const FormResponse = (props) => {
         // handleFormResponseSubmit();
         // form.submit();
         setOpenPopUp(false);
-        console.log(saveState);
-        let submitButton = document.getElementById("submitButton");
-        submitButton.click();
+        let submitButton1 = document.getElementById("submitButton");
+        console.log(submitButton1)
+        submitButton1.click();
+        // let formSubmit = document.getElementById('form'); 
+        // formSubmit.submit();
         console.log(formInfo);
     }
 
@@ -296,7 +301,8 @@ const FormResponse = (props) => {
             setFormResponse(response);
             setFormAnswer(response.formAnswer);
             let copyUserRole = getCurrentUserRole();
-            let disabled = userRoleRef[copyUserRole] !== response.status;
+            console.log(response)
+            let disabled = (userRoleRef[copyUserRole] !== response.status);
             setSubmitButton(
                 <Box display={"flex"} sx={{ float: "right" }} className="me-5">
                     <Box marginRight={2}>
@@ -314,14 +320,9 @@ const FormResponse = (props) => {
                             onClick={handlePopUpOpen}
                             disabled={disabled}
                         >   
-                            {console.log("status",formResponse.status)}
-                           {formResponse.status=="approver"? "Approve Form":"Submit Form"}
+                            Submit Form
                         </Button>
-                        <button
-                            type="submit"
-                            className="d-none"
-                            id="submitButton"
-                        ></button>
+                        
                     </Box>
                 </Box>
             );
@@ -339,7 +340,7 @@ const FormResponse = (props) => {
 
     const emailRecipient = {
         vendor: "Admin",
-        admin: "approver",
+        admin: "Approver",
         approver: "Vendor and Admin",
     };
 
@@ -426,6 +427,50 @@ const FormResponse = (props) => {
 
     let access;
 
+    useEffect(() => { 
+        console.log("oiwej")
+        console.log(pdfElement)
+        setPdfElement(
+            <Box id="formToPrint">
+                <h1>Quantum Leap Incorporation Pte Ltd</h1>
+                {questionsSectionArea.map((item) => {
+                    if (item.hasOwnProperty("sectionId")) {
+                        if (
+                            userRoleRef[userRole] === formResponse.status &&
+                            userRoleRef[userRole] === item.assignedTo
+                        ) {
+                            access = true;
+                        } else {
+                            access = false;
+                        }
+                        // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
+                        return (
+                            <SectionViewPdf
+                                section={item}
+                                key={"Section" + item.sectionOrder}
+                                disabled={!access}
+                            ></SectionViewPdf>
+                        );
+                    } else {
+                        let required = false;
+                        if (access && item.isRequired) {
+                            required = true;
+                        }
+                        return (
+                            <QuestionViewPdf
+                                question={item}
+                                key={"Question" + item.questionOrder}
+                                handleFileUpload={handleFileUpload}
+                                response={formResponse}
+                                disabled={!access}
+                                required={required}
+                            ></QuestionViewPdf>
+                        );
+                    }
+                })}
+            </Box>)
+    }, [questionsSectionArea, changeInput])
+
     return (
         <div>
             <link
@@ -478,51 +523,20 @@ const FormResponse = (props) => {
                                 response={formResponse}
                                 disabled={!access}
                                 required={required}
+                                handleChange={setChangeInput}
                             ></QuestionView>
                         );
                     }
                 })}
                 {submitButton}
+                <button
+                    type="submit"
+                    className="d-none"
+                    id="submitButton"
+                ></button>
             </Box>
 
-            <Box id="formToPrint" display="none">
-                <h1>Quantum Leap Incorporation Pte Ltd</h1>
-                {questionsSectionArea.map((item) => {
-                    if (item.hasOwnProperty("sectionId")) {
-                        if (
-                            userRoleRef[userRole] === formResponse.status &&
-                            userRoleRef[userRole] === item.assignedTo
-                        ) {
-                            access = true;
-                        } else {
-                            access = false;
-                        }
-                        // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
-                        return (
-                            <SectionViewPdf
-                                section={item}
-                                key={"Section" + item.sectionOrder}
-                                disabled={!access}
-                            ></SectionViewPdf>
-                        );
-                    } else {
-                        let required = false;
-                        if (access && item.isRequired) {
-                            required = true;
-                        }
-                        return (
-                            <QuestionViewPdf
-                                question={item}
-                                key={"Question" + item.questionOrder}
-                                handleFileUpload={handleFileUpload}
-                                response={formResponse}
-                                disabled={!access}
-                                required={required}
-                            ></QuestionViewPdf>
-                        );
-                    }
-                })}
-            </Box>
+            {pdfElement}
 
             <Dialog
                 open={openPopUp}
