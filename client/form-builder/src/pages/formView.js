@@ -131,6 +131,7 @@ const FormView = (props) => {
     }
 
     const handleFailClose = () => {
+        setDeleteCfm(false);
         setDeleteEditFail(false);
     };
 
@@ -178,7 +179,7 @@ const FormView = (props) => {
                 <Button onClick={handleFailClose}>Noted</Button>
                 </DialogActions>
             </Dialog>
-            
+
             <Dialog
                 open={deleteCfm}
                 onClose={handleDeleteCfm}

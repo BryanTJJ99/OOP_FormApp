@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormDetails, QuestionsSection, SubmitBtn } from '../components/formBuilder/index.js';
 import { Today } from '@mui/icons-material';
 import { createFormTemplate } from '../services/FormTemplate.js';
@@ -93,6 +93,10 @@ const FormBuilder = (props) => {
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
+            <div className="text-center my-5">
+                <Typography variant='h4'>Form Builder</Typography>
+                <Typography variant='p'>Customise your own form to share with vendors</Typography>
+            </div>
             <Box component="form" onSubmit={handleFormBuilderSubmit}>
                 <FormDetails />
                 <QuestionsSection handleQuesSecUpdate={handleQuestionSectionArea}/>
