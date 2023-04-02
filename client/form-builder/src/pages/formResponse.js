@@ -209,7 +209,7 @@ const FormResponse = (props) => {
                 if (userRole === 'ROLE_VENDOR') {
                     window.location.href = '/ClientProject'
                 } else { 
-                    window.location.href = '/Project'
+                    window.location.href = '/Projects'
                 }
             })
 
