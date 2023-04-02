@@ -108,7 +108,7 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   // const [page, setPage] = React.useState("Dashboard")
-  const [page, setPage] = React.useState("Quantum Leap Incorporation Form Management App"); // setting the login landing page nav bar title header
+  const [page, setPage] = React.useState("Quantum Leap Incorporation"); // setting the login landing page nav bar title header
 
   // Template for the pages and widgets for easier reference
 
@@ -197,7 +197,7 @@ export default function MiniDrawer({children}) {
         </Toolbar>
       </AppBar>
       {/* drawer component to replace the navbar component eventually */}
-      <Drawer variant="permanent" open={open} disableScrollLock={ true }>
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
