@@ -270,7 +270,7 @@ const Dashboard = () => {
       // let templateName = formTemplateDict[templateId]; 
       let templateName = formTemplates[templateId]; 
       // let vendor = userDataDict[formResponse.vendorId]
-      let deadline = formResponse.vendorDeadLine;
+      let deadline = formResponse.vendorDeadline;
       // console.log(formResponse.deadline,'deadline')
 
       // KEN MING CCHANGED SOMETHING HERE

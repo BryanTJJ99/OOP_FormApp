@@ -1,136 +1,298 @@
-import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { useState, useEffect, Fragment } from "react";
+import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Tooltip, Button } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
+import { getAllFormTemplate,  } from '../../services/FormTemplate.js';
+import StatusChip from '../Dashboard/StatusChip.js';
+import { getAllProjects , getAllFormResponses } from '../../services/DashboardAPI.js';
+import CircularLoading from '../Dashboard/CircularLoading';
 
-import { FormPills } from "../FormIndex/index.js";
-import { ClientFormPills } from "../ClientProject";
-import { lineHeight } from "@mui/system";
-import { getAllProjects } from "../../services/DashboardAPI";
-import { getAllFormResponses } from "../../services/FormResponse";
-import { getFormTemplateById } from "../../services/FormTemplate";
-// columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
-import { getCurrentUser } from '../../services/AuthService.js';
 
-const columns: GridColDef[] = [
+const STATUS_OPTIONS = ["vendor","approver","admin","rejected","approved"]
+const columns = [
     {
-        field: "project",
-        headerName: "Project",
-        flex: 2,
-        editable: false,
-    },
-
-    // ken help to enable multiline when there are too many forms to fit into 1 lineHeight
-    {
-        field: "forms",
-        headerName: "Forms",
+      field: 'projectName',
+      headerName: 'Project',
+      width: 300,
+      editable: false,
+    
+      renderCell: (params) => {
+        return (
+          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer',overflowX: 'auto'}}>
+          {params.row.projectName}
+          </Button>
+        )}
+    },{
+        field: 'name',
+        headerName: 'Form',
+        description: 'This column has a value getter and is not sortable.',
         renderCell: (params) => {
-            return <ClientFormPills forms={params} />;
+            return (
+            <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer', overflowX: 'auto',}}>
+                {params.row.name}
+            </Button>
+            )
         },
         editable: false,
-        flex: 5,
+        width: 500,
+        overflowX: 'auto',
+
+    },{
+        field: 'dueDate',
+        headerName: 'Due Date',
+        description: 'Due Date of vendor forms',
+        width:150,
+        editable: false,
+        overflowX:'auto',
+        sorted: true,
+        renderCell: (params) => {
+            console.log(params.row.dueDate,'due date')
+            return (
+            <Box>
+                {formatDate(params.row.dueDate)}
+            </Box>
+            )
+        },
+    }, {
+        field: 'status',
+        headerName: 'Status',
+        renderCell: (params) => {
+            return (
+            <StatusChip status={params.row.status}/>
+            )
+        },
+        type: 'singleSelect',
+        valueOptions: STATUS_OPTIONS,
+        width: 150,
+        editable: false,
+        overflowX: 'auto',
     },
-];
+  ];
+//  helper function to convert utc date string to reader friendly version
+
+const formatDate = (utcDate) => {
+    utcDate = utcDate.replace('+00:00','Z')
+    let jsDate =new Date(utcDate).toString()
+    jsDate = jsDate.split(' ').slice(0,3).join(' ')
+    return jsDate
+}
 
 const ClientFormTable = (props) => {
-    // const [vendorId, setVendorId] = useState(getCurrentUser().id)
-    const [rows, setRows] = useState([]);
+    const [formData,setFormData] = useState([])
+    const [formResponses,setFormResponses] = useState([])
+    const [formTemplates, setFormTemplates] = useState({}); 
+    const [projects, setProjects] = useState({}); 
+    // const [formsDue,setFormsDue] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const vendorId = props.vendorId;
 
+    // isolated useEfect calls due to separate logic and no dependency
     useEffect(() => {
-        let newrows = [];
-        // GET request using axios inside useEffect React hook
-        getAllProjects()
-            .then((response) => {
-                let vendorProjects = [];
-                //get vendor projects
-                for (let project of response) {
-                    if (project.vendorId.includes(vendorId)) {
-                        vendorProjects.push(project);
-                    }
-                }
-                getAllFormResponses().then(async (response2) => {
-                    let vendorForms = [];
-                    //get vendor forms
-                    for (let FormResponse of response2) {
-                        if (FormResponse.vendorId == vendorId) {
-                            vendorForms.push(FormResponse);
-                        }
-                    }
-                    let idCounter = 0;
-                    let testcount = 0;
+        const fetchFormResponses = async () => {
+          let formResponses = await getAllFormResponses()
+          // array of objects that look like
+          // formResponseId
+          // vendorId
+          // projectId
+          // status
+          // deadline
+          setFormResponses(formResponses)
+          // console.log(formResponses,'formResponses')
+          return formResponses
+        }
+        // obtain formTemplate data
+        const fetchFormTemplates = async() => {
+          let formTemplates = await getAllFormTemplate() 
+            let newFormTemplateDict = {} 
+            for (let form of formTemplates) { 
+              newFormTemplateDict[form.formTemplateId] = form.formName; 
+            }
+    
+            setFormTemplates(newFormTemplateDict);
+            // console.log(newFormTemplateDict)
+            return newFormTemplateDict
+          }
 
-                    //create param for ClientFormPill
-                    for (let project1 of vendorProjects) {
-                        idCounter++;
-                        let param = {
-                            id: idCounter,
-                            project: project1.projectName,
-                        };
-                        var forms = [];
-                        for (let FormResponse of vendorForms) {
-                            if (project1.projectID == FormResponse.projectId) {
-                                const response = await getFormTemplateById(
-                                    FormResponse.formTemplateId
-                                );
-                                let formLink =
-                                    "FormResponse?formResponseId=" +
-                                    FormResponse.formResponseId;
-                                testcount++;
-                                let formDetails = {
-                                    name: response.formName,
-                                    status: FormResponse.status,
-                                    link: formLink,
-                                };
-                                forms.push(formDetails);
-                            }
-                        }
+        // obtain project data
+        const fetchProjectData = async() => {
+          let projectData = await getAllProjects() 
+          let newProjectDict = {};
+          for (let proj of projectData) { 
+            newProjectDict[proj.projectID] = proj.projectName; 
+          }
+          // console.log(newProjectDict)
+          setProjects(newProjectDict);
+          return newProjectDict
+        }
+        // obtain forms due 
+       
+        // function calls
+        // chain to promiseAll and formatData
+        Promise.allSettled([fetchFormResponses(),fetchFormTemplates(),fetchProjectData()]).then((response) => {
+          // buggy, if console log not running then formatData wont run properly
+          // console.log('promiseAll reponse',response)
+          // console.log(response[0])
+          // console.log(response[1])
+          // console.log(response[2])
+          // console.log(response[3])
+          formatData(response)
+          // console.log('promise all settled, loading should be set to false')
+          setIsLoading(false);
+        }
+        )
+      }
+      ,[])
+    
+      const formatData = (response) => {
+        let formData = []
+        let formResponses = response[0].value
+        let formTemplates = response[1].value
+        let projects = response[2].value
 
-                        param["forms"] = forms;
-                        newrows.push(param);
-                    }
-                    setRows(newrows);
-                });
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
-        // empty dependency array means this effect will only run once (like componentDidMount in classes)
-    }, []);
+        let counter = 1
+        // console.log(formResponses)
+        // console.log(users,'users state')
+        // console.log(formTemplates,'form templates state')
+        // console.log(projects,'projects state')
+        for (let formResponse of formResponses){
+        //   console.log(formResponse,'formResponse')
+          let templateId = formResponse.formTemplateId; 
+          // let templateName = formTemplateDict[templateId]; 
+          let templateName = formTemplates[templateId]; 
+          // let vendor = userDataDict[formResponse.vendorId]
+          let deadline = formResponse.vendorDeadline;
+          // console.log(formResponse.deadline,'deadline')
+          // let project = projectDataDict[formResponse.projectId]
+          if (formResponse.projectId in projects){
+            var project = projects[formResponse.projectId]
+          } else {
+          // if projectid deleted from db
+            var project = "Project test"
+          }
+    
+          // KEN MING CCHANGED SOMETHING HERE
+          if(formResponse.vendorId == vendorId){
+            let formStatus = formResponse.status; 
+            let formEntry = {
+                id: counter,
+                name: templateName, 
+                status: formStatus, 
+                projectName: project,
+                projectLink: `/projectView?projectId=${formResponse.projectId}`,
+                formLink: '/FormResponse?formResponseId='+formResponse.formResponseId,
+                dueDate: deadline,
+            }
+            formData.push(formEntry)
+            counter++
+          } 
+        } 
+        formData.sort((a,b) => a.dueDate - b.dueDate)
+        setIsLoading(true)
+        setFormData(formData)
+        // setFormsDueToday(formsDue)
+        // console.log(formsDue,'forms due')
+        // console.log('form Data',formData)
+    
+      }
+
+ 
+
+    // const fetchFormsDue = async () => {
+    //     let today = new Date()
+    //     let end = new Date()
+    //     end.setDate(today.getDate()+daysOut)
+    //     end = end.toISOString().replace('Z','+00:00')
+    //     today = today.toISOString().replace('Z','+00:00')
+    //     // get forms due in the next 7 days 
+    //     let formsDueSoon = await getFormsDue(today,end)
+    //     formsDueSoon = formsDueSoon.filter( form => form.vendorId == vendorId)
+    //     formsDueSoon = formsDueSoon.map( form => ({...form, 'id':`${form.formResponseId}`,'projectName':`${}`}))
+    //     console.log(formsDueSoon,'forms due soon')
+    //     formsDueSoon.sort((a,b) => a.vendorDeadline - b.vendorDeadline)
+    //     setFormsDue(formsDueSoon)
+    // }
+
+    // const fetchFormTemplates = async() => {
+    //     let formTemplates = await getAllFormTemplate() 
+    //       let newFormTemplateDict = {} 
+    //       for (let form of formTemplates) { 
+    //         newFormTemplateDict[form.formTemplateId] = form.formName; 
+    //       }
+  
+    //     setFormTemplates(newFormTemplateDict);
+    // }
+    // const fetchProjectData = async() => {
+    //     let projectData = await getAllProjects() 
+    //     let newProjectDict = {};
+    //     for (let proj of projectData) { 
+    //       newProjectDict[proj.projectID] = proj.projectName; 
+    //     }
+    //     // console.log(newProjectDict)
+    //     setProjects(newProjectDict);
+    //     return newProjectDict
+    // }
+    
+
     return (
-        <Box
-            sx={{ width: "100%", overflowX: "auto",mx:0,px:0 }}
-            display={"flex"}
-            justifyContent={"center"}
-            marginX={"auto"}
-        >
-            <DataGrid
-                autoHeight
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 10,
-                        },
-                    },
-                }}
-                pageSizeOptions={[10]}
-                checkboxSelection={false}
-                disableRowSelectionOnClick
-                sx={{
-                    "& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle":
-                        {
-                            backgroundColor: "primary.main",
-                            color: "white",
-                            fontWeight: "bold",
-                        },
-                    mx:0,
-                    px:0,
-                }}
-            />
-        </Box>
-    );
-};
+    <Box sx={{minHeight: 350 ,padding:1,width:"100%"}} 
+        variant="outlined">
+        {isLoading && <CircularLoading/>}
+        <DataGrid
+            autoHeight
+            rows={formData}
+            columns={columns}
+            initialState={{
+            pagination: {
+                paginationModel: {
+                pageSize: 6,
+                },
+            },
+            }}
+            sx={{
+            '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+                backgroundColor: "primary.main",
+                color:"white",
+                fontWeight: 'bold',
+            },
+            }}
+            pageSizeOptions={[10]}
+            checkboxSelection={false}
+            disableRowSelectionOnClick
+        />
+        {/* <TableContainer sx={{maxHeight: 240,}}>
+        <Table sx={{ minWidth: 650, overflow: "scroll", width: '100%', [`& .${tableCellClasses.root}`]: {borderBottom: "none" } }} aria-label="simple table">
+            <TableHead>
+                <TableRow>
+                    <TableCell align="left">Project</TableCell>
+                    <TableCell align="left">Form</TableCell>
+                    <TableCell align="left">Due Date</TableCell>
+                    <TableCell align="left">Status</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+            {formsDue.map((form,idx) => (
+                <TableRow
+                key={idx}
+                >
+                <TableCell component="th" scope="row">
+                { users[form.vendorId]? users[form.vendorId][0]: "vendor is deleted"}
+                </TableCell>
+                <TableCell align="right">
+                    <Button underline="none" href={'/FormResponse?formResponseId='+form.formResponseId} sx={{cursor: 'pointer'}}>
+                    {formTemplates[form.formTemplateId]} 
+                    </Button>
+                </TableCell>
+                <TableCell align="right">{formatDate(form.vendorDeadline)}</TableCell>
+                <TableCell align="right"><StatusChip status={form.status}/></TableCell>
+                </TableRow>
+            ))}
+            </TableBody>
+        </Table>
+        </TableContainer> */}
+    </Box>
+   
+
+    
+    )
+}
 
 export default ClientFormTable;

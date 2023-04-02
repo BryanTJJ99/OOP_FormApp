@@ -14,6 +14,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import { getCurrentUser } from "../services/AuthService.js";
+import ClientFormsTable from "../components/ClientProject/ClientFormTable"
 
 const CompletedProjectsWidget = (props) => {
     // defining state variables
