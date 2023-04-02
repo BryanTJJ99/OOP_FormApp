@@ -34,15 +34,15 @@ const Settings = () => {
                 <Typography variant='h4'>Your Profile</Typography>
             </div>
             <TableContainer 
-            component={Paper}
-            sx={{
-                marginX:'auto',
-                "& .MuiTableCell-head":{
-                  backgroundColor: "primary.main",
-                  color:"white",
-                  fontWeight: 'bold',
-                },
-              }}
+                component={Paper}
+                sx={{
+                    marginX:'auto',
+                    "& .MuiTableCell-head":{
+                    backgroundColor: "primary.main",
+                    color:"white",
+                    fontWeight: 'bold',
+                    },
+                }}
             >
                 <Table aria-label="a dense table">
                     <TableHead>

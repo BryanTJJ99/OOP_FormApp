@@ -21,7 +21,7 @@ public class EmailConfig {
         // Set the email credentials
         mailSender.setUsername("oopG1T3formproject@outlook.com");
         // password G1T3forms has been changed.
-        mailSender.setPassword("OOPG1T3formsproj");
+        mailSender.setPassword("");
 
         // Enable STARTTLS for secure email communication
         Properties props = mailSender.getJavaMailProperties();
