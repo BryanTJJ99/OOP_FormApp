@@ -102,6 +102,7 @@ const FormResponse = (props) => {
         // form.submit();
         e.preventDefault();
         setOpenPopUp(false);
+
         console.log(document.getElementById("formToPrint").innerHTML);
         const inputHtml = document.getElementById("formToPrint").innerHTML;
 
@@ -217,11 +218,10 @@ const FormResponse = (props) => {
             })
             .catch((error) => {
                 console.log(error.message);
-
             });
 
         let emailData = {
-            vendorEmail: "bernice.teo.2021@scis.smu.edu.sg", // hardcoded to Bernice's email
+            vendorEmail: "bernice.teo.2021@smu.edu.sg", // hardcoded to Bernice's email
             subject:
                 formTemplate.formName +
                 " has been updated to " +
@@ -477,6 +477,7 @@ const FormResponse = (props) => {
                                 response={formResponse}
                                 disabled={!access}
                                 required={required}
+                                setFormResponse={setFormResponse}
                             ></QuestionView>
                         );
                     }
