@@ -29,20 +29,22 @@ const Settings = () => {
 
     return (
         <Box sx={{width:'70%', marginX:'auto',}}>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <AccountCreationLogo/>
-            <div className="text-center my-5">
+            <div className="text-center mb-5">
                 <Typography variant='h4'>Your Profile</Typography>
+                <Typography variant='p'>Check out your account details</Typography>
             </div>
             <TableContainer 
-            component={Paper}
-            sx={{
-                marginX:'auto',
-                "& .MuiTableCell-head":{
-                  backgroundColor: "primary.main",
-                  color:"white",
-                  fontWeight: 'bold',
-                },
-              }}
+                component={Paper}
+                sx={{
+                    marginX:'auto',
+                    "& .MuiTableCell-head":{
+                    backgroundColor: "primary.main",
+                    color:"white",
+                    fontWeight: 'bold',
+                    },
+                }}
             >
                 <Table aria-label="a dense table">
                     <TableHead>

@@ -81,6 +81,7 @@ const FormBuilderEdit = (props) => {
         updateFormTemplate(formTemplateData)
             .then(response => {
                 console.log(response);
+                window.location.href = '/FormTemplate';
             })
             .catch(error => { 
                 console.log(error.message);

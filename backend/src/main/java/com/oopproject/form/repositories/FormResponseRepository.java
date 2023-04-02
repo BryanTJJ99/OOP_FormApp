@@ -20,4 +20,5 @@ public interface FormResponseRepository extends MongoRepository<FormResponse, St
 
     List<FormResponse> findByVendorIdAndProjectId(String vendorId, String projectId);
 
+    List<FormResponse> findByVendorId(String vendorId);
 }

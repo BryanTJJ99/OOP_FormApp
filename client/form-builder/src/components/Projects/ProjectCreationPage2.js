@@ -34,6 +34,8 @@ const ProjectCreationPage2 = (props) => {
     const [filterValue, setFilterValue] = useState(props.filterValue);
     const [rawData, setRawData] = useState();
     const [vendorData, setVendorData] = useState([]);
+    // const [prNameEntered, setProjectNameEntered] = useState(true);
+    const [formEntered, setFormEntered] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,6 +71,15 @@ const ProjectCreationPage2 = (props) => {
         setformTemplate(filtered_forms);
     }
 
+    function handleNextButtonClick() {
+        if (props.projectData.selectedForm.length != 0) {
+            props.setActivePage("3");
+            setFormEntered(true);
+        } else {
+            setFormEntered(false);
+    };
+    }
+
     console.log(rawData);
     console.log(formTemplate);
     // for table with cards######################
@@ -77,18 +88,40 @@ const ProjectCreationPage2 = (props) => {
 
     return (
         <>
-            <Box sx={{ height: 50 }}></Box>
-
-            <Typography
-                variant="h4"
-                component="div"
-                style={{ flexGrow: 1, margin: 30 }}
-            >
-                Select Forms To Be Filled By Vendor(s)
-            </Typography>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
+            <div className="text-center my-5">
+                <Typography
+                    variant="h4"
+                >
+                    Select Forms
+                </Typography>
+                <Typography variant='p'>These forms will be filled by the vendors that you have indicated</Typography>
+            </div>
 
             {/* For container showing forms that are selected */}
-            <Fragment>
+            <Box display={'flex'} className='mb-5'>
+                <Grid container>
+                    <Grid item xs={6} md={3} marginY={'auto'}>
+                        <Typography variant="h6" marginY={'auto'} width='300px'>Selected Form(s):</Typography>
+                    </Grid>
+                    <Grid item xs={6} md={9}>
+                        <Box borderColor={'primary'} marginY='auto' display={'flex'} sx={{ flexWrap: 'wrap' }}>
+                            {props.projectData.selectedForm.map((item) => (
+                                <Chip
+                                    label={item.name}
+                                    key={item.name}
+                                    sx={{
+                                        m: 1,
+                                        color: "white",
+                                        backgroundColor: "primary.main",
+                                    }}
+                                />
+                            ))}
+                        </Box>
+                    </Grid>
+                </Grid>
+            </Box>
+            {/* <Fragment>
                 <CssBaseline />
                 <Container
                     maxWidth="sm"
@@ -107,15 +140,12 @@ const ProjectCreationPage2 = (props) => {
                             sx={{
                                 m: 1,
                                 color: "#FFFFFF",
-                                backgroundColor: "#7F7F7F",
+                                backgroundColor: "secondary.main",
                             }}
                         />
                     ))}
                 </Container>
-            </Fragment>
-
-            <br />
-            <br />
+            </Fragment> */}
 
             <Grid container spacing={3} justifyContent="center">
                 <Grid item xs={12}>
@@ -141,6 +171,7 @@ const ProjectCreationPage2 = (props) => {
                                 sx={{ height: 30, m: 3 }}
                                 value={filterValue}
                                 onChange={filter}
+                                size='small'
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -161,22 +192,27 @@ const ProjectCreationPage2 = (props) => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <div>
-                        <Grid
-                            container
-                            spacing={2}
-                            justifyContent="center"
-                            style={{ height: "100%" }}
-                            overflow="auto"
-                        >
-                            {formTemplate.map((item) => (
-                                <Grid
-                                    key={item.formTemplateId}
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                    md={4}
-                                >
+                    <TableContainer 
+                        component={Paper}
+                        sx={{
+                            marginX:'auto',
+                            "& .MuiTableCell-head":{
+                            backgroundColor: "primary.main",
+                            color:"white",
+                            fontWeight: 'bold',
+                            },
+                        }}
+                    >
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align='center' sx={{fontWeight: 'bold', bgcolor:'secondary.main', color:'white'}} width={300}>Name</TableCell>
+                                    <TableCell align='center' sx={{fontWeight: 'bold', bgcolor:'secondary.main', color:'white'}}>Description</TableCell>
+                                    <TableCell align='center' sx={{fontWeight: 'bold', bgcolor:'secondary.main', color:'white'}}>Select</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {formTemplate.map((item) => (
                                     <FormTemplate
                                         id={item.formTemplateId}
                                         name={item.formName}
@@ -186,18 +222,17 @@ const ProjectCreationPage2 = (props) => {
                                         handleProjectDataChange={
                                             props.handleProjectDataChange
                                         }
+                                        // formEntered={setFormEntered}
                                     >
                                         {item}
                                     </FormTemplate>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </div>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
             </Grid>
 
-            <br />
-            <br />
             <Box
                 display="flex"
                 width="300px;"
@@ -207,32 +242,23 @@ const ProjectCreationPage2 = (props) => {
             >
                 <Button
                     onClick={() => props.setActivePage("1")}
-                    style={{
-                        backgroundColor: "#1F87BC",
-                        color: "white",
-                        height: 50,
-                        width: 100,
-                    }}
+                    variant='contained'
+                    sx={{width:'100px'}}
                 >
-                    <Typography sx={{ fontSize: "14px", m: 1 }}>
                         Back
-                    </Typography>
                 </Button>
 
                 <Button
-                    onClick={() => props.setActivePage("3")}
-                    style={{
-                        backgroundColor: "#1F87BC",
-                        color: "white",
-                        height: 50,
-                        width: 100,
-                    }}
+                    // onClick={() => props.setActivePage("3")}
+                    onClick={handleNextButtonClick}
+                    variant='contained'
+                    sx={{width:'100px'}}
                 >
-                    <Typography sx={{ fontSize: "14px", m: 1 }}>
                         Next
-                    </Typography>
                 </Button>
             </Box>
+            {!props.projectData.selectedForm.length && formEntered === false && (<h3>Please Select a Form</h3>)}
+
         </>
     );
 };

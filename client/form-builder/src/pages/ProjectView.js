@@ -26,8 +26,14 @@ import {
     ListItem,
     ListItemButton,
     ListItemText,
+    FormControl,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    DialogActions,
+    Tooltip,
 } from "@mui/material";
-import { Edit as EditIcon, SaveAs as SaveAsIcon } from "@mui/icons-material";
+import { CheckBox, Edit as EditIcon, SaveAs as SaveAsIcon } from "@mui/icons-material";
 import { getUserById } from "../services/User.js";
 import { DataGrid } from "@mui/x-data-grid";
 import { getFormTemplateById } from "../services/FormTemplate.js";
@@ -46,8 +52,8 @@ function SimpleDialog(props) {
     const handleClose = () => {
         onClose(selectedVendor);
     };
-    const handleListItemClick = (value) => {
-        setSelectedVendor(value);
+    const handleListItemClick = (vendor) => {
+        setSelectedVendor(vendor);
     };
     // // const queryString = window.location.search;
     // // const urlParams = new URLSearchParams(queryString);
@@ -68,7 +74,27 @@ function SimpleDialog(props) {
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>Select vendor to add form</DialogTitle>
-            <List sx={{ pt: 0 }}>
+            <FormControl sx={{marginX:3}}>
+                <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    value={selectedVendor}
+                    required
+                >   
+                    {vendors.map((vendor) => {
+                        return <FormControlLabel value={vendor} control={<Radio value={vendor} required/>} label={vendor.name} onClick={handleListItemClick(vendor)} />
+                    })}
+                </RadioGroup>
+            </FormControl>
+            <DialogActions>
+                <Button
+                    float='right'
+                    marginBottom={2}
+                    href={'/AddFormProject?projectId=' + projectId + '&selectedVendorId=' + selectedVendorId}
+                >
+                    Add form
+                </Button>
+            </DialogActions>
+            {/* <List sx={{ pt: 0 }}>
                 {vendors.map((vendor) => (
                     <ListItem disableGutters sx={{ display: "block" }}>
                         <ListItemButton
@@ -76,10 +102,10 @@ function SimpleDialog(props) {
                             key={vendor.name}
                             sx={
                                 selectedVendor.name == vendor.name
-                                    ? { background: "#e5e5e5" }
+                                    ? { backgroundColor: "grey.light" }
                                     : null
                             }
-                        >
+                        >   
                             <ListItemText
                                 primary={vendor.name}
                                 sx={{ textAlign: "center" }}
@@ -101,7 +127,7 @@ function SimpleDialog(props) {
                     {console.log(projectId)}
                     Add form
                 </Button>
-            </List>
+            </List> */}
         </Dialog>
     );
 }
@@ -225,100 +251,127 @@ const ProjectView = () => {
     ];
 
     return (
-        <>
-            {/* <Typography variant="h1" component="h1"> */}
-            <Button component={Link} to="/Project">
-                Back to Project Index
-            </Button>
-            <TextField
-                value={projectName}
-                onChange={(e) => {
-                    setProjectName(e.target.value);
-                }}
-                disabled={!editProjectName}
-                //   size="large"
-                //   sx={{fontSize: "5rem", height: "50%", width: "50%"}}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            {editProjectName ? (
-                                <IconButton
-                                    aria-label="save project name"
-                                    onClick={() => {
-                                        setEditProjectName(!editProjectName);
-                                        project.projectName = projectName;
-                                        setProject(project);
-                                        updateProject(project);
-                                    }}
-                                >
-                                    <SaveAsIcon />
-                                </IconButton>
-                            ) : (
-                                <IconButton
-                                    aria-label="edit project name"
-                                    onClick={() =>
-                                        setEditProjectName(!editProjectName)
-                                    }
-                                >
-                                    <EditIcon />
-                                </IconButton>
-                            )}
-                        </InputAdornment>
-                    ),
-                }}
-            />
-            {/* </Typography> */}
+        <>  
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
+            <Box className="text-center my-5" justifyContent={'center'}>
+                <Box textAlign={'center'}>
+                    <Typography variant='h4' textAlign={'center'}>Edit Project</Typography>
+                    <Typography variant='p' textAlign={'center'}>Update any information about a specific project</Typography>
+                </Box>
+            </Box>
 
-            <TextField
-                multiline
-                maxRows={5}
-                value={projectDescription}
-                onChange={(e) => {
-                    setProjectDescription(e.target.value);
-                }}
-                disabled={!editProjectDescription}
-                sx={{ width: "90%" }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            {editProjectDescription ? (
-                                <IconButton
-                                    aria-label="save project description"
-                                    onClick={() => {
-                                        setEditProjectDescription(
-                                            !editProjectDescription
-                                        );
-                                        project.projectDescription =
-                                            projectDescription;
-                                        setProjectDescription(
-                                            project.projectDescription
-                                        );
-                                        updateProject(project);
-                                    }}
-                                >
-                                    <SaveAsIcon />
-                                </IconButton>
-                            ) : (
-                                <IconButton
-                                    aria-label="edit project description"
-                                    onClick={() =>
-                                        setEditProjectDescription(
-                                            !editProjectDescription
-                                        )
-                                    }
-                                >
-                                    <EditIcon />
-                                </IconButton>
-                            )}
-                        </InputAdornment>
-                    ),
-                }}
-            />
+            <Box>
+                <Button component={Link} variant='contained' to="/Project" sx={{float:'left'}} className='mb-5'>
+                    Back to All Projects
+                </Button>
+                <Button variant="contained" onClick={handleDialogOpen} sx={{float:'right'}}>
+                    Add Forms
+                </Button>
+            </Box>
+            
+            <Grid container>
+                <Grid item xs={6} marginBottom={2}>
+                    <TextField
+                        fullWidth
+                        label="Project Name"
+                        value={projectName}
+                        onChange={(e) => {
+                            setProjectName(e.target.value);
+                        }}
+                        disabled={!editProjectName}
+                        //   size="large"
+                        //   sx={{fontSize: "5rem", height: "50%", width: "50%"}}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    {editProjectName ? (
+                                        <Tooltip title="Click to Save">
+                                        <IconButton
+                                            aria-label="save project name"
+                                            onClick={() => {
+                                                setEditProjectName(!editProjectName);
+                                                project.projectName = projectName;
+                                                setProject(project);
+                                                updateProject(project);
+                                            }}
+                                        >
+                                            <SaveAsIcon />
+                                        </IconButton>
+                                        </Tooltip>
+                                    ) : (
+                                        <Tooltip title="Click to Edit">
+                                        <IconButton
+                                            aria-label="edit project name"
+                                            onClick={() =>
+                                                setEditProjectName(!editProjectName)
+                                            }
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                        </Tooltip>
+                                    )}
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                </Grid>
+                <Grid item xs={12} marginBottom={2}>
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        label='Project Description'
+                        value={projectDescription}
+                        onChange={(e) => {
+                            setProjectDescription(e.target.value);
+                        }}
+                        disabled={!editProjectDescription}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    {editProjectDescription ? (
+                                        <Tooltip title="Click to Save">
+                                        <IconButton
+                                            aria-label="save project description"
+                                            onClick={() => {
+                                                setEditProjectDescription(
+                                                    !editProjectDescription
+                                                );
+                                                project.projectDescription =
+                                                    projectDescription;
+                                                setProjectDescription(
+                                                    project.projectDescription
+                                                );
+                                                updateProject(project);
+                                            }}
+                                        >
+                                            <SaveAsIcon />
+                                        </IconButton>
+                                        </Tooltip>
+                                    ) : (
+                                        <Tooltip title="Click to Edit">
+                                        <IconButton
+                                            aria-label="edit project description"
+                                            onClick={() =>
+                                                setEditProjectDescription(
+                                                    !editProjectDescription
+                                                )
+                                            }
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                        </Tooltip>
+                                    )}
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                </Grid>
+            </Grid>
+            
             {console.log(project)}
 
-            <Button variant="outlined" onClick={handleDialogOpen}>
-                Add Forms
-            </Button>
+            
             {console.log(project)}
             <SimpleDialog
                 selectedVendor={selectedVendor}
@@ -328,11 +381,18 @@ const ProjectView = () => {
                 vendors={vendors}
                 project={project}
             />
-
             <DataGrid
+                autoHeight
                 rows={rows}
                 columns={columns}
                 disableRowSelectionOnClick
+                sx={{
+                    '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaderTitle': {
+                    backgroundColor: "primary.main",
+                    color:"white",
+                    fontWeight: 'bold',
+                    },
+                }}
             />
         </>
     );

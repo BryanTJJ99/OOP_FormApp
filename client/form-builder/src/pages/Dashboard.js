@@ -30,11 +30,12 @@ const columns = [
     {
       field: 'projectName',
       headerName: 'Project',
-      width: 200,
+      width: 300,
       editable: false,
+    
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer',overflowX: 'auto'}}>
           {params.row.projectName}
           </Button>
         )}
@@ -42,31 +43,32 @@ const columns = [
     {
       field: 'vendorName',
       headerName: 'Vendor',
-      width: 150,
+      width: 80,
       editable: false,
+      overflowX: 'auto',
     },
-    {
-      field: 'avatar',
-      headerName: 'Avatar',
-      renderCell:(params) => { 
-      return (
-        <NameAvatar name={params.row.vendorName}/>
-      )},
-      sortable: false,
-      filterable: false,
-      groupable: false,
-      aggregable: false,
-      disableExport: true,
-      editable: false,
-
-    },
+    // {
+    //   field: 'avatar',
+    //   headerName: 'Avatar',
+    //   wdith: 100,
+    //   renderCell:(params) => { 
+    //   return (
+    //     <NameAvatar name={params.row.vendorName} sx={{overflowX: 'auto',}}/>
+    //   )},
+    //   sortable: false,
+    //   filterable: false,
+    //   groupable: false,
+    //   aggregable: false,
+    //   disableExport: true,
+    //   editable: false,
+    // },
     {
       field: 'email',
       headerName: 'Email',
       renderCell: (params) => {
         return(
           <Tooltip title="send an email" sx={{cursor: 'pointer'}}>
-          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)}>
+          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)} sx={{overflowX: 'auto',}}>
               {params.row.email}
           </Link>
           </Tooltip>
@@ -74,6 +76,7 @@ const columns = [
       },
       width: 200,
       editable: false,
+      overflowX: 'auto',
     },
     {
       field: 'name',
@@ -81,13 +84,15 @@ const columns = [
       description: 'This column has a value getter and is not sortable.',
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer', overflowX: 'auto',}}>
             {params.row.name}
           </Button>
         )
       },
       editable: false,
-      width: 300,
+      width: 450,
+      overflowX: 'auto',
+
     }, {
       field: 'status',
       headerName: 'Status',
@@ -98,8 +103,10 @@ const columns = [
       },
       type: 'singleSelect',
       valueOptions: STATUS_OPTIONS,
-      width: 150,
+      width: 120,
       editable: false,
+      overflowX: 'auto',
+
     },
    
   ];
@@ -188,17 +195,26 @@ const Dashboard = () => {
         }
 
         setFormTemplates(newFormTemplateDict);
+        // console.log(newFormTemplateDict)
         return newFormTemplateDict
       }
     // obtain user data
+
+    //KEN MING ADDED THE TRY CATCH BLOCK
     const fetchUserData = async() => {
+      try{
       let userData = await getAllUsers()
       let newUserDict = {}; 
       for (let user of userData) { 
         newUserDict[user.id] = [user.name,user.email]; 
       }
+      // console.log(newUserDict)
       setUsers(newUserDict);
       return newUserDict
+    }
+    catch(error){
+      console.log(error)
+    }
     }
     // obtain project data
     const fetchProjectData = async() => {
@@ -207,6 +223,7 @@ const Dashboard = () => {
       for (let proj of projectData) { 
         newProjectDict[proj.projectID] = proj.projectName; 
       }
+      // console.log(newProjectDict)
       setProjects(newProjectDict);
       return newProjectDict
     }
@@ -221,15 +238,20 @@ const Dashboard = () => {
       // console.log(response[1])
       // console.log(response[2])
       // console.log(response[3])
-      formatData(response[0].value)
+      formatData(response)
+      // console.log('promise all settled, loading should be set to false')
       setIsLoading(false);
     }
     )
   }
   ,[])
 
-  const formatData = (formResponses) => {
+  const formatData = (response) => {
     let formData = []
+    let formResponses = response[0].value
+    let formTemplates = response[1].value
+    let users = response[2].value
+    let projects = response[3].value
     // let formsDue = []
     // const today = new Date()
     // let tomorrow  = new Date()
@@ -238,19 +260,27 @@ const Dashboard = () => {
     // following.setDate(today.getDate()+2)
     // const upcoming = [today,tomorrow,following]
     let counter = 1
-
+    // console.log(formResponses)
+    // console.log(users,'users state')
+    // console.log(formTemplates,'form templates state')
+    // console.log(projects,'projects state')
     for (let formResponse of formResponses){
+      // console.log(formResponse,'formResponse')
       let templateId = formResponse.formTemplateId; 
       // let templateName = formTemplateDict[templateId]; 
       let templateName = formTemplates[templateId]; 
       // let vendor = userDataDict[formResponse.vendorId]
       let deadline = formResponse.vendorDeadLine;
       // console.log(formResponse.deadline,'deadline')
-      if(formResponse.Id in users){
+
+      // KEN MING CCHANGED SOMETHING HERE
+      if(formResponse.vendorId in users){
         var vendor = users[formResponse.vendorId]
+        // console.log('vendor',vendor[0],vendor[1])
       } else{
-        // console.log('vendor error')
-        var vendor = ['dummy1','dummy@gmail.com']
+        console.log('vendor error')
+        // console.log("NOOOO")
+        // var vendor = ['dummy1','dummy@gmail.com']
       }
       // let project = projectDataDict[formResponse.projectId]
       if (formResponse.projectId in projects){
@@ -297,7 +327,7 @@ const Dashboard = () => {
   }))
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 2 }}>
+    <Box sx={{ flexGrow: 1, py: 2 }}>
       {isLoading && <CircularLoading/>}
       <Grid container spacing={2} style={{height:"100%"}}>
         <Grid item xs={4}>
@@ -342,7 +372,7 @@ const Dashboard = () => {
         </Grid> */}     
         <Grid item xs={12}>
           <Item sx={{m:0,p:0}}>
-            <Tooltip title="Switch to toggle filter and sort " placement="top-end">
+            <Tooltip title="Toggle filter & sort " placement="top-end">
             <Box sx={{ height: 423,width:"100%", boxShadow:0}}>
             <DataGrid
               rows={formData}

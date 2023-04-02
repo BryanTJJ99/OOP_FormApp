@@ -13,7 +13,7 @@ import StatusChip from './StatusChip';
 
 
 const FormsDueWidget = () => {
-    const [daysOut,setDaysOut] = useState(7)
+    const [daysOut,setDaysOut] = useState(15)
     const [formsDue,setFormsDue] = useState([])
     const [formTemplates, setFormTemplates] = useState({}); 
     const [users, setUsers] = useState({}); 
@@ -77,9 +77,8 @@ const FormsDueWidget = () => {
         <Box sx={{height:40,px:5,my:1}}> 
         <Tooltip title="Customise range from today">
             <Slider 
-                aria-label="Days" defaultValue={7} valueLabelDisplay="auto" step={2} marks min={1} max={30}
+                aria-label="Days" defaultValue={15} valueLabelDisplay="auto" step={2} marks min={1} max={30}
                 onChange={ (e, val) => setDaysOut(val) }  
-                // onDragStop={ (e) => setDaysOut(this.val) }
                 />
         </Tooltip>
         </Box>

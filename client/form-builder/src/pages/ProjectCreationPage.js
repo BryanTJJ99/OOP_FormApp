@@ -23,6 +23,7 @@ const ProjectCreationPage = (props) => {
     const [projectData, setProjectData] = useState({
         projectName: '',
         vendorCompanyName: '',
+        dueDate: new Date(new Date().getTime() + 1210000000).toISOString().split('T')[0],
         projectDescription: '',
         selectedForm: []
       })

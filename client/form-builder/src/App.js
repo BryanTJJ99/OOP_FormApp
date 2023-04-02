@@ -77,7 +77,7 @@ function App() {
                             >
                                 <Route path="Account" element={<Settings />} />
                                 {/* FormView help confirm this is for which assigned role */}
-                                <Route path="FormView" element={<FormView />} />
+                                <Route path="FormResponse" element={<FormResponse />} />
                             </Route>
 
                             {/* Protected routes for Admin and Approver, to be updated with additional routes if needed, 
@@ -130,6 +130,10 @@ function App() {
                                 <Route
                                     path="FormResponse"
                                     element={<FormResponse />}
+                                />
+                                <Route
+                                    path="FormView"
+                                    element={<FormView />}
                                 />
                                 <Route
                                     path="ProjectView"

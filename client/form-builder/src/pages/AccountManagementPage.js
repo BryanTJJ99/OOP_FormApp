@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
     Box,
     Snackbar,
@@ -13,7 +13,9 @@ import {
     Link,
     Autocomplete,
     TextField,
-    Typography
+    Typography,
+    DialogContentText,
+    Tooltip,
 } from "@mui/material";
 
 import {
@@ -45,13 +47,13 @@ const AccountManagementPage = (props) => {
                 for (const user of users) {
                     switch (user.role) {
                         case "ROLE_VENDOR":
-                            user.role = "VENDOR";
+                            user.role = "Vendor";
                             break;
                         case "ROLE_ADMIN":
-                            user.role = "ADMIN";
+                            user.role = "Admin";
                             break;
                         case "ROLE_APPROVER":
-                            user.role = "APPROVER";
+                            user.role = "Approver";
                             break;
                         default:
                             break;
@@ -158,13 +160,13 @@ const AccountManagementPage = (props) => {
             const { newRow, oldRow, reject, resolve } = promiseArguments;
             let userToUpdate = JSON.parse(JSON.stringify(newRow));
             switch (newRow.role) {
-                case "VENDOR":
+                case "Vendor":
                     userToUpdate.role = "ROLE_VENDOR";
                     break;
-                case "ADMIN":
+                case "Admin":
                     userToUpdate.role = "ROLE_ADMIN";
                     break;
-                case "APPROVER":
+                case "Approver":
                     userToUpdate.role = "ROLE_APPROVER";
                     break;
                 default:
@@ -227,13 +229,13 @@ const AccountManagementPage = (props) => {
             const userToDelete = rows.filter((row) => row.id === deleteRow)[0];
             let userToUpdateCopy = JSON.parse(JSON.stringify(userToDelete));
             switch (userToDelete.role) {
-                case "VENDOR":
+                case "Vendor":
                     userToUpdateCopy.role = "ROLE_VENDOR";
                     break;
-                case "ADMIN":
+                case "Admin":
                     userToUpdateCopy.role = "ROLE_ADMIN";
                     break;
-                case "APPROVER":
+                case "Approver":
                     userToUpdateCopy.role = "ROLE_APPROVER";
                     break;
                 default:
@@ -267,14 +269,18 @@ const AccountManagementPage = (props) => {
         const userToDelete = rows.filter((row) => row.id === deleteRow)[0];
 
         return (
-            <Dialog maxWidth="xs" open={!!deleteRow}>
+            <Dialog open={!!deleteRow}>
                 <DialogTitle>Are you sure?</DialogTitle>
-                <DialogContent dividers>
-                    {`Pressing 'Delete' will delete user with 
-                    ID: ${userToDelete.id}
-                    Username: ${userToDelete.username}
-                    Email: ${userToDelete.email}
-                    Role: ${userToDelete.role}`}
+                <DialogContent>
+                    <DialogContentText>
+                        {`Pressing 'Delete' will delete user with the following details`}
+                        <br/>
+                        {`Username: ${userToDelete.username}`}
+                        <br/>
+                        {`Email: ${userToDelete.email}`}
+                        <br/>
+                        {`Role: ${userToDelete.role}`}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancelDelete}>No</Button>
@@ -285,33 +291,58 @@ const AccountManagementPage = (props) => {
     };
 
     const columns = [
-        { field: "id", headerName: "ID", flex: 1, minWidth: 100 },
+        { 
+            field: "id", 
+            headerName: "ID", 
+            flex: 1, 
+            maxWidth: 100,
+            // renderCell: (params) => {
+            //     return(
+            //       <Box sx={{overflowX: 'auto',}}>
+            //           {params.row.id}
+            //       </Box>
+            //     )
+            //   },
+        },
         {
             field: "username",
             headerName: "Username",
             editable: true,
             flex: 1,
             minWidth: 150,
+            overflowX: 'auto',
         },
         {
             field: "name",
             headerName: "Name",
             editable: true,
             flex: 1,
-            minWidth: 150,
+            minWidth: 200,
+            overflowX: 'auto',
+
         },
         {
             field: "email",
             headerName: "Email",
             editable: true,
-            flex: 1,
+            flex: 3,
             minWidth: 200,
+            renderCell: (params) => {
+                return(
+                  <Tooltip title="send an email" sx={{cursor: 'pointer'}}>
+                  <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)} sx={{overflowX: 'auto',}}>
+                      {params.row.email}
+                  </Link>
+                  </Tooltip>
+                )
+              },
+
         },
         {
             field: "role",
             headerName: "Role",
             type: "singleSelect",
-            valueOptions: ["VENDOR", "ADMIN", "APPROVER"],
+            valueOptions: ["Vendor", "Admin", "Approver"],
             editable: true,
             flex: 1,
             minWidth: 100,
@@ -390,27 +421,33 @@ const AccountManagementPage = (props) => {
     ];
 
     return (
-        <Box sx={{ width: "90%", margin: "50px auto" }}>
+        <Box sx={{ }}>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <div className="text-center my-5">
-                <Typography variant='h4'>View Accounts</Typography>
-                <Typography variant='p'>Check all the accounts that your vendors have</Typography>
+                <Typography variant='h4'>Accounts</Typography>
+                <Typography variant='p'>Check all the accounts for all users</Typography>
             </div>
-            <Link
-                to={"/AccountCreation"}
-                component={RouterLink}
-                underline="none"
-                variant="button"
-                sx={{
-                    display: "block",
-                    textAlign: "end",
-                }}
-                setCreatedAccount={setCreatedAccount}
-            >
-                Create New Account
-            </Link>
+            <Box sx={{width: '100%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
+                <Link
+                    to={"/AccountCreation"}
+                    component={RouterLink}
+                    underline="none"
+                    sx={{
+                        display: "block",
+                        textAlign: "end",
+                        color: "white"
+                    }}
+                    setCreatedAccount={setCreatedAccount}
+                >
+                    <Button variant="contained" color="primary">
+                    <AddCircleIcon sx={{mr:1}}/>
+                        Create New Account
+                    </Button>
+                </Link>
+            </Box>
             <Box
                 sx={{
-                    marginTop: "30px",
+                    marginX: 'auto',
                     height: "500px",
                     width: "100%",
                     "& .actions": {
@@ -424,6 +461,7 @@ const AccountManagementPage = (props) => {
                 {renderConfirmDialog()}
                 {renderDeleteDialog()}
                 <DataGrid
+                    autoHeight
                     rows={rows}
                     columns={columns}
                     editMode="row"

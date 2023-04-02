@@ -10,10 +10,10 @@ const FormSummary = (props) => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
 
             <div className="text-center my-5">
-                <Typography variant='h4'>View Projects</Typography>
-                <Typography variant='p'>Check the status of all the vendor-project pairs</Typography>
+                <Typography variant='h4'>Projects</Typography>
+                <Typography variant='p'>Check the status of all the projects that you have assigned to your vendors</Typography>
             </div>
-            <Box sx={{width: '80%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
+            <Box sx={{width: '100%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
                 <Button backgroundColor="primary" variant="contained" href="/ProjectCreation" sx={{textDecoration:"none","&:hover": {color: "#FFF"}}}><AddCircleIcon sx={{mr:1}}/>Create New Project</Button>
             </Box>
             <div>

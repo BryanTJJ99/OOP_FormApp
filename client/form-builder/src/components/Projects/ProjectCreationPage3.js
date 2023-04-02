@@ -30,7 +30,7 @@ import {
     getUserByUsername,
     createProject,
 } from "../../services/ProjectCreationPageAPI";
-import { initialiseFormResponse } from "../../services/FormResponse";
+import { createFormResponse } from "../../services/FormResponse";
 
 const ProjectCreationPage3 = (props) => {
     const [vendors, setVendors] = useState([]);
@@ -40,6 +40,7 @@ const ProjectCreationPage3 = (props) => {
         // extract the project data from props
         let projectName = props.projectData.projectName;
         let vendorNamesArr = vendors;
+        let dueDate = props.projectData.dueDate; 
         let projectDescription = props.projectData.projectDescription;
         let selectedFormsArr = props.projectData.selectedForm;
 
@@ -77,19 +78,25 @@ const ProjectCreationPage3 = (props) => {
                             formTemplateId: formID,
                             vendorId: vendorID,
                             projectId: projectID,
-                            reviewedBy: "6411538f436af646394c3fe4",
-                            approvedBy: "6409dc0be3139a5d267579b2",
                             status: 'vendor',
-                            vendorDeadline: '2023-04-15T05:22:33.934+00:00',
+                            vendorDeadline: dueDate,
                             formAnswer: {}, 
+                            versionHistory: {}, 
                             createdAt: today,
                             updatedAt: today,
                           };
-                          await initialiseFormResponse(formResponseData);
-                          window.location.href = "/Project";
+                          console.log(formResponseData)
+                          createFormResponse(formResponseData)
+                            .then(response => { 
+                                console.log(response)
+                            })
+                            .catch(error => { 
+                                console.log(error.message);
+                            })
                         });
                     }
                 );
+                window.location.href = "/Project";
 
                 Promise.all(formResponsePromises.flat());
             });
@@ -139,88 +146,77 @@ const ProjectCreationPage3 = (props) => {
 
     return (
         <>
-            <Typography
-                variant="h3"
-                component="div"
-                style={{ flexGrow: 1, margin: 30 }}
-            >
-                View Summary
-            </Typography>
-            <br></br>
-            <br></br>
-            <br></br>
-
-            <TableContainer style={{ width: "100%" }}>
-                <Table
-                    sx={{
-                        p: 3,
-                        width: "70%",
-                        backgroundColor: "#edeae1",
-                        mx: "auto",
-                        borderRadius: "15px",
-                    }}
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
+            <div className="text-center my-5">
+                <Typography
+                    variant="h4"
                 >
+                    Summary
+                </Typography>
+                <Typography variant='p'>Please check your inputs before we create this project</Typography>
+            </div>
+
+            <TableContainer 
+                component={Paper}
+                sx={{
+                    marginX:'auto',
+                    "& .MuiTableCell-head":{
+                    backgroundColor: "primary.main",
+                    color:"white",
+                    fontWeight: 'bold',
+                    },
+                }}
+            >
+                <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell
-                                align="center"
-                                colSpan={2}
-                                style={{ fontSize: "25px", fontWeight: "bold" }}
-                            >
-                                Summary
+                            <TableCell align="center">
+                                Field
+                            </TableCell>
+                            <TableCell align="center">
+                                Your Inputs
                             </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell
-                                align="center"
-                                style={{
-                                    fontSize: "15px",
-                                    width: "400px",
-                                    fontWeight: "bold",
-                                }}
-                            >
-                                Project Name:
+                            <TableCell align="center" fontWeight='bold' width='500px'>
+                                <Box variant='span' fontWeight={'bold'}>Project Name:</Box>
                             </TableCell>
                             <TableCell align="center">
                                 {props.projectData.projectName}
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                align="center"
-                                style={{ fontSize: "15px", fontWeight: "bold" }}
-                            >
-                                Vendor Name(s):
+                            <TableCell align="center" fontWeight='bold'>
+                                <Box variant='span' fontWeight={'bold'}>Vendor Name(s):</Box>
                             </TableCell>
                             <TableCell align="center">
-                                {vendors.map((vendor)=>{
-                                    return <Chip label={vendor.name} key={vendor.name} />
+                                {vendors.map((vendor) => {
+                                    return (
+                                        <Chip
+                                            label={vendor.name}
+                                            key={vendor.name}
+                                        />
+                                    );
                                 })}
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                align="center"
-                                style={{ fontSize: "15px", fontWeight: "bold" }}
-                            >
-                                Project Description:
+                            <TableCell align="center">
+                                <Box variant='span' fontWeight={'bold'}>Project Description:</Box>
                             </TableCell>
                             <TableCell align="center">
                                 {props.projectData.projectDescription}
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                align="center"
-                                style={{ fontSize: "15px", fontWeight: "bold" }}
-                            >
-                                Selected forms to fill:
+                            <TableCell align="center">
+                                <Box variant='span' fontWeight={'bold'}>Selected forms to fill:</Box>
                             </TableCell>
                             <TableCell align="center">
                                 {props.projectData.selectedForm.map((item) => (
-                                    <Chip label={item.name} key={item.name} />
+                                    <Chip label={item.name} key={item.name} sx={{backgroundColor:'primary.main', color:'white', marginX:2, marginBottom:1}}/>
                                 ))}
                             </TableCell>
                         </TableRow>
@@ -237,12 +233,8 @@ const ProjectCreationPage3 = (props) => {
             >
                 <Button
                     onClick={() => props.setActivePage("2")}
-                    style={{
-                        backgroundColor: "#1F87BC",
-                        color: "white",
-                        height: 50,
-                        width: 100,
-                    }}
+                    variant='contained'
+                    sx={{width:'100px'}}
                 >
                     Back
                 </Button>
@@ -250,13 +242,8 @@ const ProjectCreationPage3 = (props) => {
                 <Button
                     type="submit"
                     onClick={handleSubmit}
-                    style={{
-                        backgroundColor: "#1F87BC",
-                        color: "white",
-                        height: 50,
-                        width: 100,
-                    }}
-                    href="/Project"
+                    variant='contained'
+                    sx={{width:'100px'}}
                 >
                     Submit
                 </Button>
@@ -264,7 +251,6 @@ const ProjectCreationPage3 = (props) => {
         </>
     );
 };
-
 
 //   return (
 //     <>
@@ -314,10 +300,10 @@ const ProjectCreationPage3 = (props) => {
 //         <Button onClick={() => props.setActivePage('2')} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Back</Button>
 
 //         <Button type='submit' onClick={handleSubmit} style={{ backgroundColor: '#1F87BC',color:"white", height:50, width:100, }} >Submit</Button>
-//     </Box>                      
+//     </Box>
 //     </>
 
 //   )
 // }
 
-export default ProjectCreationPage3
+export default ProjectCreationPage3;

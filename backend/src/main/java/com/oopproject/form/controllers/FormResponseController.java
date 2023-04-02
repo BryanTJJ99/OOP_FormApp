@@ -66,6 +66,12 @@ public class FormResponseController {
         return formResponseService.getFormResponsebyFormTemplateAndVendorProject(formTemplateId, vendorProjectId);
     }
 
+    @GetMapping("/vendorId/{vendorId}")
+    @CrossOrigin
+    public List<FormResponse> getFormResponseByVendorId(@PathVariable String vendorId) {
+        return formResponseService.getFormResponsebyVendorId(vendorId);
+    }
+
     @GetMapping("/{startDate}/{endDate}/date")
     @CrossOrigin
     public List<FormResponse> getFormsWithinDateRange(@PathVariable("startDate") 

@@ -85,6 +85,32 @@ export async function deleteFormResponse(formResponse) {
   }
 }
 
+export async function generatePdf(html) { 
+  let api_url = 'http://localhost:8080/generate-pdf'
+  try { 
+    const response = await axios.post(api_url, html, {
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    });
+    console.log('response ', response); 
+    return response; 
+  } catch(error) { 
+    return error;
+  }
+}
+
+export async function getFormReponseByVendorId(vendorId) { 
+  let api_url = 'http://localhost:8080/formResponse/vendorId/' + vendorId; 
+  try { 
+    const response = await axios.get(api_url); 
+    console.log('response', response); 
+    return response.data; 
+  } catch(error) { 
+    return error; 
+  }
+}
+
 
 // export async function updateFilesInFormAnswer(fileMap, id) { 
 //     let api_url = 'http://localhost:8080/formResponse/updateFiles/' + id;

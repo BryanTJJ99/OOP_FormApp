@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
       flex: 2,
       editable: false,
       renderCell: (params) => { 
-        return (<Button underline="none" href={params.value.link}  sx={{cursor: 'pointer'}}>
+        return (<Button underline="none" href={params.value.link}  sx={{marginLeft:0, cursor: 'pointer'}}>
         {params.value.name}
       </Button>)
       }
@@ -73,6 +73,7 @@ const FormTable = () => {
     }, [])
 
     function findUsernameByUserId(id) { 
+      console.log(users)
       for (let user of users) { 
         if (user.id === id) { 
           return user.username;
@@ -81,7 +82,7 @@ const FormTable = () => {
     }
 
     useEffect(() => {
-        if (formTemplates !== null) { 
+        if (users !== null) { 
             let newDataGridRows = []; 
             let rowIdCounter = 1; 
             for (let formTem of formTemplates) { 
@@ -123,7 +124,7 @@ const FormTable = () => {
     //   ];
 
     return (
-      <Box sx={{ width: '80%'}} marginX={"auto"}>
+      <Box sx={{ width: '100%'}} marginX={"auto"}>
           {dataGrid}
       </Box>
     )

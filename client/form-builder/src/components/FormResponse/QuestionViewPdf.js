@@ -60,18 +60,18 @@ const QuestionView = (props) => {
 
     function specialQuestionType(questionType) {
         if (questionType === 'text') {
-            return <input type='text' placeholder='Your answer' value={textValue} className='w-100'></input>
+            return <span>{textValue}</span>
             // return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => { setTextValue(e.target.value) }} sx={{ width: '100%' }} disabled={props.disabled} required={props.required}></TextField>
         } else if (questionType === 'textarea') {
-            return <input type='textarea' placeholder='Your answer' value={textValue} className='w-100'></input>
+            return <span>{textValue}</span>
             // return <TextField name={props.question.questionOrder.toString()} variant='standard' placeholder="Your answer" value={textValue} onChange={(e) => { setTextValue(e.target.value) }} sx={{ width: '100%' }} multiline rows={4} disabled={props.disabled} required={props.required}></TextField>
         } else if (questionType === 'radio' || questionType === 'dropdown') {
             let choices = Array(0);
             for (let i = 0; i < props.question.choices.length; i++) {
                 if (i === parseInt(props.response.formAnswer[props.question.questionOrder])) { 
-                    choices.push(<div><label className='d-block w-100'><input type='radio' checked></input>&nbsp;{props.question.choices[i]}</label></div>)
+                    choices.push(<div><label className='d-block w-100'><span>[X] </span>{props.question.choices[i]}</label></div>)
                 } else { 
-                    choices.push(<div><label className='d-block w-100'><input type='radio'></input>&nbsp;{props.question.choices[i]}</label></div>)
+                    choices.push(<div><label className='d-block w-100'><span>[&nbsp;&nbsp;] </span>{props.question.choices[i]}</label></div>)
                 }
                 // choices.push(<FormControlLabel value={i} control={<Radio />} label={props.question.choices[i]} onClick={handleRadioChange} disabled={props.disabled}/>)
             }
@@ -95,10 +95,10 @@ const QuestionView = (props) => {
                 if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                     if (Object.values(props.response.formAnswer[props.question.questionOrder]).includes(i.toString())) {
                         // checked = true;
-                        choices.push(<div><label className='d-block w-100'><input type='checkbox' checked></input>&nbsp;{props.question.choices[i]}</label></div>)
+                        choices.push(<div><label className='d-block w-100'><span>[X] </span>{props.question.choices[i]}</label></div>)
 
                     } else { 
-                        choices.push(<div><label className='d-block w-100'><input type='checkbox'></input>&nbsp;{props.question.choices[i]}</label></div>)
+                        choices.push(<div><label className='d-block w-100'><span>[&nbsp;&nbsp;] </span>{props.question.choices[i]}</label></div>)
                     }
                 }
                 // choices.push(<FormControlLabel value={i} control={<Checkbox defaultChecked={checked} />} label={props.question.choices[i]} onChange={handleCheckboxChange} disabled={props.disabled}/>)
@@ -117,53 +117,37 @@ const QuestionView = (props) => {
             let maxVal = parseInt(props.question.maxValue);
             let maxLabel = props.question.maxLabel;
             let numberOfNodes = maxVal - minVal + 1;
-            return (
-                <div className='d-flex'>
-                    {ratingValue} on a scale of {minVal + " (" + minLabel + ")"} to {maxVal + " (" + maxLabel + ")"} 
-                    {/* <Box width='15%' marginY={'auto'}>
-                        <Typography component="legend">{minVal}</Typography>
-                        <Typography component="legend">{minLabel}</Typography>
-                    </Box>
-                    <Box width={'70%'}>
-                        <StyledRating
-                            name={props.question.questionOrder.toString()}
-                            getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-                            precision={1}
-                            // use max to set the number of circles
-                            max={numberOfNodes}
-                            icon={<CircleIcon fontSize="inherit" sx={{ margin: '0.8rem' }} />}
-                            emptyIcon={<RadioButtonUncheckedIcon fontSize="inherit" sx={{ margin: '0.8rem' }} />}
-                            width='70%'
-                            value={ratingValue}
-                            onChange={handleRatingChange}
-                            disabled={props.disabled}
-                            required={props.required}
-                        />
-                    </Box>
-                    <Box width='15%' marginY={'auto'}>
-                        <Typography component="legend">{maxVal}</Typography>
-                        <Typography component="legend">{maxLabel}</Typography>
-                    </Box> */}
-                </div>
-            )   
+            if (ratingValue) { 
+                return (
+                    <div className='d-flex'>
+                        {ratingValue} on a scale of {minVal + " (" + minLabel + ")"} to {maxVal + " (" + maxLabel + ")"} 
+                    </div>
+                )   
+            } else { 
+                return (
+                    <div className='d-flex'>
+                        Question has not been answered.
+                    </div>
+                )   
+            }
+            
         } else if (questionType === 'file') {
             let fileBase64Array = props.response.formAnswer[props.question.questionOrder];
             // var base64String = document.getElementById("Base64StringTxtBox").value;
-            let fileElement = (<input type='file'></input>)
+            let fileElement = (
+                <div className='mb-2'>
+                    Respondent has not submitted a file
+                </div>)
             // let fileElement = (<MuiFileInput onChange={handleFileChange} placeholder="Select a file" value={file} name={props.question.questionOrder.toString()} disabled={props.disabled} required={props.required}/>)
             if (Object.keys(props.response.formAnswer).includes(props.question.questionOrder.toString())) {
                 // const downloadLink = document.createElement("a");
                 // downloadLink.href = fileBase64String;
                 // downloadLink.download = "convertedPDFFile.pdf";
                 // downloadLink.click();
-                fileElement = (<div className='d-inline'>
-                    <div className='mb-2'>
-                        <label>Select new file:&nbsp;<input type='file'></input></label>
-                    </div>
-                    <div className='d-flex'>
-                        <a href={"data:" + fileBase64Array[1] + ";base64," + fileBase64Array[0]} download="userInputFile" variant="contained" className="align-left ms-0">Download Submitted File</a>
-                    </div>
-                </div>)
+                fileElement = (
+                    <div className='d-inline'>
+                        Respondent has submitted a file
+                    </div>)
             }
             return (
                 <div className='d-flex'>
@@ -175,12 +159,13 @@ const QuestionView = (props) => {
     return (
         <div className="mx-5 mb-4">
             <div className='text-left fw-bolder'>
-                Q: {props.question.questionTitle}
+                <b>Q{props.question.questionOrder}: {props.question.questionTitle}</b>
                 <span color='primary.main'>{props.question.isRequired ? " *" : ""}</span>
             </div>
             <div>
                 {specialQuestionType(props.question.questionType)}
             </div>
+            <br></br><br></br>
         </div>
     )
 }
