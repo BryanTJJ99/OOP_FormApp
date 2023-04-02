@@ -132,6 +132,10 @@ function App() {
                                     element={<FormResponse />}
                                 />
                                 <Route
+                                    path="FormView"
+                                    element={<FormView />}
+                                />
+                                <Route
                                     path="ProjectView"
                                     element={<ProjectView/>}
                                 />

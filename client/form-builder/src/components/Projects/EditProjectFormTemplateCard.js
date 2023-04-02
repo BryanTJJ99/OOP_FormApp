@@ -1,10 +1,11 @@
 import { React, useState } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+// import Card from "@mui/material/Card";
+// import CardActions from "@mui/material/CardActions";
+// import CardContent from "@mui/material/CardContent";
+// import CardMedia from "@mui/material/CardMedia";
+// import Button from "@mui/material/Button";
+// import Typography from "@mui/material/Typography";
+import { Button, Typography, TableRow, TableCell, Box } from "@mui/material"
 
 // export default function FormTemplate(props) {
 //   return (
@@ -40,12 +41,28 @@ export default function EditProjectFormTemplateCard(props) {
     return (
         <>
             {/* {console.log(props.projectData)} */}
-            <Card sx={{ maxWidth: 345 }}>
+            <TableRow sx={{ width:'100%' }}>
                 {/* <CardMedia
         sx={{ height: 140 }}
         image={props.url}
-      /> */}
-                <CardContent>
+      /> */}    
+                <TableCell>
+                    <Box component='span' fontWeight={'bold'}>{props.name}</Box>
+                </TableCell>
+                <TableCell>
+                    {props.description}
+                </TableCell>
+                <TableCell>
+                    <Button
+                        style={buttonStyle}
+                        onClick={() =>
+                            addForm({ id: props.id, name: props.name })
+                        }
+                    >
+                        {buttonName}
+                    </Button>
+                </TableCell>
+                {/* <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {props.name}
                     </Typography>
@@ -62,8 +79,8 @@ export default function EditProjectFormTemplateCard(props) {
                     >
                         {buttonName}
                     </Button>
-                </CardActions>
-            </Card>
+                </CardActions> */}
+            </TableRow>
             {console.log(props.selectedForms)}
         </>
     );
