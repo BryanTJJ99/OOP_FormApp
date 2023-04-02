@@ -43,7 +43,7 @@ const columns = [
     {
       field: 'vendorName',
       headerName: 'Vendor',
-      width: 100,
+      width: 80,
       editable: false,
       overflowX: 'auto',
     },
@@ -90,7 +90,7 @@ const columns = [
         )
       },
       editable: false,
-      width: 400,
+      width: 450,
       overflowX: 'auto',
 
     }, {
@@ -103,7 +103,7 @@ const columns = [
       },
       type: 'singleSelect',
       valueOptions: STATUS_OPTIONS,
-      width: 150,
+      width: 120,
       editable: false,
       overflowX: 'auto',
 
@@ -327,7 +327,7 @@ const Dashboard = () => {
   }))
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 0 }}>
+    <Box sx={{ flexGrow: 1, py: 2 }}>
       {isLoading && <CircularLoading/>}
       <Grid container spacing={2} style={{height:"100%"}}>
         <Grid item xs={4}>
@@ -372,7 +372,7 @@ const Dashboard = () => {
         </Grid> */}     
         <Grid item xs={12}>
           <Item sx={{m:0,p:0}}>
-            <Tooltip title="Switch to toggle filter and sort " placement="top-end">
+            <Tooltip title="Toggle filter & sort " placement="top-end">
             <Box sx={{ height: 423,width:"100%", boxShadow:0}}>
             <DataGrid
               rows={formData}

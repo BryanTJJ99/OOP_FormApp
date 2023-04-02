@@ -30,7 +30,8 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    DialogActions
+    DialogActions,
+    Tooltip,
 } from "@mui/material";
 import { CheckBox, Edit as EditIcon, SaveAs as SaveAsIcon } from "@mui/icons-material";
 import { getUserById } from "../services/User.js";
@@ -284,6 +285,7 @@ const ProjectView = () => {
                             endAdornment: (
                                 <InputAdornment position="end">
                                     {editProjectName ? (
+                                        <Tooltip title="Click to Save">
                                         <IconButton
                                             aria-label="save project name"
                                             onClick={() => {
@@ -295,7 +297,9 @@ const ProjectView = () => {
                                         >
                                             <SaveAsIcon />
                                         </IconButton>
+                                        </Tooltip>
                                     ) : (
+                                        <Tooltip title="Click to Edit">
                                         <IconButton
                                             aria-label="edit project name"
                                             onClick={() =>
@@ -304,6 +308,7 @@ const ProjectView = () => {
                                         >
                                             <EditIcon />
                                         </IconButton>
+                                        </Tooltip>
                                     )}
                                 </InputAdornment>
                             ),
@@ -325,6 +330,7 @@ const ProjectView = () => {
                             endAdornment: (
                                 <InputAdornment position="end">
                                     {editProjectDescription ? (
+                                        <Tooltip title="Click to Save">
                                         <IconButton
                                             aria-label="save project description"
                                             onClick={() => {
@@ -341,7 +347,9 @@ const ProjectView = () => {
                                         >
                                             <SaveAsIcon />
                                         </IconButton>
+                                        </Tooltip>
                                     ) : (
+                                        <Tooltip title="Click to Edit">
                                         <IconButton
                                             aria-label="edit project description"
                                             onClick={() =>
@@ -352,6 +360,7 @@ const ProjectView = () => {
                                         >
                                             <EditIcon />
                                         </IconButton>
+                                        </Tooltip>
                                     )}
                                 </InputAdornment>
                             ),
@@ -372,7 +381,6 @@ const ProjectView = () => {
                 vendors={vendors}
                 project={project}
             />
-
             <DataGrid
                 autoHeight
                 rows={rows}
