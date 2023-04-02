@@ -380,7 +380,6 @@ const Dashboard = () => {
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 6,
                   },
                 },
               }}
