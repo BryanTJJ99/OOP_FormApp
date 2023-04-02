@@ -285,7 +285,12 @@ const AccountManagementPage = (props) => {
     };
 
     const columns = [
-        { field: "id", headerName: "ID", flex: 1, minWidth: 100 },
+        { 
+            field: "id", 
+            headerName: "ID", 
+            flex: 1, 
+            minWidth: 100
+        },
         {
             field: "username",
             headerName: "Username",
@@ -304,7 +309,7 @@ const AccountManagementPage = (props) => {
             field: "email",
             headerName: "Email",
             editable: true,
-            flex: 1,
+            flex: 3,
             minWidth: 200,
         },
         {
@@ -393,26 +398,26 @@ const AccountManagementPage = (props) => {
         <Box sx={{ }}>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <div className="text-center my-5">
-                <Typography variant='h4'>View Accounts</Typography>
-                <Typography variant='p'>Check all the accounts that your vendors have</Typography>
+                <Typography variant='h4'>Accounts</Typography>
+                <Typography variant='p'>Check all the accounts for all users</Typography>
             </div>
             <Box sx={{width: '100%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
-                <Button variant="contained" color="primary">
+                <Link
+                    to={"/AccountCreation"}
+                    component={RouterLink}
+                    underline="none"
+                    sx={{
+                        display: "block",
+                        textAlign: "end",
+                        color: "white"
+                    }}
+                    setCreatedAccount={setCreatedAccount}
+                >
+                    <Button variant="contained" color="primary">
                     <AddCircleIcon sx={{mr:1}}/>
-                    <Link
-                        to={"/AccountCreation"}
-                        component={RouterLink}
-                        underline="none"
-                        sx={{
-                            display: "block",
-                            textAlign: "end",
-                            color: "white"
-                        }}
-                        setCreatedAccount={setCreatedAccount}
-                    >
                         Create New Account
-                    </Link>
-                </Button>
+                    </Button>
+                </Link>
             </Box>
             <Box
                 sx={{

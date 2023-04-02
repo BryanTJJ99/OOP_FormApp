@@ -10,8 +10,8 @@ const FormTemplateIndex = (props) => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
 
             <div className="text-center my-5">
-                <Typography variant='h4'>View the Form Templates</Typography>
-                <Typography variant='p'>Click on the form templates below to see the forms that you will assign to vendors.</Typography>
+                <Typography variant='h4'>Form Templates</Typography>
+                <Typography variant='p'>Click on the form templates below to see the forms that you can assign to vendors</Typography>
             </div>
             <Box sx={{width: '100%', marginX: 'auto', marginBottom: 3, display: 'flex'}} justifyContent="end">
                 <Button variant="contained" color="primary" component="a" href="/FormBuilder"><AddCircleIcon sx={{mr:1}}/>Create New Template</Button>
