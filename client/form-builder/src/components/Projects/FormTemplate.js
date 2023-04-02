@@ -17,6 +17,7 @@ export default function FormTemplate(props) {
     const addForm = (form) => {
         console.log(form);
         props.handleProjectDataChange("selectedForm", form);
+        // props.setFormEntered(true);
     };
 
     const isInSelectedForm = props.projectData.selectedForm.some(
