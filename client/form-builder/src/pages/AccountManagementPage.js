@@ -13,7 +13,8 @@ import {
     Link,
     Autocomplete,
     TextField,
-    Typography
+    Typography,
+    DialogContentText
 } from "@mui/material";
 
 import {
@@ -267,14 +268,18 @@ const AccountManagementPage = (props) => {
         const userToDelete = rows.filter((row) => row.id === deleteRow)[0];
 
         return (
-            <Dialog maxWidth="xs" open={!!deleteRow}>
+            <Dialog open={!!deleteRow}>
                 <DialogTitle>Are you sure?</DialogTitle>
-                <DialogContent dividers>
-                    {`Pressing 'Delete' will delete user with 
-                    ID: ${userToDelete.id}
-                    Username: ${userToDelete.username}
-                    Email: ${userToDelete.email}
-                    Role: ${userToDelete.role}`}
+                <DialogContent>
+                    <DialogContentText>
+                        {`Pressing 'Delete' will delete user with the following details`}
+                        <br/>
+                        {`Username: ${userToDelete.username}`}
+                        <br/>
+                        {`Email: ${userToDelete.email}`}
+                        <br/>
+                        {`Role: ${userToDelete.role}`}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancelDelete}>No</Button>
