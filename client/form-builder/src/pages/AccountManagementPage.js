@@ -292,6 +292,7 @@ const AccountManagementPage = (props) => {
             editable: true,
             flex: 1,
             minWidth: 150,
+            overflowX: 'auto',
         },
         {
             field: "name",
@@ -299,6 +300,8 @@ const AccountManagementPage = (props) => {
             editable: true,
             flex: 1,
             minWidth: 150,
+            overflowX: 'auto',
+
         },
         {
             field: "email",
@@ -306,6 +309,8 @@ const AccountManagementPage = (props) => {
             editable: true,
             flex: 1,
             minWidth: 200,
+            overflowX: 'auto',
+
         },
         {
             field: "role",
