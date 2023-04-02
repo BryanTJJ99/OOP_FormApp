@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
@@ -14,7 +14,8 @@ import {
     Autocomplete,
     TextField,
     Typography,
-    DialogContentText
+    DialogContentText,
+    Tooltip,
 } from "@mui/material";
 
 import {
@@ -294,7 +295,14 @@ const AccountManagementPage = (props) => {
             field: "id", 
             headerName: "ID", 
             flex: 1, 
-            minWidth: 100
+            maxWidth: 100,
+            // renderCell: (params) => {
+            //     return(
+            //       <Box sx={{overflowX: 'auto',}}>
+            //           {params.row.id}
+            //       </Box>
+            //     )
+            //   },
         },
         {
             field: "username",
@@ -309,7 +317,7 @@ const AccountManagementPage = (props) => {
             headerName: "Name",
             editable: true,
             flex: 1,
-            minWidth: 150,
+            minWidth: 200,
             overflowX: 'auto',
 
         },
@@ -319,7 +327,15 @@ const AccountManagementPage = (props) => {
             editable: true,
             flex: 3,
             minWidth: 200,
-            overflowX: 'auto',
+            renderCell: (params) => {
+                return(
+                  <Tooltip title="send an email" sx={{cursor: 'pointer'}}>
+                  <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)} sx={{overflowX: 'auto',}}>
+                      {params.row.email}
+                  </Link>
+                  </Tooltip>
+                )
+              },
 
         },
         {
