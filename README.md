@@ -30,12 +30,18 @@ npm run start
 
 ```bash
 cd ~/backend
-mvn spring-boot:run
+mvn clean install && mvn spring-boot:run
 ```
 
 <br></br>
 
-## 4️⃣ Trying out our application
+4️⃣ To build backend, go to 
+```bash
+cd ~/backend
+```
+run either build.bat (Windows) or build.sh (MacOS)
+
+## 5️⃣ Trying out our application
 
 #### ✅ You can access the local webpage [here](http://localhost:3000/).
 
@@ -47,3 +53,13 @@ You can log in as vendor, admin or approver with the following users:
 | approver | test3    | 123456789|
 
 <br></br>
+
+## 6️⃣ Troubleshooting
+
+####If npm start does not work
+https://sabe.io/blog/node-npm-start-command-not-working
+
+####If npm start does not work
+https://stackoverflow.com/questions/23414609/mvn-spring-bootrun-doesnt-start-spring
+
+
