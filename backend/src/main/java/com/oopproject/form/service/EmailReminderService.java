@@ -1,43 +1,42 @@
-package com.oopproject.form.service;
+// package com.oopproject.form.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+// import java.util.Calendar;
+// import java.util.Date;
+// import java.util.List;
+// import java.util.Optional;
+// import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Qualifier;
+// import org.springframework.scheduling.annotation.Scheduled;
+// import org.springframework.stereotype.Component;
 
-import com.oopproject.form.models.FormResponse.FormResponse;
-import com.oopproject.form.models.FormTemplate.FormTemplate;
-import com.oopproject.form.models.Project.Project;
-import com.oopproject.form.models.User.User;
+// import com.oopproject.form.models.FormResponse.FormResponse;
+// import com.oopproject.form.models.FormTemplate.FormTemplate;
+// import com.oopproject.form.models.Project.Project;
+// import com.oopproject.form.models.User.User;
 
-@Component
-public class EmailReminderService {
+// @Component
+// public class EmailReminderService {
 
-    // @Autowired
-    // private FormRepository formRepository;
+// // @Autowired
+// // private FormRepository formRepository;
 
-    @Autowired
-    private FormResponseService formResponseService;
+// @Autowired
+// private FormResponseService formResponseService;
 
-    @Autowired
-    private EmailService emailService;
+// @Autowired
+// private EmailService emailService;
 
-    @Autowired
-    @Qualifier("admin")
-    private AdminService adminService;
+// @Autowired
+// @Qualifier("admin")
+// private AdminService adminService;
 
-    @Autowired
-    private FormTemplateService formTemplateService;
+// @Autowired
+// private FormTemplateService formTemplateService;
 
-    @Autowired
-    private ProjectService projectService;
-
+// @Autowired
+// private ProjectService projectService;
     // @Scheduled(fixedRate = 60000)
     // // @Scheduled(cron = "0 0 0 * * ?")
     // public void sendEmailReminders() {

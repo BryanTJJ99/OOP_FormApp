@@ -30,11 +30,12 @@ const columns = [
     {
       field: 'projectName',
       headerName: 'Project',
-      width: 200,
+      width: 300,
       editable: false,
+    
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer',overflowX: 'auto'}}>
           {params.row.projectName}
           </Button>
         )}
@@ -42,15 +43,17 @@ const columns = [
     {
       field: 'vendorName',
       headerName: 'Vendor',
-      width: 150,
+      width: 100,
       editable: false,
+      overflowX: 'auto',
     },
     {
       field: 'avatar',
       headerName: 'Avatar',
+      wdith: 100,
       renderCell:(params) => { 
       return (
-        <NameAvatar name={params.row.vendorName}/>
+        <NameAvatar name={params.row.vendorName} sx={{overflowX: 'auto',}}/>
       )},
       sortable: false,
       filterable: false,
@@ -58,7 +61,6 @@ const columns = [
       aggregable: false,
       disableExport: true,
       editable: false,
-
     },
     {
       field: 'email',
@@ -66,7 +68,7 @@ const columns = [
       renderCell: (params) => {
         return(
           <Tooltip title="send an email" sx={{cursor: 'pointer'}}>
-          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)}>
+          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)} sx={{overflowX: 'auto',}}>
               {params.row.email}
           </Link>
           </Tooltip>
@@ -74,6 +76,7 @@ const columns = [
       },
       width: 200,
       editable: false,
+      overflowX: 'auto',
     },
     {
       field: 'name',
@@ -81,13 +84,15 @@ const columns = [
       description: 'This column has a value getter and is not sortable.',
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer', overflowX: 'auto',}}>
             {params.row.name}
           </Button>
         )
       },
       editable: false,
-      width: 300,
+      width: 400,
+      overflowX: 'auto',
+
     }, {
       field: 'status',
       headerName: 'Status',
@@ -100,6 +105,8 @@ const columns = [
       valueOptions: STATUS_OPTIONS,
       width: 150,
       editable: false,
+      overflowX: 'auto',
+
     },
    
   ];
@@ -188,7 +195,7 @@ const Dashboard = () => {
         }
 
         setFormTemplates(newFormTemplateDict);
-        console.log(newFormTemplateDict)
+        // console.log(newFormTemplateDict)
         return newFormTemplateDict
       }
     // obtain user data
@@ -201,7 +208,7 @@ const Dashboard = () => {
       for (let user of userData) { 
         newUserDict[user.id] = [user.name,user.email]; 
       }
-      console.log(newUserDict)
+      // console.log(newUserDict)
       setUsers(newUserDict);
       return newUserDict
     }
@@ -216,7 +223,7 @@ const Dashboard = () => {
       for (let proj of projectData) { 
         newProjectDict[proj.projectID] = proj.projectName; 
       }
-      console.log(newProjectDict)
+      // console.log(newProjectDict)
       setProjects(newProjectDict);
       return newProjectDict
     }
@@ -231,15 +238,20 @@ const Dashboard = () => {
       // console.log(response[1])
       // console.log(response[2])
       // console.log(response[3])
-      formatData(response[0].value)
+      formatData(response)
+      // console.log('promise all settled, loading should be set to false')
       setIsLoading(false);
     }
     )
   }
   ,[])
 
-  const formatData = (formResponses) => {
+  const formatData = (response) => {
     let formData = []
+    let formResponses = response[0].value
+    let formTemplates = response[1].value
+    let users = response[2].value
+    let projects = response[3].value
     // let formsDue = []
     // const today = new Date()
     // let tomorrow  = new Date()
@@ -249,10 +261,11 @@ const Dashboard = () => {
     // const upcoming = [today,tomorrow,following]
     let counter = 1
     // console.log(formResponses)
-    console.log(users)
-    console.log(formTemplates)
-    console.log(projects)
+    // console.log(users,'users state')
+    // console.log(formTemplates,'form templates state')
+    // console.log(projects,'projects state')
     for (let formResponse of formResponses){
+      // console.log(formResponse,'formResponse')
       let templateId = formResponse.formTemplateId; 
       // let templateName = formTemplateDict[templateId]; 
       let templateName = formTemplates[templateId]; 
@@ -263,9 +276,10 @@ const Dashboard = () => {
       // KEN MING CCHANGED SOMETHING HERE
       if(formResponse.vendorId in users){
         var vendor = users[formResponse.vendorId]
+        // console.log('vendor',vendor[0],vendor[1])
       } else{
-        // console.log('vendor error')
-        console.log("NOOOO")
+        console.log('vendor error')
+        // console.log("NOOOO")
         // var vendor = ['dummy1','dummy@gmail.com']
       }
       // let project = projectDataDict[formResponse.projectId]
