@@ -39,6 +39,7 @@ public class EmailReminderService {
     private ProjectService projectService;
 
     @Scheduled(cron = "0 0 0 * * ?")
+    // @Scheduled(fixedRate = 60000)
     public void sendEmailReminders() {
 
         Date today = new Date();
