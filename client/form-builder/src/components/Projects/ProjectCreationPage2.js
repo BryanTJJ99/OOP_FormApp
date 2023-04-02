@@ -34,6 +34,8 @@ const ProjectCreationPage2 = (props) => {
     const [filterValue, setFilterValue] = useState(props.filterValue);
     const [rawData, setRawData] = useState();
     const [vendorData, setVendorData] = useState([]);
+    // const [prNameEntered, setProjectNameEntered] = useState(true);
+    const [formEntered, setFormEntered] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,6 +69,15 @@ const ProjectCreationPage2 = (props) => {
             }
         }
         setformTemplate(filtered_forms);
+    }
+
+    function handleNextButtonClick() {
+        if (props.projectData.selectedForm.length != 0) {
+            props.setActivePage("3");
+            setFormEntered(true);
+        } else {
+            setFormEntered(false);
+    };
     }
 
     console.log(rawData);
@@ -211,6 +222,7 @@ const ProjectCreationPage2 = (props) => {
                                         handleProjectDataChange={
                                             props.handleProjectDataChange
                                         }
+                                        // formEntered={setFormEntered}
                                     >
                                         {item}
                                     </FormTemplate>
@@ -237,13 +249,16 @@ const ProjectCreationPage2 = (props) => {
                 </Button>
 
                 <Button
-                    onClick={() => props.setActivePage("3")}
+                    // onClick={() => props.setActivePage("3")}
+                    onClick={handleNextButtonClick}
                     variant='contained'
                     sx={{width:'100px'}}
                 >
                         Next
                 </Button>
             </Box>
+            {!props.projectData.selectedForm.length && formEntered === false && (<h3>Please Select a Form</h3>)}
+
         </>
     );
 };
