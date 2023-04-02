@@ -30,11 +30,12 @@ const columns = [
     {
       field: 'projectName',
       headerName: 'Project',
-      width: 200,
+      width: 300,
       editable: false,
+    
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer',overflowX: 'auto'}}>
           {params.row.projectName}
           </Button>
         )}
@@ -42,15 +43,17 @@ const columns = [
     {
       field: 'vendorName',
       headerName: 'Vendor',
-      width: 150,
+      width: 100,
       editable: false,
+      overflowX: 'auto',
     },
     {
       field: 'avatar',
       headerName: 'Avatar',
+      wdith: 100,
       renderCell:(params) => { 
       return (
-        <NameAvatar name={params.row.vendorName}/>
+        <NameAvatar name={params.row.vendorName} sx={{overflowX: 'auto',}}/>
       )},
       sortable: false,
       filterable: false,
@@ -58,7 +61,6 @@ const columns = [
       aggregable: false,
       disableExport: true,
       editable: false,
-
     },
     {
       field: 'email',
@@ -66,7 +68,7 @@ const columns = [
       renderCell: (params) => {
         return(
           <Tooltip title="send an email" sx={{cursor: 'pointer'}}>
-          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)}>
+          <Link underline="hover" onClick={()=> window.open(`mailto:${params.row.email}`)} sx={{overflowX: 'auto',}}>
               {params.row.email}
           </Link>
           </Tooltip>
@@ -74,6 +76,7 @@ const columns = [
       },
       width: 200,
       editable: false,
+      overflowX: 'auto',
     },
     {
       field: 'name',
@@ -81,13 +84,15 @@ const columns = [
       description: 'This column has a value getter and is not sortable.',
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer'}}>
+          <Button underline="none" href={params.row.formLink} sx={{cursor: 'pointer', overflowX: 'auto',}}>
             {params.row.name}
           </Button>
         )
       },
       editable: false,
-      width: 300,
+      width: 400,
+      overflowX: 'auto',
+
     }, {
       field: 'status',
       headerName: 'Status',
@@ -100,6 +105,8 @@ const columns = [
       valueOptions: STATUS_OPTIONS,
       width: 150,
       editable: false,
+      overflowX: 'auto',
+
     },
    
   ];
