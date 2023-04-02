@@ -43,7 +43,7 @@ const columns = [
     {
       field: 'vendorName',
       headerName: 'Vendor',
-      width: 100,
+      width: 80,
       editable: false,
       overflowX: 'auto',
     },
@@ -90,7 +90,7 @@ const columns = [
         )
       },
       editable: false,
-      width: 400,
+      width: 450,
       overflowX: 'auto',
 
     }, {
@@ -103,7 +103,7 @@ const columns = [
       },
       type: 'singleSelect',
       valueOptions: STATUS_OPTIONS,
-      width: 150,
+      width: 120,
       editable: false,
       overflowX: 'auto',
 

@@ -223,7 +223,7 @@ const ClientProject = () => {
     return (
         <>
             <Box sx={{ flexGrow: 1, padding: 2, my: 1 }}>
-                <Grid container spacing={2} style={{ height: "100%" }}>
+                <Grid container spacing={2} style={{ width: "100%" }}>
                     <Grid item xs={4}>
                         <Item>
                             <CompletedProjectsWidget vendorId={vendorId} />
@@ -239,7 +239,7 @@ const ClientProject = () => {
                             <PendingFormsWidget vendorId={vendorId} />
                         </Item>
                     </Grid>
-                    <Box sx={{ m: 2, width: 1 }}>
+                    <Box sx={{ my: 4,mx:2, width: 1 }}>
                         <ClientFormTable vendorId={vendorId} />
                     </Box>
                 </Grid>
