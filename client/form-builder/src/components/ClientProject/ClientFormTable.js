@@ -99,7 +99,7 @@ const ClientFormTable = (props) => {
     }, []);
     return (
         <Box
-            sx={{ width: "80%", overflowX: "auto" }}
+            sx={{ width: "100%", overflowX: "auto",mx:0,px:0 }}
             display={"flex"}
             justifyContent={"center"}
             marginX={"auto"}
@@ -125,6 +125,8 @@ const ClientFormTable = (props) => {
                             color: "white",
                             fontWeight: "bold",
                         },
+                    mx:0,
+                    px:0,
                 }}
             />
         </Box>
