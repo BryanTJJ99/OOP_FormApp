@@ -17,9 +17,9 @@ const columns = [
     
       renderCell: (params) => {
         return (
-          <Button underline="none" href={params.row.projectLink} sx={{cursor: 'pointer',overflowX: 'auto'}}>
-          {params.row.projectName}
-          </Button>
+          <Box sx={{ overflowX: 'auto' }}>
+            {params.row.projectName}
+          </Box>
         )}
     },{
         field: 'name',
