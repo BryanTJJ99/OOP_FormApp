@@ -43,7 +43,7 @@ const FormResponse = (props) => {
     const [formTemplate, setFormTemplate] = useState(null);
     const [formInfo, setFormInfo] = useState(null);
     const [fileMap, setFileMap] = useState({});
-    const [nextStage, setNextStage] = useState("approved");
+    const [nextStage, setNextStage] = useState("vendor");
     const [statusSection, setStatusSection] = useState(null);
     const [openPopUp, setOpenPopUp] = useState(false);
     const [currStage, setCurrStage] = useState(null);
@@ -103,22 +103,7 @@ const FormResponse = (props) => {
         // form.submit();
         e.preventDefault();
         setOpenPopUp(false);
-        console.log(document.getElementById("formToPrint").innerHTML);
-        const inputHtml = document.getElementById("formToPrint").innerHTML;
-
-        // Use a regular expression to add closing tags
-        const fixedInputHtml = inputHtml.replace(/<input.*?>/g, (match) => {
-            if (match.endsWith("/>")) {
-                return match; // Don't add closing tag if input is self-closing
-            }
-            return `${match}</input>`;
-        });
-
-        const fixedBrHtml = fixedInputHtml.replace(/<br.*?>/g, (match) => {
-            return `${match}</br>`;
-        });
-
-        console.log(fixedBrHtml);
+        
 
         const data = new FormData(e.currentTarget);
         let numOfQuestions = formTemplate.questions.length;
@@ -181,23 +166,12 @@ const FormResponse = (props) => {
         } else {
             statusUpdated = nextStage;
         }
-        let newVersionHist = { ...formResponse.versionHistory };
-        let todayArray = today.toString().split(" ").slice(1, 5);
-        newVersionHist[
-            todayArray[1] +
-                " " +
-                todayArray[0] +
-                " " +
-                todayArray[2] +
-                ", " +
-                todayArray[3]
-        ] = fixedBrHtml;
+        
         let formResponseData = {
             formResponseId: formResponse.formResponseId,
             status: statusUpdated,
             formAnswer: formAnswer,
             updatedAt: today.toJSON(),
-            versionHistory: newVersionHist,
         };
         // console.log(fileMap);
         // let formData = new FormData();
@@ -210,6 +184,75 @@ const FormResponse = (props) => {
         // for (var pair of formData.entries()) {
         //     console.log(pair[0]+ ', ' + pair[1]);
         // }
+
+        await setPdfElement(
+            <Box id="formToPrint" display='none'>
+                <h1>Quantum Leap Incorporation Pte Ltd</h1>
+                {questionsSectionArea.map((item) => {
+                    if (item.hasOwnProperty("sectionId")) {
+                        if (
+                            userRoleRef[userRole] === formResponse.status &&
+                            userRoleRef[userRole] === item.assignedTo
+                        ) {
+                            access = true;
+                        } else {
+                            access = false;
+                        }
+                        // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
+                        return (
+                            <SectionViewPdf
+                                section={item}
+                                key={"Section" + item.sectionOrder}
+                                disabled={!access}
+                            ></SectionViewPdf>
+                        );
+                    } else {
+                        let required = false;
+                        if (access && item.isRequired) {
+                            required = true;
+                        }
+                        return (
+                            <QuestionViewPdf
+                                question={item}
+                                key={"Question" + item.questionOrder}
+                                handleFileUpload={handleFileUpload}
+                                response={formResponse}
+                                disabled={!access}
+                                required={required}
+                            ></QuestionViewPdf>
+                        );
+                    }
+                })}
+            </Box>)
+        
+        console.log(document.getElementById("formToPrint").innerHTML);
+        const inputHtml = document.getElementById("formToPrint").innerHTML;
+
+        // Use a regular expression to add closing tags
+        const fixedInputHtml = inputHtml.replace(/<input.*?>/g, (match) => {
+            if (match.endsWith("/>")) {
+                return match; // Don't add closing tag if input is self-closing
+            }
+            return `${match}</input>`;
+        });
+
+        const fixedBrHtml = fixedInputHtml.replace(/<br.*?>/g, (match) => {
+            return `${match}</br>`;
+        });
+
+        let newVersionHist = { ...formResponse.versionHistory };
+        let todayArray = today.toString().split(" ").slice(1, 5);
+        newVersionHist[
+            todayArray[1] +
+                " " +
+                todayArray[0] +
+                " " +
+                todayArray[2] +
+                ", " +
+                todayArray[3]
+        ] = fixedBrHtml;
+
+        formResponseData.versionHistory = newVersionHist;
 
         updateFormResponse(formResponseData)
             .then((response) => {
@@ -235,21 +278,23 @@ const FormResponse = (props) => {
             sendCustomEmail(emailData)
                 .then((response) => {
                     console.log(response);
-                    // if (userRole === "ROLE_VENDOR") {
-                    //     window.location.href = "/ClientProject";
-                    // } else {
-                    //     window.location.href = "/Projects";
-                    // }
+                    
                 })
                 .catch((error) => {
                     console.log(error.message);
-    
-                    if (userRole === "ROLE_VENDOR") {
-                        window.location.href = "/ClientProject";
-                    } else {
-                        window.location.href = "/Projects";
-                    }
                 });
+            
+            if (userRole === "ROLE_VENDOR") {
+                window.location.href = "/ClientProject";
+            } else {
+                window.location.href = "/Project";
+            }
+        }
+
+        if (userRole === "ROLE_VENDOR") {
+            window.location.href = "/ClientProject";
+        } else {
+            window.location.href = "/Project";
         }
 
         // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e")
@@ -368,6 +413,7 @@ const FormResponse = (props) => {
             setFormInfo(<FormInfo formTemplate={formTemplate} />);
             let currStatus = formResponse.status;
             setCurrStage(currStatus);
+            setNextStage(currStatus);
             let versionHistoryButtons = [];
             for (let date in formResponse.versionHistory) {
                 versionHistoryButtons.push(
@@ -430,45 +476,7 @@ const FormResponse = (props) => {
     useEffect(() => { 
         console.log("oiwej")
         console.log(pdfElement)
-        setPdfElement(
-            <Box id="formToPrint">
-                <h1>Quantum Leap Incorporation Pte Ltd</h1>
-                {questionsSectionArea.map((item) => {
-                    if (item.hasOwnProperty("sectionId")) {
-                        if (
-                            userRoleRef[userRole] === formResponse.status &&
-                            userRoleRef[userRole] === item.assignedTo
-                        ) {
-                            access = true;
-                        } else {
-                            access = false;
-                        }
-                        // console.log(userRoleRef[userRole], formResponse.status, item.assignedTo)
-                        return (
-                            <SectionViewPdf
-                                section={item}
-                                key={"Section" + item.sectionOrder}
-                                disabled={!access}
-                            ></SectionViewPdf>
-                        );
-                    } else {
-                        let required = false;
-                        if (access && item.isRequired) {
-                            required = true;
-                        }
-                        return (
-                            <QuestionViewPdf
-                                question={item}
-                                key={"Question" + item.questionOrder}
-                                handleFileUpload={handleFileUpload}
-                                response={formResponse}
-                                disabled={!access}
-                                required={required}
-                            ></QuestionViewPdf>
-                        );
-                    }
-                })}
-            </Box>)
+        
     }, [questionsSectionArea, changeInput])
 
     return (
