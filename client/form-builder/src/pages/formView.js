@@ -11,6 +11,7 @@ const FormView = (props) => {
     const [formInfo, setFormInfo] = useState(null);
     const [allFormResponseId, setAllFormResponseId] = useState(null);
     const [deleteEditFail, setDeleteEditFail] = useState(false);
+    const [deleteCfm, setDeleteCfm] = useState(false);
     const [editButton, setEditButton] = useState(null);
     const [failKeyword, setFailKeyword] = useState('deleted');
 
@@ -132,6 +133,10 @@ const FormView = (props) => {
     const handleFailClose = () => {
         setDeleteEditFail(false);
     };
+
+    const handleDeleteCfm = () => {
+        setDeleteCfm(false);
+    };
     
 
     return (
@@ -140,9 +145,9 @@ const FormView = (props) => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             {formInfo}
             <div className='d-flex mt-4 justify-content-end'>
-                <Button variant="contained" onClick={printPage} color='grey'>Print</Button>
+                {/* <Button variant="contained" onClick={printPage} color='grey'>Print</Button> */}
                 {editButton}
-                <Button variant="contained" className="me-5 ms-3" onClick={deleteForm} color='error' >Delete</Button>
+                <Button variant="contained" className="me-5 ms-3" onClick={() => setDeleteCfm(true)} color='error' >Delete</Button>
             </div>
             {questionsSectionArea.map((item) => { 
                 if (item.hasOwnProperty('sectionId')) { 
@@ -171,6 +176,26 @@ const FormView = (props) => {
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleFailClose}>Noted</Button>
+                </DialogActions>
+            </Dialog>
+            
+            <Dialog
+                open={deleteCfm}
+                onClose={handleDeleteCfm}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Are you sure?
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This action cannot be undone. Please confirm that you would like this form to be deleted.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteCfm}>No</Button>
+                    <Button onClick={deleteForm}>Yes</Button>
                 </DialogActions>
             </Dialog>
         </div>
