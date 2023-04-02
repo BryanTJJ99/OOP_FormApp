@@ -25,7 +25,7 @@ import { getAllUsers } from '../services/User.js';
 
 
 // columns will be Project Name, Vendor Name, Avatar (from vendor), Forms (each row is one form), Vendor, Admin, Approver (status tick or X)
-const STATUS_OPTIONS = ["vendor","approved","admin","rejected","approved"]
+const STATUS_OPTIONS = ["vendor","approver","admin","rejected","approved"]
 const columns = [
     {
       field: 'projectName',

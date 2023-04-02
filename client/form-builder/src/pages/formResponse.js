@@ -313,8 +313,9 @@ const FormResponse = (props) => {
                             variant="contained"
                             onClick={handlePopUpOpen}
                             disabled={disabled}
-                        >
-                            Submit Form
+                        >   
+                            {console.log("status",formResponse.status)}
+                           {formResponse.status=="approver"? "Approve Form":"Submit Form"}
                         </Button>
                         <button
                             type="submit"
@@ -338,7 +339,7 @@ const FormResponse = (props) => {
 
     const emailRecipient = {
         vendor: "Admin",
-        admin: "Approver",
+        admin: "approver",
         approver: "Vendor and Admin",
     };
 
@@ -590,7 +591,7 @@ const FormResponse = (props) => {
                 )}
                 <DialogActions>
                     <Button onClick={handlePopUpClose}>Cancel</Button>
-                    <Button onClick={submitForm}>Submit</Button>
+                    <Button onClick={submitForm}>{currStage === "approver" ? "Approve Form":"Submit Form"}</Button>
                 </DialogActions>
             </Dialog>
         </div>
