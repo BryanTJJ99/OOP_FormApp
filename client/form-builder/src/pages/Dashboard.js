@@ -47,21 +47,21 @@ const columns = [
       editable: false,
       overflowX: 'auto',
     },
-    {
-      field: 'avatar',
-      headerName: 'Avatar',
-      wdith: 100,
-      renderCell:(params) => { 
-      return (
-        <NameAvatar name={params.row.vendorName} sx={{overflowX: 'auto',}}/>
-      )},
-      sortable: false,
-      filterable: false,
-      groupable: false,
-      aggregable: false,
-      disableExport: true,
-      editable: false,
-    },
+    // {
+    //   field: 'avatar',
+    //   headerName: 'Avatar',
+    //   wdith: 100,
+    //   renderCell:(params) => { 
+    //   return (
+    //     <NameAvatar name={params.row.vendorName} sx={{overflowX: 'auto',}}/>
+    //   )},
+    //   sortable: false,
+    //   filterable: false,
+    //   groupable: false,
+    //   aggregable: false,
+    //   disableExport: true,
+    //   editable: false,
+    // },
     {
       field: 'email',
       headerName: 'Email',
@@ -327,7 +327,7 @@ const Dashboard = () => {
   }))
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 2 }}>
+    <Box sx={{ flexGrow: 1, padding: 0 }}>
       {isLoading && <CircularLoading/>}
       <Grid container spacing={2} style={{height:"100%"}}>
         <Grid item xs={4}>
