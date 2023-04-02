@@ -10,6 +10,7 @@ const FormBuilder = (props) => {
     const [user, setUser] = useState(null);
 
     function handleFormBuilderSubmit(e) { 
+        e.preventDefault();
         const data = new FormData(e.currentTarget);
         let today = new Date().toJSON(); 
         let sectionList = []; 
@@ -64,13 +65,17 @@ const FormBuilder = (props) => {
         createFormTemplate(formTemplateData)
             .then(response => {
                 console.log(response);
+                if (props.popup) { 
+                    // props.handleClose();
+                    window.location.reload();
+                } else { 
+                    window.location.href = '/FormTemplates';
+                }
             })
             .catch(error => { 
                 console.log(error.message);
             })
-        if (props.popup) { 
-            props.handleClose();
-        }
+        
     }
 
     useEffect(() => {
@@ -88,7 +93,7 @@ const FormBuilder = (props) => {
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
-            <Box component="form" onSubmit={handleFormBuilderSubmit} action="./Dashboard">
+            <Box component="form" onSubmit={handleFormBuilderSubmit}>
                 <FormDetails />
                 <QuestionsSection handleQuesSecUpdate={handleQuestionSectionArea}/>
                 <SubmitBtn />

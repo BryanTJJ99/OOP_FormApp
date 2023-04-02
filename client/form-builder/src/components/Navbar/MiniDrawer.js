@@ -108,7 +108,7 @@ export default function MiniDrawer({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   // const [page, setPage] = React.useState("Dashboard")
-  const [page, setPage] = React.useState("Quantum Leap Form Management App"); // setting the login landing page nav bar title header
+  const [page, setPage] = React.useState("Quantum Leap Incorporation Form Management App"); // setting the login landing page nav bar title header
 
   // Template for the pages and widgets for easier reference
 
@@ -197,7 +197,7 @@ export default function MiniDrawer({children}) {
         </Toolbar>
       </AppBar>
       {/* drawer component to replace the navbar component eventually */}
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} disableScrollLock={ true }>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -220,7 +220,7 @@ export default function MiniDrawer({children}) {
                 to={`/${text.replace(/\s/g, "")}`}
                 style={{
                   textDecoration: "none",
-                  textTransform: "lowercase",
+                  textTransform: "capitalize",
                   color: "#636466",
                 }}
               >
@@ -252,7 +252,7 @@ export default function MiniDrawer({children}) {
             </ListItem>
           ))} */}
           {showDashBoard && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Dashboard")}>
-            <Link to={`/Dashboard`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+            <Link to={`/Dashboard`} style={{ textDecoration: "none", textTransform: "capitalize", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <DashboardIcon />
@@ -262,7 +262,7 @@ export default function MiniDrawer({children}) {
             </Link>
           </ListItem>}
           {showProject && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Project")}>
-            <Link to={`/Project`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+            <Link to={`/Project`} style={{ textDecoration: "none", textTransform: "capitalize", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <LibraryAddIcon/>
@@ -272,7 +272,7 @@ export default function MiniDrawer({children}) {
             </Link>
           </ListItem>}
           {showFormTemplates && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Form Templates")}>
-            <Link to={`/FormTemplates`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+            <Link to={`/FormTemplates`} style={{ textDecoration: "none", textTransform: "capitalize", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <DescriptionIcon />
@@ -282,7 +282,7 @@ export default function MiniDrawer({children}) {
             </Link>
           </ListItem>}
           {showAccountManagement && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Account Management")}>
-            <Link to={`/AccountManagement`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+            <Link to={`/AccountManagement`} style={{ textDecoration: "none", textTransform: "capitalize", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <ManageAccountsIcon/>
@@ -292,7 +292,7 @@ export default function MiniDrawer({children}) {
             </Link>
           </ListItem>}
           {showClientProject && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("My Dashboard")}>
-            <Link to={`/ClientProject`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+            <Link to={`/ClientProject`} style={{ textDecoration: "none", textTransform: "capitalize", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <DashboardIcon />
@@ -315,7 +315,7 @@ export default function MiniDrawer({children}) {
                 to={`/${text}`}
                 style={{
                   textDecoration: "none",
-                  textTransform: "lowercase",
+                  textTransform: "capitalize",
                   color: "#636466",
                 }}
               >
@@ -346,7 +346,7 @@ export default function MiniDrawer({children}) {
           ))} */}
 
           {showAccount && <ListItem disablePadding sx={{ display: "block" }} onClick={() => setPage("Account")}>
-            <Link to={`/Account`} style={{ textDecoration: "none", textTransform: "lowercase", color: "#636466" }}>
+            <Link to={`/Account`} style={{ textDecoration: "none", textTransform: "capitalize", color: "#636466" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <AccountCircleIcon/>
@@ -362,7 +362,7 @@ export default function MiniDrawer({children}) {
               setPage("Logout")
             }}
             >
-            <Link to='/' style={{textDecoration:"none",textTransform:"lowercase",color:"#636466"}}>
+            <Link to='/' style={{textDecoration:"none",textTransform:"capitalize",color:"#636466"}}>
               <ListItemButton sx={{minHeight: 48,justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
                   <ListItemIcon sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',}}>
                     <LogoutIcon/>

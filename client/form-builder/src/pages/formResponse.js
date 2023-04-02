@@ -217,6 +217,7 @@ const FormResponse = (props) => {
             })
             .catch((error) => {
                 console.log(error.message);
+
             });
 
         let emailData = {
@@ -240,6 +241,7 @@ const FormResponse = (props) => {
             })
             .catch((error) => {
                 console.log(error.message);
+
                 if (userRole === "ROLE_VENDOR") {
                     window.location.href = "/ClientProject";
                 } else {
