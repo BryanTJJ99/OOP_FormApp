@@ -221,7 +221,7 @@ const FormResponse = (props) => {
             });
 
         let emailData = {
-            vendorEmail: "bernice.teo.2021@scis.smu.edu.sg", // hardcoded to Bernice's email
+            vendorEmail: "bernice.teo.2021@smu.edu.sg", // hardcoded to Bernice's email
             subject:
                 formTemplate.formName +
                 " has been updated to " +
