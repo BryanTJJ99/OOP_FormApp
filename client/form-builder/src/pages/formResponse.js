@@ -522,7 +522,7 @@ const FormResponse = (props) => {
                                 handleFileUpload={handleFileUpload}
                                 response={formResponse}
                                 disabled={!access}
-                                required={required}
+                                required={false}
                                 handleChange={setChangeInput}
                             ></QuestionView>
                         );
