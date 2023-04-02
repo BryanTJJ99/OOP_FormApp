@@ -83,17 +83,17 @@ const ProjectCreationPage1 = (props) => {
 
     return (
         <div>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
             {console.log(vendorData)}
             {console.log(projectData)}
-            <br></br>
-            <br></br>
-            <Typography
-                variant="h3"
-                component="div"
-                style={{ flexGrow: 1, margin: 30 }}
-            >
-                Create a new project
-            </Typography>
+            <div className="text-center my-5">
+                <Typography
+                    variant="h4"
+                >
+                    Create a new project
+                </Typography>
+                <Typography variant='p'>Fill in the preliminary details of this form</Typography>
+            </div>
 
             <Grid container spacing={3} sx={{marginBottom:5}}>
                 <Grid item xs={4}>
@@ -206,12 +206,8 @@ const ProjectCreationPage1 = (props) => {
 
             <Button
                 onClick={handleNextButtonClick}
-                style={{
-                    backgroundColor: "#1F87BC",
-                    color: "white",
-                    height: 50,
-                    width: 100,
-                }}
+                variant='contained'
+                sx={{width:'100px'}}
             >
                 Next
             </Button>

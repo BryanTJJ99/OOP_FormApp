@@ -190,8 +190,8 @@ const FormResponse = (props) => {
             })
         
         let emailData = { 
-            vendorEmail: 'bernice.teo.2021@scis.smu.edu.sg',
-            subject: formTemplate.formName + ' has been updated to ' + statusUpdated, 
+            vendorEmail: 'bernice.teo.2021@scis.smu.edu.sg', // hardcoded to Bernice's email
+            subject: formTemplate.formName + ' has been updated to ' + statusUpdated + ' status', 
             message: emailMessage
         }
 
@@ -206,6 +206,11 @@ const FormResponse = (props) => {
             })
             .catch(error => { 
                 console.log(error.message);
+                if (userRole === 'ROLE_VENDOR') {
+                    window.location.href = '/ClientProject'
+                } else { 
+                    window.location.href = '/Projects'
+                }
             })
 
         // updateFilesInFormAnswer(fileMap, "64164098499249116ec5c17e") 
